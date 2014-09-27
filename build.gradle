@@ -2,25 +2,28 @@ buildscript {
     repositories {
         mavenCentral()
     }
+
     dependencies {
         classpath 'com.android.tools.build:gradle:0.12.+'
+        classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.10.+'
     }
 }
+
+allprojects {
+    repositories {
+        mavenCentral()
+    }
+}
+
+apply plugin: 'android-sdk-manager'
 apply plugin: 'android'
 
-dependencies {
-    compile fileTree(dir: 'libs', include: '*.jar')
-}
-
 android {
+
     compileSdkVersion 19
-    buildToolsVersion "20.0.0"
+    buildToolsVersion "19.1.0"
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
-    }
-
+    // Since we have an Eclipse-style project, sourceSets defines the locations of files
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
@@ -44,4 +47,30 @@ android {
         debug.setRoot('build-types/debug')
         release.setRoot('build-types/release')
     }
+
+    // Gradle now dies on lint errors, so skip that
+    lintOptions {
+        abortOnError false
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+    buildTypes {
+        release {
+            runProguard false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+}
+
+dependencies {
+    repositories {
+        mavenCentral()
+    }
+    compile fileTree(dir: 'libs', include: '*.jar')
+    //compile 'com.android.support:support-v4:19.+'
+    //compile 'com.android.support:appcompat-v7:19.+'
+    //compile 'com.android.support:support-annotations:+'
 }
