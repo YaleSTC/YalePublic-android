@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="@drawable/background">
+    android:background="@drawable/background2">
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -29,9 +29,14 @@
                 android:id="@+id/bNews"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/thumb_news_default" />
+                android:layout_weight = "1"
+                android:src="@drawable/thumb_news_default" 
+                android:clickable = "true"
+                android:background = "@android:color/transparent"/>
+            
 
             <TextView
+                style = "@style/textViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -50,9 +55,12 @@
                 android:id="@+id/bDirectory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/thumb_directory_default" />
+                android:src="@drawable/thumb_directory_default"
+                android:clickable = "true"
+                android:background = "@android:color/transparent" />
 
             <TextView
+                style = "@style/textViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -71,9 +79,12 @@
                 android:id="@+id/bMaps"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/thumb_maps_default" />
+                android:src="@drawable/thumb_maps_default"
+                android:clickable = "true"
+                android:background = "@android:color/transparent" />
 
             <TextView
+                style = "@style/textViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -101,9 +112,12 @@
                 android:id="@+id/bVideos"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/thumb_videos_default" />
+                android:src="@drawable/thumb_videos_default"
+                android:clickable = "true"
+                android:background = "@android:color/transparent" />
 
             <TextView
+                style = "@style/textViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -122,9 +136,12 @@
                 android:id="@+id/bPhotos"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/thumb_photos_default" />
+                android:src="@drawable/thumb_photos_default"
+                android:clickable = "true"
+                android:background = "@android:color/transparent" />
 
             <TextView
+                style = "@style/textViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -143,9 +160,12 @@
                 android:id="@+id/bEvents"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/thumb_events_default" />
+                android:src="@drawable/thumb_events_default"
+                android:clickable = "true"
+                android:background = "@android:color/transparent" />
 
             <TextView
+                style = "@style/textViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -173,9 +193,12 @@
                 android:id="@+id/bTransit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/thumb_transit_default" />
+                android:src="@drawable/thumb_transit_default"
+                android:clickable = "true"
+                android:background = "@android:color/transparent" />
 
             <TextView
+                style = "@style/textViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -194,9 +217,12 @@
                 android:id="@+id/bAthletics"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/thumb_athletics_default" />
+                android:src="@drawable/thumb_athletics_default"
+                android:clickable = "true"
+                android:background = "@android:color/transparent" />
 
             <TextView
+                style = "@style/textViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -215,15 +241,27 @@
                 android:id="@+id/bArts"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/thumb_arts_events_default" />
+                android:src="@drawable/thumb_arts_events_default"
+                android:clickable = "true"
+                android:background = "@android:color/transparent" />
 
             <TextView
+                style = "@style/textViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Arts Events" />
         </LinearLayout>
+        
     </LinearLayout>
+    
+	<LinearLayout
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_weight="1"
+	    android:gravity="center"
+	    android:padding="6dp"
+	    android:orientation="vertical" />
 
 
 </LinearLayout>
