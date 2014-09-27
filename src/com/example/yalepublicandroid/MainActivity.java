@@ -29,7 +29,7 @@ public class MainActivity extends ActionBarActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Configuration config = getResources().getConfiguration();
+        /*Configuration config = getResources().getConfiguration();
         DisplayMetrics dm = getResources().getDisplayMetrics();
         screenWidth = (double)config.screenWidthDp * dm.density;
         screenHeight = (double)config.screenHeightDp * dm.density;
@@ -48,7 +48,7 @@ public class MainActivity extends ActionBarActivity {
                 toast.setText(String.valueOf(gridview.getItemAtPosition(position)));
                 toast.show();
             }
-        });
+        });*/
     }
     
 
