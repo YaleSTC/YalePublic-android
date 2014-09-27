@@ -1,5 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">YalePublic</string>
+    <string name="app_name">YalePublicAndroid</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string-array
+        name = "menu_names">
+        <item>News</item>
+        <item>Directory</item>
+        <item>Maps</item>
+        <item>Videos</item>
+        <item>Photos</item>
+        <item>Events</item>
+        <item>Transit</item>
+        <item>Athletics</item>
+        <item>Arts Events</item>
+    </string-array>
 
 </resources>
