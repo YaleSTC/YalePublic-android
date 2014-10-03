@@ -1,6 +1,8 @@
 package com.example.yalepublicandroid;
 
 // import android.support.v7.app.ActionBarActivity;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
@@ -44,10 +46,19 @@ public class MainActivity extends ActionBarActivity {
              case R.id.bEvents:
                  break;
              case R.id.bTransit:
+                 Uri uriUrl1 = Uri.parse("http://yale.transloc.com");
+                 Intent launchBrowser1 = new Intent(Intent.ACTION_VIEW, uriUrl1);
+                 startActivity(launchBrowser1);
                  break;
              case R.id.bAthletics:
+                 Uri uriUrl2 = Uri.parse("http://www.yalebulldogs.com/landing/index");
+                 Intent launchBrowser2 = new Intent(Intent.ACTION_VIEW, uriUrl2);
+                 startActivity(launchBrowser2);
                  break;
              case R.id.bArts:
+                 Uri uriUrl3 = Uri.parse("http://artscalendar.yale.edu");
+                 Intent launchBrowser3 = new Intent(Intent.ACTION_VIEW, uriUrl3);
+                 startActivity(launchBrowser3);
                  break;
              }
          };
