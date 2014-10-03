@@ -29,14 +29,14 @@
                 android:id="@+id/bNews"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight = "1"
+                android:layout_weight="1"
                 android:src="@drawable/thumb_news_default" 
-                android:clickable = "true"
-                android:background = "@android:color/transparent"/>
+                android:clickable="true"
+                android:background="@android:color/transparent"/>
             
 
             <TextView
-                style = "@style/textViewStyle"
+                style="@style/textViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -56,11 +56,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/thumb_directory_default"
-                android:clickable = "true"
-                android:background = "@android:color/transparent" />
+                android:clickable="true"
+                android:background="@android:color/transparent" />
 
             <TextView
-                style = "@style/textViewStyle"
+                style="@style/textViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -80,11 +80,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/thumb_maps_default"
-                android:clickable = "true"
-                android:background = "@android:color/transparent" />
+                android:clickable="true"
+                android:background="@android:color/transparent" />
 
             <TextView
-                style = "@style/textViewStyle"
+                style="@style/textViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -113,11 +113,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/thumb_videos_default"
-                android:clickable = "true"
-                android:background = "@android:color/transparent" />
+                android:clickable="true"
+                android:background="@android:color/transparent" />
 
             <TextView
-                style = "@style/textViewStyle"
+                style="@style/textViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -137,11 +137,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/thumb_photos_default"
-                android:clickable = "true"
-                android:background = "@android:color/transparent" />
+                android:clickable="true"
+                android:background="@android:color/transparent" />
 
             <TextView
-                style = "@style/textViewStyle"
+                style="@style/textViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -161,11 +161,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/thumb_events_default"
-                android:clickable = "true"
-                android:background = "@android:color/transparent" />
+                android:clickable="true"
+                android:background="@android:color/transparent" />
 
             <TextView
-                style = "@style/textViewStyle"
+                style="@style/textViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -194,11 +194,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/thumb_transit_default"
-                android:clickable = "true"
-                android:background = "@android:color/transparent" />
+                android:clickable="true"
+                android:background="@android:color/transparent" />
 
             <TextView
-                style = "@style/textViewStyle"
+                style="@style/textViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -218,11 +218,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/thumb_athletics_default"
-                android:clickable = "true"
-                android:background = "@android:color/transparent" />
+                android:clickable="true"
+                android:background="@android:color/transparent" />
 
             <TextView
-                style = "@style/textViewStyle"
+                style="@style/textViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -242,11 +242,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/thumb_arts_events_default"
-                android:clickable = "true"
-                android:background = "@android:color/transparent" />
+                android:clickable="true"
+                android:background="@android:color/transparent" />
 
             <TextView
-                style = "@style/textViewStyle"
+                style="@style/textViewStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
