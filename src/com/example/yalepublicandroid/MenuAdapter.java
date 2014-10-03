@@ -60,21 +60,21 @@ public class MenuAdapter implements ListAdapter {
  // create a new ImageView for each item referenced by the Adapter
     public View getView(int position, View convertView, ViewGroup parent) {
         Log.d("relative layout", "very beginning of get view");
-        TextView description; 
+        //TextView description; 
         ImageView imageView;
         Log.d("relative layout", "before loop");
         if (convertView == null) {  // if it's not recycled, initialize some attributes
-            description = new TextView(mContext);
+            //description = new TextView(mContext);
             imageView = new ImageView(mContext);
             imageView.setLayoutParams(new GridView.LayoutParams((int)size/6,(int)size/6));
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             imageView.setPadding(8, 8, 8, 8);
         } else {
-            description = (TextView) convertView;
+            //description = (TextView) convertView;
             imageView = (ImageView) convertView;
         }
         //Log.d("relative layout", "relative layout was created");
-        
+        /*
         RelativeLayout buttonLayout = new RelativeLayout(mContext);
         Log.d("relative layout", "before rlp");
         RelativeLayout.LayoutParams rlp = new RelativeLayout.LayoutParams(
@@ -85,13 +85,13 @@ public class MenuAdapter implements ListAdapter {
         rlp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
         buttonLayout.setLayoutParams(rlp);
         Log.d("relative layout", "after set layout params");
-        
+        */
         //RelativeLayout buttonLayout = (RelativeLayout) mContext.getResources().getLayout(R.id.button_layout);
-        description.setText(names[position]);
+        // description.setText(names[position]);
         imageView.setImageResource(mThumbIds[position]);
         Log.d("relative layout", "before add view");
-        buttonLayout.addView(imageView);
-        buttonLayout.addView(description);
+        //buttonLayout.addView(imageView);
+        //buttonLayout.addView(description);
         Log.d("relative layout", "after add view");
         
         return imageView;
@@ -140,7 +140,7 @@ public class MenuAdapter implements ListAdapter {
     };
     
     //private String[] names = mContext.getResources().getStringArray(R.array.menu_names);
-    private String[] names = {"1","2", "3", "4", "5", "6", "7", "8", "9"};
+    //private String[] names = {"1","2", "3", "4", "5", "6", "7", "8", "9"};
 
     @Override
     public boolean areAllItemsEnabled() {

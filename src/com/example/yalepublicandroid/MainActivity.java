@@ -1,6 +1,8 @@
 package com.example.yalepublicandroid;
 
 // import android.support.v7.app.ActionBarActivity;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
@@ -14,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -25,6 +28,42 @@ public class MainActivity extends ActionBarActivity {
 
     double screenWidth;
     double screenHeight;
+    
+    private OnClickListener buttonClickListener = new OnClickListener(){
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+            case R.id.bNews:
+                break;
+            case R.id.bDirectory:
+                break;
+            case R.id.bMaps:
+                break;
+            case R.id.bVideos:
+                break;
+            case R.id.bPhotos:
+                break;
+            case R.id.bEvents:
+                break;
+            case R.id.bTransit:
+                Uri uriUrl1 = Uri.parse("http://yale.transloc.com");
+                Intent launchBrowser1 = new Intent(Intent.ACTION_VIEW, uriUrl1);
+                startActivity(launchBrowser1);
+                break;
+            case R.id.bAthletics:
+                Uri uriUrl2 = Uri.parse("http://www.yalebulldogs.com/landing/index");
+                Intent launchBrowser2 = new Intent(Intent.ACTION_VIEW, uriUrl2);
+                startActivity(launchBrowser2);
+                break;
+            case R.id.bArts:
+                Uri uriUrl3 = Uri.parse("http://artscalendar.yale.edu");
+                Intent launchBrowser3 = new Intent(Intent.ACTION_VIEW, uriUrl3);
+                startActivity(launchBrowser3);
+                break;
+            }
+        };
+    };
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +88,7 @@ public class MainActivity extends ActionBarActivity {
                 toast.show();
             }
         });*/
+        registerButtons();
     }
     
 
@@ -88,5 +128,24 @@ public class MainActivity extends ActionBarActivity {
             return rootView;
         }
     }
+    
+    
+    private void register(int buttonResourceId){
+        findViewById(buttonResourceId).setOnClickListener(buttonClickListener);
+    }
+    
+    private void registerButtons(){
+        register(R.id.bNews);
+        register(R.id.bDirectory);
+        register(R.id.bMaps);
+        register(R.id.bVideos);
+        register(R.id.bPhotos);
+        register(R.id.bEvents);
+        register(R.id.bTransit);
+        register(R.id.bAthletics);
+        register(R.id.bArts);
+        ;
+    }
+    
 
 }
