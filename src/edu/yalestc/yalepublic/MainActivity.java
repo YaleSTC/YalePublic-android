@@ -1,4 +1,4 @@
-package com.example.yalepublicandroid;
+package edu.yalestc.yalepublic;
 
 // import android.support.v7.app.ActionBarActivity;
 import android.content.Intent;

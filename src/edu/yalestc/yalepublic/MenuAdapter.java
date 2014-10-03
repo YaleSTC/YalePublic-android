@@ -1,4 +1,4 @@
-package com.example.yalepublicandroid;
+package edu.yalestc.yalepublic;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
