@@ -1,0 +1,73 @@
+package edu.yalestc.yalepublic.news;
+
+import android.os.AsyncTask;
+
+import android.net.Uri;
+import android.os.Bundle;
+import android.util.Log;
+
+import org.xml.sax.SAXException;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+
+import edu.yalestc.yalepublic.R;
+import edu.yalestc.yalepublic.news.RssReader;
+import edu.yalestc.yalepublic.news.RssFeed;
+
+/**
+ * Created by Jason Liu on 10/4/14.
+ */
+public class NewsDownload extends AsyncTask<Void, Integer, String> {
+
+    public NewsDownload() {
+        super();
+    }
+
+    @Override
+    protected String doInBackground(Void... voids) {
+        URL url = null;
+        try {
+            url = new URL("http://news.yale.edu/news-rss");
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        RssFeed feed = null;
+        try {
+            feed = RssReader.read(url);
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        ArrayList<RssItem> rssItems = feed.getRssItems();
+        for(RssItem rssItem : rssItems) {
+            Log.d("RSS Reader", rssItem.getTitle());
+        }
+        return null;
+    }
+
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+    }
+
+    @Override
+    protected void onPostExecute(String s) {
+        super.onPostExecute(s);
+    }
+
+    @Override
+    protected void onProgressUpdate(Integer... values) {
+        super.onProgressUpdate(values);
+    }
+
+    @Override
+    protected void onCancelled() {
+        super.onCancelled();
+    }
+}
