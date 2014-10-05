@@ -23,6 +23,8 @@ import android.widget.GridView;
 import android.widget.Toast;
 import android.os.Build;
 
+import edu.yalestc.yalepublic.news.NewsReader;
+
 @SuppressLint("NewApi")
 public class MainActivity extends ActionBarActivity {
 
@@ -34,6 +36,8 @@ public class MainActivity extends ActionBarActivity {
         public void onClick(View v) {
             switch (v.getId()) {
             case R.id.bNews:
+                Intent iNews = new Intent(MainActivity.this, NewsReader.class);
+                startActivity(iNews);
                 break;
             case R.id.bDirectory:
                 break;
