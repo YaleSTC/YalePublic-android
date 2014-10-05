@@ -1,8 +1,12 @@
 package edu.yalestc.yalepublic.news;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import org.xml.sax.SAXException;
@@ -30,26 +34,10 @@ public class NewsReader extends Activity {
         setContentView(R.layout.news_items);
         tRSSTitle = (TextView) findViewById(R.id.tvRSSTitle);
         tRSSContent = (TextView) findViewById(R.id.tvRSSContent);
-
-        URL url = null;
-        try {
-            url = new URL("http://news.yale.edu/news-rss");
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-
-        RssFeed feed = null;
-        try {
-            feed = RssReader.read(url);
-        } catch (SAXException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        ArrayList<RssItem> rssItems = feed.getRssItems();
-        for(RssItem rssItem : rssItems) {
-            Log.d("RSS Reader", rssItem.getTitle());
-        }
+        
+        // TODO: Check for Internet Connectivity first
+        NewsDownload start = new NewsDownload();
+        start.execute();
     }
+
 }
