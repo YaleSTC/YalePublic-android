@@ -20,17 +20,17 @@ import edu.yalestc.yalepublic.news.RssFeed;
 /**
  * Created by Jason Liu on 10/4/14.
  */
-public class NewsDownload extends AsyncTask<Void, Integer, String> {
+public class NewsDownload extends AsyncTask<String, Integer, String> {
 
     public NewsDownload() {
         super();
     }
 
     @Override
-    protected String doInBackground(Void... voids) {
+    protected String doInBackground(String... strings) {
         URL url = null;
         try {
-            url = new URL("http://news.yale.edu/news-rss");
+            url = new URL(strings[0]);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -44,9 +44,11 @@ public class NewsDownload extends AsyncTask<Void, Integer, String> {
             e.printStackTrace();
         }
 
-        ArrayList<RssItem> rssItems = feed.getRssItems();
-        for(RssItem rssItem : rssItems) {
-            Log.d("RSS Reader", rssItem.getTitle());
+        if (feed != null) {
+                ArrayList<RssItem> rssItems = feed.getRssItems();
+            for (RssItem rssItem : rssItems) {
+                Log.d("RSS Reader", rssItem.getTitle());
+            }
         }
         return null;
     }

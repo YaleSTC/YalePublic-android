@@ -37,7 +37,7 @@ public class NewsReader extends Activity {
         
         // TODO: Check for Internet Connectivity first
         NewsDownload start = new NewsDownload();
-        start.execute();
+        start.execute("http://news.yale.edu/news-rss");
     }
 
 }
