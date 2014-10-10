@@ -1,7 +1,9 @@
 package edu.yalestc.yalepublic.news;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,6 +30,15 @@ public class NewsReader extends Activity {
 
     TextView tRSSTitle, tRSSContent;
 
+    // Check for connectivity, return true if connected or connecting.
+    public boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        return cm.getActiveNetworkInfo() != null &&
+                cm.getActiveNetworkInfo().isConnectedOrConnecting();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,8 +47,12 @@ public class NewsReader extends Activity {
         tRSSContent = (TextView) findViewById(R.id.tvRSSContent);
         
         // TODO: Check for Internet Connectivity first
-        NewsDownload start = new NewsDownload();
-        start.execute("http://news.yale.edu/news-rss");
+        if (isOnline()) {
+            NewsDownload start = new NewsDownload();
+            start.execute("http://news.yale.edu/news-rss");
+        } else {
+            Log.d("NewsReader", "Please connect to Internet");
+        }
     }
 
 }

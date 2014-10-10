@@ -44,7 +44,7 @@ public class NewsDownload extends AsyncTask<String, Integer, String> {
             e.printStackTrace();
         }
 
-        if (feed != null) {
+        if (feed != null) {       // EHOSTUNREACH: No route to hoast
                 ArrayList<RssItem> rssItems = feed.getRssItems();
             for (RssItem rssItem : rssItems) {
                 Log.d("RSS Reader", rssItem.getTitle());
