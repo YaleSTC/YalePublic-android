@@ -1,6 +1,7 @@
 package edu.yalestc.yalepublic;
 
 // import android.support.v7.app.ActionBarActivity;
+
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.ActionBar;
@@ -40,6 +41,8 @@ public class MainActivity extends ActionBarActivity {
             case R.id.bMaps:
                 break;
             case R.id.bVideos:
+                Intent intent = new Intent(MainActivity.this, VideoList.class);
+                startActivity(intent);
                 break;
             case R.id.bPhotos:
                 break;
