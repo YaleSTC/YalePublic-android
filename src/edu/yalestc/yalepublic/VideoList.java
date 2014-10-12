@@ -32,6 +32,7 @@ import android.widget.ListView;
 import android.os.Build;
 
 public class VideoList extends Activity {
+    // this is a class parameter so that it can be modified in the asynctask
     private ArrayAdapter<String> mVideoAdapter;
     
     @Override
@@ -59,15 +60,13 @@ public class VideoList extends Activity {
             View rootView = inflater.inflate(R.layout.fragment_video_list,
                     container, false);
             
-            
-            
-            
- 
-            VideoTask videoList = new VideoTask();
-            videoList.execute();
-           
+            // initialize the ArrayAdapter
             mVideoAdapter = new ArrayAdapter<String>(
                     getActivity(), R.layout.tab, R.id.tab);
+            
+            // create an asynctask that fetches the playlist titles
+            VideoTask videoList = new VideoTask();
+            videoList.execute();
             
             ListView listView = (ListView) rootView.findViewById(R.id.listview_video);
             listView.setAdapter(mVideoAdapter);
@@ -78,6 +77,8 @@ public class VideoList extends Activity {
     
     public class VideoTask extends AsyncTask<Void, Void, String[]> {
 
+        // this method parses the raw data (which is a String in JSON format)
+        // and extracts the titles of the playlists
         private String[] getPlaylistsFromJson(String rawData){
             JSONObject videoData;
             try {
@@ -100,8 +101,9 @@ public class VideoList extends Activity {
             String[] allPlaylists = new String[playlistData.length()];
             for (int i = 0; i < playlistData.length(); i++){
                 try {
-                    Log.v("JSON parsing", playlistData.getJSONObject(i).getJSONObject("snippet").getString("title"));
-                    allPlaylists[i] = playlistData.getJSONObject(i).getJSONObject("snippet").getString("title");
+                    allPlaylists[i] = playlistData.getJSONObject(i)
+                            .getJSONObject("snippet")
+                            .getString("title");
                 } catch (JSONException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -113,9 +115,8 @@ public class VideoList extends Activity {
         
         @Override
         protected String[] doInBackground(Void... params) {
-            // TODO Auto-generated method stub
             try{
-                
+                // first we create the URI
                 final String BASE_URL = "https://www.googleapis.com/youtube/v3/playlists?";
                 Uri builtUri = Uri.parse(BASE_URL).buildUpon()
                         .appendQueryParameter("part", "snippet")
@@ -124,33 +125,20 @@ public class VideoList extends Activity {
                         .appendQueryParameter("maxResults", "50")
                         .build();
                 
-                
+                // send a GET request to the server
                 URL url = new URL(builtUri.toString());
-                
-                
-                Log.v("URI", "Built URI " + builtUri.toString());
-                
-                
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("GET");
                 urlConnection.connect();
-                
-                Log.v("URI", "connected");
-                
-                int status = urlConnection.getResponseCode();
-                
-                InputStream inputStream = urlConnection.getInputStream();
-                
+
+                // read all the data
+                InputStream inputStream = urlConnection.getInputStream();                
                 StringBuffer buffer = new StringBuffer();
-                
-                Log.v("URI", "input stream successful");
-                
                 if (inputStream == null) {
                     // Nothing to do.
                     return null;
                 }
                 BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-
                 String line;
                 while ((line = reader.readLine()) != null) {
                     // Since it's JSON, adding a newline isn't necessary (it won't affect parsing)
@@ -164,10 +152,10 @@ public class VideoList extends Activity {
                     return null;
                 }
                 String videosJsonStr = buffer.toString();
-
-                Log.v("URI", "Forecast string: " + videosJsonStr);
+                // we pass the data to getPlaylistsFromJson
                 return getPlaylistsFromJson(videosJsonStr);
                 
+                // TODO check if there are more than 50 videos in the arrays
             }
             
             catch (IOException e){
@@ -179,11 +167,9 @@ public class VideoList extends Activity {
         
         @Override
         protected void onPostExecute(String[] result){
+            // we need to use result in our ArrayAdapter
             List<String> videos = new ArrayList<String>(Arrays.asList(result));
             mVideoAdapter.addAll(videos); 
         }
-        
-
     }
-
 }
