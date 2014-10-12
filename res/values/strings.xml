@@ -4,8 +4,8 @@
     <string name="app_name">YalePublicAndroid</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string-array
-        name = "menu_names">
+
+    <string-array name="menu_names">
         <item>News</item>
         <item>Directory</item>
         <item>Maps</item>
@@ -16,5 +16,7 @@
         <item>Athletics</item>
         <item>Arts Events</item>
     </string-array>
+
+    <string name="title_activity_video_list">VideoList</string>
 
 </resources>
