@@ -23,4 +23,11 @@
         android:text="RSS Content"
         android:id="@+id/tvRSSContent"
         android:layout_gravity="center_horizontal" />
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/listNews"
+        android:layout_gravity="center_horizontal" />
+
 </LinearLayout>
