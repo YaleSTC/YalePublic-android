@@ -20,14 +20,14 @@ import edu.yalestc.yalepublic.news.RssFeed;
 /**
  * Created by Jason Liu on 10/4/14.
  */
-public class NewsDownload extends AsyncTask<String, Integer, String> {
+public class NewsDownload extends AsyncTask<String, Integer, RssFeed> {
 
     public NewsDownload() {
         super();
     }
 
     @Override
-    protected String doInBackground(String... strings) {
+    protected RssFeed doInBackground(String... strings) {
         URL url = null;
         try {
             url = new URL(strings[0]);
@@ -50,7 +50,7 @@ public class NewsDownload extends AsyncTask<String, Integer, String> {
                 Log.d("RSS Reader", rssItem.getTitle());
             }
         }
-        return null;
+        return feed;
     }
 
     @Override
@@ -59,7 +59,7 @@ public class NewsDownload extends AsyncTask<String, Integer, String> {
     }
 
     @Override
-    protected void onPostExecute(String s) {
+    protected void onPostExecute(RssFeed s) {
         super.onPostExecute(s);
     }
 
