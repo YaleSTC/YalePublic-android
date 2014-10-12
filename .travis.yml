@@ -1,0 +1,46 @@
+# To read: http://docs.travis-ci.com/user/languages/android/
+# Note that we might require `gradle/wrapper/gradle-wrapper.jar`, which
+# is ignored in ~/.gitignore_global, so add it with `git add -f`
+
+# Build Environment
+build_environment: ubuntu1204
+
+# Language 
+language: android
+
+# Android specific for Travis
+android:
+  components:
+    - build-tools-19.1.0
+    - android-19
+    - sysimg-19
+    - extra-android-support
+  licenses:
+    - android-sdk-license-bcbbd656
+    - '.*intel.+'
+
+# Version Numbers
+jdk:
+ - oraclejdk7
+
+# Environment Variables
+#env:
+
+# Installation
+install:
+ - sudo apt-get install -u lib32stdc++6 lib32z1
+ - ./gradlew clean assemble
+
+# Run before the script
+#before_script:
+
+# Jobs to test on the script
+script:
+ - ./gradlew check
+
+# Notifications
+notifications:
+    email: false
+
+# Run after the script
+#after_script:
