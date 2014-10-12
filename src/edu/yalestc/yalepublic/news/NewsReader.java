@@ -7,7 +7,9 @@ import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -89,12 +91,65 @@ public class NewsReader extends Activity {
             List<String> videos = new ArrayList<String>(Arrays.asList(video_arrays)); */
 
             // Parameters: Activity (Context), Layout file, Id of TextView, Array that's adapted
-            final ArrayAdapter<String> mNewsAdapter;
+            /*final ArrayAdapter<String> mNewsAdapter;
             mNewsAdapter = new ArrayAdapter<String>(
-                    this, R.layout.news_tab, R.id.tvTitle, rssTitles);
+                    this, R.layout.news_tab, R.id.tvTitle, rssTitles);*/
+
+            //ArrayList<RssItem> rssItems = feed.getRssItems();
+            //List<String> rssData = rssItems;
+            // TODO: Convert ArrayList<rssItem> into an array of strings
 
             ListView listView = (ListView) findViewById(R.id.listNews);
-            listView.setAdapter(mNewsAdapter);
+            listView.setAdapter(new NewsAdapter(this, R.layout.news_tab, rssItems));
+            //listView.setAdapter(mNewsAdapter);
+        }
+    }
+
+    public class NewsAdapter extends ArrayAdapter<RssItem> {
+        private final Context context;
+        private final ArrayList<RssItem> data;
+        private final int layoutResourceId;
+
+        // fix here
+        public NewsAdapter(Context context, int layoutResourceId, ArrayList<RssItem> data) {
+            super(context, layoutResourceId, data);
+            this.context = context;
+            this.data = data;
+            this.layoutResourceId = layoutResourceId;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View row = convertView;
+            ViewHolder holder = null;
+
+            if(row == null) {
+                LayoutInflater inflater = ((Activity)context).getLayoutInflater();
+                row = inflater.inflate(layoutResourceId, parent, false);
+
+                holder = new ViewHolder();
+                holder.textView1 = (TextView) row.findViewById(R.id.tvTitle);
+                holder.textView2 = (TextView) row.findViewById(R.id.tvDate);
+                holder.textView3 = (TextView) row.findViewById(R.id.tvDescription);
+
+                row.setTag(holder);
+            } else {
+                holder = (ViewHolder) row.getTag();
+            }
+
+            RssItem rItem = data.get(position);
+
+            holder.textView1.setText(rItem.getTitle());
+            holder.textView2.setText(rItem.getDescription());
+            holder.textView3.setText(rItem.getContent());
+
+            return row;
+        }
+
+        private class ViewHolder {
+            TextView textView1;
+            TextView textView2;
+            TextView textView3;
         }
     }
 
