@@ -27,6 +27,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.os.Build;
@@ -70,6 +72,16 @@ public class VideoList extends Activity {
             
             ListView listView = (ListView) rootView.findViewById(R.id.listview_video);
             listView.setAdapter(mVideoAdapter);
+            listView.setOnItemClickListener(new OnItemClickListener(){
+
+                @Override
+                public void onItemClick(AdapterView<?> arg0, View arg1,
+                        int arg2, long arg3) {
+                    Log.v("BUTTON", "I CLICKED IT!");
+                    
+                }
+            });
+            
             
             return rootView;
         }
@@ -172,4 +184,6 @@ public class VideoList extends Activity {
             mVideoAdapter.addAll(videos); 
         }
     }
+    
+    
 }
