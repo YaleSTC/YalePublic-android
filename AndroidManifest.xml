@@ -34,6 +34,10 @@
             android:name=".VideosWithinPlaylist"
             android:label="@string/title_activity_videos_within_list" >
         </activity>
+        <activity
+            android:name=".VideoYoutubePlayback"
+            android:label="@string/title_activity_video_playback">
+        </activity>
     </application>
 
 </manifest>
