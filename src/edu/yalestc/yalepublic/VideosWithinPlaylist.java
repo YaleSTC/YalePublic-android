@@ -135,7 +135,8 @@ public class VideosWithinPlaylist extends Activity {
                                 .getString("publishedAt")).substring(0,9);
                         videoIds[i] = playlistData.getJSONObject(i)
                                 .getJSONObject("snippet")
-                                .getString("videoID");
+                                .getJSONObject("resourceId")
+                                .getString("videoId");
                     //Here we actually download the thumbnail using URL obtained from JSONObject
                         try {
                             URL imageUrl = new URL(playlistData.getJSONObject(i)
