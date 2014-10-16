@@ -18,6 +18,7 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -31,12 +32,13 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.os.Build;
 
 public class VideoList extends Activity {
     // this is a class parameter so that it can be modified in the asynctask
     private ArrayAdapter<String> mVideoAdapter;
-    
+    private String[] playlistIds;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,8 +79,10 @@ public class VideoList extends Activity {
                 @Override
                 public void onItemClick(AdapterView<?> arg0, View arg1,
                         int arg2, long arg3) {
-                    Log.v("BUTTON", "I CLICKED IT!");
-                    
+                    Intent showThem = new Intent(VideoList.this, VideosWithinPlaylist.class);
+                    showThem.putExtra("playlistId", playlistIds[arg2]);
+                    Log.v("StartingActivityInVideoList",playlistIds[arg2]);
+                    startActivity(showThem);
                 }
             });
             
@@ -111,11 +115,14 @@ public class VideoList extends Activity {
             
             
             String[] allPlaylists = new String[playlistData.length()];
+            playlistIds = new String[playlistData.length()];
             for (int i = 0; i < playlistData.length(); i++){
                 try {
                     allPlaylists[i] = playlistData.getJSONObject(i)
                             .getJSONObject("snippet")
                             .getString("title");
+                    playlistIds[i] = playlistData.getJSONObject(i)
+                            .getString("id");
                 } catch (JSONException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -165,6 +172,7 @@ public class VideoList extends Activity {
                 }
                 String videosJsonStr = buffer.toString();
                 // we pass the data to getPlaylistsFromJson
+                //but also remember to save the playlistID's for future
                 return getPlaylistsFromJson(videosJsonStr);
                 
                 // TODO check if there are more than 50 videos in the arrays
