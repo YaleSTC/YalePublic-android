@@ -38,6 +38,8 @@ public class VideosWithinPlaylist extends Activity {
     private String[] titls = new String[1];
     private String[] dats = new String[1];
     private Bitmap[] bitmaps = new Bitmap[1];
+    //to save the ID's that we will pass to the activity that displays the vids
+    private String[] videoIds;
     //make the adapter available to all functions. Will come in handy when 
     //we do AsyncTask to fill in the arrays defined above
     private thumbnailAdapter adapter;
@@ -120,6 +122,7 @@ public class VideosWithinPlaylist extends Activity {
                 titls = new String[playlistData.length()];
                 bitmaps = new Bitmap[playlistData.length()];
                 dats = new String[playlistData.length()];
+                videoIds = new String[playlistData.length()];
                 for (int i = 0; i < playlistData.length(); i++){
                     try {
                         titls[i] = playlistData.getJSONObject(i)
@@ -128,6 +131,9 @@ public class VideosWithinPlaylist extends Activity {
                         dats[i] = (playlistData.getJSONObject(i)
                                 .getJSONObject("snippet")
                                 .getString("publishedAt")).substring(0,9);
+                        videoIds[i] = playlistData.getJSONObject(i)
+                                .getJSONObject("snippet")
+                                .getString("videoID");
                     //Here we actually download the thumbnail using URL obtained from JSONObject
                         try {
                             URL imageUrl = new URL(playlistData.getJSONObject(i)
