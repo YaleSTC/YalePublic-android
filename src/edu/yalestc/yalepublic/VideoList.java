@@ -38,6 +38,8 @@ import android.os.Build;
 public class VideoList extends Activity {
     // this is a class parameter so that it can be modified in the asynctask
     private ArrayAdapter<String> mVideoAdapter;
+    //this is a string in which we store the ID's of playlists to pass them
+    //into VideosWithinPlaylist
     private String[] playlistIds;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,19 +76,21 @@ public class VideoList extends Activity {
             
             ListView listView = (ListView) rootView.findViewById(R.id.listview_video);
             listView.setAdapter(mVideoAdapter);
+            //set OnItemClickListener to open up a new activity in which we get 
+            //all the videos listed
             listView.setOnItemClickListener(new OnItemClickListener(){
 
                 @Override
                 public void onItemClick(AdapterView<?> arg0, View arg1,
                         int arg2, long arg3) {
+                    //redirect to new activity displaying all videos
                     Intent showThem = new Intent(VideoList.this, VideosWithinPlaylist.class);
                     showThem.putExtra("playlistId", playlistIds[arg2]);
-                    Log.v("StartingActivityInVideoList",playlistIds[arg2]);
+                    //For Debug purposes - show what is the playlistID
+                    Log.d("StartingActivityInVideoList",playlistIds[arg2]);
                     startActivity(showThem);
                 }
             });
-            
-            
             return rootView;
         }
     }
@@ -113,8 +117,8 @@ public class VideoList extends Activity {
                 return null;
             }
             
-            
             String[] allPlaylists = new String[playlistData.length()];
+            //we need to remember playlistIDs for future processing!
             playlistIds = new String[playlistData.length()];
             for (int i = 0; i < playlistData.length(); i++){
                 try {
