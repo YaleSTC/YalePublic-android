@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -87,9 +88,10 @@ public class VideosWithinPlaylist extends Activity {
                 @Override
                 public void onItemClick(AdapterView<?> arg0, View arg1,
                         int arg2, long arg3) {
-                    
-                    Log.v("StartingActivityInVideosInPlaylists","YEAH!");
-
+                    Intent intent = new Intent(VideosWithinPlaylist.this, VideoYoutubePlayback.class);
+                    intent.putExtra("videoId", videoIds[arg2]);
+                    Log.v("StartingActivityInVideosInPlaylists","Starting a new action with the parameter videoID: " + videoIds[arg2]);
+                    startActivity(intent);
                 }
             });
                    
