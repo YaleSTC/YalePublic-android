@@ -6,16 +6,11 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import edu.yalestc.yalepublic.VideoList.PlaceholderFragment;
-import edu.yalestc.yalepublic.VideoList.VideoTask;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,9 +24,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.app.Activity;
 import android.app.Fragment;
-import android.content.ClipData.Item;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
