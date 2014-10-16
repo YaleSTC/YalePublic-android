@@ -39,18 +39,25 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 
 public class VideosWithinPlaylist extends Activity {
+    //initialize arrays to keep all the information about videos
+    //we need to initialize to avoid referring to them before AsyncTask
+    //fills them in!
     private String[] titls = new String[1];
     private String[] dats = new String[1];
     private Bitmap[] bitmaps = new Bitmap[1];
-    Intent intent;
+    //make the adapter available to all functions. Will come in handy when 
+    //we do AsyncTask to fill in the arrays defined above
+    private thumbnailAdapter adapter;
+    //to keep the playlistId passed into activity
     Bundle extras;
+    //for easier handling of context within adapter. Can be changed.
     Context context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        intent = getIntent();
-        extras = intent.getExtras();
+        //to get the passed parameters
         context = this;
+        extras = getIntent().getExtras();
         setContentView(R.layout.activity_video_within_list);
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
@@ -58,9 +65,8 @@ public class VideosWithinPlaylist extends Activity {
             
         }
 }
-    
+    //definition of our custom fragment.
     public class PlaceholderFragment extends Fragment {
-        private thumbnailAdapter adapter = new thumbnailAdapter();
         public PlaceholderFragment() {
         }
 
@@ -68,17 +74,19 @@ public class VideosWithinPlaylist extends Activity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_video_within_list,
-                    container, false);
+                    container, false);            
+            //initialize the adapter
+            adapter = new thumbnailAdapter(context);
             
-            // initialize the custom adapter
-            
-            
+            //create custom AsyncTask to fetch all the details from youtube
             VideoTask gettingDetails = new VideoTask();
             gettingDetails.execute();
             
-            
+            //create listView from template and set the adapter. 
             ListView listView = (ListView) rootView.findViewById(R.id.listview_video_in_playlist);
             listView.setAdapter(adapter);
+            
+            //create a OnItemClickListener to play the video
             listView.setOnItemClickListener(new OnItemClickListener(){
 
                 @Override
@@ -93,10 +101,11 @@ public class VideosWithinPlaylist extends Activity {
             
             return rootView;
         }
+    }
         public class VideoTask extends AsyncTask<Void, Void, Void> {
 
             // this method parses the raw data (which is a String in JSON format)
-            // and extracts the titles of the playlists
+            // and extracts the titles, thumbnails and dates of the videos in a playlist
             private String getVideosFromJson(String rawData){
                 JSONObject videoData;
                 try {
@@ -126,18 +135,20 @@ public class VideosWithinPlaylist extends Activity {
                         dats[i] = (playlistData.getJSONObject(i)
                                 .getJSONObject("snippet")
                                 .getString("publishedAt")).substring(0,9);
-                    
+                    //Here we actually download the thumbnail using URL obtained from JSONObject
                         try {
                             URL imageUrl = new URL(playlistData.getJSONObject(i)
                                     .getJSONObject("snippet")
                                     .getJSONObject("thumbnails")
                                     .getJSONObject("medium")
                                     .getString("url"));
-                     
+                     //connect to given server 
                             HttpURLConnection conn = (HttpURLConnection)imageUrl.openConnection();
+                     //safety features and avoiding errors is links redirect     
                             conn.setConnectTimeout(30000);
                             conn.setReadTimeout(30000);
                             conn.setInstanceFollowRedirects(true);
+                     //setting inputstream and decoding it into a bitmap
                             InputStream is=conn.getInputStream();
                             bitmaps[i] = BitmapFactory.decodeStream(is);
                         
@@ -159,7 +170,7 @@ public class VideosWithinPlaylist extends Activity {
             @Override
             protected Void doInBackground(Void... params) {
                 try{
-                    // first we create the URI
+                    // first we create the URI - note that the base is different than in VideoList.java
                     final String BASE_URL = "https://www.googleapis.com/youtube/v3/playlistItems?";
                     Uri builtUri = Uri.parse(BASE_URL).buildUpon()
                             .appendQueryParameter("part", "snippet")
@@ -212,26 +223,31 @@ public class VideosWithinPlaylist extends Activity {
             
             @Override
             protected void onPostExecute(Void result){
+                //notify the adapter and the view that is using it to get check for new data
+                //in the arrays we defined at the beginning
                 adapter.notifyDataSetChanged();
             }
         }
 
-    }
     
+    //Our custom Adapter
     public class thumbnailAdapter extends BaseAdapter{
-            thumbnailAdapter() {
+        Context mContext;
+            thumbnailAdapter(Context context) {
+                mContext = context;
             }
 
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            
+            //if we can reuse a view, do so.
             if(convertView != null){
                 ((ImageView)((RelativeLayout) convertView).getChildAt(0)).setImageBitmap(bitmaps[position]);
                 ((TextView)((RelativeLayout) convertView).getChildAt(1)).setText(titls[position]);
                 ((TextView)((RelativeLayout) convertView).getChildAt(2)).setText(dats[position]);
                 return ((RelativeLayout)convertView);
             } else {
+                //if not, create a new one from the template of a view using inflate
                 LayoutInflater inflater = (LayoutInflater)context.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
                 RelativeLayout thumbnail = ((RelativeLayout)inflater.inflate(R.layout.thumbnail_elements,null));
                 ((ImageView)thumbnail.getChildAt(0)).setImageBitmap(bitmaps[position]);
@@ -241,7 +257,8 @@ public class VideosWithinPlaylist extends Activity {
             } 
             
         }
-
+        //return the number of elements. This is the reason for initializing the arrays all the way
+        //at the top. Otherwise we would get nullpointerException
         @Override
         public int getCount() {
             return titls.length;
