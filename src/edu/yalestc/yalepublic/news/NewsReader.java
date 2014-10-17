@@ -36,7 +36,7 @@ public class NewsReader extends Activity {
 
     TextView tRSSTitle, tRSSContent;
     RssFeed feed;
-    long time, timediff;
+    long time, timediff, hourdiff, daydiff;
     ArrayList<String> rssTitles = new ArrayList<String>();
     ArrayList<String> rssLinks = new ArrayList<String>();
     ArrayList<String> rssDescription = new ArrayList<String>();
@@ -85,15 +85,17 @@ public class NewsReader extends Activity {
             private String content;*/
 
             for (RssItem rssItem : rssItems) {
-                Log.d("RSS Reader", rssItem.getPubDate().toString());
-                timediff = time - rssItem.getPubDate().getTime();
-                Log.d("Timediff", String.valueOf(timediff));
-                Log.d("Days: ", String.valueOf(TimeUnit.MILLISECONDS.toDays(timediff)));
-                Log.d("Hours: ", String.valueOf(TimeUnit.MILLISECONDS.toHours(timediff)));
-                if (0 == TimeUnit.MILLISECONDS.toDays(timediff)) {  // 0 days ago
-                    rssTimediff.add(String.valueOf(TimeUnit.MILLISECONDS.toHours(timediff)) + " hours ago");
+                //Log.d("RSS Reader", rssItem.getPubDate().toString());
+                timediff = time - rssItem.getPubDate().getTime();      // difference in milliseconds
+                //Log.d("Timediff", String.valueOf(timediff));
+                daydiff = TimeUnit.MILLISECONDS.toDays(timediff);      // difference in days
+                hourdiff = TimeUnit.MILLISECONDS.toHours(timediff);    // difference in hours
+                if (0L == daydiff) {  // 0 days ago
+                    rssTimediff.add(String.valueOf(hourdiff) + " hours ago");
+                } else if (1L == daydiff) {
+                    rssTimediff.add("Yesterday");     // In the same style as the original app
                 } else {
-                    rssTimediff.add(String.valueOf(TimeUnit.MILLISECONDS.toDays(timediff)) + " days ago");
+                    rssTimediff.add(String.valueOf(daydiff) + " days ago");
                 }
 
                 rssTitles.add(rssItem.getTitle());
