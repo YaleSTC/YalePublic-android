@@ -30,6 +30,7 @@ public class RssItem implements Comparable<RssItem>, Parcelable {
 	private RssFeed feed;
 	private String title;
 	private String link;
+	private String dateString;
 	private Date pubDate;
 	private String description;
 	private String content;
@@ -43,8 +44,15 @@ public class RssItem implements Comparable<RssItem>, Parcelable {
 		Bundle data = source.readBundle();
 		title = data.getString("title");
 		link = data.getString("link");
-		pubDate = (Date) data.getSerializable("pubDate");
-		description = data.getString("description");
+        dateString = data.getString("dateString");
+        try {
+            // Date format: "Fri, 17 Oct 2014 11:47:00 EDT"
+            //pubDate = (Date) data.getSerializable("pubDate");
+            pubDate = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss zzz", Locale.ENGLISH).parse(dateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        description = data.getString("description");
 		content = data.getString("content");
 		feed = data.getParcelable("feed");
 		
@@ -100,6 +108,14 @@ public class RssItem implements Comparable<RssItem>, Parcelable {
 	public void setLink(String link) {
 		this.link = link;
 	}
+
+    public String getDateString() {
+        return dateString;
+    }
+
+    public void setDateString(String newdate) {
+        this.dateString = newdate;
+    }
 
 	public Date getPubDate() {
 		return pubDate;
