@@ -22,6 +22,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 import edu.yalestc.yalepublic.R;
 import edu.yalestc.yalepublic.news.RssReader;
@@ -35,6 +36,12 @@ public class NewsReader extends Activity {
 
     TextView tRSSTitle, tRSSContent;
     RssFeed feed;
+    long time, timediff;
+    ArrayList<String> rssTitles = new ArrayList<String>();
+    ArrayList<String> rssLinks = new ArrayList<String>();
+    ArrayList<String> rssDescription = new ArrayList<String>();
+    ArrayList<String> rssContent = new ArrayList<String>();
+    ArrayList<String> rssTimediff = new ArrayList<String>();
 
     // Check for connectivity, return true if connected or connecting.
     public boolean isOnline() {
@@ -66,12 +73,10 @@ public class NewsReader extends Activity {
             Log.d("NewsReader", "Please connect to Internet");
         }
 
-        if (feed != null) {       // EHOSTUNREACH: No route to hoast
+        time = System.currentTimeMillis();
+
+        if (feed != null) {       // EHOSTUNREACH: No route to host
             ArrayList<RssItem> rssItems = feed.getRssItems();
-            ArrayList<String> rssTitles = new ArrayList<String>();
-            ArrayList<String> rssLinks = new ArrayList<String>();
-            ArrayList<String> rssDescription = new ArrayList<String>();
-            ArrayList<String> rssContent = new ArrayList<String>();
 
             /*private String title;
             private String link;
@@ -80,11 +85,21 @@ public class NewsReader extends Activity {
             private String content;*/
 
             for (RssItem rssItem : rssItems) {
-                Log.d("RSS Reader", rssItem.getTitle());
+                Log.d("RSS Reader", rssItem.getPubDate().toString());
+                timediff = time - rssItem.getPubDate().getTime();
+                Log.d("Timediff", String.valueOf(timediff));
+                Log.d("Days: ", String.valueOf(TimeUnit.MILLISECONDS.toDays(timediff)));
+                Log.d("Hours: ", String.valueOf(TimeUnit.MILLISECONDS.toHours(timediff)));
+                if (0 == TimeUnit.MILLISECONDS.toDays(timediff)) {  // 0 days ago
+                    rssTimediff.add(String.valueOf(TimeUnit.MILLISECONDS.toHours(timediff)) + " hours ago");
+                } else {
+                    rssTimediff.add(String.valueOf(TimeUnit.MILLISECONDS.toDays(timediff)) + " days ago");
+                }
+
                 rssTitles.add(rssItem.getTitle());
                 rssLinks.add(rssItem.getLink());
                 rssDescription.add(rssItem.getDescription());
-                rssContent.add(rssItem.getContent());
+                //rssContent.add(rssItem.getContent());
             }
 
             /*String[] video_arrays = {"video1", "video2"};
@@ -137,11 +152,11 @@ public class NewsReader extends Activity {
                 holder = (ViewHolder) row.getTag();
             }
 
-            RssItem rItem = data.get(position);
+            //RssItem rItem = data.get(position);
 
-            holder.textView1.setText(rItem.getTitle());
-            holder.textView2.setText(rItem.getDescription());
-            holder.textView3.setText(rItem.getContent());
+            holder.textView1.setText(rssTitles.get(position));
+            holder.textView2.setText(rssTimediff.get(position));
+            holder.textView3.setText(rssDescription.get(position));
 
             return row;
         }
