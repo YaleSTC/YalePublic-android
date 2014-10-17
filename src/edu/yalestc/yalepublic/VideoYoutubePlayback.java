@@ -1,50 +1,116 @@
 package edu.yalestc.yalepublic;
 
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
+import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
-import com.google.android.youtube.player.YouTubePlayer.OnInitializedListener;
+import com.google.android.youtube.player.YouTubePlayer.ErrorReason;
+import com.google.android.youtube.player.YouTubePlayer.PlaybackEventListener;
+import com.google.android.youtube.player.YouTubePlayer.PlayerStateChangeListener;
 import com.google.android.youtube.player.YouTubePlayer.Provider;
 import com.google.android.youtube.player.YouTubePlayerView;
 
-import android.app.Activity;
-import android.os.Bundle;
-import android.util.Log;
+public class VideoYoutubePlayback extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener {
 
-public class VideoYoutubePlayback extends Activity {
-    private YouTubePlayerView playingWindow;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        //initialize the YTPlayerView - here we will get a handle to the actual player
-        //see onInitializationSuccess
-        playingWindow.initialize(new DeveloperKey().DEVELOPER_KEY, new OnInitializedListener(){
+	private final String API_KEY = new DeveloperKey().DEVELOPER_KEY;
 
-            @Override
-            //if we fail, just log it and return
-            public void onInitializationFailure(Provider arg0,
-                    YouTubeInitializationResult arg1) {
-               Log.d("YouTubePlayer", "Failed to initialize an instance of YouTubePlayer.");
-               Log.d("YouTubePlayer", "Guilty provider:" + arg0.toString() + " Error: " + arg1.toString());
-               return;
-                
-            }
-            //if success consider if we are resuming or creating a new instance
-            //player is the actual instance of the player!
-            @Override
-            public void onInitializationSuccess(Provider arg0,
-                    YouTubePlayer player, boolean wasRestored) {
-                Log.d("YouTubePlayer", "Initialization of an instance of YouTubePlayer done.");
-                if(wasRestored){
-                    player.play();
-                } else {
-                    player.loadVideo(getIntent().getExtras().getString("videoId"));
-                    player.play();
-                }
-                
-            }
-            
-        });
-        setContentView(playingWindow);
-    }
+	//http://youtu.be/<VIDEO_ID>
+	private String VIDEO_ID;
 
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		VIDEO_ID = getIntent().getExtras().getString("videoId");
+		/** attaching layout xml **/
+		setContentView(R.layout.youtube_player);
+
+		/** Initializing YouTube player view **/
+		YouTubePlayerView youTubePlayerView = (YouTubePlayerView) findViewById(R.id.youtube_player);
+		youTubePlayerView.initialize(API_KEY, this);
+
+	}
+
+	@Override
+	public void onInitializationFailure(Provider provider, YouTubeInitializationResult result) {
+	    Log.e("youtube player", "failure to initialize!");
+		//Toast.makeText(this, "Failured to Initialize!", Toast.LENGTH_LONG).show();
+	}
+
+	@Override
+	public void onInitializationSuccess(Provider provider, YouTubePlayer player, boolean wasRestored) {
+
+		/** add listeners to YouTubePlayer instance **/
+		player.setPlayerStateChangeListener(playerStateChangeListener);
+		player.setPlaybackEventListener(playbackEventListener);
+		player.setFullscreen(true);
+		player.setShowFullscreenButton(false);
+
+		/** Start buffering **/
+		if (!wasRestored) {
+			player.cueVideo(VIDEO_ID);
+		}
+	}
+
+	private PlaybackEventListener playbackEventListener = new PlaybackEventListener() {
+
+		@Override
+		public void onBuffering(boolean arg0) {
+
+		}
+
+		@Override
+		public void onPaused() {
+
+		}
+
+		@Override
+		public void onPlaying() {
+
+		}
+
+		@Override
+		public void onSeekTo(int arg0) {
+
+		}
+
+		@Override
+		public void onStopped() {
+
+		}
+
+	};
+
+	private PlayerStateChangeListener playerStateChangeListener = new PlayerStateChangeListener() {
+
+		@Override
+		public void onAdStarted() {
+
+		}
+
+		@Override
+		public void onError(ErrorReason arg0) {
+
+		}
+
+		@Override
+		public void onLoaded(String arg0) {
+
+		}
+
+		@Override
+		public void onLoading() {
+		}
+
+		@Override
+		public void onVideoEnded() {
+
+		}
+
+		@Override
+		public void onVideoStarted() {
+
+		}
+	};
 }
