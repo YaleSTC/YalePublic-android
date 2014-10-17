@@ -4,8 +4,7 @@
     <string name="app_name">YalePublicAndroid</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string-array
-        name = "menu_names">
+    <string-array name="menu_names">
         <item>News</item>
         <item>Directory</item>
         <item>Maps</item>
@@ -15,6 +14,14 @@
         <item>Transit</item>
         <item>Athletics</item>
         <item>Arts Events</item>
+    </string-array>
+    <string-array name="rss_feeds">
+        <item>http://news.yale.edu/news-rss</item>
+        <item>http://news.yale.edu/topics/arts-humanities/rss</item>
+        <item>http://news.yale.edu/topics/business-law-society/rss</item>
+        <item>http://news.yale.edu/topics/campus-community/rss</item>
+        <item>http://news.yale.edu/topics/science-health/rss</item>
+        <item>http://news.yale.edu/topics/world-environment/rss</item>
     </string-array>
 
 </resources>
