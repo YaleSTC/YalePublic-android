@@ -23,5 +23,13 @@
         <item>http://news.yale.edu/topics/science-health/rss</item>
         <item>http://news.yale.edu/topics/world-environment/rss</item>
     </string-array>
+    <string-array name="rss_names">
+        <item>All Topics</item>
+        <item>Arts and Humanities</item>
+        <item>Business, Law, Society</item>
+        <item>Campus and Community</item>
+        <item>Science and Health</item>
+        <item>World and Environment</item>
+    </string-array>
 
 </resources>
