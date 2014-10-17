@@ -42,10 +42,11 @@ public class VideoYoutubePlayback extends YouTubeBaseActivity implements YouTube
 	public void onInitializationSuccess(Provider provider, YouTubePlayer player, boolean wasRestored) {
 
 		/** add listeners to YouTubePlayer instance **/
+	    player.setFullscreen(true);
+	    player.setShowFullscreenButton(false);
 		player.setPlayerStateChangeListener(playerStateChangeListener);
 		player.setPlaybackEventListener(playbackEventListener);
-		player.setFullscreen(true);
-		player.setShowFullscreenButton(false);
+
 
 		/** Start buffering **/
 		if (!wasRestored) {
