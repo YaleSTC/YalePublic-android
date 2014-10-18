@@ -34,9 +34,10 @@ import edu.yalestc.yalepublic.news.RssFeed;
 
 public class NewsReader extends Activity {
 
-    TextView tRSSTitle, tRSSContent;
+    TextView tRSSTitle;
     RssFeed feed;
     long time, timediff, hourdiff, daydiff;
+    String downloadurl;
     ArrayList<String> rssTitles = new ArrayList<String>();
     ArrayList<String> rssLinks = new ArrayList<String>();
     ArrayList<String> rssDescription = new ArrayList<String>();
@@ -57,13 +58,18 @@ public class NewsReader extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.news_items);
         tRSSTitle = (TextView) findViewById(R.id.tvRSSTitle);
-        tRSSContent = (TextView) findViewById(R.id.tvRSSContent);
-        
+
+        tRSSTitle.setVisibility(View.GONE);     // Hide the top textview
+
+
+        downloadurl = this.getIntent().getStringExtra("rssfeed");
+        Log.d("NewsReader passed", downloadurl);
+
         // If we're online, downloads the RSS Feed and returns it as `feed`
         if (isOnline()) {
             NewsDownload start = new NewsDownload();
             try {
-                feed = start.execute("http://news.yale.edu/news-rss").get();
+                feed = start.execute(downloadurl).get();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (ExecutionException e) {
