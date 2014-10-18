@@ -14,7 +14,9 @@
         android:gravity="center_vertical"
         android:paddingLeft="10dp"
         android:id="@+id/tvTitle"
-        android:text="Title"/>
+        android:textStyle="bold"
+        android:text="Title"
+        android:paddingBottom="5dp"/>
 
     <TextView
         android:layout_width="match_parent"
@@ -23,7 +25,9 @@
         android:paddingLeft="10dp"
         android:id="@+id/tvDate"
         android:text="Date"
-        android:layout_below="@+id/tvTitle"/>
+        android:textColor="#0071c5"
+        android:layout_below="@+id/tvTitle"
+        android:paddingBottom="5dp"/>
 
     <TextView
         android:layout_width="match_parent"
