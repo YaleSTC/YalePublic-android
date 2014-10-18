@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -21,6 +22,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
@@ -125,6 +127,21 @@ public class NewsReader extends Activity {
             ListView listView = (ListView) findViewById(R.id.listNews);
             listView.setAdapter(new NewsAdapter(this, R.layout.news_tab, rssItems));
             //listView.setAdapter(mNewsAdapter);
+
+            //set OnItemClickListener to open up a new activity in which we get
+            //all the videos listed
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+
+                @Override
+                public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                    //redirect to new activity displaying all videos
+                    Uri uriUrl = Uri.parse(rssLinks.get(arg2));
+                    Log.d("NewsReaderClickLink", rssLinks.get(arg2));
+                    Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
+                    //For Debug purposes - show what is the playlistID
+                    startActivity(launchBrowser);
+                }
+            });
         }
     }
 
