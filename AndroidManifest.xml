@@ -8,14 +8,20 @@
         android:minSdkVersion="15"
         android:targetSdkVersion="19" />
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme" 
+        android:screenOrientation="portrait">
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name" 
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -24,7 +30,19 @@
         </activity>
         <activity
             android:name=".VideoList"
-            android:label="@string/title_activity_video_list" >
+            android:label="@string/title_activity_video_list"
+            android:screenOrientation="portrait" >
+        </activity>
+         <activity
+            android:name=".VideosWithinPlaylist"
+            android:label="@string/title_activity_videos_within_list"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".VideoYoutubePlayback"
+            android:label="@string/title_activity_video_playback"
+            android:screenOrientation="landscape"
+            android:configChanges="orientation" >
         </activity>
     </application>
 
