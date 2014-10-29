@@ -16,6 +16,22 @@
         <item>Athletics</item>
         <item>Arts Events</item>
     </string-array>
+    <string-array name="rss_feeds">
+        <item>http://news.yale.edu/news-rss</item>
+        <item>http://news.yale.edu/topics/arts-humanities/rss</item>
+        <item>http://news.yale.edu/topics/business-law-society/rss</item>
+        <item>http://news.yale.edu/topics/campus-community/rss</item>
+        <item>http://news.yale.edu/topics/science-health/rss</item>
+        <item>http://news.yale.edu/topics/world-environment/rss</item>
+    </string-array>
+    <string-array name="rss_names">
+        <item>All Topics</item>
+        <item>Arts and Humanities</item>
+        <item>Business, Law, Society</item>
+        <item>Campus and Community</item>
+        <item>Science and Health</item>
+        <item>World and Environment</item>
+    </string-array>
 
     <string name="title_activity_video_list">VideoList</string>
 
