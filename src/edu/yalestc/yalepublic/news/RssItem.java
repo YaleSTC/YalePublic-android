@@ -27,6 +27,7 @@ import android.os.Parcelable;
 
 public class RssItem implements Comparable<RssItem>, Parcelable {
 
+    // Modify these fields to those of the RSS field that you're reading.
     private RssFeed feed;
     private String title;
     private String link;
