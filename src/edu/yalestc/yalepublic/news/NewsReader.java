@@ -46,7 +46,6 @@ public class NewsReader extends Activity {
     ArrayList<String> rssTitles = new ArrayList<String>();
     ArrayList<String> rssLinks = new ArrayList<String>();
     ArrayList<String> rssDescription = new ArrayList<String>();
-    ArrayList<String> rssContent = new ArrayList<String>();
     ArrayList<String> rssTimediff = new ArrayList<String>();
 
     // Check for connectivity, return true if connected or connecting.
@@ -112,7 +111,6 @@ public class NewsReader extends Activity {
                 rssTitles.add(rssItem.getTitle());
                 rssLinks.add(rssItem.getLink());
                 rssDescription.add(rssItem.getDescription());
-                //rssContent.add(rssItem.getContent());
             }
 
             /*String[] video_arrays = {"video1", "video2"};
