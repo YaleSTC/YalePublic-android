@@ -24,7 +24,7 @@ import java.util.List;
  */
 public class JSONReader extends AsyncTask<Void, String, String> {
     private String BASE_URL = "";
-    private List<Pair<String, String> > parameters;
+    private ArrayList<Pair<String, String> > parameters = new ArrayList<Pair<String, String>>();
 
     JSONReader(){
 
@@ -50,7 +50,7 @@ public class JSONReader extends AsyncTask<Void, String, String> {
         parameters.add(param);
     }
 
-    public void setParams(List <Pair< String, String> > params){
+    public void setParams(ArrayList <Pair< String, String> > params){
         parameters = params;
     }
 
@@ -59,11 +59,11 @@ public class JSONReader extends AsyncTask<Void, String, String> {
 
         //abstracted builder of URI
     private Uri buildMyUri(){
-        Uri builtUri = Uri.parse(BASE_URL);
+        Uri.Builder buildingUri = Uri.parse(BASE_URL).buildUpon();
         for(int i = 0; i < parameters.size() ; i++){
-            builtUri.buildUpon().appendQueryParameter(parameters.get(i).first, parameters.get(i).second).build();
+            buildingUri.appendQueryParameter(parameters.get(i).first, parameters.get(i).second);
         }
-        return builtUri;
+        return buildingUri.build();
     }
     @Override
     protected String doInBackground(Void... params) {

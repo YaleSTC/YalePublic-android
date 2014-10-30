@@ -9,6 +9,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,6 +22,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +37,8 @@ public class VideoList extends Activity {
     //this is a string in which we store the ID's of playlists to pass them
     //into VideosWithinPlaylist
     private String[] playlistIds;
+    private String[] allPlaylists;
+    private String rawData;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,137 +63,87 @@ public class VideoList extends Activity {
                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_video_list,
                     container, false);
-            
-            // initialize the ArrayAdapter
-            mVideoAdapter = new ArrayAdapter<String>(
-                    getActivity(), R.layout.tab, R.id.tab);
-            
+
             // create an asynctask that fetches the playlist titles
-            VideoTask videoList = new VideoTask();
-            videoList.execute();
-            
-            ListView listView = (ListView) rootView.findViewById(R.id.listview_video);
-            listView.setAdapter(mVideoAdapter);
-            //set OnItemClickListener to open up a new activity in which we get 
-            //all the videos listed
-            listView.setOnItemClickListener(new OnItemClickListener(){
+            JSONReader scrapeData = new JSONReader("https://www.googleapis.com/youtube/v3/playlists");
+            scrapeData.addParams(new Pair<String, String>("part","snippet"));
+            scrapeData.addParams(new Pair<String, String>("channelId","UC4EY_qnSeAP1xGsh61eOoJA"));
+            scrapeData.addParams(new Pair<String, String>("key",new DeveloperKey().DEVELOPER_KEY));
+            scrapeData.addParams(new Pair<String, String>("maxResults","50"));
 
-                @Override
-                public void onItemClick(AdapterView<?> arg0, View arg1,
-                        int arg2, long arg3) {
-                    //redirect to new activity displaying all videos
-                    Intent showThem = new Intent(VideoList.this, VideosWithinPlaylist.class);
-                    showThem.putExtra("playlistId", playlistIds[arg2]);
-                    //For Debug purposes - show what is the playlistID
-                    Log.d("StartingActivityInVideoList",playlistIds[arg2]);
-                    startActivity(showThem);
-                }
-            });
-            return rootView;
+            try {
+                 rawData = scrapeData.execute().get();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+
+
+            if(getPlaylistsFromJson(rawData)) {
+                // initialize the ArrayAdapter
+                mVideoAdapter = new ArrayAdapter<String>(
+                        getActivity(), R.layout.tab, R.id.tab);
+                mVideoAdapter.addAll(allPlaylists);
+                ListView listView = (ListView) rootView.findViewById(R.id.listview_video);
+                listView.setAdapter(mVideoAdapter);
+                //set OnItemClickListener to open up a new activity in which we get
+                //all the videos listed
+                listView.setOnItemClickListener(new OnItemClickListener() {
+
+                    @Override
+                    public void onItemClick(AdapterView<?> arg0, View arg1,
+                                            int arg2, long arg3) {
+                        //redirect to new activity displaying all videos
+                        Intent showThem = new Intent(VideoList.this, VideosWithinPlaylist.class);
+                        showThem.putExtra("playlistId", playlistIds[arg2]);
+                        //For Debug purposes - show what is the playlistID
+                        Log.d("StartingActivityInVideoList", playlistIds[arg2]);
+                        startActivity(showThem);
+                    }
+                });
+                return rootView;
+            } else {
+                return null;
+            }
         }
     }
-    
-    public class VideoTask extends AsyncTask<Void, Void, String[]> {
 
-        // this method parses the raw data (which is a String in JSON format)
-        // and extracts the titles of the playlists
-        private String[] getPlaylistsFromJson(String rawData){
-            JSONObject videoData;
+    private boolean getPlaylistsFromJson(String rawData){
+        JSONObject videoData;
+        try {
+            videoData = new JSONObject(rawData);
+        } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return false;
+        }
+        JSONArray playlistData;
+        try {
+            playlistData = videoData.getJSONArray("items");
+        } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return false;
+        }
+
+        allPlaylists = new String[playlistData.length()];
+        //we need to remember playlistIDs for future processing!
+        playlistIds = new String[playlistData.length()];
+        for (int i = 0; i < playlistData.length(); i++){
             try {
-                videoData = new JSONObject(rawData);
+                allPlaylists[i] = playlistData.getJSONObject(i)
+                        .getJSONObject("snippet")
+                        .getString("title");
+                playlistIds[i] = playlistData.getJSONObject(i)
+                        .getString("id");
             } catch (JSONException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
-                return null;
-            }
-            JSONArray playlistData;
-            try {
-                playlistData = videoData.getJSONArray("items");
-            } catch (JSONException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-                return null;
-            }
-            
-            String[] allPlaylists = new String[playlistData.length()];
-            //we need to remember playlistIDs for future processing!
-            playlistIds = new String[playlistData.length()];
-            for (int i = 0; i < playlistData.length(); i++){
-                try {
-                    allPlaylists[i] = playlistData.getJSONObject(i)
-                            .getJSONObject("snippet")
-                            .getString("title");
-                    playlistIds[i] = playlistData.getJSONObject(i)
-                            .getString("id");
-                } catch (JSONException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                    return null;
-                }
-            }
-            return allPlaylists;
-        }
-        
-        @Override
-        protected String[] doInBackground(Void... params) {
-            try{
-                // first we create the URI
-                final String BASE_URL = "https://www.googleapis.com/youtube/v3/playlists?";
-                Uri builtUri = Uri.parse(BASE_URL).buildUpon()
-                        .appendQueryParameter("part", "snippet")
-                        .appendQueryParameter("channelId", "UC4EY_qnSeAP1xGsh61eOoJA")
-                        .appendQueryParameter("key", new DeveloperKey().DEVELOPER_KEY)
-                        .appendQueryParameter("maxResults", "50")
-                        .build();
-                
-                // send a GET request to the server
-                URL url = new URL(builtUri.toString());
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-                urlConnection.setRequestMethod("GET");
-                urlConnection.connect();
-
-                // read all the data
-                InputStream inputStream = urlConnection.getInputStream();                
-                StringBuffer buffer = new StringBuffer();
-                if (inputStream == null) {
-                    // Nothing to do.
-                    return null;
-                }
-                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    // Since it's JSON, adding a newline isn't necessary (it won't affect parsing)
-                    // But it does make debugging a *lot* easier if you print out the completed
-                    // buffer for debugging.
-                    buffer.append(line + "\n");
-                }
-
-                if (buffer.length() == 0) {
-                    // Stream was empty.  No point in parsing.
-                    return null;
-                }
-                String videosJsonStr = buffer.toString();
-                // we pass the data to getPlaylistsFromJson
-                //but also remember to save the playlistID's for future
-                return getPlaylistsFromJson(videosJsonStr);
-                
-                // TODO check if there are more than 50 videos in the arrays
-            }
-            
-            catch (IOException e){
-                Log.e("URI", "uri was invalid or api request failed");
-                e.printStackTrace();
-                return null;
+                return false;
             }
         }
-        
-        @Override
-        protected void onPostExecute(String[] result){
-            // we need to use result in our ArrayAdapter
-            List<String> videos = new ArrayList<String>(Arrays.asList(result));
-            mVideoAdapter.addAll(videos); 
-        }
+        return true;
     }
-    
     
 }
