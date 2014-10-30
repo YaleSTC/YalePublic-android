@@ -1,9 +1,6 @@
-package edu.yalestc.yalepublic;
+package edu.yalestc.yalepublic.Videos;
 
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.concurrent.ExecutionException;
@@ -30,9 +27,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+
+import edu.yalestc.yalepublic.DeveloperKey;
+import edu.yalestc.yalepublic.R;
 
 
 //**
@@ -86,6 +85,7 @@ public class VideosWithinPlaylist extends Activity {
             scrapeData.addParams(new Pair<String, String>("key", new DeveloperKey().DEVELOPER_KEY));
             scrapeData.addParams(new Pair<String, String>("maxResults", "50"));
 
+            //retrieve result while checking for errors (this does stall execution of main thread!)
             try {
                 rawData = scrapeData.execute().get();
             } catch (InterruptedException e) {
@@ -94,6 +94,8 @@ public class VideosWithinPlaylist extends Activity {
                 e.printStackTrace();
             }
 
+            //download the photos and get title and dates for videos (downloading thumbnails requires AsyncTask!)
+            //note: any failure will NOT crash the app, but will result in a blank view. Only slightly better.
             try {
                 Boolean success = new getInformationFromJSON().execute().get();
                 if (success) {
@@ -129,6 +131,8 @@ public class VideosWithinPlaylist extends Activity {
         }
     }
 
+    //Async task required to download the thumbnails
+    //parsing JSON is also here.
 class getInformationFromJSON extends AsyncTask<Void,Void,Boolean> {
     private boolean getVideosFromJson(String rawData) {
         JSONObject videoData;

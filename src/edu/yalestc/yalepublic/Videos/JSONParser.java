@@ -1,4 +1,4 @@
-package edu.yalestc.yalepublic;
+package edu.yalestc.yalepublic.Videos;
 
 import android.util.Pair;
 
@@ -58,22 +58,9 @@ public class JSONParser {
             return null;
         }
 
-        String[] allPlaylists = new String[playlistData.length()];
-        //we need to remember playlistIDs for future processing!
-        playlistIds = new String[playlistData.length()];
-        for (int i = 0; i < playlistData.length(); i++) {
-            try {
-                allPlaylists[i] = playlistData.getJSONObject(i)
-                        .getJSONObject("snippet")
-                        .getString("title");
-                playlistIds[i] = playlistData.getJSONObject(i)
-                        .getString("id");
-            } catch (JSONException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-                return null;
-            }
+        for (int i = 0; i < parseDecider.size(); i++) {
+
         }
-        return allPlaylists;
+        return null;
     }
 }

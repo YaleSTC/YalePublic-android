@@ -1,4 +1,4 @@
-package edu.yalestc.yalepublic;
+package edu.yalestc.yalepublic.Videos;
 
 import android.net.Uri;
 import android.os.AsyncTask;

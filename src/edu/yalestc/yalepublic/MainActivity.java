@@ -4,28 +4,19 @@ package edu.yalestc.yalepublic;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
 import android.annotation.SuppressLint;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.GridView;
-import android.widget.Toast;
-import android.os.Build;
 
+import edu.yalestc.yalepublic.Videos.VideoList;
 import edu.yalestc.yalepublic.news.NewsChooser;
-import edu.yalestc.yalepublic.news.NewsReader;
 
 @SuppressLint("NewApi")
 public class MainActivity extends ActionBarActivity {

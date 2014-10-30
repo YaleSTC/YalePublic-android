@@ -30,7 +30,7 @@
         </activity>
 
         <activity
-            android:name=".VideoList"
+            android:name=".Videos.VideoList"
             android:label="@string/title_activity_video_list"
             android:screenOrientation="portrait" >
 		</activity>
@@ -56,13 +56,13 @@
 		</activity>
 
          <activity
-            android:name=".VideosWithinPlaylist"
+            android:name=".Videos.VideosWithinPlaylist"
             android:label="@string/title_activity_videos_within_list"
             android:screenOrientation="portrait" >
         </activity>
 
         <activity
-            android:name=".VideoYoutubePlayback"
+            android:name=".Videos.VideoYoutubePlayback"
             android:label="@string/title_activity_video_playback"
             android:screenOrientation="landscape"
             android:configChanges="orientation" >
