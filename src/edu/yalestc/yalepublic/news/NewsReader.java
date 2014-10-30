@@ -65,7 +65,6 @@ public class NewsReader extends Activity {
 
         tRSSTitle.setVisibility(View.GONE);     // Hide the top textview
 
-
         downloadurl = this.getIntent().getStringExtra("rssfeed");
         Log.d("NewsReader passed", downloadurl);
 
@@ -83,28 +82,21 @@ public class NewsReader extends Activity {
             Log.d("NewsReader", "Please connect to Internet");
         }
 
-        time = System.currentTimeMillis();
+        time = System.currentTimeMillis();  // Current system time for `5 hours ago`, etc
 
-        if (feed != null) {       // EHOSTUNREACH: No route to host
+        if (feed != null) {   // If URL is bad, it will return EHOSTUNREACH: No route to host
             ArrayList<RssItem> rssItems = feed.getRssItems();
 
-            /*private String title;
-            private String link;
-            private Date pubDate;
-            private String description;
-            private String content;*/
-
             for (RssItem rssItem : rssItems) {
-                //Log.d("RSS Reader", rssItem.getPubDate().toString());
                 timediff = time - rssItem.getPubDate().getTime();      // difference in milliseconds
-                //Log.d("Timediff", String.valueOf(timediff));
                 daydiff = TimeUnit.MILLISECONDS.toDays(timediff);      // difference in days
                 hourdiff = TimeUnit.MILLISECONDS.toHours(timediff);    // difference in hours
-                if (0L == daydiff) {  // 0 days ago
+
+                if (0L == daydiff) {                  // 0 days ago: output `5 hours ago`, etc
                     rssTimediff.add(String.valueOf(hourdiff) + " hours ago");
-                } else if (1L == daydiff) {
-                    rssTimediff.add("Yesterday");     // In the same style as the original app
-                } else {
+                } else if (1L == daydiff) {           // In the same style as the original app
+                    rssTimediff.add("Yesterday");
+                } else {                              // Else, output `3 days ago`, etc.
                     rssTimediff.add(String.valueOf(daydiff) + " days ago");
                 }
 
@@ -113,45 +105,34 @@ public class NewsReader extends Activity {
                 rssDescription.add(rssItem.getDescription());
             }
 
-            /*String[] video_arrays = {"video1", "video2"};
-            List<String> videos = new ArrayList<String>(Arrays.asList(video_arrays)); */
-
-            // Parameters: Activity (Context), Layout file, Id of TextView, Array that's adapted
-            /*final ArrayAdapter<String> mNewsAdapter;
-            mNewsAdapter = new ArrayAdapter<String>(
-                    this, R.layout.news_tab, R.id.tvTitle, rssTitles);*/
-
-            //ArrayList<RssItem> rssItems = feed.getRssItems();
-            //List<String> rssData = rssItems;
-            // TODO: Convert ArrayList<rssItem> into an array of strings
-
             ListView listView = (ListView) findViewById(R.id.listNews);
+            // Usually, the parameters of setAdapter are:
+            //       Activity (Context), Layout file, Id of TextView, Array that's adapted
+            // However, a custom adapter is used (NewsAdapter) that overrides this functionality.
             listView.setAdapter(new NewsAdapter(this, R.layout.news_tab, rssItems));
-            //listView.setAdapter(mNewsAdapter);
 
-            //set OnItemClickListener to open up a new activity in which we get
-            //all the videos listed
+            // Set OnItemClickListener to open the link when it's clicked
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
 
                 @Override
                 public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-                    //redirect to new activity displaying all videos
                     Uri uriUrl = Uri.parse(rssLinks.get(arg2));
                     Log.d("NewsReaderClickLink", rssLinks.get(arg2));
                     Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
-                    //For Debug purposes - show what is the playlistID
+                    // For Debug purposes - show what is the link cicked
                     startActivity(launchBrowser);
                 }
             });
         }
     }
 
+    // This custom adapter extends ArrayAdapter and lets us set 3 fields at once, given an
+    // ArrayList<RssItem> data and parses it accordingly.
     public class NewsAdapter extends ArrayAdapter<RssItem> {
         private final Context context;
         private final ArrayList<RssItem> data;
         private final int layoutResourceId;
 
-        // fix here
         public NewsAdapter(Context context, int layoutResourceId, ArrayList<RssItem> data) {
             super(context, layoutResourceId, data);
             this.context = context;
