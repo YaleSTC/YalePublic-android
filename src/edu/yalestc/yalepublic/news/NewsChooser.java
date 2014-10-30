@@ -45,7 +45,7 @@ public class NewsChooser extends Activity {
         // TODO: Convert ArrayList<rssItem> into an array of strings
 
         ListView listView = (ListView) findViewById(R.id.listNews);
-        ArrayAdapter<String> mListAdapter = new ArrayAdapter<>(this, R.layout.tab, R.id.tab);
+        ArrayAdapter<String> mListAdapter = new ArrayAdapter<String>(this, R.layout.tab, R.id.tab);
         mListAdapter.addAll(Arrays.asList(rss_names));
         //Collections.addAll(mListAdapter, rss_names);
 

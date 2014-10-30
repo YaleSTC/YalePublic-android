@@ -30,18 +30,34 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 public class VideoList extends Activity {
+	
+	public enum Mode {
+		VIDEO,
+		PHOTO,
+		EMPTY
+	}
+	
     // this is a class parameter so that it can be modified in the asynctask
-    private ArrayAdapter<String> mVideoAdapter;
+    private ArrayAdapter<String> mVideoAdapter;	//TODO: Refactor
     //this is a string in which we store the ID's of playlists to pass them
     //into VideosWithinPlaylist
-    private String[] playlistIds;
+    private String[] playlistIds;				//TODO: Refactor
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_video_list);
+        setContentView(R.layout.activity_video_list);	//TODO: Refactor
         if (savedInstanceState == null) {
+        	Mode mode = Mode.EMPTY; //	Default 
+        	if (getIntent().getExtras()!=null) {
+        		if (getIntent().getExtras().containsKey
+        				(MainActivity.PHOTO_MODE_KEY))
+        			mode = Mode.PHOTO;
+        		else if (getIntent().getExtras().containsKey
+        				(MainActivity.VIDEO_MODE_KEY))
+        			mode = Mode.VIDEO;
+        	}
             getFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment()).commit();
+                    .add(R.id.container, new PlaceholderFragment(mode)).commit();
         }
     }
 
@@ -50,24 +66,31 @@ public class VideoList extends Activity {
      * A placeholder fragment containing a simple view.
      */
     public class PlaceholderFragment extends Fragment {
-
-        public PlaceholderFragment() {
+    	Mode fragmentMode;
+        public PlaceholderFragment(Mode mode) {
+        	fragmentMode = mode;
         }
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_video_list,
-                    container, false);
+                    container, false);				
             
             // initialize the ArrayAdapter
             mVideoAdapter = new ArrayAdapter<String>(
                     getActivity(), R.layout.tab, R.id.tab);
-            
-            // create an asynctask that fetches the playlist titles
-            VideoTask videoList = new VideoTask();
-            videoList.execute();
-            
+            switch (fragmentMode){
+            	case VIDEO:
+            		populateAdapterWithVideos();
+            		break;
+            	case PHOTO:
+            		//TODO: Populate adapter with albums
+            		setTitle("Albums");
+            		break;
+            	case EMPTY:	//TODO: Confirm error policy
+            		Log.d("WARNING","list fragment has EMPTY mode");
+            }
             ListView listView = (ListView) rootView.findViewById(R.id.listview_video);
             listView.setAdapter(mVideoAdapter);
             //set OnItemClickListener to open up a new activity in which we get 
@@ -87,6 +110,12 @@ public class VideoList extends Activity {
             });
             return rootView;
         }
+
+		private void populateAdapterWithVideos() {
+			// create an asynctask that fetches the playlist titles
+            VideoTask videoList = new VideoTask();
+            videoList.execute();
+		}
     }
     
     public class VideoTask extends AsyncTask<Void, Void, String[]> {
