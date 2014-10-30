@@ -19,6 +19,8 @@ import edu.yalestc.yalepublic.news.RssFeed;
 
 /**
  * Created by Jason Liu on 10/4/14.
+ * This AsyncTask downloads RSS data from a given String URL and returns a RssFeed with all
+ * of the RSS data parsed into different fields described in RssItem.
  */
 public class NewsDownload extends AsyncTask<String, Integer, RssFeed> {
 

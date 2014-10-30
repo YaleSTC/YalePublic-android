@@ -19,6 +19,7 @@ import edu.yalestc.yalepublic.R;
 
 /**
  * Created by Jason Liu on 10/17/14.
+ * This activity launches a screen where you can choose which RSS feed you want to read.
  */
 public class NewsChooser extends Activity {
 
