@@ -59,7 +59,8 @@ public class VideoList extends Activity {
             View rootView = inflater.inflate(R.layout.fragment_video_list,
                     container, false);
 
-            // create an asynctask that fetches the playlist titles
+            // create an asynctask that fetches the playlist titles. It should speak for itself.
+            //Just note that in constructor we give in the base url (WITHOUT "?" at the end).
             JSONReader scrapeData = new JSONReader("https://www.googleapis.com/youtube/v3/playlists");
             scrapeData.addParams(new Pair<String, String>("part","snippet"));
             scrapeData.addParams(new Pair<String, String>("channelId","UC4EY_qnSeAP1xGsh61eOoJA"));

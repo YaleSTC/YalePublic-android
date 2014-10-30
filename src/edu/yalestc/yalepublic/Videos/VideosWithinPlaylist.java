@@ -78,7 +78,8 @@ public class VideosWithinPlaylist extends Activity {
             //initialize the adapter
             adapter = new thumbnailAdapter(getActivity());
 
-            // create an asynctask that fetches the playlist titles
+            // create an asynctask that fetches the playlist titles. It should speak for itself.
+            //Just note that in constructor we give in the base url (WITHOUT "?" at the end).
             JSONReader scrapeData = new JSONReader("https://www.googleapis.com/youtube/v3/playlistItems");
             scrapeData.addParams(new Pair<String, String>("part", "snippet"));
             scrapeData.addParams(new Pair<String, String>("playlistId", extras.getString("playlistId")));
