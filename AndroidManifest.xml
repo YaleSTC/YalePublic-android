@@ -33,7 +33,7 @@
             android:name=".VideoList"
             android:label="@string/title_activity_video_list"
             android:screenOrientation="portrait" >
-		</activity>
+        </activity>
 
         <activity
             android:name="edu.yalestc.yalepublic.news.NewsReader"
@@ -53,7 +53,7 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-		</activity>
+        </activity>
 
          <activity
             android:name=".VideosWithinPlaylist"
