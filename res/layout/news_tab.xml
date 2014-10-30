@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<!-- Created by Jason Liu on 10/12/14.
+      This layout is used as a subset of news_tab.xml. Many of these are added to the
+      ListView in news_tab.xml; it has 3 fields which are the title, date, and description
+      of the RSS content that is downloaded.
+-->
+
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
