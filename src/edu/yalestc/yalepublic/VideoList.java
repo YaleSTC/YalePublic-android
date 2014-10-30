@@ -14,6 +14,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.R.integer;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
@@ -42,12 +43,13 @@ public class VideoList extends Activity {
     //this is a string in which we store the ID's of playlists to pass them
     //into VideosWithinPlaylist
     private String[] playlistIds;				//TODO: Refactor
+    private Mode mode;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mode = Mode.EMPTY; //	Default 
         setContentView(R.layout.activity_video_list);	//TODO: Refactor
         if (savedInstanceState == null) {
-        	Mode mode = Mode.EMPTY; //	Default 
         	if (getIntent().getExtras()!=null) {
         		if (getIntent().getExtras().containsKey
         				(MainActivity.PHOTO_MODE_KEY))
@@ -57,7 +59,7 @@ public class VideoList extends Activity {
         			mode = Mode.VIDEO;
         	}
             getFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment(mode)).commit();
+                    .add(R.id.container, new PlaceholderFragment()).commit();
         }
     }
 
@@ -66,9 +68,7 @@ public class VideoList extends Activity {
      * A placeholder fragment containing a simple view.
      */
     public class PlaceholderFragment extends Fragment {
-    	Mode fragmentMode;
-        public PlaceholderFragment(Mode mode) {
-        	fragmentMode = mode;
+        public PlaceholderFragment() {
         }
 
         @Override
@@ -80,17 +80,10 @@ public class VideoList extends Activity {
             // initialize the ArrayAdapter
             mVideoAdapter = new ArrayAdapter<String>(
                     getActivity(), R.layout.tab, R.id.tab);
-            switch (fragmentMode){
-            	case VIDEO:
-            		populateAdapterWithVideos();
-            		break;
-            	case PHOTO:
-            		//TODO: Populate adapter with albums
-            		setTitle("Albums");
-            		break;
-            	case EMPTY:	//TODO: Confirm error policy
-            		Log.d("WARNING","list fragment has EMPTY mode");
-            }
+			// create an asynctask that fetches the playlist titles
+            VideoTask videoList = new VideoTask();
+            videoList.execute();
+
             ListView listView = (ListView) rootView.findViewById(R.id.listview_video);
             listView.setAdapter(mVideoAdapter);
             //set OnItemClickListener to open up a new activity in which we get 
@@ -110,20 +103,15 @@ public class VideoList extends Activity {
             });
             return rootView;
         }
-
-		private void populateAdapterWithVideos() {
-			// create an asynctask that fetches the playlist titles
-            VideoTask videoList = new VideoTask();
-            videoList.execute();
-		}
     }
-    
+
     public class VideoTask extends AsyncTask<Void, Void, String[]> {
 
         // this method parses the raw data (which is a String in JSON format)
         // and extracts the titles of the playlists
         private String[] getPlaylistsFromJson(String rawData){
-            JSONObject videoData;
+           
+        	JSONObject videoData;
             try {
                 videoData = new JSONObject(rawData);
             } catch (JSONException e) {
@@ -131,9 +119,21 @@ public class VideoList extends Activity {
                 e.printStackTrace();
                 return null;
             }
-            JSONArray playlistData;
+            JSONArray playlistData = null;
             try {
-                playlistData = videoData.getJSONArray("items");
+            	switch(mode){
+            	case VIDEO:
+            		playlistData = videoData.getJSONArray("items");
+            		break;
+            	case PHOTO:
+            		playlistData = videoData.getJSONObject("photosets")
+            						.getJSONArray("photoset");
+            		break;
+            	default:
+            		break;
+            	
+            	}
+                
             } catch (JSONException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -142,12 +142,24 @@ public class VideoList extends Activity {
             
             String[] allPlaylists = new String[playlistData.length()];
             //we need to remember playlistIDs for future processing!
-            playlistIds = new String[playlistData.length()];
-            for (int i = 0; i < playlistData.length(); i++){
+            int playlistDataLength = playlistData.length();
+            playlistIds = new String[playlistDataLength];
+            for (int i = 0; i < playlistDataLength; i++){
                 try {
-                    allPlaylists[i] = playlistData.getJSONObject(i)
-                            .getJSONObject("snippet")
-                            .getString("title");
+                	switch(mode){
+                	case VIDEO:
+                        allPlaylists[i] = playlistData.getJSONObject(i)
+                        .getJSONObject("snippet")
+                        .getString("title");
+                		break;
+                	case PHOTO:
+                        allPlaylists[i] = playlistData.getJSONObject(i)
+                        .getJSONObject("title")
+                        .getString("_content");
+                		break;
+                	default:
+                		break;
+                	}
                     playlistIds[i] = playlistData.getJSONObject(i)
                             .getString("id");
                 } catch (JSONException e) {
@@ -161,15 +173,19 @@ public class VideoList extends Activity {
         
         @Override
         protected String[] doInBackground(Void... params) {
-            try{
+        	Uri builtUri = null;
+        	try{
                 // first we create the URI
-                final String BASE_URL = "https://www.googleapis.com/youtube/v3/playlists?";
-                Uri builtUri = Uri.parse(BASE_URL).buildUpon()
-                        .appendQueryParameter("part", "snippet")
-                        .appendQueryParameter("channelId", "UC4EY_qnSeAP1xGsh61eOoJA")
-                        .appendQueryParameter("key", new DeveloperKey().DEVELOPER_KEY)
-                        .appendQueryParameter("maxResults", "50")
-                        .build();
+            	switch(mode){
+            	case VIDEO:
+            		builtUri = getVideoAPIRequestUri();
+            		break;
+            	case PHOTO:
+            		builtUri = getPhotoAPIRequestUri();
+            		break;
+            	default:
+            		break;
+            	}
                 
                 // send a GET request to the server
                 URL url = new URL(builtUri.toString());
@@ -202,7 +218,7 @@ public class VideoList extends Activity {
                 //but also remember to save the playlistID's for future
                 return getPlaylistsFromJson(videosJsonStr);
                 
-                // TODO check if there are more than 50 videos in the arrays
+                // TODO check if there are more than 50 videos in the arrays (not for photos)
             }
             
             catch (IOException e){
@@ -211,6 +227,31 @@ public class VideoList extends Activity {
                 return null;
             }
         }
+
+		private Uri getPhotoAPIRequestUri() {
+			final String USER_ID = "12208415@N08";	//Yale flickr user id
+			final String BASE_URL = "https://api.flickr.com/services/rest/?";
+			//TODO: extract api key and secret
+			Uri builtUri = Uri.parse(BASE_URL).buildUpon()
+			            .appendQueryParameter("method", "flickr.photosets.getList")
+			            .appendQueryParameter("api_key", new DeveloperKey().FLICKR_API_KEY)
+			            .appendQueryParameter("user_id", USER_ID) 
+			            .appendQueryParameter("format", "json")
+			            .appendQueryParameter("nojsoncallback", "1")
+			            .build();
+			return builtUri;
+		}
+
+		private Uri getVideoAPIRequestUri() {
+			final String BASE_URL = "https://www.googleapis.com/youtube/v3/playlists?";
+			Uri builtUri = Uri.parse(BASE_URL).buildUpon()
+			        .appendQueryParameter("part", "snippet")
+			        .appendQueryParameter("channelId", "UC4EY_qnSeAP1xGsh61eOoJA")
+			        .appendQueryParameter("key", new DeveloperKey().DEVELOPER_KEY)
+			        .appendQueryParameter("maxResults", "50")
+			        .build();
+			return builtUri;
+		}
         
         @Override
         protected void onPostExecute(String[] result){
