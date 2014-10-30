@@ -32,6 +32,9 @@ import edu.yalestc.yalepublic.news.RssFeed;
 
 /**
  * Created by Jason Liu on 10/4/14.
+ * This Activity gets an RssFeed using NewsDownload, and then sets it up into news_tab.xml
+ * using a custom adapter which overrides setAdapter()/getView. As a result, we can set three
+ * text fields at the same time with three sets of data rather than one field with one string.
  */
 
 public class NewsReader extends Activity {
