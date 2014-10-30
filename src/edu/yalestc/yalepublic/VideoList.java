@@ -31,6 +31,9 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+//**
+//Created by Stan Swidwinski and Carsten Peterson
+//**
 public class VideoList extends Activity {
     // this is a class parameter so that it can be modified in the asynctask
     private ArrayAdapter<String> mVideoAdapter;
