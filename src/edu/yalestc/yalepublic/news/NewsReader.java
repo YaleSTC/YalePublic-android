@@ -142,7 +142,7 @@ public class NewsReader extends Activity {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            View row = convertView;
+            View row = convertView;     // TODO: Possibly just use convertView. Is it mutable?
             ViewHolder holder = null;
 
             if(row == null) {
@@ -158,8 +158,6 @@ public class NewsReader extends Activity {
             } else {
                 holder = (ViewHolder) row.getTag();
             }
-
-            //RssItem rItem = data.get(position);
 
             holder.textView1.setText(rssTitles.get(position));
             holder.textView2.setText(rssTimediff.get(position));
