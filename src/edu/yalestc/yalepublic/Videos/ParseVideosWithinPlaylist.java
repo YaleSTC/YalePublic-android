@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * Created by Stan Swidwinski on 10/29/14.
  */
-//this might be a pretty bad idea!
+//the result will be of the form (Bitmaps, [titles, dates, videoIds]
 public class ParseVideosWithinPlaylist extends AsyncTask<Void, Void, Pair<Bitmap[], ArrayList<String[]>> > {
 
     private String rawData;
@@ -27,11 +27,6 @@ public class ParseVideosWithinPlaylist extends AsyncTask<Void, Void, Pair<Bitmap
     private String[] dates;
     private String[] videoIds;
     private Bitmap[] bitmaps;
-    //object that holds a pair of a key (String will be what we parse into) and value.
-    //Value is a list of pairs string-string which will tell us what we are looking for
-    // example: Pair<"Videos, [Pair <"Object","snippet">] will then parse into string Videos
-    // and pull JSONObject("snippet"). It is a list so that we can build upon the former, say
-    // JSONObject("snippet").getString("Id");
 
     ParseVideosWithinPlaylist(String raw){
         rawData = raw;
@@ -100,10 +95,12 @@ public class ParseVideosWithinPlaylist extends AsyncTask<Void, Void, Pair<Bitmap
                 return null;
             }
         }
+        //create the second part of the returned pair
         ArrayList<String[]> resultingStrings = new ArrayList<String[]>();
         resultingStrings.add(titles);
         resultingStrings.add(dates);
         resultingStrings.add(videoIds);
+
         Pair<Bitmap[], ArrayList<String[]> > result = new Pair<Bitmap[], ArrayList<String[]> > (bitmaps, resultingStrings);
         return result;
     }
