@@ -3,6 +3,7 @@ package edu.yalestc.yalepublic.Videos;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 import org.json.JSONArray;
@@ -97,31 +98,10 @@ public class VideosWithinPlaylist extends Activity {
 
             //download the photos and get title and dates for videos (downloading thumbnails requires AsyncTask!)
             //note: any failure will NOT crash the app, but will result in a blank view. Only slightly better.
+
+            Pair<Bitmap[], ArrayList<String[]>> videosInfo;
             try {
-                Boolean success = new getInformationFromJSON().execute().get();
-                if (success) {
-                    //create listView from template and set the adapter.
-                    ListView listView = (ListView) rootView.findViewById(R.id.listview_video_in_playlist);
-                    listView.setAdapter(adapter);
-
-                    //create a OnItemClickListener to play the video
-                    listView.setOnItemClickListener(new OnItemClickListener() {
-
-                        @Override
-                        public void onItemClick(AdapterView<?> arg0, View arg1,
-                                                int arg2, long arg3) {
-                            Intent intent = new Intent(VideosWithinPlaylist.this, VideoYoutubePlayback.class);
-                            intent.putExtra("videoId", videoIds[arg2]);
-                            Log.v("StartingActivityInVideosInPlaylists", "Starting a new action with the parameter videoID: " + videoIds[arg2]);
-                            startActivity(intent);
-                        }
-                    });
-
-
-                    return rootView;
-                } else {
-                    return null;
-                }
+                videosInfo = new ParseVideosWithinPlaylist(rawData).execute().get();
             } catch (InterruptedException e) {
                 e.printStackTrace();
                 return null;
@@ -129,83 +109,38 @@ public class VideosWithinPlaylist extends Activity {
                 e.printStackTrace();
                 return null;
             }
-        }
-    }
+            if (videosInfo != null) {
+                bitmaps = videosInfo.first;
+                titles = videosInfo.second.get(0);
+                dates = videosInfo.second.get(1);
+                videoIds = videosInfo.second.get(2);
+                //create listView from template and set the adapter.
+                ListView listView = (ListView) rootView.findViewById(R.id.listview_video_in_playlist);
+                listView.setAdapter(adapter);
 
-    //Async task required to download the thumbnails
-    //parsing JSON is also here.
-class getInformationFromJSON extends AsyncTask<Void,Void,Boolean> {
-    private boolean getVideosFromJson(String rawData) {
-        JSONObject videoData;
-        try {
-            videoData = new JSONObject(rawData);
-        } catch (JSONException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            return false;
-        }
-        JSONArray playlistData;
-        try {
-            playlistData = videoData.getJSONArray("items");
-        } catch (JSONException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            return false;
-        }
+                //create a OnItemClickListener to play the video
+                listView.setOnItemClickListener(new OnItemClickListener() {
 
-        titles = new String[playlistData.length()];
-        bitmaps = new Bitmap[playlistData.length()];
-        dates = new String[playlistData.length()];
-        videoIds = new String[playlistData.length()];
-        for (int i = 0; i < playlistData.length(); i++) {
-            try {
-                titles[i] = playlistData.getJSONObject(i)
-                        .getJSONObject("snippet")
-                        .getString("title");
-                dates[i] = (playlistData.getJSONObject(i)
-                        .getJSONObject("snippet")
-                        .getString("publishedAt")).substring(0, 10);
-                videoIds[i] = playlistData.getJSONObject(i)
-                        .getJSONObject("snippet")
-                        .getJSONObject("resourceId")
-                        .getString("videoId");
-                //Here we actually download the thumbnail using URL obtained from JSONObject
-                try {
-                    URL imageUrl = new URL(playlistData.getJSONObject(i)
-                            .getJSONObject("snippet")
-                            .getJSONObject("thumbnails")
-                            .getJSONObject("medium")
-                            .getString("url"));
-                    //connect to given server
-                    HttpURLConnection conn = (HttpURLConnection) imageUrl.openConnection();
-                    //safety features and avoiding errors is links redirect
-                    conn.setConnectTimeout(30000);
-                    conn.setReadTimeout(30000);
-                    conn.setInstanceFollowRedirects(true);
-                    //setting inputstream and decoding it into a bitmap
-                    InputStream is = conn.getInputStream();
-                    bitmaps[i] = BitmapFactory.decodeStream(is);
+                    @Override
+                    public void onItemClick(AdapterView<?> arg0, View arg1,
+                                            int arg2, long arg3) {
+                        Intent intent = new Intent(VideosWithinPlaylist.this, VideoYoutubePlayback.class);
+                        intent.putExtra("videoId", videoIds[arg2]);
+                        Log.v("StartingActivityInVideosInPlaylists", "Starting a new action with the parameter videoID: " + videoIds[arg2]);
+                        startActivity(intent);
+                    }
+                });
 
-                } catch (JSONException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                    return false;
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                return false;
+
+                return rootView;
+            } else {
+                return null;
             }
-
         }
-        return true;
+
     }
 
-    @Override
-    protected Boolean doInBackground(Void... params) {
-        return getVideosFromJson(rawData);
-    }
-}
-    
+
     //Our custom Adapter
     public class thumbnailAdapter extends BaseAdapter{
         Context mContext;
