@@ -19,6 +19,7 @@ import edu.yalestc.yalepublic.R;
 
 /**
  * Created by Jason Liu on 10/17/14.
+ * This activity launches a screen where you can choose which RSS feed you want to read.
  */
 public class NewsChooser extends Activity {
 
@@ -29,31 +30,18 @@ public class NewsChooser extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.news_items);
-        rss_feeds = getResources().getStringArray(R.array.rss_feeds);
-        rss_names = getResources().getStringArray(R.array.rss_names);
+        rss_feeds = getResources().getStringArray(R.array.rss_feeds); // Array of RSS URLs
+        rss_names = getResources().getStringArray(R.array.rss_names); // Array of RSS Titles
 
-         /*String[] video_arrays = {"video1", "video2"};
-        List<String> videos = new ArrayList<String>(Arrays.asList(video_arrays)); */
-
-        // Parameters: Activity (Context), Layout file, Id of TextView, Array that's adapted
-            /*final ArrayAdapter<String> mNewsAdapter;
-            mNewsAdapter = new ArrayAdapter<String>(
-                    this, R.layout.news_tab, R.id.tvTitle, rssTitles);*/
-
-        //ArrayList<RssItem> rssItems = feed.getRssItems();
-        //List<String> rssData = rssItems;
-        // TODO: Convert ArrayList<rssItem> into an array of strings
-
+        // Set up the ListView listNews with all of the titles from rss_names[].
         ListView listView = (ListView) findViewById(R.id.listNews);
+        // Parameters for ArrayAdapter: Activity (Context), Layout file, TextView Id, <Array that's adapted>
         ArrayAdapter<String> mListAdapter = new ArrayAdapter<>(this, R.layout.tab, R.id.tab);
         mListAdapter.addAll(Arrays.asList(rss_names));
-        //Collections.addAll(mListAdapter, rss_names);
 
+        listView.setAdapter(mListAdapter);    // After constructing adapter, set it up
 
-        listView.setAdapter(mListAdapter);
-
-        //set OnItemClickListener to open up a new activity in which we get
-        //all the videos listed
+        // Set OnItemClickListener to open up a new activity in which we get all the RSS data
         listView.setOnItemClickListener(new OnItemClickListener(){
 
             @Override
@@ -62,7 +50,7 @@ public class NewsChooser extends Activity {
                 Intent showThem = new Intent(NewsChooser.this, NewsReader.class);
                 showThem.putExtra("rssfeed", rss_feeds[arg2]);
                 //For Debug purposes - show what is the playlistID
-                Log.d("StartingActivityInVideoList", rss_feeds[arg2]);
+                Log.d("StartingActivityInVideoList", rss_names[arg2]);
                 startActivity(showThem);
             }
         });

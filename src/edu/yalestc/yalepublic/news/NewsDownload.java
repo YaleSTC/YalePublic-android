@@ -19,6 +19,8 @@ import edu.yalestc.yalepublic.news.RssFeed;
 
 /**
  * Created by Jason Liu on 10/4/14.
+ * This AsyncTask downloads RSS data from a given String URL and returns a RssFeed with all
+ * of the RSS data parsed into different fields described in RssItem.
  */
 public class NewsDownload extends AsyncTask<String, Integer, RssFeed> {
 
@@ -28,14 +30,14 @@ public class NewsDownload extends AsyncTask<String, Integer, RssFeed> {
 
     @Override
     protected RssFeed doInBackground(String... strings) {
-        URL url = null;
+        URL url = null;         // Set our URL to the String passed in to the AsyncTask
         try {
             url = new URL(strings[0]);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
 
-        RssFeed feed = null;
+        RssFeed feed = null;   // Call RssReader to download from our url, and return feed
         try {
             feed = RssReader.read(url);
         } catch (SAXException e) {
@@ -44,10 +46,10 @@ public class NewsDownload extends AsyncTask<String, Integer, RssFeed> {
             e.printStackTrace();
         }
 
-        if (feed != null) {       // EHOSTUNREACH: No route to hoast
+        if (feed != null) {    // If URL is bad, it will return EHOSTUNREACH: No route to host
                 ArrayList<RssItem> rssItems = feed.getRssItems();
             for (RssItem rssItem : rssItems) {
-                Log.d("RSS Reader", rssItem.getTitle());
+                Log.d("RSS Reader", rssItem.getTitle());  // Log out all RSS Titles for debug
             }
         }
         return feed;
