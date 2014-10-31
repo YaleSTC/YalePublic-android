@@ -26,6 +26,10 @@ jdk:
 # Environment Variables
 #env:
 
+# Before Installation
+before_install:
+ - ./install-dummykeys.sh
+
 # Installation
 install:
  - sudo apt-get install -u lib32stdc++6 lib32z1
