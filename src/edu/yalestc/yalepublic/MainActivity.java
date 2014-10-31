@@ -44,6 +44,8 @@ public class MainActivity extends ActionBarActivity {
             case R.id.bDirectory:
                 break;
             case R.id.bMaps:
+                Intent iMaps = new Intent(MainActivity.this, MapView.class);
+                startActivity(iMaps);
                 break;
             case R.id.bVideos:
                 Intent intent = new Intent(MainActivity.this, VideoList.class);
