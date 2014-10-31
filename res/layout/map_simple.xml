@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!-- Created by Jason Liu on 10/18/14.
+     This layout is used in MapView to show a Google Map fragment.
+-->
+
 <fragment xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/map"
     android:layout_width="match_parent"
