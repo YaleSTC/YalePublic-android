@@ -131,10 +131,13 @@ public class JSONReader extends AsyncTask<Void, String, String>{
                // TODO check if there are more than 50 videos in the arrays
            } catch (MalformedURLException e){
                Log.e("URI", "URL was malformed!");
+               return null;
            } catch (IllegalArgumentException e) {
                Log.e("URI", "the argument proxy is null or of is an invalid type.");
+               return null;
            } catch(UnsupportedOperationException e) {
                Log.e("URI"," the protocol handler does not support opening connections through proxies.");
+               return null;
            }catch (IOException e) {
                Log.e("URI", "uri was invalid or api request failed");
                e.printStackTrace();
@@ -143,15 +146,15 @@ public class JSONReader extends AsyncTask<Void, String, String>{
            //if isOnline returns false, we toast the user
        } else {
            Log.e("URI","You are not connected to internet!");
+           return null;
        }
-        return null;
     }
 
     @Override
     protected void onPostExecute(String result){
     }
 
-    public boolean isOnline() {
+    private boolean isOnline() {
         ConnectivityManager cm = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         if (netInfo != null && netInfo.isConnectedOrConnecting()) {
