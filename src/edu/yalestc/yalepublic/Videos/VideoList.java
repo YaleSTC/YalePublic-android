@@ -1,11 +1,5 @@
 package edu.yalestc.yalepublic.Videos;
 
-import java.util.concurrent.ExecutionException;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
@@ -19,6 +13,13 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.concurrent.ExecutionException;
 
 import edu.yalestc.yalepublic.DeveloperKey;
 import edu.yalestc.yalepublic.R;
@@ -61,7 +62,7 @@ public class VideoList extends Activity {
 
             // create an asynctask that fetches the playlist titles. It should speak for itself.
             //Just note that in constructor we give in the base url (WITHOUT "?" at the end).
-            JSONReader scrapeData = new JSONReader("https://www.googleapis.com/youtube/v3/playlists");
+            JSONReader scrapeData = new JSONReader("https://www.googleapis.com/youtube/v3/playlists", getActivity());
             scrapeData.addParams(new Pair<String, String>("part","snippet"));
             scrapeData.addParams(new Pair<String, String>("channelId","UC4EY_qnSeAP1xGsh61eOoJA"));
             scrapeData.addParams(new Pair<String, String>("key",new DeveloperKey().DEVELOPER_KEY));
@@ -69,6 +70,14 @@ public class VideoList extends Activity {
 
             try {
                  rawData = scrapeData.execute().get();
+                //rawData is null if there are problems. We get a toast for no internet!
+                 if(rawData == null){
+                    Toast toast = new Toast(getActivity());
+                    toast = Toast.makeText(getActivity(), "You need internet connection to view the content!", Toast.LENGTH_LONG);
+                    toast.show();
+                    finish();
+                     return null;
+                }
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (ExecutionException e) {

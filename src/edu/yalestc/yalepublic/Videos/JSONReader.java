@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.util.Pair;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,13 +35,16 @@ public class JSONReader extends AsyncTask<Void, String, String>{
     //https://www.googleapis.com/youtube/v3/playlists?part=snippet&channelId=UC4EY_qnSeAP1xGsh61eOoJA from
     //parameters = [("part","snippet"),("channelId","UC4EY_qnSeAP1xGsh61eOoJA ")]
     private ArrayList<Pair<String, String> > parameters = new ArrayList<Pair<String, String>>();
+    //for checking if we are online since this class is not an Activity class
+    private Context mContext;
 
-    JSONReader(){
-
+    JSONReader(Context context){
+        mContext = context;
     }
 
-    JSONReader(String URL){
+    JSONReader(String URL, Context context){
         BASE_URL = URL;
+        mContext = context;
     }
 
     public String getURL(){
@@ -76,59 +80,65 @@ public class JSONReader extends AsyncTask<Void, String, String>{
     }
     @Override
     protected String doInBackground(Void... params){
-        try{
-            // first we create the URI
+       if(isOnline()) {
+           try {
+               // first we create the URI
+               Uri builtUri = buildMyUri();
 
-            Uri builtUri = buildMyUri();
+               // send a GET request to the server
+               URL url = new URL(builtUri.toString());
+               HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+               urlConnection.setRequestMethod("GET");
+               urlConnection.connect();
 
-            // send a GET request to the server
-            URL url = new URL(builtUri.toString());
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setRequestMethod("GET");
-            urlConnection.connect();
+               // read all the data
+               InputStream inputStream = urlConnection.getInputStream();
+               StringBuffer buffer = new StringBuffer();
+               if (inputStream == null) {
+                   // Nothing to do.
+                   return null;
+               }
+               BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+               String line;
+               while ((line = reader.readLine()) != null) {
+                   // Since it's JSON, adding a newline isn't necessary (it won't affect parsing)
+                   // But it does make debugging a *lot* easier if you print out the completed
+                   // buffer for debugging.
+                   buffer.append(line + "\n");
+               }
 
-            // read all the data
-            InputStream inputStream = urlConnection.getInputStream();
-            StringBuffer buffer = new StringBuffer();
-            if (inputStream == null){
-                // Nothing to do.
-                return null;
-            }
-            BufferedReader reader = new BufferedReader(new InputStreamReader (inputStream));
-            String line;
-            while ( (line = reader.readLine() ) != null){
-                // Since it's JSON, adding a newline isn't necessary (it won't affect parsing)
-                // But it does make debugging a *lot* easier if you print out the completed
-                // buffer for debugging.
-                buffer.append(line + "\n");
-            }
+               if (buffer.length() == 0) {
+                   // Stream was empty.  No point in parsing.
+                   return null;
+               }
+               String JSONresponse = buffer.toString();
+               // we pass the data to getPlaylistsFromJson
+               //but also remember to save the playlistID's for future
+               return JSONresponse;
 
-            if (buffer.length() == 0){
-                // Stream was empty.  No point in parsing.
-                return null;
-            }
-            String JSONresponse = buffer.toString();
-            // we pass the data to getPlaylistsFromJson
-            //but also remember to save the playlistID's for future
-            return JSONresponse;
-
-            // TODO check if there are more than 50 videos in the arrays
-        }
-
-        catch (IOException e){
-            Log.e("URI", "uri was invalid or api request failed");
-            e.printStackTrace();
-            return null;
-        }
+               // TODO check if there are more than 50 videos in the arrays
+           } catch (IOException e) {
+               Log.e("URI", "uri was invalid or api request failed");
+               e.printStackTrace();
+               return null;
+           }
+           //if isOnline returns false, we toast the user
+       } else {
+           Log.e("URI","You are not connected to internet!");
+       }
+        return null;
     }
 
     @Override
     protected void onPostExecute(String result){
     }
 
-    public boolean isOnline(Context mContext) {
+    public boolean isOnline() {
         ConnectivityManager cm = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        return netInfo != null && netInfo.isConnectedOrConnecting();
+        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+            return true;
+        }
+        return false;
     }
 }
