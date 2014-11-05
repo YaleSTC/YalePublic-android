@@ -3,6 +3,7 @@ package edu.yalestc.yalepublic.Videos;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.util.Pair;
 
 import org.json.JSONArray;
@@ -12,6 +13,7 @@ import org.json.JSONObject;
 import java.io.InputStream;
 import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -96,6 +98,12 @@ public class ParseVideosWithinPlaylist extends AsyncTask<Void, Void, Pair<Bitmap
                     e.printStackTrace();
                     return null;
                 }
+            } catch (MalformedURLException e){
+                Log.e("URI", "URL was malformed!");
+            } catch (IllegalArgumentException e) {
+                Log.e("URI", "the argument proxy is null or of is an invalid type.");
+            } catch(UnsupportedOperationException e) {
+                Log.e("URI"," the protocol handler does not support opening connections through proxies.");
             } catch (Exception e) {
                 e.printStackTrace();
                 return null;

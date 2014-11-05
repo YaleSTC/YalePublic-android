@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -128,7 +129,13 @@ public class JSONReader extends AsyncTask<Void, String, String>{
                return JSONresponse;
 
                // TODO check if there are more than 50 videos in the arrays
-           } catch (IOException e) {
+           } catch (MalformedURLException e){
+               Log.e("URI", "URL was malformed!");
+           } catch (IllegalArgumentException e) {
+               Log.e("URI", "the argument proxy is null or of is an invalid type.");
+           } catch(UnsupportedOperationException e) {
+               Log.e("URI"," the protocol handler does not support opening connections through proxies.");
+           }catch (IOException e) {
                Log.e("URI", "uri was invalid or api request failed");
                e.printStackTrace();
                return null;
