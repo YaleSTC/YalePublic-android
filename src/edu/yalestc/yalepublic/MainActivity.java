@@ -45,6 +45,8 @@ public class MainActivity extends ActionBarActivity {
             case R.id.bPhotos:
                 break;
             case R.id.bEvents:
+                Intent iEvents = new Intent(MainActivity.this,EventCategories.class);
+                startActivity(iEvents);
                 break;
             case R.id.bTransit:
                 Uri uriUrl1 = Uri.parse("http://yale.transloc.com");
