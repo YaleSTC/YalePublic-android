@@ -36,15 +36,10 @@ public class ParseVideosWithinPlaylist extends AsyncTask<Void, Void, Pair<Bitmap
     @Override
     protected Pair<Bitmap[], ArrayList<String[]>> doInBackground(Void... voids) {
         JSONObject videoData;
+        JSONArray playlistData;
+
         try {
             videoData = new JSONObject(rawData);
-        } catch (JSONException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            return null;
-        }
-        JSONArray playlistData;
-        try {
             playlistData = videoData.getJSONArray("items");
         } catch (JSONException e) {
             // TODO Auto-generated catch block
