@@ -1,5 +1,8 @@
 package edu.yalestc.yalepublic.Videos;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -121,5 +124,11 @@ public class JSONReader extends AsyncTask<Void, String, String>{
 
     @Override
     protected void onPostExecute(String result){
+    }
+
+    public boolean isOnline(Context mContext) {
+        ConnectivityManager cm = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 }
