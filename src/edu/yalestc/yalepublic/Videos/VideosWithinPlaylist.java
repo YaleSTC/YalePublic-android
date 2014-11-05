@@ -112,6 +112,13 @@ public class VideosWithinPlaylist extends Activity {
             Pair<Bitmap[], ArrayList<String[]>> videosInfo;
             try {
                 videosInfo = new ParseVideosWithinPlaylist(rawData).execute().get();
+                if(videosInfo == null){
+                    Toast toast = new Toast(getActivity());
+                    toast = Toast.makeText(getActivity(), "You need internet connection to view the content!", Toast.LENGTH_LONG);
+                    toast.show();
+                    finish();
+                    return null;
+                }
             } catch (InterruptedException e) {
                 e.printStackTrace();
                 return null;

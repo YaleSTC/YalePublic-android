@@ -27,6 +27,7 @@ import edu.yalestc.yalepublic.R;
 //**
 //Created by Stan Swidwinski and Carsten Peterson
 //**
+
 public class VideoList extends Activity {
     // this is a class parameter so that it can be modified in the asynctask
     private ArrayAdapter<String> mVideoAdapter;

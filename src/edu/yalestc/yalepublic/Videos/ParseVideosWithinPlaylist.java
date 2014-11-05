@@ -20,6 +20,17 @@ import java.util.List;
  * Created by Stan Swidwinski on 10/29/14.
  */
 //the result will be of the form (Bitmaps, [titles, dates, videoIds]
+
+//.get() from activity returns null if error occurred. Almost exclusively if the user does not have Internet (Google won't blow up suddenly).
+//If this happens you should counter it using, for example,
+/*if(new ParseVideosWithinPlaylist("Abc").execute().get() == null){
+        Toast toast = new Toast(getActivity());
+        toast = Toast.makeText(getActivity(), "You need internet connection to view the content!", Toast.LENGTH_LONG);
+        toast.show();
+        finish();
+        return null;
+        }
+        */
 public class ParseVideosWithinPlaylist extends AsyncTask<Void, Void, Pair<Bitmap[], ArrayList<String[]>> > {
 
     private String rawData;

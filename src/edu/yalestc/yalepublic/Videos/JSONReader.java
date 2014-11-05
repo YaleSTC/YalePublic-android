@@ -26,6 +26,17 @@ import java.util.List;
 /**
  * Created by Stan Swidwinski on 10/29/14.
  */
+
+//.get() from activity returns null if error occurred. Almost exclusively if the user does not have Internet (Google won't blow up suddenly).
+//If this happens you should counter it using, for example,
+/*if(new JSONReader("Abc", getActivity()).execute().get() == null){
+        Toast toast = new Toast(getActivity());
+        toast = Toast.makeText(getActivity(), "You need internet connection to view the content!", Toast.LENGTH_LONG);
+        toast.show();
+        finish();
+        return null;
+        }
+        */
 public class JSONReader extends AsyncTask<Void, String, String>{
     //The URL that we will be adding parameters to. For example https://www.googleapis.com/youtube/v3/playlists
     private String BASE_URL = "";
