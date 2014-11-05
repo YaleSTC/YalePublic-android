@@ -52,8 +52,10 @@ public class VideoList extends Activity {
         if (savedInstanceState == null) {
         	if (getIntent().getExtras()!=null) {
         		if (getIntent().getExtras().containsKey
-        				(MainActivity.PHOTO_MODE_KEY))
+        				(MainActivity.PHOTO_MODE_KEY)) {
         			mode = Mode.PHOTO;
+        			setTitle("Albums");
+        		}
         		else if (getIntent().getExtras().containsKey
         				(MainActivity.VIDEO_MODE_KEY))
         			mode = Mode.VIDEO;
@@ -103,6 +105,12 @@ public class VideoList extends Activity {
             });
             return rootView;
         }
+
+		private void populateAdapterWithVideos() {
+			// create an asynctask that fetches the playlist titles
+            VideoTask videoList = new VideoTask();
+            videoList.execute();
+		}
     }
 
     public class VideoTask extends AsyncTask<Void, Void, String[]> {
