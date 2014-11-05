@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * Created by Stan Swidwinski on 10/29/14.
  */
-public class JSONReader extends AsyncTask<Void, String, String> {
+public class JSONReader extends AsyncTask<Void, String, String>{
     private String BASE_URL = "";
     private ArrayList<Pair<String, String> > parameters = new ArrayList<Pair<String, String>>();
 
@@ -66,7 +66,7 @@ public class JSONReader extends AsyncTask<Void, String, String> {
         return buildingUri.build();
     }
     @Override
-    protected String doInBackground(Void... params) {
+    protected String doInBackground(Void... params){
         try{
             // first we create the URI
 
@@ -81,20 +81,20 @@ public class JSONReader extends AsyncTask<Void, String, String> {
             // read all the data
             InputStream inputStream = urlConnection.getInputStream();
             StringBuffer buffer = new StringBuffer();
-            if (inputStream == null) {
+            if (inputStream == null){
                 // Nothing to do.
                 return null;
             }
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             String line;
-            while ((line = reader.readLine()) != null) {
+            while ((line = reader.readLine()) != null){
                 // Since it's JSON, adding a newline isn't necessary (it won't affect parsing)
                 // But it does make debugging a *lot* easier if you print out the completed
                 // buffer for debugging.
                 buffer.append(line + "\n");
             }
 
-            if (buffer.length() == 0) {
+            if (buffer.length() == 0){
                 // Stream was empty.  No point in parsing.
                 return null;
             }
