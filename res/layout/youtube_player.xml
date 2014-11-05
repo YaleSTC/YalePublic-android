@@ -5,7 +5,7 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" 
     android:background="#000000"
-    tools:context="edu.yalestc.yalepublic.VideoYoutubePlayback">
+    tools:context="edu.yalestc.yalepublic.Videos.VideoYoutubePlayback">
 
     <com.google.android.youtube.player.YouTubePlayerView
         android:id="@+id/youtube_player"

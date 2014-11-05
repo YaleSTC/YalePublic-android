@@ -1,4 +1,4 @@
-package edu.yalestc.yalepublic;
+package edu.yalestc.yalepublic.Videos;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +11,9 @@ import com.google.android.youtube.player.YouTubePlayer.PlaybackEventListener;
 import com.google.android.youtube.player.YouTubePlayer.PlayerStateChangeListener;
 import com.google.android.youtube.player.YouTubePlayer.Provider;
 import com.google.android.youtube.player.YouTubePlayerView;
+
+import edu.yalestc.yalepublic.DeveloperKey;
+import edu.yalestc.yalepublic.R;
 
 public class VideoYoutubePlayback extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener {
 
