@@ -23,7 +23,13 @@ import java.util.List;
  * Created by Stan Swidwinski on 10/29/14.
  */
 public class JSONReader extends AsyncTask<Void, String, String>{
+    //The URL that we will be adding parameters to. For example https://www.googleapis.com/youtube/v3/playlists
     private String BASE_URL = "";
+    //These are the parameters we will be adding to the URL specified above. For example, if parameters = [("part","snippet")]
+    //will later result in adding ?part=snippet to the URL making https://www.googleapis.com/youtube/v3/playlists?part=snippet
+    //If there is more than one element in parameters, the code will automatically adapt to create, for example
+    //https://www.googleapis.com/youtube/v3/playlists?part=snippet&channelId=UC4EY_qnSeAP1xGsh61eOoJA from
+    //parameters = [("part","snippet"),("channelId","UC4EY_qnSeAP1xGsh61eOoJA ")]
     private ArrayList<Pair<String, String> > parameters = new ArrayList<Pair<String, String>>();
 
     JSONReader(){
