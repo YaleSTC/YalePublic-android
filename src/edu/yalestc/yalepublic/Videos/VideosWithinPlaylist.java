@@ -5,6 +5,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
+import android.content.Context;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,6 +31,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import edu.yalestc.yalepublic.DeveloperKey;
 import edu.yalestc.yalepublic.R;
@@ -81,7 +83,7 @@ public class VideosWithinPlaylist extends Activity {
 
             // create an asynctask that fetches the playlist titles. It should speak for itself.
             //Just note that in constructor we give in the base url (WITHOUT "?" at the end).
-            JSONReader scrapeData = new JSONReader("https://www.googleapis.com/youtube/v3/playlistItems");
+            JSONReader scrapeData = new JSONReader("https://www.googleapis.com/youtube/v3/playlistItems", getActivity());
             scrapeData.addParams(new Pair<String, String>("part", "snippet"));
             scrapeData.addParams(new Pair<String, String>("playlistId", extras.getString("playlistId")));
             scrapeData.addParams(new Pair<String, String>("key", new DeveloperKey().DEVELOPER_KEY));
@@ -90,6 +92,14 @@ public class VideosWithinPlaylist extends Activity {
             //retrieve result while checking for errors (this does stall execution of main thread!)
             try {
                 rawData = scrapeData.execute().get();
+                //if we fail to receive data, not to fail we just toast the user and stay in the current menu
+                if(rawData == null){
+                    Toast toast = new Toast(getActivity());
+                    toast = Toast.makeText(getActivity(), "You need internet connection to view the content!", Toast.LENGTH_LONG);
+                    toast.show();
+                    finish();
+                    return null;
+                }
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (ExecutionException e) {
@@ -101,7 +111,14 @@ public class VideosWithinPlaylist extends Activity {
 
             Pair<Bitmap[], ArrayList<String[]>> videosInfo;
             try {
-                videosInfo = new ParseVideosWithinPlaylist(rawData).execute().get();
+                videosInfo = new ParseVideosWithinPlaylist(rawData, getActivity()).execute().get();
+                if(videosInfo == null){
+                    Toast toast = new Toast(getActivity());
+                    toast = Toast.makeText(getActivity(), "You need internet connection to view the content!", Toast.LENGTH_LONG);
+                    toast.show();
+                    finish();
+                    return null;
+                }
             } catch (InterruptedException e) {
                 e.printStackTrace();
                 return null;
