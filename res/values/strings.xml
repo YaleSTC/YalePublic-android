@@ -46,7 +46,20 @@
         <item>Sports &amp; Recreation</item>
         <item>Talks &amp; Readings</item>
         <item>Tours</item>
-        <item>Other</item>
+    </string-array>
+    <string-array name="events_category_colors">
+        <item>e01616</item>
+        <item>23adad</item>
+        <item>245913</item>
+        <item>e3a20b</item>
+        <item>1b7ee0</item>
+        <item>9464b5</item>
+        <item>b30c4f</item>
+        <item>bfb8a1</item>
+        <item>ff9191</item>
+        <item>25466b</item>
+        <item>0ac275</item>
+        <item>f2dc33</item>
     </string-array>
 
     <string name="title_activity_video_list">VideoList</string>
