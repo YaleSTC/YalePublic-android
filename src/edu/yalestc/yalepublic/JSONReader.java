@@ -1,4 +1,4 @@
-package edu.yalestc.yalepublic.Videos;
+package edu.yalestc.yalepublic;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
