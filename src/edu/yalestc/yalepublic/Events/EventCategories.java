@@ -4,12 +4,15 @@ import android.app.Activity;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -18,9 +21,16 @@ import android.widget.TextView;
 import edu.yalestc.yalepublic.R;
 
 public class EventCategories extends Activity {
+    //not private to adapter since we will use it in the buttons to specific categories!
+    private String[] JsonCategoryNames;
+    private String[] categories;
+    private int[] colors;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        JsonCategoryNames = getResources().getStringArray(R.array.events_category_names_json);
+        categories = getResources().getStringArray(R.array.events_category_names);
+        colors = getResources().getIntArray(R.array.event_categories_colors);
         setContentView(R.layout.activity_event_categories);
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
@@ -45,14 +55,33 @@ public class EventCategories extends Activity {
 
             ListView listView = (ListView) rootView.findViewById(R.id.listview_event_categories);
             listView.setAdapter(adapter);
-            
+
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+
+                @Override
+                public void onItemClick(AdapterView<?> arg0, View arg1,
+                                        int arg2, long arg3){
+                    Intent showEvents = new Intent(EventCategories.class, EventsDisplay.class);
+                    showEvents.putExtra("category", categories[arg2]);
+                    showEvents.putExtra("color", colors[arg2]);
+                    //warning here, the real json categories are different than the descriptions. In eventsDisplay we will have
+                    //to parse the names and do a good JSON query. This means splitting the string into separate words and adding a query
+                    //for category equal to each of the elements!
+                    String JsonCategory = JsonCategoryNames[arg2];
+                    if(JsonCategory == "PlaceHolderForAll"){
+
+                    } else{
+                        showEvents.putExtra("JsonCategories", JsonCategory);
+                    }
+                    startActivity(showEvents);
+                }
+            });
+
             return rootView;
         }
     }
 //custom adapter creating relativelayouts consisting of  imageview and textview
     private class EventsCategoriesAdapter extends BaseAdapter {
-        private String[] categories = getResources().getStringArray(R.array.events_category_names);
-        private int[] colors = getResources().getIntArray(R.array.event_categories_colors);
         private int white = getResources().getColor(R.color.white);
         private Context mContext;
     //for screen dimensions (so that it looks okay on all sizes of displays)
