@@ -82,6 +82,11 @@
             android:screenOrientation="portrait" >
         </activity>
 
+        <activity
+            android:name=".Events.EventsDisplay"
+            android:label="@string/title_activity_events_display" >
+        </activity>
+
     </application>
 
 </manifest>

@@ -61,7 +61,7 @@ public class EventCategories extends Activity {
                 @Override
                 public void onItemClick(AdapterView<?> arg0, View arg1,
                                         int arg2, long arg3){
-                    Intent showEvents = new Intent(EventCategories.class, EventsDisplay.class);
+                    Intent showEvents = new Intent(EventCategories.this, EventsDisplay.class);
                     showEvents.putExtra("category", categories[arg2]);
                     showEvents.putExtra("color", colors[arg2]);
                     //warning here, the real json categories are different than the descriptions. In eventsDisplay we will have

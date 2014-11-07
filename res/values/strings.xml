@@ -62,9 +62,11 @@
         <item>talk reading</item>
         <item>tour</item>
     </string-array>
+
     <string name="title_activity_video_list">VideoList</string>
     <string name="title_activity_videos_within_list">VideosInPlaylist</string>
     <string name="title_activity_video_playback">VideoPlayback</string>
     <string name="title_activity_event_categories">EventCategories</string>
+    <string name="title_activity_events_display">EventsDisplay</string>
 
 </resources>
