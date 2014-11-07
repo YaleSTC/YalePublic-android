@@ -3,20 +3,21 @@
 
     <item name="white" type="color">#FFFFFF</item>
 
-    <integer-array name="event_categories_colors">
-        <item>#e01616</item>
-        <item>#23adad</item>
+    <array name="event_categories_colors">
+        <item>#FFFFFF</item>
+        <item>#E01616</item>
+        <item>#23ADAD</item>
         <item>#245913</item>
-        <item>#e3a20b</item>
-        <item>#1b7ee0</item>
-        <item>#9464b5</item>
-        <item>#b30c4f</item>
-        <item>#bfb8a1</item>
-        <item>#ff9191</item>
-        <item>#25466b</item>
-        <item>#0ac275</item>
-        <item>#f2dc33</item>
-    </integer-array>
+        <item>#E3A20B</item>
+        <item>#1B7EE0</item>
+        <item>#9464B5</item>
+        <item>#B30C4f</item>
+        <item>#BFB8A1</item>
+        <item>#FF9191</item>
+        <item>#25466B</item>
+        <item>#0AC275</item>
+        <item>#F2DC33</item>
+    </array>
 
 </resources>
 
