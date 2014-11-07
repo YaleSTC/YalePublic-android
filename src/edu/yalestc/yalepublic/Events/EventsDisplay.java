@@ -21,6 +21,10 @@ import java.util.concurrent.ExecutionException;
 import edu.yalestc.yalepublic.JSONReader;
 import edu.yalestc.yalepublic.R;
 
+//info on making tabs:
+
+//http://www.linux.com/learn/tutorials/761642-android-app-development-for-beginners-navigation-with-tabs
+//really nice.
 public class EventsDisplay extends Activity {
     private String rawData;
     private Fragment dayTab;
