@@ -60,7 +60,11 @@
             android:label="@string/title_activity_videos_within_list"
             android:screenOrientation="portrait" >
         </activity>
-
+	    <activity
+            android:name=".PhotosWithinAlbum"
+            android:label="@string/photos_in_album"
+            android:screenOrientation="portrait" >
+        </activity>
         <activity
             android:name=".VideoYoutubePlayback"
             android:label="@string/title_activity_video_playback"

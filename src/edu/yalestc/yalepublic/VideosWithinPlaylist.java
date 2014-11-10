@@ -60,7 +60,7 @@ public class VideosWithinPlaylist extends Activity {
                     .add(R.id.container1, new PlaceholderFragment()).commit();
             
         }
-}
+    }
     //definition of our custom fragment.
     public class PlaceholderFragment extends Fragment {
         public PlaceholderFragment() {

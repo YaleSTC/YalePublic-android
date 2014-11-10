@@ -31,7 +31,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 public class VideoList extends Activity {
-	
+	public static final String PHOTO_ID_KEY = "playlistId";
 	public enum Mode {
 		VIDEO,
 		PHOTO,
@@ -96,11 +96,20 @@ public class VideoList extends Activity {
                 public void onItemClick(AdapterView<?> arg0, View arg1,
                         int arg2, long arg3) {
                     //redirect to new activity displaying all videos
-                    Intent showThem = new Intent(VideoList.this, VideosWithinPlaylist.class);
-                    showThem.putExtra("playlistId", playlistIds[arg2]);
-                    //For Debug purposes - show what is the playlistID
-                    Log.d("StartingActivityInVideoList",playlistIds[arg2]);
-                    startActivity(showThem);
+                	if (mode == Mode.VIDEO) {
+                		Intent showThem = new Intent(VideoList.this, VideosWithinPlaylist.class);
+                		showThem.putExtra(PHOTO_ID_KEY, playlistIds[arg2]);
+                		//For Debug purposes - show what is the playlistID
+                		Log.d("StartingActivityInVideoList",playlistIds[arg2]);
+                		startActivity(showThem);
+                	}
+                	else if (mode == Mode.PHOTO) {
+                		Intent showThem = new Intent(VideoList.this, PhotosWithinAlbum.class);
+                		showThem.putExtra("playlistId", playlistIds[arg2]);
+                		//For Debug purposes - show what is the playlistID
+                		Log.d("StartingActivityInVideoList",playlistIds[arg2]);
+                		startActivity(showThem);
+                	}
                 }
             });
             return rootView;
