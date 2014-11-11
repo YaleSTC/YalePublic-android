@@ -11,11 +11,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import edu.yalestc.yalepublic.VideoList.Mode;
-import edu.yalestc.yalepublic.VideosWithinPlaylist.thumbnailAdapter;
 import android.R.integer;
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
@@ -28,6 +27,12 @@ import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.BaseAdapter;
+import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 //PhotosWithinAlbum tries to mirror the structure of
 //VideosWithinPlaylist as far as possible for consistency
@@ -37,7 +42,7 @@ import android.view.ViewGroup;
 public class PhotosWithinAlbum extends Activity {
 
 	//TODO: Pass as parameters to AlbumTask asynctask
-	private thumbnailAdapter adapter;
+	private ImageThumbnailAdapter adapter;
 	private String albumId;
 	private String[] titls = new String[1];
 	private Bitmap[] bitmaps = new Bitmap[1];
@@ -51,6 +56,7 @@ public class PhotosWithinAlbum extends Activity {
     		}
 		setContentView(R.layout.activity_photo_within_album);
         if (savedInstanceState == null) {
+        	//load fragment
             getFragmentManager().beginTransaction()
                     .add(R.id.photoContainer, new PlaceholderFragment()).commit();
             
@@ -65,47 +71,30 @@ public class PhotosWithinAlbum extends Activity {
 	                Bundle savedInstanceState) {
 	            View rootView = inflater.inflate(R.layout.fragment_photo_within_album,
 	                    container, false);            
-//	            //initialize the adapter
-//	            adapter = new thumbnailAdapter(context);
-//	            
-//	            //create custom AsyncTask to fetch all the details from youtube
-//	            VideoTask gettingDetails = new VideoTask();
-//	            gettingDetails.execute();
-//	            
-//	            //create listView from template and set the adapter. 
-//	            ListView listView = (ListView) rootView.findViewById(R.id.listview_video_in_playlist);
-//	            listView.setAdapter(adapter);
-//	            
-//	            //create a OnItemClickListener to play the video
-//	            listView.setOnItemClickListener(new OnItemClickListener(){
-//
-//	                @Override
-//	                public void onItemClick(AdapterView<?> arg0, View arg1,
-//	                        int arg2, long arg3) {
-//	                    Intent intent = new Intent(VideosWithinPlaylist.this, VideoYoutubePlayback.class);
-//	                    intent.putExtra("videoId", videoIds[arg2]);
-//	                    Log.v("StartingActivityInVideosInPlaylists","Starting a new action with the parameter videoID: " + videoIds[arg2]);
-//	                    startActivity(intent);
-//	                }
-//	            });
-//	                   
+	        	//initialize the adapter
+	        	adapter = new ImageThumbnailAdapter(PhotosWithinAlbum.this);
+	        	
+	            //create custom AsyncTask to fetch all the details from youtube
+	            AlbumTask gettingDetails = new AlbumTask();
+	            gettingDetails.execute();
+	            
+	            //create listView from template and set the adapter. 
+	            GridView gridview = (GridView) rootView.findViewById(R.id.imageGridView);
+	            gridview.setAdapter(adapter);
+	            
+	            //create a OnItemClickListener to load photo
+	            gridview.setOnItemClickListener(new OnItemClickListener() {
+					@Override
+					public void onItemClick(AdapterView<?> parent, View view,
+							int position, long id) {
+						 Toast.makeText(PhotosWithinAlbum.this, "" + position, Toast.LENGTH_SHORT).show();
+					}
+	            });
 	            
 	            return rootView;
 	        }
-//	        public static final int GRIDVIEW_SPACING = 3;
-//	        public static final int GRIDVIEW_COLUMN_WIDTH = 75;
-//	        private void initializeComponents() {
-//	        	Display display = getWindowManager().getDefaultDisplay();
-//	            Point outSizePoint; 
-//	            display.getSize(outSizePoint);
-//	        	float spacing = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-//	                    GRIDVIEW_SPACING, getResources().getDisplayMetrics());
-//	            gridView.setNumColumns(outSizePoint.x / GRIDVIEW_COLUMN_WIDTH);
-//	            gridView.setPadding((int) spacing, (int) spacing, (int) spacing, (int) spacing);
-//	            gridView.setVerticalSpacing((int) spacing);
-//	            gridView.setHorizontalSpacing((int) spacing);
-//	        }
 	    }
+	 
 	 	public class AlbumTask extends AsyncTask<Void, Void, Void> {
 
 			private String getPhotosFromJson(String rawData) {
@@ -117,6 +106,7 @@ public class PhotosWithinAlbum extends Activity {
                     e.printStackTrace();
                     return null;
                 }
+                Log.d("json", albumData.toString());
                 JSONArray photolistData;
                 try {
                     photolistData = albumData.getJSONObject("photoset")
@@ -140,6 +130,8 @@ public class PhotosWithinAlbum extends Activity {
                     //Here we actually download the thumbnail using URL obtained from JSONObject
                         try {
                             URL imageUrl = new URL(photolistData.getJSONObject(i)
+                                    .getString("url_t"));
+                            Log.d("json",photolistData.getJSONObject(i)
                                     .getString("url_t"));
                      //connect to given server 
                             HttpURLConnection conn = (HttpURLConnection)imageUrl.openConnection();
@@ -212,11 +204,56 @@ public class PhotosWithinAlbum extends Activity {
 				            .appendQueryParameter("method", "flickr.photosets.getPhotos")
 				            .appendQueryParameter("api_key", new DeveloperKey().FLICKR_API_KEY)
 				            .appendQueryParameter("photoset_id", albumId) 
+				            .appendQueryParameter("extras","url_t")
 				            .appendQueryParameter("format", "json")
 				            .appendQueryParameter("nojsoncallback", "1")
 				            .build();
 				return builtUri;
 			}
 	 		
+	 	}
+	 	public class ImageThumbnailAdapter extends BaseAdapter {
+
+	 		private Context mContext;
+
+			public ImageThumbnailAdapter(Context c) {
+	 			mContext = c;
+	 		}
+
+			@Override
+			public View getView(int position, View convertView, ViewGroup parent) {
+				ImageView imageView;
+				if (convertView==null) {
+					imageView = new ImageView(mContext);
+					imageView.setLayoutParams(new GridView.LayoutParams(85, 85));
+		            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+		            imageView.setPadding(8, 8, 8, 8);
+				} else {
+					imageView =(ImageView) convertView;
+				}
+				imageView.setImageBitmap(bitmaps[position]);
+				return imageView;
+			}
+			@Override
+			//Can also use if statement to set count to 0 
+			//if titls is uninitialized. Currently mirroring
+			//VideoWithinPlaylist
+			public int getCount() {
+				return titls.length;
+			}
+
+			@Override
+			public Object getItem(int position) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public long getItemId(int position) {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+
+	 	
 	 	}
 }
