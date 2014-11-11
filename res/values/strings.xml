@@ -37,5 +37,7 @@
     <string name="title_activity_videos_within_list">VideosInPlaylist</string>
     <string name="title_activity_video_playback">VideoPlayback</string>
     <string name="photos_in_album">Photos in Album</string>
+    <string name="title_activity_image">Image</string>
+    <string name="currentphoto">currentphoto</string>
 
 </resources>

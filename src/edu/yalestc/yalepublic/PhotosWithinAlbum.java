@@ -15,6 +15,7 @@ import android.R.integer;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
@@ -42,6 +43,7 @@ import android.widget.Toast;
 public class PhotosWithinAlbum extends Activity {
 
 	//TODO: Pass as parameters to AlbumTask asynctask
+	public static final String TITLE_KEY ="title";
 	private ImageThumbnailAdapter adapter;
 	private String albumId;
 	private String[] titls = new String[1];
@@ -87,7 +89,10 @@ public class PhotosWithinAlbum extends Activity {
 					@Override
 					public void onItemClick(AdapterView<?> parent, View view,
 							int position, long id) {
-						 Toast.makeText(PhotosWithinAlbum.this, "" + position, Toast.LENGTH_SHORT).show();
+	                    Intent intent = new Intent(PhotosWithinAlbum.this, ImageActivity.class);
+	                    intent.putExtra(VideoList.PHOTO_ID_KEY,photoIds[position]);
+	                    intent.putExtra(TITLE_KEY,titls[position]);
+	                    startActivity(intent);
 					}
 	            });
 	            
@@ -121,6 +126,7 @@ public class PhotosWithinAlbum extends Activity {
                 bitmaps = new Bitmap[photolistData.length()];
    
                 photoIds = new String[photolistData.length()];
+                int bytecount=0;
                 for (int i = 0; i < photolistData.length(); i++){
                     try {
                         titls[i] = photolistData.getJSONObject(i)
@@ -142,7 +148,7 @@ public class PhotosWithinAlbum extends Activity {
                      //setting inputstream and decoding it into a bitmap
                             InputStream is=conn.getInputStream();
                             bitmaps[i] = BitmapFactory.decodeStream(is);
-                        
+                            bytecount = bytecount + bitmaps[i].getByteCount();
                     } catch (JSONException e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
@@ -155,6 +161,7 @@ public class PhotosWithinAlbum extends Activity {
               }
             
                 }
+                Log.d("json",Integer.toString(bytecount)); //TODO: OMG PER PIXEL BYTECOUNT IS TOOO DAMN HIGH
                 return "1"; //TODO: Why?
 			}
 			@Override
