@@ -136,9 +136,9 @@ public class PhotosWithinAlbum extends Activity {
                     //Here we actually download the thumbnail using URL obtained from JSONObject
                         try {
                             URL imageUrl = new URL(photolistData.getJSONObject(i)
-                                    .getString("url_t"));
+                                    .getString("url_m"));
                             Log.d("json",photolistData.getJSONObject(i)
-                                    .getString("url_t"));
+                                    .getString("url_m"));
                      //connect to given server 
                             HttpURLConnection conn = (HttpURLConnection)imageUrl.openConnection();
                      //safety features and avoiding errors is links redirect     
@@ -211,7 +211,7 @@ public class PhotosWithinAlbum extends Activity {
 				            .appendQueryParameter("method", "flickr.photosets.getPhotos")
 				            .appendQueryParameter("api_key", new DeveloperKey().FLICKR_API_KEY)
 				            .appendQueryParameter("photoset_id", albumId) 
-				            .appendQueryParameter("extras","url_t")
+				            .appendQueryParameter("extras","url_m")
 				            .appendQueryParameter("format", "json")
 				            .appendQueryParameter("nojsoncallback", "1")
 				            .build();

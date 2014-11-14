@@ -53,7 +53,7 @@ public class MainActivity extends ActionBarActivity {
                 startActivity(videoListIntent);
                 break;
             case R.id.bPhotos:
-                Intent photoListIntent = new Intent(MainActivity.this, VideoList.class);
+                Intent photoListIntent = new Intent(MainActivity.this, PhotoList.class);
                 photoListIntent.putExtra(PHOTO_MODE_KEY, true);
                 startActivity(photoListIntent);
                 break;

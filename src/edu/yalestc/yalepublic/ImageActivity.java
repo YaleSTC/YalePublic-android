@@ -5,10 +5,13 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.concurrent.ExecutionException;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import edu.yalestc.yalepublic.PhotosWithinAlbum.ImageThumbnailAdapter;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
@@ -23,9 +26,10 @@ import android.widget.ImageView;
 
 public class ImageActivity extends Activity {
 
-	
+//	private ImageAdapter adapter;
 	private String photoId;
 	private Bitmap mBitmap;
+	private Bitmap mBitmap2;	
 	private String title;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -35,12 +39,23 @@ public class ImageActivity extends Activity {
 		photoId = getIntent().getExtras().getString(VideoList.PHOTO_ID_KEY);
 		setTitle(getIntent().getExtras().getString(PhotosWithinAlbum.TITLE_KEY));
 		getPhotoTask task = new getPhotoTask();
-		task.execute();
+		try {
+			mBitmap2=task.execute().get();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ExecutionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if(mBitmap2!=null){
+			imageView.setImageBitmap(mBitmap2);
+		}
 	}
-	public class getPhotoTask extends AsyncTask<Void, Void, Void> {
+	public class getPhotoTask extends AsyncTask<Void, Void, Bitmap> {
 
 		@Override
-		protected Void doInBackground(Void... params) {
+		protected Bitmap doInBackground(Void... params) {
 			try {
 				//Send GET request to the server
 				URL url = new URL(getPhotoAPIRequestUri().toString());
@@ -61,11 +76,7 @@ public class ImageActivity extends Activity {
                     return null;
                 }
                 String photosJsonStr = buffer.toString();
-                getPhotoFromJson(photosJsonStr);
-                if (inputStream == null) {
-                    // Nothing to do.
-                    return null;
-                }
+               return getPhotoFromJson(photosJsonStr);
 			} catch (Exception e) {
 				Log.e("URI", "uri was invalid or api request failed");
 				e.printStackTrace();
@@ -73,7 +84,7 @@ public class ImageActivity extends Activity {
 			return null;
 		}
 
-		private String getPhotoFromJson(String rawData) {
+		private Bitmap getPhotoFromJson(String rawData) {
 			JSONObject photoData;
             try {
                 photoData = new JSONObject(rawData);
@@ -83,14 +94,15 @@ public class ImageActivity extends Activity {
                 return null;
             }
             //Here we actually download the thumbnail using URL obtained from JSONObject
-            try {
-            	JSONArray photoContentArray = photoData.getJSONObject("urls").getJSONArray("url");
-                URL imageUrl = new URL(photoContentArray.getJSONObject(0).getString("_content"));
+            try {	
+            	JSONArray photoContentArray = photoData.getJSONObject("sizes").getJSONArray("size");
+            	Log.d("bitmap",photoContentArray.getJSONObject(8).getString("source"));
+                URL imageUrl = new URL(photoContentArray.getJSONObject(8).getString("source"));
                 //connect to given server 
                 HttpURLConnection conn = (HttpURLConnection)imageUrl.openConnection();
                 //safety features and avoiding errors is links redirect     
-                conn.setConnectTimeout(30000);
-                conn.setReadTimeout(30000);
+                conn.setConnectTimeout(300000000);
+                conn.setReadTimeout(3000000);
                 conn.setInstanceFollowRedirects(true);
                 //setting inputstream and decoding it into a bitmap
                 InputStream is=conn.getInputStream();
@@ -100,7 +112,8 @@ public class ImageActivity extends Activity {
             e.printStackTrace();
             return null;
         }
-            return "1"; //TODO: Why?
+            Log.d("bitmap",Integer.toString(mBitmap.getByteCount()));
+            return mBitmap;
 			
 		}
 		
@@ -108,8 +121,9 @@ public class ImageActivity extends Activity {
 	private Uri getPhotoAPIRequestUri() {
 		final String BASE_URL = "https://api.flickr.com/services/rest/?";
 		//TODO: extract api key and secret
+		Log.d("bitmap",photoId);
 		Uri builtUri = Uri.parse(BASE_URL).buildUpon()
-		            .appendQueryParameter("method", "flickr.photos.getInfo")
+		            .appendQueryParameter("method", "flickr.photos.getSizes")
 		            .appendQueryParameter("api_key", new DeveloperKey().FLICKR_API_KEY)
 		            .appendQueryParameter("photo_id",photoId) 
 		            .appendQueryParameter("format", "json")
