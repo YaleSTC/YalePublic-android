@@ -93,7 +93,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Created by: \nJason Liu\nStanislaw Swidwinski\nCarsten Peterson\nAbhishek Chandra\nJessica Yang"
+        android:text="Authors: \nJason Liu\nStanislaw Swidwinski\nCarsten Peterson\nAbhishek Chandra\nJessica Yang"
         android:id="@+id/tvCredits"
         android:layout_gravity="center_horizontal"
         android:paddingTop="30dp"
