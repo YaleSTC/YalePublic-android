@@ -32,8 +32,8 @@ public class MainActivity extends ActionBarActivity {
 
     double screenWidth;
     double screenHeight;
-    public static final String VIDEO_MODE_KEY = "Videos"; //TODO:Review choice
-    public static final String PHOTO_MODE_KEY = "Photos";		//of keys
+    public static final String VIDEO_MODE_KEY = "Videos"; // TODO: Review choice
+    public static final String PHOTO_MODE_KEY = "Photos"; // of keys
     
     private OnClickListener buttonClickListener = new OnClickListener(){
         @Override

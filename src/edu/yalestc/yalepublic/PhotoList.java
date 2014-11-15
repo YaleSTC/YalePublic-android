@@ -31,35 +31,35 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 public class PhotoList extends Activity {
-	public static final String PHOTO_ID_KEY = "playlistId";
-	public enum Mode {
-		VIDEO,
-		PHOTO,
-		EMPTY
-	}
-	
+    public static final String PHOTO_ID_KEY = "playlistId";
+    public enum Mode {
+        VIDEO,
+        PHOTO,
+        EMPTY
+    }
+    
     // this is a class parameter so that it can be modified in the asynctask
-    private ArrayAdapter<String> mVideoAdapter;	//TODO: Refactor
+    private ArrayAdapter<String> mVideoAdapter;    //TODO: Refactor
     //this is a string in which we store the ID's of playlists to pass them
     //into VideosWithinPlaylist
-    private String[] playlistIds;				//TODO: Refactor
+    private String[] playlistIds;                //TODO: Refactor
     private Mode mode;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mode = Mode.EMPTY; //	Default 
-        setContentView(R.layout.activity_photo_list);	//TODO: Refactor
+        mode = Mode.EMPTY; //    Default 
+        setContentView(R.layout.activity_photo_list);    //TODO: Refactor
         if (savedInstanceState == null) {
-        	if (getIntent().getExtras()!=null) {
-        		if (getIntent().getExtras().containsKey
-        				(MainActivity.PHOTO_MODE_KEY)) {
-        			mode = Mode.PHOTO;
-        			setTitle("Albums");
-        		}
-        		else if (getIntent().getExtras().containsKey
-        				(MainActivity.VIDEO_MODE_KEY))
-        			mode = Mode.VIDEO;
-        	}
+            if (getIntent().getExtras()!=null) {
+                if (getIntent().getExtras().containsKey
+                        (MainActivity.PHOTO_MODE_KEY)) {
+                    mode = Mode.PHOTO;
+                    setTitle("Albums");
+                }
+                else if (getIntent().getExtras().containsKey
+                        (MainActivity.VIDEO_MODE_KEY))
+                    mode = Mode.VIDEO;
+            }
             getFragmentManager().beginTransaction()
                     .add(R.id.container, new PlaceholderFragment()).commit();
         }
@@ -77,12 +77,12 @@ public class PhotoList extends Activity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_photo_list,
-                    container, false);				
+                    container, false);                
             
             // initialize the ArrayAdapter
             mVideoAdapter = new ArrayAdapter<String>(
                     getActivity(), R.layout.tab, R.id.tab);
-			// create an asynctask that fetches the playlist titles
+            // create an asynctask that fetches the playlist titles
             VideoTask videoList = new VideoTask();
             videoList.execute();
 
@@ -96,30 +96,30 @@ public class PhotoList extends Activity {
                 public void onItemClick(AdapterView<?> arg0, View arg1,
                         int arg2, long arg3) {
                     //redirect to new activity displaying all videos
-                	if (mode == Mode.VIDEO) {
-                		Intent showThem = new Intent(PhotoList.this, VideosWithinPlaylist.class);
-                		showThem.putExtra(PHOTO_ID_KEY, playlistIds[arg2]);
-                		//For Debug purposes - show what is the playlistID
-                		Log.d("StartingActivityInVideoList",playlistIds[arg2]);
-                		startActivity(showThem);
-                	}
-                	else if (mode == Mode.PHOTO) {
-                		Intent showThem = new Intent(PhotoList.this, PhotosWithinAlbum.class);
-                		showThem.putExtra("playlistId", playlistIds[arg2]);
-                		//For Debug purposes - show what is the playlistID
-                		Log.d("StartingActivityInVideoList",playlistIds[arg2]);
-                		startActivity(showThem);
-                	}
+                    if (mode == Mode.VIDEO) {
+                        Intent showThem = new Intent(PhotoList.this, VideosWithinPlaylist.class);
+                        showThem.putExtra(PHOTO_ID_KEY, playlistIds[arg2]);
+                        //For Debug purposes - show what is the playlistID
+                        Log.d("StartingActivityInVideoList",playlistIds[arg2]);
+                        startActivity(showThem);
+                    }
+                    else if (mode == Mode.PHOTO) {
+                        Intent showThem = new Intent(PhotoList.this, PhotosWithinAlbum.class);
+                        showThem.putExtra("playlistId", playlistIds[arg2]);
+                        //For Debug purposes - show what is the playlistID
+                        Log.d("StartingActivityInVideoList",playlistIds[arg2]);
+                        startActivity(showThem);
+                    }
                 }
             });
             return rootView;
         }
 
-		private void populateAdapterWithVideos() {
-			// create an asynctask that fetches the playlist titles
+        private void populateAdapterWithVideos() {
+            // create an asynctask that fetches the playlist titles
             VideoTask videoList = new VideoTask();
             videoList.execute();
-		}
+        }
     }
 
     public class VideoTask extends AsyncTask<Void, Void, String[]> {
@@ -128,7 +128,7 @@ public class PhotoList extends Activity {
         // and extracts the titles of the playlists
         private String[] getPlaylistsFromJson(String rawData){
            
-        	JSONObject videoData;
+            JSONObject videoData;
             try {
                 videoData = new JSONObject(rawData);
             } catch (JSONException e) {
@@ -138,18 +138,18 @@ public class PhotoList extends Activity {
             }
             JSONArray playlistData = null;
             try {
-            	switch(mode){
-            	case VIDEO:
-            		playlistData = videoData.getJSONArray("items");
-            		break;
-            	case PHOTO:
-            		playlistData = videoData.getJSONObject("photosets")
-            						.getJSONArray("photoset");
-            		break;
-            	default:
-            		break;
-            	
-            	}
+                switch(mode){
+                case VIDEO:
+                    playlistData = videoData.getJSONArray("items");
+                    break;
+                case PHOTO:
+                    playlistData = videoData.getJSONObject("photosets")
+                                    .getJSONArray("photoset");
+                    break;
+                default:
+                    break;
+                
+                }
                 
             } catch (JSONException e) {
                 // TODO Auto-generated catch block
@@ -163,20 +163,20 @@ public class PhotoList extends Activity {
             playlistIds = new String[playlistDataLength];
             for (int i = 0; i < playlistDataLength; i++){
                 try {
-                	switch(mode){
-                	case VIDEO:
+                    switch(mode){
+                    case VIDEO:
                         allPlaylists[i] = playlistData.getJSONObject(i)
                         .getJSONObject("snippet")
                         .getString("title");
-                		break;
-                	case PHOTO:
+                        break;
+                    case PHOTO:
                         allPlaylists[i] = playlistData.getJSONObject(i)
                         .getJSONObject("title")
                         .getString("_content");
-                		break;
-                	default:
-                		break;
-                	}
+                        break;
+                    default:
+                        break;
+                    }
                     playlistIds[i] = playlistData.getJSONObject(i)
                             .getString("id");
                 } catch (JSONException e) {
@@ -190,19 +190,19 @@ public class PhotoList extends Activity {
         
         @Override
         protected String[] doInBackground(Void... params) {
-        	Uri builtUri = null;
-        	try{
+            Uri builtUri = null;
+            try{
                 // first we create the URI
-            	switch(mode){
-            	case VIDEO:
-            		builtUri = getVideoAPIRequestUri();
-            		break;
-            	case PHOTO:
-            		builtUri = getPhotoAPIRequestUri();
-            		break;
-            	default:
-            		break;
-            	}
+                switch(mode){
+                case VIDEO:
+                    builtUri = getVideoAPIRequestUri();
+                    break;
+                case PHOTO:
+                    builtUri = getPhotoAPIRequestUri();
+                    break;
+                default:
+                    break;
+                }
                 
                 // send a GET request to the server
                 URL url = new URL(builtUri.toString());
@@ -245,30 +245,30 @@ public class PhotoList extends Activity {
             }
         }
 
-		private Uri getPhotoAPIRequestUri() {
-			final String USER_ID = "12208415@N08";	//Yale flickr user id
-			final String BASE_URL = "https://api.flickr.com/services/rest/?";
-			//TODO: extract api key and secret
-			Uri builtUri = Uri.parse(BASE_URL).buildUpon()
-			            .appendQueryParameter("method", "flickr.photosets.getList")
-			            .appendQueryParameter("api_key", new DeveloperKey().FLICKR_API_KEY)
-			            .appendQueryParameter("user_id", USER_ID) 
-			            .appendQueryParameter("format", "json")
-			            .appendQueryParameter("nojsoncallback", "1")
-			            .build();
-			return builtUri;
-		}
+        private Uri getPhotoAPIRequestUri() {
+            final String USER_ID = "12208415@N08";    //Yale flickr user id
+            final String BASE_URL = "https://api.flickr.com/services/rest/?";
+            //TODO: extract api key and secret
+            Uri builtUri = Uri.parse(BASE_URL).buildUpon()
+                        .appendQueryParameter("method", "flickr.photosets.getList")
+                        .appendQueryParameter("api_key", new DeveloperKey().FLICKR_API_KEY)
+                        .appendQueryParameter("user_id", USER_ID) 
+                        .appendQueryParameter("format", "json")
+                        .appendQueryParameter("nojsoncallback", "1")
+                        .build();
+            return builtUri;
+        }
 
-		private Uri getVideoAPIRequestUri() {
-			final String BASE_URL = "https://www.googleapis.com/youtube/v3/playlists?";
-			Uri builtUri = Uri.parse(BASE_URL).buildUpon()
-			        .appendQueryParameter("part", "snippet")
-			        .appendQueryParameter("channelId", "UC4EY_qnSeAP1xGsh61eOoJA")
-			        .appendQueryParameter("key", new DeveloperKey().DEVELOPER_KEY)
-			        .appendQueryParameter("maxResults", "50")
-			        .build();
-			return builtUri;
-		}
+        private Uri getVideoAPIRequestUri() {
+            final String BASE_URL = "https://www.googleapis.com/youtube/v3/playlists?";
+            Uri builtUri = Uri.parse(BASE_URL).buildUpon()
+                    .appendQueryParameter("part", "snippet")
+                    .appendQueryParameter("channelId", "UC4EY_qnSeAP1xGsh61eOoJA")
+                    .appendQueryParameter("key", new DeveloperKey().DEVELOPER_KEY)
+                    .appendQueryParameter("maxResults", "50")
+                    .build();
+            return builtUri;
+        }
         
         @Override
         protected void onPostExecute(String[] result){
