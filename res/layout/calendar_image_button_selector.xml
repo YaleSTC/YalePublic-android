@@ -1,7 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:id="@+id/calendarGridButton"
+    android:layout_height="wrap_content">
 
-</LinearLayout>
+        <ImageView
+            android:id="@+id/calendar_button_image"
+            android:layout_alignParentTop="@+id/calendarGridButton"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:adjustViewBounds="true"
+            android:src="@drawable/calendar_grid_button_unselected"/>
+
+        <TextView
+            android:id="@+id/calendar_button_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/calendar_button_image"
+            android:layout_alignTop="@+id/calendar_button_image"
+            android:layout_alignRight="@+id/calendar_button_image"
+            android:layout_alignBottom="@+id/calendar_button_image"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:layout_centerVertical="true"/>
+
+</RelativeLayout>

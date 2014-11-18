@@ -4,4 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="edu.yalestc.yalepublic.Events.EventsDisplay"
-    tools:ignore="MergeRootFrame" />
+    tools:ignore="MergeRootFrame"
+
+    />
