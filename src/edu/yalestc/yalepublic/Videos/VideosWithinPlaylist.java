@@ -24,7 +24,6 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import edu.yalestc.yalepublic.DeveloperKey;
-import edu.yalestc.yalepublic.JSONReader;
 import edu.yalestc.yalepublic.R;
 
 
