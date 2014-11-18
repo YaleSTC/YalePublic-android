@@ -62,15 +62,18 @@ public class EventCategories extends Activity {
                 public void onItemClick(AdapterView<?> arg0, View arg1,
                                         int arg2, long arg3){
                     Intent showEvents = new Intent(EventCategories.this, EventsDisplay.class);
-                    showEvents.putExtra("category", categories[arg2]);
-                    showEvents.putExtra("color", colors[arg2]);
                     //warning here, the real json categories are different than the descriptions. In eventsDisplay we will have
                     //to parse the names and do a good JSON query. This means splitting the string into separate words and adding a query
                     //for category equal to each of the elements!
+                    showEvents.putExtra("category", categories[arg2]);
+                    //to parse only for events in selected category
+                    showEvents.putExtra("categorySearchedFor",arg2);
                     String JsonCategory = JsonCategoryNames[arg2];
-                    if(JsonCategory == "PlaceHolderForAll"){
+                    if(arg2 == 0){
                         showEvents.putExtra("JsonCategories", "All");
+                        showEvents.putExtra("color", colors);
                     } else{
+                        showEvents.putExtra("color",new int[]{colors[arg2]});
                         showEvents.putExtra("JsonCategories", JsonCategory);
                     }
                     Log.v("showEventsLaunch","With given parameters:" + categories[arg2] + " " + Integer.toString(colors[arg2]) );

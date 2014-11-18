@@ -80,7 +80,7 @@ public class CalendarFragment extends Fragment {
         calendarAdapter = new EventsCalendarGridAdapter(getActivity());
         calendarAdapter.update(year, month);
 
-        listEvents = new EventsCalendarEventList(getActivity(), new EventsParseForDateWithinCategory(mRawData, month, year), year, month, calendarAdapter.getCurrentlySelected(), mExtras.getInt("color"));
+        listEvents = new EventsCalendarEventList(getActivity(), new EventsParseForDateWithinCategory(mRawData, month, year, getActivity()), year, month, calendarAdapter.getCurrentlySelected(), mExtras.getIntArray("color"));
         ((ListView) ((RelativeLayout) rootView).getChildAt(3)).setAdapter(listEvents);
 
         ((GridView) (((RelativeLayout) rootView).getChildAt(2))).setAdapter(calendarAdapter);
@@ -88,33 +88,37 @@ public class CalendarFragment extends Fragment {
         ((GridView) (((RelativeLayout) rootView).getChildAt(2))).setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                     //Change the drawables of tile that become "unselected"
-                if (calendarAdapter.isToday(-1)) {
+                if (!calendarAdapter.isOutsideCurrentMonth(i)) {
+                    //Change the drawables of tile that become "unselected"
+                    if (calendarAdapter.isToday(-1)) {
                         //If the selected day was today's day, load a special bitmap ...
-                    ((ImageView) ((RelativeLayout) ((GridView) (((RelativeLayout) rootView).getChildAt(2))).getChildAt(calendarAdapter.getCurrentlySelected())).getChildAt(0)).setImageDrawable(getResources().getDrawable(calendar_grid_button_current_unselected));
-                } else {
+                        ((ImageView) ((RelativeLayout) ((GridView) (((RelativeLayout) rootView).getChildAt(2))).getChildAt(calendarAdapter.getCurrentlySelected())).getChildAt(0)).setImageDrawable(getResources().getDrawable(calendar_grid_button_current_unselected));
+                    } else {
                         //If the selected day was not today's day, load the usual bitmap
-                    ((ImageView) ((RelativeLayout) ((GridView) (((RelativeLayout) rootView).getChildAt(2))).getChildAt(calendarAdapter.getCurrentlySelected())).getChildAt(0)).setImageDrawable(getResources().getDrawable(calendar_grid_button_unselected));
-                }
+                        ((ImageView) ((RelativeLayout) ((GridView) (((RelativeLayout) rootView).getChildAt(2))).getChildAt(calendarAdapter.getCurrentlySelected())).getChildAt(0)).setImageDrawable(getResources().getDrawable(calendar_grid_button_unselected));
+                    }
                     //change text color to dark gray
-                ((TextView) ((RelativeLayout) ((GridView) (((RelativeLayout) rootView).getChildAt(2))).getChildAt(calendarAdapter.getCurrentlySelected())).getChildAt(1)).setTextColor(Color.parseColor("#3d4b5a"));
+                    ((TextView) ((RelativeLayout) ((GridView) (((RelativeLayout) rootView).getChildAt(2))).getChildAt(calendarAdapter.getCurrentlySelected())).getChildAt(1)).setTextColor(Color.parseColor("#3d4b5a"));
                     //notify calendar Adapter of change in selected item
-                calendarAdapter.setCurrentlySelected(i);
+                    calendarAdapter.setCurrentlySelected(i);
                     //get new set of items to be displayed in the list of events beneath the calendar
-                listEvents.setmSelectedDayOfMonth(calendarAdapter.getDayNumber(i));
+                    listEvents.setmSelectedDayOfMonth(calendarAdapter.getDayNumber(i));
                     //update the list of events
-                listEvents.notifyDataSetChanged();
+                    listEvents.notifyDataSetChanged();
                     //change the drawables of tiles that become "selected"
-                if (calendarAdapter.isToday(-1)) {
+                    if (calendarAdapter.isToday(-1)) {
                         //If the selected day is today, load special bitmap
-                    ((ImageView) ((RelativeLayout) ((GridView) (((RelativeLayout) rootView).getChildAt(2))).getChildAt(calendarAdapter.getCurrentlySelected())).getChildAt(0)).setImageDrawable(getResources().getDrawable(calendar_grid_button_current_selected));
-                } else {
+                        ((ImageView) ((RelativeLayout) ((GridView) (((RelativeLayout) rootView).getChildAt(2))).getChildAt(calendarAdapter.getCurrentlySelected())).getChildAt(0)).setImageDrawable(getResources().getDrawable(calendar_grid_button_current_selected));
+                    } else {
                         //If the selected day is not today, load the usual bitmap
-                    ((ImageView) ((RelativeLayout) ((GridView) (((RelativeLayout) rootView).getChildAt(2))).getChildAt(calendarAdapter.getCurrentlySelected())).getChildAt(0)).setImageDrawable(getResources().getDrawable(calendar_grid_button_selected));
-                }
+                        ((ImageView) ((RelativeLayout) ((GridView) (((RelativeLayout) rootView).getChildAt(2))).getChildAt(calendarAdapter.getCurrentlySelected())).getChildAt(0)).setImageDrawable(getResources().getDrawable(calendar_grid_button_selected));
+                    }
                     //change the text color to "Selected color: - White.
-                ((TextView) ((RelativeLayout) ((GridView) (((RelativeLayout) rootView).getChildAt(2))).getChildAt(calendarAdapter.getCurrentlySelected())).getChildAt(1)).setTextColor((Color.parseColor("#FFFFFF")));
-                //Log.v("Item", "Clicked on calendar!");
+                    ((TextView) ((RelativeLayout) ((GridView) (((RelativeLayout) rootView).getChildAt(2))).getChildAt(calendarAdapter.getCurrentlySelected())).getChildAt(1)).setTextColor((Color.parseColor("#FFFFFF")));
+                    //Log.v("Item", "Clicked on calendar!");
+                } else {
+
+                }
             }
 
         });

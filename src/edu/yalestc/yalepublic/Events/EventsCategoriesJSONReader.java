@@ -15,15 +15,15 @@ public class EventsCategoriesJSONReader extends JSONReader {
     }
 
     public void parseCategoryAddToReader(Bundle extras) {
-        String categories = extras.getString("category");
+        String categories = extras.getString("JsonCategories");
         if (categories.split(" ").length > 1) {
-            this.addParams(new Pair<String, String>("category", categories.split(" ")[0]));
-            this.addParams(new Pair<String, String>("category", categories.split(" ")[1]));
+            this.addParams(new Pair<String, String>("categories", categories.split(" ")[0]));
+            this.addParams(new Pair<String, String>("categories", categories.split(" ")[1]));
         } else {
             if(categories.equals("All"))
                 return;
             else
-                this.addParams(new Pair<String, String>("category", categories));
+                this.addParams(new Pair<String, String>("categories", categories));
         }
     }
 

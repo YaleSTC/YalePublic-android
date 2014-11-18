@@ -30,13 +30,13 @@ public class EventsCalendarEventList extends BaseAdapter {
         //for quicker parsing of events. Is passed in from MonthFragment. See EventsParseForDateWithinCategory for more information
     private EventsParseForDateWithinCategory allTheEvents;
         //for ovals next to time
-    private int mColor;
+    private int[] mColor;
         //for displaying only relevant data. Given as the day of month as understood by EventsCalendarGridAdapter.getDayNumber()..
     private int mSelectedDayOfMonth;
         //array holding only the displayed events
     ArrayList<String[]> eventsOnCurrentDay;
 
-    EventsCalendarEventList (Context context, EventsParseForDateWithinCategory eventsParser, int year, int month, int selectedDayOfMonth, int color){
+    EventsCalendarEventList (Context context, EventsParseForDateWithinCategory eventsParser, int year, int month, int selectedDayOfMonth, int[] color){
         mContext = context;
         allTheEvents = eventsParser;
         mYear = year;
@@ -94,13 +94,20 @@ public class EventsCalendarEventList extends BaseAdapter {
 
     @Override
     public View getView(int i, View convertView, ViewGroup viewGroup) {
+        int color;
+        String[] singleEvent = eventsOnCurrentDay.get(i);
+        //set the color using category number
+        if(mColor.length != 1) {
+            color = mColor[Integer.parseInt(singleEvent[3])];
+        } else {
+            color = mColor[0];
+        }
         //Log.v("EventsCalendarEventList", "Created a view for the " + Integer.toString(i) + " view");
         //Create the oval that is on the left of the time of the event
-        GradientDrawable circle = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{Color.parseColor("#FFFFFF"), Color.parseColor("#000000")});
+        GradientDrawable circle = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{Color.parseColor("#FFFFFF"), color});
         circle.setShape(GradientDrawable.OVAL);
-        circle.setSize(2, 2);
+        circle.setSize(40, 40);
 
-        String[] singleEvent = eventsOnCurrentDay.get(i);
         if (convertView != null) {
             ((ImageView) ((RelativeLayout) convertView).getChildAt(0)).setImageDrawable(circle);
                 //set the time of the event

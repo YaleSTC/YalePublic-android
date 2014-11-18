@@ -1,5 +1,6 @@
 package edu.yalestc.yalepublic.Events;
 
+import android.content.Context;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -8,6 +9,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import edu.yalestc.yalepublic.R;
+import edu.yalestc.yalepublic.Videos.ParseVideosWithinPlaylist;
 
 /**
  * Created by Stan Swidwinski on 11/11/14.
@@ -22,10 +26,16 @@ public class EventsParseForDateWithinCategory {
     private ArrayList<event> validEvents;
     private int mMonth;
     private int mYear;
+        //for use in events class to parse the category of an event that will be used in the EventsCalendarEventList class
+    //for deciding on the color of the blobs
+    final private String[] availableCategories;
 
-    public EventsParseForDateWithinCategory(String rawData, int month, int year){
-       setNewEvents(rawData, month, year);
+        //Context passed in for access to resources
+    public EventsParseForDateWithinCategory(String rawData, int month, int year, Context context){
+        availableCategories = context.getResources().getStringArray(R.array.events_category_names_json);
+        setNewEvents(rawData, month, year);
     }
+
         //parse the data pulled for validEvents. A validEvent is one that starts over the course of
     //given month
     public void setNewEvents(String rawData, int month, int year){
@@ -39,7 +49,7 @@ public class EventsParseForDateWithinCategory {
                 //substring necessary - JSON option was implemented by Yale poorly and returns javascript.
             //have to get rid of variable definition
             mAllData = new JSONObject(rawData.substring(24));
-             events = mAllData.getJSONObject("bwEventList")
+            events = mAllData.getJSONObject("bwEventList")
                     .getJSONArray("events");
             for(int i = 0; i < events.length(); i++) {
                 if(isValidEvent(events.getJSONObject(i))){
@@ -100,10 +110,11 @@ public class EventsParseForDateWithinCategory {
         private String time;
         private String place;
         private String date;
+        private int categoryNumber;
 
             //return a String[] with information about the event
         public String[] getInfo() {
-            String[] eventInfo = new String[]{title, time, place};
+            String[] eventInfo = new String[]{title, time, place, Integer.toString(categoryNumber)};
             return eventInfo;
         }
 
@@ -116,9 +127,10 @@ public class EventsParseForDateWithinCategory {
             setTime(event);
             setPlace(event);
             setDate(event);
+            setCategoryNumber(event);
         }
 
-        public void setTitle(JSONObject JSONevent){
+        private void setTitle(JSONObject JSONevent){
             try {
                 title = JSONevent.getString("summary");
             } catch (JSONException e) {
@@ -126,7 +138,7 @@ public class EventsParseForDateWithinCategory {
             }
         }
 
-        public void setTime (JSONObject JSONevent){
+        private void setTime (JSONObject JSONevent){
             try {
                 JSONObject startTime = JSONevent.getJSONObject("start");
                 if (startTime.getString("allday") == "true") {
@@ -139,7 +151,7 @@ public class EventsParseForDateWithinCategory {
             }
         }
 
-        public void setPlace (JSONObject JSONevent){
+        private void setPlace (JSONObject JSONevent){
             try{
                 JSONObject location = JSONevent.getJSONObject("location");
                 place = location.getString("name");
@@ -154,11 +166,50 @@ public class EventsParseForDateWithinCategory {
             }
         }
 
-        public void setDate (JSONObject JSONevent){
+        private void setDate (JSONObject JSONevent){
             try{
                 date = JSONevent.getJSONObject("start").getString("datetime").substring(0,8);
             } catch (JSONException e){
                 Log.e("EventsParseForCategory/events/setDate","Json error");
+            }
+        }
+
+        private void setCategoryNumber (JSONObject JSONevent){
+            JSONArray mCategories;
+            String category;
+                //pull the categories assigned to an event (there are many)
+            try{
+                mCategories = JSONevent.getJSONArray("categories");
+                    //for every assigned category check against the possible categories and return the number
+                //indicating the place of category in availableCategories array, since the color of the blob
+                //is the same! We always chose the first that matches. Although complexity here is big, there
+                //are rarely more than 5 elements in the first list and the second one is fixed and short.
+                for(int i = 0; i < mCategories.length(); i++){
+                    for(int j = 1; j < availableCategories.length; j++){
+                        if(availableCategories[j].split(" ").length != 1){
+                            category = availableCategories[j].split(" ")[0];
+                            if(category.equals(mCategories.getString(i))){
+                                categoryNumber = j;
+                                return;
+                            }
+                            category = availableCategories[j].split(" ")[1];
+                            if(category.equals(mCategories.getString(i))){
+                                categoryNumber = j;
+                                return;
+                            }
+                        } else {
+                            category = availableCategories[j];
+                            if(category.equals(mCategories.getString(i))){
+                                categoryNumber = j;
+                                return;
+                            }
+                        }
+                    }
+                }
+                //for the events that cannot be categorized!
+            categoryNumber = 13;
+            } catch (JSONException e){
+                Log.e("EventsParseForCategory/events/setCategoryNumber","Json error");
             }
         }
     }

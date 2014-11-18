@@ -30,7 +30,7 @@ public class EventsDisplay extends Activity {
     private Fragment dayTab;
     private Fragment monthTab;
     private Fragment weekTab;
-    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM");
     String currentDate = dateFormat.format(new Date());
         //for use in onCreate only. Later data pulling when the month is changed is done within the tabs fragments
     private EventsCategoriesJSONReader dataPuller;
@@ -39,7 +39,7 @@ public class EventsDisplay extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_events_display);
-        dataPuller = new EventsCategoriesJSONReader("http://calendar.yale.edu/feeds/feed/opa/json/" + currentDate + "/30days", this);
+        dataPuller = new EventsCategoriesJSONReader("http://calendar.yale.edu/feeds/feed/opa/json/" + currentDate +"-01"+ "/30days", this);
         dataPuller.parseCategoryAddToReader(getIntent().getExtras());
 
         try {
