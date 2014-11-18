@@ -73,7 +73,8 @@
         </activity>
         <activity
             android:name=".Events.EventCategories"
-            android:label="@string/title_activity_event_categories" >
+            android:label="@string/title_activity_event_categories"
+            android:screenOrientation="portrait">
         </activity>
 
         <activity
@@ -84,7 +85,15 @@
 
         <activity
             android:name=".Events.EventsDisplay"
-            android:label="@string/title_activity_events_display" >
+            android:label="@string/title_activity_events_display"
+            android:screenOrientation="portrait">
+        </activity>
+
+
+        <activity
+            android:name=".Events.EventsDetails"
+            android:label="@string/title_activity_events_details"
+            android:screenOrientation="portrait">
         </activity>
 
     </application>
