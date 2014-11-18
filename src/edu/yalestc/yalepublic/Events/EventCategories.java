@@ -69,10 +69,11 @@ public class EventCategories extends Activity {
                     //for category equal to each of the elements!
                     String JsonCategory = JsonCategoryNames[arg2];
                     if(JsonCategory == "PlaceHolderForAll"){
-
+                        showEvents.putExtra("JsonCategories", "All");
                     } else{
                         showEvents.putExtra("JsonCategories", JsonCategory);
                     }
+                    Log.v("showEventsLaunch","With given parameters:" + categories[arg2] + " " + Integer.toString(colors[arg2]) );
                     startActivity(showEvents);
                 }
             });
