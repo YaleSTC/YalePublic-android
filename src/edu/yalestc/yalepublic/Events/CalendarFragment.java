@@ -21,6 +21,7 @@ import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
 import edu.yalestc.yalepublic.R;
+import edu.yalestc.yalepublic.Videos.JSONReader;
 
 import static edu.yalestc.yalepublic.R.drawable.calendar_grid_button_current_selected;
 import static edu.yalestc.yalepublic.R.drawable.calendar_grid_button_current_unselected;
@@ -80,7 +81,7 @@ public class CalendarFragment extends Fragment {
         calendarAdapter = new EventsCalendarGridAdapter(getActivity());
         calendarAdapter.update(year, month);
 
-        listEvents = new EventsCalendarEventList(getActivity(), new EventsParseForDateWithinCategory(mRawData, month, year, getActivity()), year, month, calendarAdapter.getCurrentlySelected(), mExtras.getIntArray("color"));
+        listEvents = new EventsCalendarEventList(getActivity(), new EventsParseForDateWithinCategory(mRawData, month, year, getActivity(), mExtras.getInt("numberOfCategorySearchedFor")), year, month, calendarAdapter.getCurrentlySelected(), mExtras.getIntArray("color"));
         ((ListView) ((RelativeLayout) rootView).getChildAt(3)).setAdapter(listEvents);
 
         ((GridView) (((RelativeLayout) rootView).getChildAt(2))).setAdapter(calendarAdapter);
@@ -145,9 +146,7 @@ public class CalendarFragment extends Fragment {
         calendarAdapter.update(year, month);
         calendarAdapter.notifyDataSetChanged();
              //pull new data for a given month!!
-        EventsCategoriesJSONReader newData = new EventsCategoriesJSONReader("http://calendar.yale.edu/feeds/feed/opa/json/" + Integer.toString(year) + "-" + monthNumberToString() + "-01"  + "/30days", getActivity());
-            //add Extras to the reader for categories!
-        newData.parseCategoryAddToReader(mExtras);
+        JSONReader newData = new JSONReader("http://calendar.yale.edu/feeds/feed/opa/json/" + Integer.toString(year) + "-" + monthNumberToString() + "-01"  + "/30days", getActivity());
         try {
             mRawData = newData.execute().get();
             //rawData is null if there are problems. We get a toast for no internet!

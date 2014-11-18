@@ -33,14 +33,13 @@ public class EventsDisplay extends Activity {
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM");
     String currentDate = dateFormat.format(new Date());
         //for use in onCreate only. Later data pulling when the month is changed is done within the tabs fragments
-    private EventsCategoriesJSONReader dataPuller;
+    private JSONReader dataPuller;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_events_display);
-        dataPuller = new EventsCategoriesJSONReader("http://calendar.yale.edu/feeds/feed/opa/json/" + currentDate +"-01"+ "/30days", this);
-        dataPuller.parseCategoryAddToReader(getIntent().getExtras());
+        dataPuller = new JSONReader("http://calendar.yale.edu/feeds/feed/opa/json/" + currentDate +"-01"+ "/30days", this);
 
         try {
             rawData = dataPuller.execute().get();
@@ -110,7 +109,6 @@ public class EventsDisplay extends Activity {
             View view = inflater.inflate(R.layout.fragment_event_categories, container, false);
             //this is done as shown here:
             //http://stackoverflow.com/questions/6858162/custom-calendar-dayview-in-android
-
 
             return view;
         }

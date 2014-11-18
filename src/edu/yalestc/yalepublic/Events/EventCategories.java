@@ -19,16 +19,17 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import edu.yalestc.yalepublic.R;
+import edu.yalestc.yalepublic.Videos.JSONReader;
 
 public class EventCategories extends Activity {
     //not private to adapter since we will use it in the buttons to specific categories!
     private String[] JsonCategoryNames;
     private String[] categories;
     private int[] colors;
+    private JSONReader pullEventData;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        JsonCategoryNames = getResources().getStringArray(R.array.events_category_names_json);
         categories = getResources().getStringArray(R.array.events_category_names);
         colors = getResources().getIntArray(R.array.event_categories_colors);
         setContentView(R.layout.activity_event_categories);
@@ -67,14 +68,12 @@ public class EventCategories extends Activity {
                     //for category equal to each of the elements!
                     showEvents.putExtra("category", categories[arg2]);
                     //to parse only for events in selected category
-                    showEvents.putExtra("categorySearchedFor",arg2);
-                    String JsonCategory = JsonCategoryNames[arg2];
+                    showEvents.putExtra("numberOfCategorySearchedFor",arg2);
                     if(arg2 == 0){
                         showEvents.putExtra("JsonCategories", "All");
                         showEvents.putExtra("color", colors);
                     } else{
                         showEvents.putExtra("color",new int[]{colors[arg2]});
-                        showEvents.putExtra("JsonCategories", JsonCategory);
                     }
                     Log.v("showEventsLaunch","With given parameters:" + categories[arg2] + " " + Integer.toString(colors[arg2]) );
                     startActivity(showEvents);

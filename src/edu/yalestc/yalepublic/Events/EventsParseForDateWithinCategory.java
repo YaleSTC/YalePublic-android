@@ -26,12 +26,14 @@ public class EventsParseForDateWithinCategory {
     private ArrayList<event> validEvents;
     private int mMonth;
     private int mYear;
+    private int mSearchedCategoryNumber;
         //for use in events class to parse the category of an event that will be used in the EventsCalendarEventList class
     //for deciding on the color of the blobs
     final private String[] availableCategories;
 
         //Context passed in for access to resources
-    public EventsParseForDateWithinCategory(String rawData, int month, int year, Context context){
+    public EventsParseForDateWithinCategory(String rawData, int month, int year, Context context, int searchedCategoryNumber){
+        mSearchedCategoryNumber = searchedCategoryNumber;
         availableCategories = context.getResources().getStringArray(R.array.events_category_names_json);
         setNewEvents(rawData, month, year);
     }
@@ -76,23 +78,61 @@ public class EventsParseForDateWithinCategory {
         return givenEvents;
     }
 
-        //check if given event is valid - if is start in the month considered
+        //check if given event is valid
+        // if we are looking for all events - it only has to start in current month
+        //if we are looking for special category it has to start in current month and be in the given category!
     private boolean isValidEvent(JSONObject JSONevent){
         try {
             JSONObject startTime = JSONevent.getJSONObject("start");
             String yearMonth = startTime.getString("datetime");
             yearMonth = yearMonth.substring(0, 6);
             //Log.v("isValidEvent", yearMonth);
-            if (yearMonth.equals(Integer.toString(mYear) + monthToString())){
-                return true;
+            if (yearMonth.equals(Integer.toString(mYear) + monthToString())) {
+                if(mSearchedCategoryNumber == 0) {
+                    return true;
+                } else {
+                    if(isInConsideredCategory(JSONevent)){
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
             } else {
-                return false;
+               return false;
             }
-        } catch (JSONException e){
+        }catch(JSONException e){
             Log.e("EventsParseForCategory/isValidEvent", "JSONerror");
             return false;
         }
     }
+    private boolean isInConsideredCategory(JSONObject JSONevent){
+        try {
+            JSONArray mCategories = JSONevent.getJSONArray("categories");
+            String category;
+            for (int i = 0; i < mCategories.length(); i++) {
+                    if (availableCategories[mSearchedCategoryNumber].split(" ").length != 1) {
+                        category = availableCategories[mSearchedCategoryNumber].split(" ")[0];
+                        if (category.equals(mCategories.getString(i))) {
+                            return true;
+                        }
+                        category = availableCategories[mSearchedCategoryNumber].split(" ")[1];
+                        if (category.equals(mCategories.getString(i))) {
+                            return true;
+                        }
+                    } else {
+                        category = availableCategories[mSearchedCategoryNumber];
+                        if (category.equals(mCategories.getString(i))) {
+                            return true;
+                        }
+                    }
+                }
+            return false;
+        } catch (JSONException e) {
+            Log.e("EventsParseForCategory/events/setCategoryNumber", "Json error");
+            return false;
+        }
+    }
+
         //helper function for usage in isValidEvent. returns the month as MM. MM ranges from 01 to 12.
     private String monthToString(){
         String stringMonth;
@@ -174,42 +214,47 @@ public class EventsParseForDateWithinCategory {
             }
         }
 
+            //this is necessary only for mSearchedCategoryNumber == 0 !! Otherwise we know!
         private void setCategoryNumber (JSONObject JSONevent){
-            JSONArray mCategories;
-            String category;
+            if(mSearchedCategoryNumber == 0) {
+                JSONArray mCategories;
+                String category;
                 //pull the categories assigned to an event (there are many)
-            try{
-                mCategories = JSONevent.getJSONArray("categories");
+                try {
+                    mCategories = JSONevent.getJSONArray("categories");
                     //for every assigned category check against the possible categories and return the number
-                //indicating the place of category in availableCategories array, since the color of the blob
-                //is the same! We always chose the first that matches. Although complexity here is big, there
-                //are rarely more than 5 elements in the first list and the second one is fixed and short.
-                for(int i = 0; i < mCategories.length(); i++){
-                    for(int j = 1; j < availableCategories.length; j++){
-                        if(availableCategories[j].split(" ").length != 1){
-                            category = availableCategories[j].split(" ")[0];
-                            if(category.equals(mCategories.getString(i))){
-                                categoryNumber = j;
-                                return;
-                            }
-                            category = availableCategories[j].split(" ")[1];
-                            if(category.equals(mCategories.getString(i))){
-                                categoryNumber = j;
-                                return;
-                            }
-                        } else {
-                            category = availableCategories[j];
-                            if(category.equals(mCategories.getString(i))){
-                                categoryNumber = j;
-                                return;
+                    //indicating the place of category in availableCategories array, since the color of the blob
+                    //is the same! We always chose the first that matches. Although complexity here is big, there
+                    //are rarely more than 5 elements in the first list and the second one is fixed and short.
+                    for (int i = 0; i < mCategories.length(); i++) {
+                        for (int j = 1; j < availableCategories.length; j++) {
+                            if (availableCategories[j].split(" ").length != 1) {
+                                category = availableCategories[j].split(" ")[0];
+                                if (category.equals(mCategories.getString(i))) {
+                                    categoryNumber = j;
+                                    return;
+                                }
+                                category = availableCategories[j].split(" ")[1];
+                                if (category.equals(mCategories.getString(i))) {
+                                    categoryNumber = j;
+                                    return;
+                                }
+                            } else {
+                                category = availableCategories[j];
+                                if (category.equals(mCategories.getString(i))) {
+                                    categoryNumber = j;
+                                    return;
+                                }
                             }
                         }
                     }
+                    //for the events that cannot be categorized!
+                    categoryNumber = 13;
+                } catch (JSONException e) {
+                    Log.e("EventsParseForCategory/events/setCategoryNumber", "Json error");
                 }
-                //for the events that cannot be categorized!
-            categoryNumber = 13;
-            } catch (JSONException e){
-                Log.e("EventsParseForCategory/events/setCategoryNumber","Json error");
+            } else {
+                categoryNumber = mSearchedCategoryNumber;
             }
         }
     }
