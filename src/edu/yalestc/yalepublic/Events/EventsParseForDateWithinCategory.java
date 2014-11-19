@@ -66,8 +66,12 @@ public class EventsParseForDateWithinCategory {
         //returns an ArrayList of String[] with the information about events on a given date.
     //The structure of every event is:
     //event[0] = title
-    //event[1] = time
-    //event[2] = place
+    //event[1] = start time
+    //event[2] = end time
+    //event[3] = place
+    //event[4] = date
+    //event[5] = description
+    //event[6] = categoryNumber
     public ArrayList<String[]> getEventsOnGivenDate(String date){
         ArrayList<String[]> givenEvents = new ArrayList<String[]>();
         for(int i = 0; i < validEvents.size(); i++){
@@ -79,7 +83,7 @@ public class EventsParseForDateWithinCategory {
     }
 
         //check if given event is valid
-        // if we are looking for all events - it only has to start in current month
+        //if we are looking for all events - it only has to start in current month
         //if we are looking for special category it has to start in current month and be in the given category!
     private boolean isValidEvent(JSONObject JSONevent){
         try {
@@ -147,14 +151,17 @@ public class EventsParseForDateWithinCategory {
 
     private class event {
         private String title;
-        private String time;
+        private String startTime;
+        private String endTime;
         private String place;
         private String date;
+        private String dateDescription;
+        private String description;
         private int categoryNumber;
 
             //return a String[] with information about the event
         public String[] getInfo() {
-            String[] eventInfo = new String[]{title, time, place, Integer.toString(categoryNumber)};
+            String[] eventInfo = new String[]{title, startTime, endTime, place, dateDescription, description, Integer.toString(categoryNumber)};
             return eventInfo;
         }
 
@@ -164,9 +171,12 @@ public class EventsParseForDateWithinCategory {
 
         event(JSONObject event) {
             setTitle(event);
-            setTime(event);
+            setStartTime(event);
+            setEndTime(event);
             setPlace(event);
             setDate(event);
+            setDateDescription(event);
+            setDateDescription(event);
             setCategoryNumber(event);
         }
 
@@ -178,13 +188,26 @@ public class EventsParseForDateWithinCategory {
             }
         }
 
-        private void setTime (JSONObject JSONevent){
+        private void setStartTime (JSONObject JSONevent){
             try {
-                JSONObject startTime = JSONevent.getJSONObject("start");
-                if (startTime.getString("allday") == "true") {
-                    time = "All day";
+                JSONObject time = JSONevent.getJSONObject("start");
+                if (time.getString("allday") == "true") {
+                    startTime = "All day";
                 } else {
-                    time = startTime.getString("time");
+                    startTime = time.getString("time");
+                }
+            } catch (JSONException e) {
+                Log.e("EventsParseForCategory/setTime", "JSON error");
+            }
+        }
+
+        private void setEndTime (JSONObject JSONevent){
+            try {
+                JSONObject time = JSONevent.getJSONObject("end");
+                if (time.getString("allday") == "true") {
+                    endTime = "All day";
+                } else {
+                    endTime = time.getString("time");
                 }
             } catch (JSONException e) {
                 Log.e("EventsParseForCategory/setTime", "JSON error");
@@ -211,6 +234,23 @@ public class EventsParseForDateWithinCategory {
                 date = JSONevent.getJSONObject("start").getString("datetime").substring(0,8);
             } catch (JSONException e){
                 Log.e("EventsParseForCategory/events/setDate","Json error");
+            }
+        }
+
+        private void setDateDescription(JSONObject JSONevent){
+                try {
+                    JSONObject time = JSONevent.getJSONObject("start");
+                        dateDescription = time.getString("longdate");
+                } catch (JSONException e) {
+                    Log.e("EventsParseForCategory/setTime", "JSON error");
+                }
+        }
+
+        private void setDescription(JSONObject JSONevent){
+            try {
+                description = JSONevent.getString("description");
+            } catch (JSONException e) {
+                Log.e("EventsParseForCategory/setTime", "JSON error");
             }
         }
 

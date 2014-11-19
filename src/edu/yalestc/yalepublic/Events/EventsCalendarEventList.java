@@ -98,12 +98,11 @@ public class EventsCalendarEventList extends BaseAdapter {
         String[] singleEvent = eventsOnCurrentDay.get(i);
         //set the color using category number
         if(mColor.length != 1) {
-            color = mColor[Integer.parseInt(singleEvent[3])];
+            color = mColor[Integer.parseInt(singleEvent[6])];
         } else {
             color = mColor[0];
         }
         //Log.v("EventsCalendarEventList", "Created a view for the " + Integer.toString(i) + " view");
-        //Create the oval that is on the left of the time of the event
         GradientDrawable circle = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{Color.parseColor("#FFFFFF"), color});
         circle.setShape(GradientDrawable.OVAL);
         circle.setSize(40, 40);
@@ -115,7 +114,7 @@ public class EventsCalendarEventList extends BaseAdapter {
                 //set the title of the event
             ((TextView) ((LinearLayout)((RelativeLayout) convertView).getChildAt(2)).getChildAt(0)).setText(singleEvent[0]);
                 //set the place of the event
-            ((TextView) ((LinearLayout)((RelativeLayout) convertView).getChildAt(2)).getChildAt(1)).setText(singleEvent[2]);
+            ((TextView) ((LinearLayout)((RelativeLayout) convertView).getChildAt(2)).getChildAt(1)).setText(singleEvent[3]);
             return convertView;
         } else {
             RelativeLayout eventListElement = (RelativeLayout) LayoutInflater.from(mContext).inflate(R.layout.calendar_list_element, null);
@@ -125,7 +124,7 @@ public class EventsCalendarEventList extends BaseAdapter {
                 //set the title of the event
             ((TextView) ((LinearLayout)((RelativeLayout) eventListElement).getChildAt(2)).getChildAt(0)).setText(singleEvent[0]);
                 //set the palce of the event
-            ((TextView) ((LinearLayout)((RelativeLayout) eventListElement).getChildAt(2)).getChildAt(1)).setText(singleEvent[2]);
+            ((TextView) ((LinearLayout)((RelativeLayout) eventListElement).getChildAt(2)).getChildAt(1)).setText(singleEvent[3]);
             return eventListElement;
         }
     }
