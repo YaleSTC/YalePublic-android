@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -106,9 +107,7 @@ public class CalendarFragment extends Fragment {
             }
         });
 
-
         ((GridView) (((RelativeLayout) rootView).getChildAt(2))).setAdapter(calendarAdapter);
-
         ((GridView) (((RelativeLayout) rootView).getChildAt(2))).setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
