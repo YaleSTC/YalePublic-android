@@ -1,7 +1,6 @@
 package edu.yalestc.yalepublic.Events;
 
 import android.app.Activity;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RectShape;

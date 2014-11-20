@@ -4,8 +4,6 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -82,9 +80,9 @@ public class CalendarFragment extends Fragment {
 
         calendarAdapter = new EventsCalendarGridAdapter(getActivity());
         calendarAdapter.update(year, month);
-
         listEvents = new EventsCalendarEventList(getActivity(), new EventsParseForDateWithinCategory(mRawData, month, year, getActivity(), mExtras.getInt("numberOfCategorySearchedFor")), year, month, calendarAdapter.getCurrentlySelected(), mExtras.getIntArray("color"));
         ((ListView) ((RelativeLayout) rootView).getChildAt(3)).setAdapter(listEvents);
+            //set the listener for elemnts on the list, create intent and add all the information required
         ((ListView) ((RelativeLayout) rootView).getChildAt(3)).setOnItemClickListener(new AdapterView.OnItemClickListener(){
 
             @Override

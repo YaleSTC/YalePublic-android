@@ -8,10 +8,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import edu.yalestc.yalepublic.R;
-import edu.yalestc.yalepublic.Videos.ParseVideosWithinPlaylist;
 
 /**
  * Created by Stan Swidwinski on 11/11/14.
