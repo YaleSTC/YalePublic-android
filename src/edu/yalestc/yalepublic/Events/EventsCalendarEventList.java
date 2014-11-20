@@ -47,6 +47,11 @@ public class EventsCalendarEventList extends BaseAdapter {
         eventsOnCurrentDay = allTheEvents.getEventsOnGivenDate(getStringDateYearMonthDay());
     }
 
+        //used from CalendarFragment for getting the events
+    public String[] getEventInfo(int whichEvent){
+        return eventsOnCurrentDay.get(whichEvent);
+    }
+
         //called after the month is changed, parses the newly retrieved JSON object and updates
     //current Year and Month
     public void update(String rawData, int month, int year){

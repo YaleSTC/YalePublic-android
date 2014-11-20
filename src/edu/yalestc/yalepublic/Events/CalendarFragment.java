@@ -1,6 +1,7 @@
 package edu.yalestc.yalepublic.Events;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -83,6 +84,28 @@ public class CalendarFragment extends Fragment {
 
         listEvents = new EventsCalendarEventList(getActivity(), new EventsParseForDateWithinCategory(mRawData, month, year, getActivity(), mExtras.getInt("numberOfCategorySearchedFor")), year, month, calendarAdapter.getCurrentlySelected(), mExtras.getIntArray("color"));
         ((ListView) ((RelativeLayout) rootView).getChildAt(3)).setAdapter(listEvents);
+        ((ListView) ((RelativeLayout) rootView).getChildAt(3)).setOnItemClickListener(new AdapterView.OnItemClickListener(){
+
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String[] eventInfo = listEvents.getEventInfo(i);
+                int color;
+                if(mExtras.getIntArray("color").length == 1){
+                    color = mExtras.getIntArray("color")[0];
+                } else {
+                    color = mExtras.getIntArray("color")[Integer.parseInt(eventInfo[6])];
+                }
+                Intent eventDetails = new Intent(getActivity(), EventsDetails.class);
+                eventDetails.putExtra("title",eventInfo[0]);
+                eventDetails.putExtra("start",eventInfo[4] + eventInfo[1]);
+                eventDetails.putExtra("end",eventInfo[4] + eventInfo[2]);
+                eventDetails.putExtra("color",color);
+                eventDetails.putExtra("description",eventInfo[5]);
+                eventDetails.putExtra("location",eventInfo[3]);
+                startActivity(eventDetails);
+            }
+        });
+
 
         ((GridView) (((RelativeLayout) rootView).getChildAt(2))).setAdapter(calendarAdapter);
 

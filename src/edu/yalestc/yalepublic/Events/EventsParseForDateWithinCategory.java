@@ -175,7 +175,7 @@ public class EventsParseForDateWithinCategory {
             setEndTime(event);
             setPlace(event);
             setDate(event);
-            setDateDescription(event);
+            setDescription(event);
             setDateDescription(event);
             setCategoryNumber(event);
         }

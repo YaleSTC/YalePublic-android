@@ -118,7 +118,7 @@ public class EventCategories extends Activity {
             //this is the rectangle displayed on the left of category
             GradientDrawable rectangle = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM,new int[]{white, colors[i]});
             rectangle.setShape(GradientDrawable.RECTANGLE);
-            rectangle.setSize(((int) width / 10), ((int) width / 10));
+            rectangle.setSize(((int) (width / 10)), ((int) (width / 10)));
             //adding rounded corners
             rectangle.setCornerRadius(16);
             // i != 0 because the 0th element does not have an image in the imageView, so we do not want to reuse it!
