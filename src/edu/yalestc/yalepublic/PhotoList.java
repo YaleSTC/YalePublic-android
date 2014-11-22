@@ -38,6 +38,7 @@ public class PhotoList extends Activity {
         PHOTO,
         EMPTY
     }
+
     // this is a class parameter so that it can be modified in the asynctask
     private ArrayAdapter<String> mVideoAdapter;    //TODO: Refactor
     //this is a string in which we store the ID's of playlists to pass them
@@ -58,8 +59,10 @@ public class PhotoList extends Activity {
                     setTitle("Albums");
                 }
                 else if (getIntent().getExtras().containsKey
-                        (MainActivity.VIDEO_MODE_KEY))
+                        (MainActivity.VIDEO_MODE_KEY)) {
                     mode = Mode.VIDEO;
+                    setTitle("Videos");
+                }
             }
             getFragmentManager().beginTransaction()
                     .add(R.id.container, new PlaceholderFragment()).commit();
