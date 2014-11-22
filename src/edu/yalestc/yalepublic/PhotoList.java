@@ -135,15 +135,9 @@ public class PhotoList extends Activity {
         private String[] getPlaylistsFromJson(String rawData){
            
             JSONObject videoData;
-            try {
-                videoData = new JSONObject(rawData);
-            } catch (JSONException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-                return null;
-            }
             JSONArray playlistData = null;
             try {
+                videoData = new JSONObject(rawData);
                 switch(mode){
                 case VIDEO:
                     playlistData = videoData.getJSONArray("items");

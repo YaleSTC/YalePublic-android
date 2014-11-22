@@ -112,16 +112,10 @@ public class PhotosWithinAlbum extends Activity {
 
             private String getPhotosFromJson(String rawData) {
                 JSONObject albumData;
-                try {
-                    albumData = new JSONObject(rawData);
-                } catch (JSONException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                    return null;
-                }
-                Log.d("json", albumData.toString());
                 JSONArray photolistData;
                 try {
+                    albumData = new JSONObject(rawData);
+                    Log.d("json", albumData.toString());
                     photolistData = albumData.getJSONObject("photoset")
                             .getJSONArray("photo");
                 } catch (JSONException e) {

@@ -105,15 +105,9 @@ public class VideosWithinPlaylist extends Activity {
             // and extracts the titles, thumbnails and dates of the videos in a playlist
             private String getVideosFromJson(String rawData){
                 JSONObject videoData;
-                try {
-                    videoData = new JSONObject(rawData);
-                } catch (JSONException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                    return null;
-                }
                 JSONArray playlistData;
                 try {
+                    videoData = new JSONObject(rawData);
                     playlistData = videoData.getJSONArray("items");
                 } catch (JSONException e) {
                     // TODO Auto-generated catch block
