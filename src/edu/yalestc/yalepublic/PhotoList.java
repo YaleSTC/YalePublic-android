@@ -30,6 +30,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 public class PhotoList extends Activity {
 
@@ -45,13 +46,14 @@ public class PhotoList extends Activity {
     //into VideosWithinPlaylist
     private String[] playlistIds;                //TODO: Refactor
     private Mode mode;
-    ProgressBar spinner2;
+    TextView loading;
+    ProgressBar spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mode = Mode.EMPTY; //    Default 
-        setContentView(R.layout.activity_photo_list);    //TODO: Refactor
+        setContentView(R.layout.activity_photo_within_album);
         if (savedInstanceState == null) {
             if (getIntent().getExtras() != null) {
                 if (getIntent().getExtras().containsKey
@@ -66,9 +68,10 @@ public class PhotoList extends Activity {
                 }
             }
             getFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment()).commit();
+                    .add(R.id.photoContainer, new PlaceholderFragment()).commit();
         }
-        spinner2 = (ProgressBar) findViewById(R.id.pbList);
+        loading = (TextView) findViewById(R.id.tvPhotoLoading);  // Set up spinner and text
+        spinner = (ProgressBar) findViewById(R.id.pbLoading);
     }
 
 
@@ -277,7 +280,8 @@ public class PhotoList extends Activity {
         @Override
         protected void onPostExecute(String[] result){
             // we need to use result in our ArrayAdapter; adds all of the resulting values.
-            spinner2.setVisibility(View.GONE);
+            spinner.setVisibility(View.GONE);
+            loading.setVisibility(View.GONE);  // Hide the progress
             List<String> videos = new ArrayList<String>(Arrays.asList(result));
             mVideoAdapter.addAll(videos);
         }
