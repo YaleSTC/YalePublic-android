@@ -138,9 +138,9 @@ public class PhotosWithinAlbum extends Activity {
                     //Here we actually download the thumbnail using URL obtained from JSONObject
                         try {
                             URL imageUrl = new URL(photolistData.getJSONObject(i)
-                                    .getString("url_m"));
+                                    .getString("url_sq"));
                             Log.d("json",photolistData.getJSONObject(i)
-                                    .getString("url_m"));
+                                    .getString("url_sq"));
                      //connect to given server
                             HttpURLConnection conn = (HttpURLConnection)imageUrl.openConnection();
                      //safety features and avoiding errors is links redirect
@@ -148,7 +148,7 @@ public class PhotosWithinAlbum extends Activity {
                             conn.setReadTimeout(30000);
                             conn.setInstanceFollowRedirects(true);
                      //setting inputstream and decoding it into a bitmap
-                            InputStream is=conn.getInputStream();
+                            InputStream is = conn.getInputStream();
                             bitmaps[i] = BitmapFactory.decodeStream(is);
                             bytecount = bytecount + bitmaps[i].getByteCount();
                     } catch (JSONException e) {
@@ -169,7 +169,7 @@ public class PhotosWithinAlbum extends Activity {
             @Override
             protected Void doInBackground(Void... params) {
                 try {
-                    //Send GET request to the server
+                    //Send GET request to the server to get the list of photos
                     URL url = new URL(getPhotosAPIRequestUri().toString());
                     HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                     urlConnection.setRequestMethod("GET");
@@ -205,6 +205,9 @@ public class PhotosWithinAlbum extends Activity {
                 //in the arrays we defined at the beginning
                 adapter.notifyDataSetChanged();
             }
+
+            // See https://secure.flickr.com/services/api/flickr.photosets.getPhotos.html.
+            // Uri to download the list of the user's photos, in json format
             private Uri getPhotosAPIRequestUri() {
                 final String USER_ID = "12208415@N08";    //Yale flickr user id
                 final String BASE_URL = "https://api.flickr.com/services/rest/?";
@@ -213,7 +216,7 @@ public class PhotosWithinAlbum extends Activity {
                             .appendQueryParameter("method", "flickr.photosets.getPhotos")
                             .appendQueryParameter("api_key", new DeveloperKey().FLICKR_API_KEY)
                             .appendQueryParameter("photoset_id", albumId)
-                            .appendQueryParameter("extras","url_m")
+                            .appendQueryParameter("extras","url_sq")
                             .appendQueryParameter("format", "json")
                             .appendQueryParameter("nojsoncallback", "1")
                             .build();
