@@ -33,6 +33,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 //PhotosWithinAlbum tries to mirror the structure of
@@ -49,6 +51,8 @@ public class PhotosWithinAlbum extends Activity {
     private String[] titls = new String[1];
     private Bitmap[] bitmaps = new Bitmap[1];
     private String[] photoIds;
+    TextView loading;
+    ProgressBar spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +68,8 @@ public class PhotosWithinAlbum extends Activity {
                     .add(R.id.photoContainer, new PlaceholderFragment()).commit();
             
         }
+        loading = (TextView) findViewById(R.id.tvPhotoLoading);  // Set up spinner and text
+        spinner = (ProgressBar) findViewById(R.id.pbLoading);
     }
 
      public class PlaceholderFragment extends Fragment {
@@ -81,6 +87,7 @@ public class PhotosWithinAlbum extends Activity {
                 //create custom AsyncTask to fetch all the details from youtube
                 AlbumTask gettingDetails = new AlbumTask();
                 gettingDetails.execute();
+                //spinner.setVisibility(View.GONE);  // Hide the progress
                 
                 //create listView from template and set the adapter. 
                 GridView gridview = (GridView) rootView.findViewById(R.id.imageGridView);
@@ -102,7 +109,7 @@ public class PhotosWithinAlbum extends Activity {
             }
         }
      
-         public class AlbumTask extends AsyncTask<Void, Void, Void> {
+         public class AlbumTask extends AsyncTask<Void, Integer, Void> {
 
             private String getPhotosFromJson(String rawData) {
                 JSONObject albumData;
@@ -135,32 +142,32 @@ public class PhotosWithinAlbum extends Activity {
                                 .getString("title");
                         photoIds[i] = photolistData.getJSONObject(i)
                                 .getString("id");
-                    //Here we actually download the thumbnail using URL obtained from JSONObject
+                        //Here we actually download the thumbnail using URL obtained from JSONObject
                         try {
                             URL imageUrl = new URL(photolistData.getJSONObject(i)
                                     .getString("url_sq"));
                             Log.d("json",photolistData.getJSONObject(i)
                                     .getString("url_sq"));
-                     //connect to given server
+                            //connect to given server
                             HttpURLConnection conn = (HttpURLConnection)imageUrl.openConnection();
-                     //safety features and avoiding errors is links redirect
+                            //safety features and avoiding errors is links redirect
                             conn.setConnectTimeout(30000);
                             conn.setReadTimeout(30000);
                             conn.setInstanceFollowRedirects(true);
-                     //setting inputstream and decoding it into a bitmap
+                            //setting inputstream and decoding it into a bitmap
                             InputStream is = conn.getInputStream();
                             bitmaps[i] = BitmapFactory.decodeStream(is);
                             bytecount = bytecount + bitmaps[i].getByteCount();
-                    } catch (JSONException e) {
-                        // TODO Auto-generated catch block
+                        } catch (JSONException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                            return null;
+                        }
+
+                    } catch (Exception e) {
                         e.printStackTrace();
                         return null;
                     }
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    return null;
-              }
 
                 }
                 Log.d("json",Integer.toString(bytecount)); //TODO: OMG PER PIXEL BYTECOUNT IS TOOO DAMN HIGH
@@ -188,7 +195,79 @@ public class PhotosWithinAlbum extends Activity {
                         return null;
                     }
                     String photosJsonStr = buffer.toString();
-                    getPhotosFromJson(photosJsonStr);
+                    //getPhotosFromJson(photosJsonStr);
+
+
+                    // TODO: Copied the functionality of getPlaylistsFromJson(photosJsonStr) here so
+                    // that I could access the onProgressUpdate in this function. I'm not sure that
+                    // it's possible to do outside of the doinBackground() function.
+                    JSONObject albumData;
+                    try {
+                        albumData = new JSONObject(photosJsonStr);
+                    } catch (JSONException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                        return null;
+                    }
+                    Log.d("json", albumData.toString());
+                    JSONArray photolistData;
+                    try {
+                        photolistData = albumData.getJSONObject("photoset")
+                                .getJSONArray("photo");
+                    } catch (JSONException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                        return null;
+                    }
+
+                    titls = new String[photolistData.length()];
+                    bitmaps = new Bitmap[photolistData.length()];
+                    //Integer[] currentitem = new Integer[2];
+                    //currentitem[0] = 0;
+                    //currentitem[1] = photolistData.length();
+                    photoIds = new String[photolistData.length()];
+                    int bytecount=0;
+                    for (int i = 0; i < photolistData.length(); i++){
+                        try {
+                            //currentitem[0] = i;
+                            //publishProgress(currentitem);
+                            publishProgress(i, photolistData.length());
+                            titls[i] = photolistData.getJSONObject(i)
+                                    .getString("title");
+                            photoIds[i] = photolistData.getJSONObject(i)
+                                    .getString("id");
+                            //Here we actually download the thumbnail using URL obtained from JSONObject
+                            try {
+                                URL imageUrl = new URL(photolistData.getJSONObject(i)
+                                        .getString("url_sq"));
+                                Log.d("json",photolistData.getJSONObject(i)
+                                        .getString("url_sq"));
+                                //connect to given server
+                                HttpURLConnection conn = (HttpURLConnection)imageUrl.openConnection();
+                                //safety features and avoiding errors is links redirect
+                                conn.setConnectTimeout(30000);
+                                conn.setReadTimeout(30000);
+                                conn.setInstanceFollowRedirects(true);
+                                //setting inputstream and decoding it into a bitmap
+                                InputStream is = conn.getInputStream();
+                                bitmaps[i] = BitmapFactory.decodeStream(is);
+                                bytecount = bytecount + bitmaps[i].getByteCount();
+                            } catch (JSONException e) {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
+                                return null;
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            return null;
+                        }
+
+                    }
+                    Log.d("json",Integer.toString(bytecount)); //TODO: OMG PER PIXEL BYTECOUNT IS TOOO DAMN HIGH
+
+
+
                     if (inputStream == null) {
                         // Nothing to do.
                         return null;
@@ -199,7 +278,14 @@ public class PhotosWithinAlbum extends Activity {
                 }
                 return null;
             }
-            @Override
+
+             @Override
+             protected void onProgressUpdate(Integer... values) {
+                 super.onProgressUpdate(values);
+                 loading.setText("Loading: " + String.valueOf(values[0]) + " of " + String.valueOf(values[1]));
+             }
+
+             @Override
             protected void onPostExecute(Void result){
                 //notify the adapter and the view that is using it to get check for new data
                 //in the arrays we defined at the beginning
@@ -216,7 +302,7 @@ public class PhotosWithinAlbum extends Activity {
                             .appendQueryParameter("method", "flickr.photosets.getPhotos")
                             .appendQueryParameter("api_key", new DeveloperKey().FLICKR_API_KEY)
                             .appendQueryParameter("photoset_id", albumId)
-                            .appendQueryParameter("extras","url_sq")
+                            .appendQueryParameter("extras", "url_sq")
                             .appendQueryParameter("format", "json")
                             .appendQueryParameter("nojsoncallback", "1")
                             .build();
