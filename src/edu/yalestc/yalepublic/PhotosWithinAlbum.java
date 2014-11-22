@@ -87,7 +87,6 @@ public class PhotosWithinAlbum extends Activity {
                 //create custom AsyncTask to fetch all the details from youtube
                 AlbumTask gettingDetails = new AlbumTask();
                 gettingDetails.execute();
-                //spinner.setVisibility(View.GONE);  // Hide the progress
                 
                 //create listView from template and set the adapter. 
                 GridView gridview = (GridView) rootView.findViewById(R.id.imageGridView);
@@ -290,6 +289,8 @@ public class PhotosWithinAlbum extends Activity {
                 //notify the adapter and the view that is using it to get check for new data
                 //in the arrays we defined at the beginning
                 adapter.notifyDataSetChanged();
+                spinner.setVisibility(View.GONE);  // Hide the progress
+                loading.setVisibility(View.GONE);  // Hide the progress
             }
 
             // See https://secure.flickr.com/services/api/flickr.photosets.getPhotos.html.
