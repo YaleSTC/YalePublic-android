@@ -58,8 +58,8 @@ public class PhotosWithinAlbum extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getIntent().getExtras() != null &&
-            getIntent().getExtras().containsKey(VideoList.PHOTO_ID_KEY)) { //TODO:Pull album title
-            albumId = getIntent().getStringExtra(VideoList.PHOTO_ID_KEY);
+            getIntent().getExtras().containsKey(PhotoList.PHOTO_ID_KEY)) { //TODO:Pull album title
+            albumId = getIntent().getStringExtra(PhotoList.PHOTO_ID_KEY);
             }
         setContentView(R.layout.activity_photo_within_album);
         if (savedInstanceState == null) {
@@ -98,7 +98,7 @@ public class PhotosWithinAlbum extends Activity {
                     public void onItemClick(AdapterView<?> parent, View view,
                             int position, long id) {
                         Intent intent = new Intent(PhotosWithinAlbum.this, ImageActivity.class);
-                        intent.putExtra(VideoList.PHOTO_ID_KEY,photoIds[position]);
+                        intent.putExtra(PhotoList.PHOTO_ID_KEY,photoIds[position]);
                         intent.putExtra(TITLE_KEY,titls[position]);
                         startActivity(intent);
                     }
