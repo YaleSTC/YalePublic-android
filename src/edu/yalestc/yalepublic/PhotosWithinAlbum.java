@@ -49,10 +49,11 @@ public class PhotosWithinAlbum extends Activity {
     private String[] titls = new String[1];
     private Bitmap[] bitmaps = new Bitmap[1];
     private String[] photoIds;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getIntent().getExtras()!=null && 
+        if (getIntent().getExtras() != null &&
             getIntent().getExtras().containsKey(VideoList.PHOTO_ID_KEY)) { //TODO:Pull album title
             albumId = getIntent().getStringExtra(VideoList.PHOTO_ID_KEY);
             }
@@ -64,6 +65,7 @@ public class PhotosWithinAlbum extends Activity {
             
         }
     }
+
      public class PlaceholderFragment extends Fragment {
             public PlaceholderFragment() {
             }
@@ -121,10 +123,10 @@ public class PhotosWithinAlbum extends Activity {
                     e.printStackTrace();
                     return null;
                 }
-                
+
                 titls = new String[photolistData.length()];
                 bitmaps = new Bitmap[photolistData.length()];
-   
+
                 photoIds = new String[photolistData.length()];
                 int bytecount=0;
                 for (int i = 0; i < photolistData.length(); i++){
@@ -139,9 +141,9 @@ public class PhotosWithinAlbum extends Activity {
                                     .getString("url_m"));
                             Log.d("json",photolistData.getJSONObject(i)
                                     .getString("url_m"));
-                     //connect to given server 
+                     //connect to given server
                             HttpURLConnection conn = (HttpURLConnection)imageUrl.openConnection();
-                     //safety features and avoiding errors is links redirect     
+                     //safety features and avoiding errors is links redirect
                             conn.setConnectTimeout(30000);
                             conn.setReadTimeout(30000);
                             conn.setInstanceFollowRedirects(true);
@@ -154,12 +156,12 @@ public class PhotosWithinAlbum extends Activity {
                         e.printStackTrace();
                         return null;
                     }
-                    
+
                 } catch (Exception e) {
                     e.printStackTrace();
                     return null;
               }
-            
+
                 }
                 Log.d("json",Integer.toString(bytecount)); //TODO: OMG PER PIXEL BYTECOUNT IS TOOO DAMN HIGH
                 return "1"; //TODO: Why?
@@ -172,9 +174,9 @@ public class PhotosWithinAlbum extends Activity {
                     HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                     urlConnection.setRequestMethod("GET");
                     urlConnection.connect();
-                    
+
                     //read all the data
-                    InputStream inputStream = urlConnection.getInputStream();                
+                    InputStream inputStream = urlConnection.getInputStream();
                     StringBuffer buffer = new StringBuffer();
                     BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
                     String line;
@@ -210,57 +212,57 @@ public class PhotosWithinAlbum extends Activity {
                 Uri builtUri = Uri.parse(BASE_URL).buildUpon()
                             .appendQueryParameter("method", "flickr.photosets.getPhotos")
                             .appendQueryParameter("api_key", new DeveloperKey().FLICKR_API_KEY)
-                            .appendQueryParameter("photoset_id", albumId) 
+                            .appendQueryParameter("photoset_id", albumId)
                             .appendQueryParameter("extras","url_m")
                             .appendQueryParameter("format", "json")
                             .appendQueryParameter("nojsoncallback", "1")
                             .build();
                 return builtUri;
             }
-             
+
          }
-         public class ImageThumbnailAdapter extends BaseAdapter {
 
-             private Context mContext;
+    // Set up a new ImageView with specified parameters
+    public class ImageThumbnailAdapter extends BaseAdapter {
 
-            public ImageThumbnailAdapter(Context c) {
-                 mContext = c;
-             }
+        private Context mContext;
 
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                ImageView imageView;
-                if (convertView==null) {
-                    imageView = new ImageView(mContext);
-                    imageView.setLayoutParams(new GridView.LayoutParams(85, 85));
-                    imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                    imageView.setPadding(8, 8, 8, 8);
-                } else {
-                    imageView =(ImageView) convertView;
-                }
-                imageView.setImageBitmap(bitmaps[position]);
-                return imageView;
-            }
-            @Override
-            //Can also use if statement to set count to 0 
-            //if titls is uninitialized. Currently mirroring
-            //VideoWithinPlaylist
-            public int getCount() {
-                return titls.length;
-            }
-
-            @Override
-            public Object getItem(int position) {
-                // TODO Auto-generated method stub
-                return null;
-            }
-
-            @Override
-            public long getItemId(int position) {
-                // TODO Auto-generated method stub
-                return 0;
-            }
-
-         
+        public ImageThumbnailAdapter(Context c) {
+             mContext = c;
          }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            ImageView imageView;
+            if (convertView == null) {
+                imageView = new ImageView(mContext);
+                imageView.setLayoutParams(new GridView.LayoutParams(85, 85));
+                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                imageView.setPadding(8, 8, 8, 8);
+            } else {
+                imageView =(ImageView) convertView;
+            }
+            imageView.setImageBitmap(bitmaps[position]);
+            return imageView;
+        }
+        @Override
+        //Can also use if statement to set count to 0
+        //if titls is uninitialized. Currently mirroring
+        //VideoWithinPlaylist
+        public int getCount() {
+            return titls.length;
+        }
+
+        @Override
+        public Object getItem(int position) {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            // TODO Auto-generated method stub
+            return 0;
+        }
+    }
 }
