@@ -29,6 +29,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 public class PhotoList extends Activity {
 
@@ -38,13 +39,13 @@ public class PhotoList extends Activity {
         PHOTO,
         EMPTY
     }
-
     // this is a class parameter so that it can be modified in the asynctask
     private ArrayAdapter<String> mVideoAdapter;    //TODO: Refactor
     //this is a string in which we store the ID's of playlists to pass them
     //into VideosWithinPlaylist
     private String[] playlistIds;                //TODO: Refactor
     private Mode mode;
+    ProgressBar spinner2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +68,7 @@ public class PhotoList extends Activity {
             getFragmentManager().beginTransaction()
                     .add(R.id.container, new PlaceholderFragment()).commit();
         }
+        spinner2 = (ProgressBar) findViewById(R.id.pbList);
     }
 
 
@@ -281,8 +283,9 @@ public class PhotoList extends Activity {
         @Override
         protected void onPostExecute(String[] result){
             // we need to use result in our ArrayAdapter; adds all of the resulting values.
+            spinner2.setVisibility(View.GONE);
             List<String> videos = new ArrayList<String>(Arrays.asList(result));
-            mVideoAdapter.addAll(videos); 
+            mVideoAdapter.addAll(videos);
         }
     }
 }

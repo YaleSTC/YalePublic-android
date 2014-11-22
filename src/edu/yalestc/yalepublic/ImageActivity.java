@@ -36,7 +36,7 @@ public class ImageActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image);
         ImageView imageView = (ImageView) findViewById(R.id.photoImageView);
-        photoId = getIntent().getExtras().getString(VideoList.PHOTO_ID_KEY);
+        photoId = getIntent().getExtras().getString(PhotoList.PHOTO_ID_KEY);
         setTitle(getIntent().getExtras().getString(PhotosWithinAlbum.TITLE_KEY));
         getPhotoTask task = new getPhotoTask();
         try {
