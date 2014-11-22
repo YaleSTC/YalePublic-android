@@ -130,13 +130,15 @@ public class PhotosWithinAlbum extends Activity {
                     return null;
                 }
 
-                titls = new String[photolistData.length()];
-                bitmaps = new Bitmap[photolistData.length()];
+                int photolistDatalen = photolistData.length();
+                titls = new String[photolistDatalen];
+                bitmaps = new Bitmap[photolistDatalen];
 
-                photoIds = new String[photolistData.length()];
+                photoIds = new String[photolistDatalen];
                 int bytecount=0;
-                for (int i = 0; i < photolistData.length(); i++){
+                for (int i = 0; i < photolistDatalen; i++){
                     try {
+                        publishProgress(i, photolistDatalen);
                         titls[i] = photolistData.getJSONObject(i)
                                 .getString("title");
                         photoIds[i] = photolistData.getJSONObject(i)
@@ -194,78 +196,10 @@ public class PhotosWithinAlbum extends Activity {
                         return null;
                     }
                     String photosJsonStr = buffer.toString();
-                    //getPhotosFromJson(photosJsonStr);
 
-
-                    // TODO: Copied the functionality of getPlaylistsFromJson(photosJsonStr) here so
-                    // that I could access the onProgressUpdate in this function. I'm not sure that
-                    // it's possible to do outside of the doinBackground() function.
-                    JSONObject albumData;
-                    try {
-                        albumData = new JSONObject(photosJsonStr);
-                    } catch (JSONException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                        return null;
-                    }
-                    Log.d("json", albumData.toString());
-                    JSONArray photolistData;
-                    try {
-                        photolistData = albumData.getJSONObject("photoset")
-                                .getJSONArray("photo");
-                    } catch (JSONException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                        return null;
-                    }
-
-                    titls = new String[photolistData.length()];
-                    bitmaps = new Bitmap[photolistData.length()];
-                    //Integer[] currentitem = new Integer[2];
-                    //currentitem[0] = 0;
-                    //currentitem[1] = photolistData.length();
-                    photoIds = new String[photolistData.length()];
-                    int bytecount=0;
-                    for (int i = 0; i < photolistData.length(); i++){
-                        try {
-                            //currentitem[0] = i;
-                            //publishProgress(currentitem);
-                            publishProgress(i, photolistData.length());
-                            titls[i] = photolistData.getJSONObject(i)
-                                    .getString("title");
-                            photoIds[i] = photolistData.getJSONObject(i)
-                                    .getString("id");
-                            //Here we actually download the thumbnail using URL obtained from JSONObject
-                            try {
-                                URL imageUrl = new URL(photolistData.getJSONObject(i)
-                                        .getString("url_sq"));
-                                Log.d("json",photolistData.getJSONObject(i)
-                                        .getString("url_sq"));
-                                //connect to given server
-                                HttpURLConnection conn = (HttpURLConnection)imageUrl.openConnection();
-                                //safety features and avoiding errors is links redirect
-                                conn.setConnectTimeout(30000);
-                                conn.setReadTimeout(30000);
-                                conn.setInstanceFollowRedirects(true);
-                                //setting inputstream and decoding it into a bitmap
-                                InputStream is = conn.getInputStream();
-                                bitmaps[i] = BitmapFactory.decodeStream(is);
-                                bytecount = bytecount + bitmaps[i].getByteCount();
-                            } catch (JSONException e) {
-                                // TODO Auto-generated catch block
-                                e.printStackTrace();
-                                return null;
-                            }
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            return null;
-                        }
-
-                    }
-                    Log.d("json",Integer.toString(bytecount)); //TODO: OMG PER PIXEL BYTECOUNT IS TOOO DAMN HIGH
-
-
+                    // Note that onProgressUpdate can be accessed by any function called by the
+                    // doinBackground() function, such as this one.
+                    getPhotosFromJson(photosJsonStr);
 
                     if (inputStream == null) {
                         // Nothing to do.
