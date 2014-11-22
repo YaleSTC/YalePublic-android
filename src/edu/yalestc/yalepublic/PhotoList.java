@@ -31,26 +31,27 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 public class PhotoList extends Activity {
+
     public static final String PHOTO_ID_KEY = "playlistId";
     public enum Mode {
         VIDEO,
         PHOTO,
         EMPTY
     }
-    
     // this is a class parameter so that it can be modified in the asynctask
     private ArrayAdapter<String> mVideoAdapter;    //TODO: Refactor
     //this is a string in which we store the ID's of playlists to pass them
     //into VideosWithinPlaylist
     private String[] playlistIds;                //TODO: Refactor
     private Mode mode;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mode = Mode.EMPTY; //    Default 
         setContentView(R.layout.activity_photo_list);    //TODO: Refactor
         if (savedInstanceState == null) {
-            if (getIntent().getExtras()!=null) {
+            if (getIntent().getExtras() != null) {
                 if (getIntent().getExtras().containsKey
                         (MainActivity.PHOTO_MODE_KEY)) {
                     mode = Mode.PHOTO;
@@ -115,17 +116,17 @@ public class PhotoList extends Activity {
             return rootView;
         }
 
-        private void populateAdapterWithVideos() {
+        private void populateAdapterWithVideos() {  // TODO: Unused, called in onCreateView
             // create an asynctask that fetches the playlist titles
             VideoTask videoList = new VideoTask();
             videoList.execute();
         }
     }
 
+    // Parses the raw data (which is a String in JSON format) and extracts the titles of
+    // the photo albums to display in a ListView.
     public class VideoTask extends AsyncTask<Void, Void, String[]> {
 
-        // this method parses the raw data (which is a String in JSON format)
-        // and extracts the titles of the playlists
         private String[] getPlaylistsFromJson(String rawData){
            
             JSONObject videoData;
@@ -245,6 +246,8 @@ public class PhotoList extends Activity {
             }
         }
 
+        // Returns a URI in the form (https://api.flickr.com/...) for use in polling the API
+        // to get the list of albums from the Yale Flickr account.
         private Uri getPhotoAPIRequestUri() {
             final String USER_ID = "12208415@N08";    //Yale flickr user id
             final String BASE_URL = "https://api.flickr.com/services/rest/?";
@@ -259,6 +262,8 @@ public class PhotoList extends Activity {
             return builtUri;
         }
 
+        // Returns a URI in the form (https://googleapis.com/youtube/...) for use in polling the API
+        // to get the list of playlists from the Yale Youtube account.
         private Uri getVideoAPIRequestUri() {
             final String BASE_URL = "https://www.googleapis.com/youtube/v3/playlists?";
             Uri builtUri = Uri.parse(BASE_URL).buildUpon()
@@ -272,11 +277,9 @@ public class PhotoList extends Activity {
         
         @Override
         protected void onPostExecute(String[] result){
-            // we need to use result in our ArrayAdapter
+            // we need to use result in our ArrayAdapter; adds all of the resulting values.
             List<String> videos = new ArrayList<String>(Arrays.asList(result));
             mVideoAdapter.addAll(videos); 
         }
     }
-    
-    
 }
