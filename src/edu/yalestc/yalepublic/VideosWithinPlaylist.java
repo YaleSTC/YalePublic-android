@@ -19,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -48,18 +49,23 @@ public class VideosWithinPlaylist extends Activity {
     Bundle extras;
     //for easier handling of context within adapter. Can be changed.
     Context context;
+    TextView loading;
+    ProgressBar spinner;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //to get the passed parameters
         context = this;
         extras = getIntent().getExtras();
-        setContentView(R.layout.activity_video_within_list);
+        setContentView(R.layout.activity_photo_within_album);
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
-                    .add(R.id.container1, new PlaceholderFragment()).commit();
+                    .add(R.id.photoContainer, new PlaceholderFragment()).commit();
             
         }
+        loading = (TextView) findViewById(R.id.tvPhotoLoading);  // Set up spinner and text
+        spinner = (ProgressBar) findViewById(R.id.pbLoading);
     }
     //definition of our custom fragment.
     public class PlaceholderFragment extends Fragment {
@@ -105,15 +111,9 @@ public class VideosWithinPlaylist extends Activity {
             // and extracts the titles, thumbnails and dates of the videos in a playlist
             private String getVideosFromJson(String rawData){
                 JSONObject videoData;
-                try {
-                    videoData = new JSONObject(rawData);
-                } catch (JSONException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                    return null;
-                }
                 JSONArray playlistData;
                 try {
+                    videoData = new JSONObject(rawData);
                     playlistData = videoData.getJSONArray("items");
                 } catch (JSONException e) {
                     // TODO Auto-generated catch block
@@ -228,6 +228,8 @@ public class VideosWithinPlaylist extends Activity {
                 //notify the adapter and the view that is using it to get check for new data
                 //in the arrays we defined at the beginning
                 adapter.notifyDataSetChanged();
+                spinner.setVisibility(View.GONE);  // Hide the progress
+                loading.setVisibility(View.GONE);  // Hide the progress
             }
         }
 
