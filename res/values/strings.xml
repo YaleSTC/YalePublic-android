@@ -33,6 +33,36 @@
         <item>Science and Health</item>
         <item>World and Environment</item>
     </string-array>
+    <string-array name="events_category_names">
+        <item>All</item>
+        <item>Classes &amp; Workshops</item>
+        <item>Community</item>
+        <item>Conference</item>
+        <item>Exhibitions</item>
+        <item>Family Friendly</item>
+        <item>Films</item>
+        <item>Group Meetings</item>
+        <item>Performances</item>
+        <item>Spiritual &amp; Worship</item>
+        <item>Sports &amp; Recreation</item>
+        <item>Talks &amp; Readings</item>
+        <item>Tours</item>
+    </string-array>
+    <string-array name="events_category_names_json">
+        <item>PlaceHolderForAll</item>
+        <item>class workshop</item>
+        <item>community</item>
+        <item>conference</item>
+        <item>exhibition</item>
+        <item>family</item>
+        <item>film</item>
+        <item>group_meeting</item>
+        <item>performance</item>
+        <item>spiritual</item>
+        <item>sports recreation</item>
+        <item>talk reading</item>
+        <item>tour</item>
+    </string-array>
 
     <string name="title_activity_video_list">VideoList</string>
     <string name="title_activity_videos_within_list">VideosInPlaylist</string>
@@ -41,5 +71,7 @@
     <string name="title_activity_image">Image</string>
     <string name="currentphoto">currentphoto</string>
     <string name="title_activity_photo_list">PhotoList</string>
+    <string name="title_activity_event_categories">EventCategories</string>
+    <string name="title_activity_events_display">EventsDisplay</string>
 
 </resources>

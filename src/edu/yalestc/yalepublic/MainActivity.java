@@ -14,7 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-
+import edu.yalestc.yalepublic.Events.EventCategories;
 import edu.yalestc.yalepublic.news.NewsChooser;
 
 @SuppressLint("NewApi")
@@ -50,6 +50,8 @@ public class MainActivity extends ActionBarActivity {
                 startActivity(photoListIntent);
                 break;
             case R.id.bEvents:
+                Intent iEvents = new Intent(MainActivity.this, EventCategories.class);
+                startActivity(iEvents);
                 break;
             case R.id.bTransit:
                 Uri uriUrl1 = Uri.parse("http://yale.transloc.com");

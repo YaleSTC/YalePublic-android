@@ -1,4 +1,4 @@
-package edu.yalestc.yalepublic.Videos;
+package edu.yalestc.yalepublic;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -54,7 +54,7 @@ public class JSONReader extends AsyncTask<Void, String, String>{
         mContext = context;
     }
 
-    JSONReader(String URL, Context context){
+    public JSONReader(String URL, Context context){
         BASE_URL = URL;
         mContext = context;
     }

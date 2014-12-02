@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item name="white" type="color">#FFFFFF</item>
+
+    <array name="event_categories_colors">
+        <item>#FFFFFF</item>
+        <item>#E01616</item>
+        <item>#23ADAD</item>
+        <item>#245913</item>
+        <item>#E3A20B</item>
+        <item>#1B7EE0</item>
+        <item>#9464B5</item>
+        <item>#B30C4f</item>
+        <item>#BFB8A1</item>
+        <item>#FF9191</item>
+        <item>#25466B</item>
+        <item>#0AC275</item>
+        <item>#F2DC33</item>
+    </array>
+
+</resources>
+
