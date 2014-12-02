@@ -35,8 +35,9 @@ public class NewsChooser extends Activity {
 
         // Set up the ListView listNews with all of the titles from rss_names[].
         ListView listView = (ListView) findViewById(R.id.listNews);
+
         // Parameters for ArrayAdapter: Activity (Context), Layout file, TextView Id, <Array that's adapted>
-        ArrayAdapter<String> mListAdapter = new ArrayAdapter<>(this, R.layout.tab, R.id.tab);
+        ArrayAdapter<String> mListAdapter = new ArrayAdapter<String>(this, R.layout.tab, R.id.tab);
         mListAdapter.addAll(Arrays.asList(rss_names));
 
         listView.setAdapter(mListAdapter);    // After constructing adapter, set it up

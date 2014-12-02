@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
-import edu.yalestc.yalepublic.Videos.VideoList;
 import edu.yalestc.yalepublic.news.NewsChooser;
 
 @SuppressLint("NewApi")
@@ -23,6 +22,8 @@ public class MainActivity extends ActionBarActivity {
 
     double screenWidth;
     double screenHeight;
+    public static final String VIDEO_MODE_KEY = "Videos"; // TODO: Review choice
+    public static final String PHOTO_MODE_KEY = "Photos"; // of keys
     
     private OnClickListener buttonClickListener = new OnClickListener(){
         @Override
@@ -39,10 +40,14 @@ public class MainActivity extends ActionBarActivity {
                 startActivity(iMaps);
                 break;
             case R.id.bVideos:
-                Intent intent = new Intent(MainActivity.this, VideoList.class);
-                startActivity(intent);
+                Intent videoListIntent = new Intent(MainActivity.this, PhotoList.class);
+                videoListIntent.putExtra(VIDEO_MODE_KEY, true);
+                startActivity(videoListIntent);
                 break;
             case R.id.bPhotos:
+                Intent photoListIntent = new Intent(MainActivity.this, PhotoList.class);
+                photoListIntent.putExtra(PHOTO_MODE_KEY, true);
+                startActivity(photoListIntent);
                 break;
             case R.id.bEvents:
                 break;

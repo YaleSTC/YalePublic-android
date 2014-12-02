@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 
-import edu.yalestc.yalepublic.Videos.VideoList;
 import edu.yalestc.yalepublic.news.NewsChooser;
 
 /**
