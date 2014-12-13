@@ -3,6 +3,7 @@ package edu.yalestc.yalepublic.Events;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.LayerDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,19 +31,21 @@ public class EventsCalendarEventList extends BaseAdapter {
         //for quicker parsing of events. Is passed in from MonthFragment. See EventsParseForDateWithinCategory for more information
     private EventsParseForDateWithinCategory allTheEvents;
         //for ovals next to time
-    private int[] mColor;
+    private int[] mColors;
+    private int[] mColorsFrom;
         //for displaying only relevant data. Given as the day of month as understood by EventsCalendarGridAdapter.getDayNumber()..
     private int mSelectedDayOfMonth;
         //array holding only the displayed events
     ArrayList<String[]> eventsOnCurrentDay;
 
-    EventsCalendarEventList (Context context, EventsParseForDateWithinCategory eventsParser, int year, int month, int selectedDayOfMonth, int[] color){
+    EventsCalendarEventList (Context context, EventsParseForDateWithinCategory eventsParser, int year, int month, int selectedDayOfMonth, int[] colors, int[] colorsFrom){
         mContext = context;
         allTheEvents = eventsParser;
         mYear = year;
         //since calendar returns number 0 - 11 as a month
         mMonth = month+1;
-        mColor = color;
+        mColors = colors;
+        mColorsFrom = colorsFrom;
         mSelectedDayOfMonth = selectedDayOfMonth;
         eventsOnCurrentDay = allTheEvents.getEventsOnGivenDate(getStringDateYearMonthDay());
     }
@@ -100,17 +103,18 @@ public class EventsCalendarEventList extends BaseAdapter {
     @Override
     public View getView(int i, View convertView, ViewGroup viewGroup) {
         int color;
+        int colorFrom;
         String[] singleEvent = eventsOnCurrentDay.get(i);
         //set the color using category number
-        if(mColor.length != 1) {
-            color = mColor[Integer.parseInt(singleEvent[6])];
+        if(mColors.length != 1) {
+            color = mColors[Integer.parseInt(singleEvent[6])];
+            colorFrom = mColorsFrom[Integer.parseInt(singleEvent[6])];
         } else {
-            color = mColor[0];
+            color = mColors[0];
+            colorFrom = mColorsFrom[0];
         }
         //Log.v("EventsCalendarEventList", "Created a view for the " + Integer.toString(i) + " view");
-        GradientDrawable circle = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{Color.parseColor("#FFFFFF"), color});
-        circle.setShape(GradientDrawable.OVAL);
-        circle.setSize(40, 40);
+        GradientDrawable circle = createBlob(color, colorFrom);
 
         if (convertView != null) {
             ((ImageView) ((RelativeLayout) convertView).getChildAt(0)).setImageDrawable(circle);
@@ -132,5 +136,17 @@ public class EventsCalendarEventList extends BaseAdapter {
             ((TextView) ((LinearLayout)((RelativeLayout) eventListElement).getChildAt(2)).getChildAt(1)).setText(singleEvent[3]);
             return eventListElement;
         }
+    }
+        //make the little blob next to events name etc.
+    private GradientDrawable createBlob(int color, int colorFrom) {
+        GradientDrawable blob = new GradientDrawable();
+        blob.setShape(GradientDrawable.OVAL);
+        blob.setSize(40,40);
+        blob.setColors(new int[]{colorFrom, color});
+        blob.setGradientType(GradientDrawable.RADIAL_GRADIENT);
+        blob.setGradientRadius(30);
+        blob.setGradientCenter((float)0.5,(float)0.0);
+
+        return blob;
     }
 }

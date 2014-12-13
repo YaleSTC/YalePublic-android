@@ -15,9 +15,9 @@
         <item>#BFB8A1</item>
         <item>#FF9191</item>
         <item>#25466B</item>
-        <item>#0AC275</item>
         <item>#1BB83A</item>
         <item>#F2DC33</item>
+        <item>#0AC275</item>
     </array>
 
     <array name="event_categories_colors_into">
@@ -34,6 +34,7 @@
         <item>#3c5a7b</item>
         <item>#24c884</item>
         <item>#f3e04b</item>
+        <item>#05d781</item>
     </array>
 
     <array name="event_categories_colors_from">
@@ -50,6 +51,7 @@
         <item>#92a3b5</item>
         <item>#85e1bb</item>
         <item>#f9ee9d</item>
+        <item>#87c2a9</item>
     </array>
 </resources>
 

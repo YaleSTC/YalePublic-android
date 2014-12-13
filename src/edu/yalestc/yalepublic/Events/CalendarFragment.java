@@ -80,7 +80,7 @@ public class CalendarFragment extends Fragment {
 
         calendarAdapter = new EventsCalendarGridAdapter(getActivity());
         calendarAdapter.update(year, month);
-        listEvents = new EventsCalendarEventList(getActivity(), new EventsParseForDateWithinCategory(mRawData, month, year, getActivity(), mExtras.getInt("numberOfCategorySearchedFor")), year, month, calendarAdapter.getCurrentlySelected(), mExtras.getIntArray("color"));
+        listEvents = new EventsCalendarEventList(getActivity(), new EventsParseForDateWithinCategory(mRawData, month, year, getActivity(), mExtras.getInt("numberOfCategorySearchedFor")), year, month, calendarAdapter.getCurrentlySelected(), mExtras.getIntArray("colors"), mExtras.getIntArray("colorsFrom"));
         ((ListView) ((RelativeLayout) rootView).getChildAt(3)).setAdapter(listEvents);
             //set the listener for elemnts on the list, create intent and add all the information required
         ((ListView) ((RelativeLayout) rootView).getChildAt(3)).setOnItemClickListener(new AdapterView.OnItemClickListener(){
@@ -88,17 +88,23 @@ public class CalendarFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String[] eventInfo = listEvents.getEventInfo(i);
-                int color;
-                if(mExtras.getIntArray("color").length == 1){
-                    color = mExtras.getIntArray("color")[0];
+                int color, colorTo, colorFrom;
+                if(mExtras.getIntArray("colors").length == 1){
+                    color = mExtras.getIntArray("colors")[0];
+                    colorTo = mExtras.getIntArray("colorsTo")[0];
+                    colorFrom = mExtras.getIntArray("colorsFrom")[0];
                 } else {
-                    color = mExtras.getIntArray("color")[Integer.parseInt(eventInfo[6])];
+                    color = mExtras.getIntArray("colors")[Integer.parseInt(eventInfo[6])];
+                    colorTo = mExtras.getIntArray("colorsTo")[Integer.parseInt(eventInfo[6])];
+                    colorFrom = mExtras.getIntArray("colorsFrom")[Integer.parseInt(eventInfo[6])];
                 }
                 Intent eventDetails = new Intent(getActivity(), EventsDetails.class);
                 eventDetails.putExtra("title",eventInfo[0]);
                 eventDetails.putExtra("start",eventInfo[4] + eventInfo[1]);
                 eventDetails.putExtra("end",eventInfo[4] + eventInfo[2]);
                 eventDetails.putExtra("color",color);
+                eventDetails.putExtra("colorTo", colorTo);
+                eventDetails.putExtra("colorFrom", colorFrom);
                 eventDetails.putExtra("description",eventInfo[5]);
                 eventDetails.putExtra("location",eventInfo[3]);
                 startActivity(eventDetails);

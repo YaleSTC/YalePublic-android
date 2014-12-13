@@ -85,9 +85,13 @@ public class EventCategories extends Activity {
                     showEvents.putExtra("numberOfCategorySearchedFor", arg2);
                     if (arg2 == 0) {
                         showEvents.putExtra("JsonCategories", "All");
-                        showEvents.putExtra("color", colorsTo);
+                        showEvents.putExtra("colorsTo", colorsTo);
+                        showEvents.putExtra("colorsFrom", colorsFrom);
+                        showEvents.putExtra("colors", colors);
                     } else {
-                        showEvents.putExtra("color", new int[]{colorsTo[arg2]});
+                        showEvents.putExtra("colors", new int[]{colors[arg2]});
+                        showEvents.putExtra("colorsTo", new int[]{colorsTo[arg2]});
+                        showEvents.putExtra("colorsFrom", new int[]{colorsFrom[arg2]});
                     }
                     Log.v("showEventsLaunch", "With given parameters:" + categories[arg2] + " " + Integer.toString(colorsTo[arg2]));
                     startActivity(showEvents);
@@ -130,7 +134,7 @@ public class EventCategories extends Activity {
 
         @Override
         public View getView(int i, View convertView, ViewGroup viewGroup) {
-            //the color-coded rectangles used in original app are actually relatively complex. Function createButton takes care of it.
+            //the color-coded rectangles used in original app are actually relatively complex. Function createRectangle takes care of it.
             LayerDrawable rectangle = createRectangle(i);
             // i != 0 because the 0th element does not have an image in the imageView, so we do not want to reuse it!
             if (convertView != null && i != 0) {
