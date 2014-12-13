@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/calendar_grid_button_inactive"
-    android:shape="rectangle">
-    <solid android:color="#cdcdcd"/>
-</shape>

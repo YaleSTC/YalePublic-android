@@ -143,9 +143,6 @@ public class EventsCalendarGridAdapter extends BaseAdapter{
         @Override
         public View getView(int i, View convertView, ViewGroup viewGroup) {
             if(convertView != null) {
-
-                //TO DO: write a function which will give a meaningful day number only if the day is in current not preceeding month
-                    //IT IS written: isOutsideCurrentMonth. Just use it.
                 if (isToday(i)) {
                         //current date has a separate image for itself. Inflate a new layout for it and change imageView.
                     convertView =  (RelativeLayout) LayoutInflater.from(mContext).inflate(R.layout.calendar_image_button_selector, null);
@@ -166,9 +163,9 @@ public class EventsCalendarGridAdapter extends BaseAdapter{
                         ((TextView) ((RelativeLayout) convertView).getChildAt(1)).setTextColor(Color.parseColor("#3d4b5a"));
                     }
                 }
-                //set the size of the drawable
+                /*set the size of the drawable
                 ((ImageView)((RelativeLayout)convertView).getChildAt(0)).getLayoutParams().height=((int)(height*136/1920));
-                ((ImageView)((RelativeLayout)convertView).getChildAt(0)).getLayoutParams().width=((int)(width/7));
+                ((ImageView)((RelativeLayout)convertView).getChildAt(0)).getLayoutParams().width=((int)(width/7));*/
                     //set the day number. It is the cardinal calendar number!
                 ((TextView)((RelativeLayout)convertView).getChildAt(1)).setText(Integer.toString(getDayNumber(i)));
                 return convertView;
@@ -190,10 +187,10 @@ public class EventsCalendarGridAdapter extends BaseAdapter{
                         ((TextView) ((RelativeLayout) calendar_grid).getChildAt(1)).setTextColor(Color.parseColor("#3d4b5a"));
                     }
                 }
-                    //set the image size
+                /*   //set the image size
                 ((ImageView)((RelativeLayout)calendar_grid).getChildAt(0)).getLayoutParams().height=((int)(height*136/1920));
-                ((ImageView)((RelativeLayout)calendar_grid).getChildAt(0)).getLayoutParams().width=((int)(width/7));
-                    //set the day number. It is the cardinal calendar number!
+                ((ImageView)((RelativeLayout)calendar_grid).getChildAt(0)).getLayoutParams().width=((int)(width/6.5));*/
+                //set the day number. It is the cardinal calendar number!
                 ((TextView)calendar_grid.getChildAt(1)).setText(Integer.toString(getDayNumber(i)));
                 return calendar_grid;
             }

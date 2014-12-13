@@ -110,7 +110,6 @@ public class CalendarFragment extends Fragment {
                 startActivity(eventDetails);
             }
         });
-
         ((GridView) (((RelativeLayout) rootView).getChildAt(2))).setAdapter(calendarAdapter);
         ((GridView) (((RelativeLayout) rootView).getChildAt(2))).setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
