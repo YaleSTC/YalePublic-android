@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
@@ -139,6 +140,7 @@ public class EventCategories extends Activity {
                 ((RelativeLayout) convertView).setPadding(((int)width/20), ((int) width / 25), 0, ((int) width / 25));
                 ((TextView) ((RelativeLayout) convertView).getChildAt(1)).setTextSize(width / 45);
                 ((TextView) ((RelativeLayout) convertView).getChildAt(1)).setText(categories[i]);
+                convertView.setBackgroundColor(Color.parseColor("#dbdbdd"));
                 return ((RelativeLayout) convertView);
 
             } else {
@@ -152,6 +154,7 @@ public class EventCategories extends Activity {
                 }
                 ((TextView) button.getChildAt(1)).setTextSize(width / 45);
                 ((TextView) button.getChildAt(1)).setText(categories[i]);
+                button.setBackgroundColor(Color.parseColor("#dbdbdd"));
                 return button;
             }
         }
