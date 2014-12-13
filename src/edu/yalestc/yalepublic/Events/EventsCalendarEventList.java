@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,8 @@ import edu.yalestc.yalepublic.R;
 public class EventsCalendarEventList extends BaseAdapter {
         //for inflating layouts
     private Context mContext;
+    private DisplayMetrics display;
+    private int height;
     private int mYear;
     private int mMonth;
         //for quicker parsing of events. Is passed in from MonthFragment. See EventsParseForDateWithinCategory for more information
@@ -48,6 +51,8 @@ public class EventsCalendarEventList extends BaseAdapter {
         mColorsFrom = colorsFrom;
         mSelectedDayOfMonth = selectedDayOfMonth;
         eventsOnCurrentDay = allTheEvents.getEventsOnGivenDate(getStringDateYearMonthDay());
+        display = context.getResources().getDisplayMetrics();
+        height = display.heightPixels;
     }
 
         //used from CalendarFragment for getting the events
@@ -121,19 +126,21 @@ public class EventsCalendarEventList extends BaseAdapter {
                 //set the time of the event
             ((TextView) ((RelativeLayout) convertView).getChildAt(1)).setText(singleEvent[1]);
                 //set the title of the event
-            ((TextView) ((LinearLayout)((RelativeLayout) convertView).getChildAt(2)).getChildAt(0)).setText(singleEvent[0]);
+            ((TextView) ((RelativeLayout) convertView).getChildAt(2)).setText(singleEvent[0]);
                 //set the place of the event
-            ((TextView) ((LinearLayout)((RelativeLayout) convertView).getChildAt(2)).getChildAt(1)).setText(singleEvent[3]);
+            ((TextView) ((RelativeLayout) convertView).getChildAt(3)).setText(singleEvent[3]);
             return convertView;
         } else {
             RelativeLayout eventListElement = (RelativeLayout) LayoutInflater.from(mContext).inflate(R.layout.calendar_list_element, null);
+            eventListElement.setMinimumHeight((int)(height*0.104));
             ((ImageView) ((RelativeLayout) eventListElement).getChildAt(0)).setImageDrawable(circle);
                 //set the time of the event
             ((TextView) ((RelativeLayout) eventListElement).getChildAt(1)).setText(singleEvent[1]);
                 //set the title of the event
-            ((TextView) ((LinearLayout)((RelativeLayout) eventListElement).getChildAt(2)).getChildAt(0)).setText(singleEvent[0]);
+            ((TextView) ((RelativeLayout) eventListElement).getChildAt(2)).setText(singleEvent[0]);
                 //set the palce of the event
-            ((TextView) ((LinearLayout)((RelativeLayout) eventListElement).getChildAt(2)).getChildAt(1)).setText(singleEvent[3]);
+            ((TextView) ((RelativeLayout) eventListElement).getChildAt(3)).setText(singleEvent[3]);
+            eventListElement.setBackgroundColor(Color.parseColor("#dbdbdd"));
             return eventListElement;
         }
     }

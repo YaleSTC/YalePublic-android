@@ -115,11 +115,18 @@
         android:layout_below="@id/day_description">
     </GridView>
 
+    <ImageView
+        android:id="@+id/separator_events_calendar"
+        android:layout_width="fill_parent"
+        android:layout_height="20px"
+        android:src="@drawable/separator_calendar_events_list"
+        android:layout_below="@+id/month"/>
+
     <ListView
         android:background="#000000"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/month"
+        android:layout_below="@+id/separator_events_calendar"
         android:divider="@drawable/separator_events"
         android:dividerHeight="2dp">
     </ListView>
