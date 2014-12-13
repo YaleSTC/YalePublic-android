@@ -12,8 +12,8 @@
         android:id="@+id/listview_event_categories"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:dividerHeight="2dp"
         android:divider="@drawable/separator_events"
+        android:dividerHeight="2dp"
         />
 
 </RelativeLayout>
