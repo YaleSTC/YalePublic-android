@@ -36,6 +36,7 @@ public class EventsDetails extends Activity {
         LinearLayout layout = (LinearLayout) getLayoutInflater().inflate(R.layout.events_details,null);
             //set the rectangle at the top by the title
         ImageView rectangleByTitle = ((ImageView) ((LinearLayout)layout.getChildAt(0)).getChildAt(0));
+            //see function at the end. Analogous to the one in EventCategories.
         rectangleByTitle.setImageDrawable(createRectangle(extras.getInt("color"), extras.getInt("colorFrom"), extras.getInt("colorTo")));
         rectangleByTitle.setPadding((int) width/50, (int) (height*0.023), (int) width*3/100, (int) (height*0.023));
             //set the title
