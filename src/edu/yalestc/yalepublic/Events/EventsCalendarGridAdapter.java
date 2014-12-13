@@ -81,9 +81,15 @@ public class EventsCalendarGridAdapter extends BaseAdapter{
         public boolean isToday(int i){
             if(i < 0)
                 i = currentlySelected;
+                //NOT to highlight the date in former month with same "calendar number"
+            if(i < firstDayInWeekOfMonth){
+                i = -1;
+            } else {
+                i = getDayNumber(i);
+            }
             boolean yearMatch = (Calendar.getInstance().get(Calendar.YEAR) == mYear);
             boolean monthMatch = (Calendar.getInstance().get(Calendar.MONTH) == mMonth);
-            boolean dayMatch = (getDayNumber(i) == Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
+            boolean dayMatch = (i == Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
             return dayMatch && monthMatch && yearMatch;
         }
 
@@ -143,9 +149,6 @@ public class EventsCalendarGridAdapter extends BaseAdapter{
                 if (isToday(i)) {
                         //current date has a separate image for itself. Inflate a new layout for it and change imageView.
                     convertView =  (RelativeLayout) LayoutInflater.from(mContext).inflate(R.layout.calendar_image_button_selector, null);
-                        //set the size of the drawable
-                    ((ImageView)((RelativeLayout)convertView).getChildAt(0)).getLayoutParams().height=((int)(width*136/1920));
-                    ((ImageView)((RelativeLayout)convertView).getChildAt(0)).getLayoutParams().width=((int)(width/7));
                         //set the image
                     ((ImageView)((RelativeLayout)convertView).getChildAt(0)).setImageDrawable(mContext.getResources().getDrawable(calendar_grid_button_current_selected));
                         //by default current date is selected at the beginning
@@ -153,9 +156,6 @@ public class EventsCalendarGridAdapter extends BaseAdapter{
                         //color of selected, current date is white ("current date" being "today's date"
                     ((TextView)((RelativeLayout)convertView).getChildAt(1)).setTextColor(Color.parseColor("#FFFFFF"));
                 } else {
-                        //set the size of the drawable
-                    ((ImageView)((RelativeLayout)convertView).getChildAt(0)).getLayoutParams().height=((int)(height*136/1920));
-                    ((ImageView)((RelativeLayout)convertView).getChildAt(0)).getLayoutParams().width=((int)(width/7));
                         //set the image
                     ((ImageView)((RelativeLayout)convertView).getChildAt(0)).setImageDrawable(mContext.getResources().getDrawable(calendar_grid_button_unselected));
                     if (isOutsideCurrentMonth(i)) {
@@ -166,6 +166,9 @@ public class EventsCalendarGridAdapter extends BaseAdapter{
                         ((TextView) ((RelativeLayout) convertView).getChildAt(1)).setTextColor(Color.parseColor("#3d4b5a"));
                     }
                 }
+                //set the size of the drawable
+                ((ImageView)((RelativeLayout)convertView).getChildAt(0)).getLayoutParams().height=((int)(height*136/1920));
+                ((ImageView)((RelativeLayout)convertView).getChildAt(0)).getLayoutParams().width=((int)(width/7));
                     //set the day number. It is the cardinal calendar number!
                 ((TextView)((RelativeLayout)convertView).getChildAt(1)).setText(Integer.toString(getDayNumber(i)));
                 return convertView;
