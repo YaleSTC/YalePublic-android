@@ -1,6 +1,7 @@
 package edu.yalestc.yalepublic.Events;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.ShapeDrawable;
@@ -11,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import edu.yalestc.yalepublic.R;
@@ -35,55 +37,40 @@ public class EventsDetails extends Activity {
 
         LinearLayout layout = (LinearLayout) getLayoutInflater().inflate(R.layout.events_details,null);
             //set the rectangle at the top by the title
+
         ImageView rectangleByTitle = ((ImageView) ((LinearLayout)layout.getChildAt(0)).getChildAt(0));
             //see function at the end. Analogous to the one in EventCategories.
         rectangleByTitle.setImageDrawable(createRectangle(extras.getInt("color"), extras.getInt("colorFrom"), extras.getInt("colorTo")));
         rectangleByTitle.setPadding((int) width/50, (int) (height*0.023), (int) width*3/100, (int) (height*0.023));
+
             //set the title
         TextView title = ((TextView)((LinearLayout)layout.getChildAt(0)).getChildAt(1));
         title.setText(extras.getString("title"));
-        title.setPadding(0, (int) width/25, (int) width*3/100, 0);
             //get the details linearlayout
-        LinearLayout details = ((LinearLayout)layout.getChildAt(1));
+        LinearLayout details = ((LinearLayout)((ScrollView)layout.getChildAt(2)).getChildAt(0));
+
             //get the start time details linear layout
         LinearLayout detailsStart = ((LinearLayout)details.getChildAt(0));
-            //set the static part of start time
-        TextView eventsDetailsStartStatic = (TextView)detailsStart.getChildAt(0);
-        eventsDetailsStartStatic.setPadding((int) 0.18*width, (int)0.44*height, (int) 0.047*width, (int) 0.042*height);
             //set the nonstatic part of start time
         TextView eventsDetailsStartTime = (TextView)detailsStart.getChildAt(1);
         eventsDetailsStartTime.setText(extras.getString("start"));
+
             //get layout for the end time part of details linear layout
         LinearLayout detailsEnd = (LinearLayout)details.getChildAt(1);
-            //set the static part of end time
-        TextView eventsDetailsEndStatic = (TextView)detailsEnd.getChildAt(0);
-        eventsDetailsEndStatic.setPadding((int) 0.18*width, (int)0.44*height, (int) 0.047*width, (int) 0.042*height);
             //set the nonstatic part of end time
         TextView eventDetailsEndTime = (TextView) detailsEnd.getChildAt(1);
         eventDetailsEndTime.setText(extras.getString("end"));
-            //get layout for the separator!
-        ImageView separator = (ImageView) ((LinearLayout)details.getChildAt(2)).getChildAt(0);
-        separator.setMaxHeight((int)0.052*height);
-        ShapeDrawable separatorRectangle = new ShapeDrawable(new RectShape());
-        separatorRectangle.getPaint().setColor(-1);
-        separator.setImageDrawable(separatorRectangle);
+
             //get the description layout
-        LinearLayout description = (LinearLayout)details.getChildAt(3);
-            //get the description layout static part
-        TextView descriptionStatic = (TextView) description.getChildAt(0);
-        descriptionStatic.setPadding((int)0.083*width, (int)0.026*height,(int)0.047*width,(int)0.026*height);
+        LinearLayout description = (LinearLayout)details.getChildAt(2);
             //get the description layout nonstatic part
         TextView descriptionText = (TextView)description.getChildAt(1);
-        descriptionText.setPadding((int) 0.01*width,(int)0.026*height,0,(int)0.026*height);
         descriptionText.setText(extras.getString("description"));
+
             //get the local. layout
-        LinearLayout location = (LinearLayout)details.getChildAt(4);
-            //get the location layout static part
-        TextView locationStatic = (TextView) location.getChildAt(0);
-        locationStatic.setPadding((int)0.14*width, (int)0.026*height,(int)0.047*width,(int)0.026*height);
+        LinearLayout location = (LinearLayout)details.getChildAt(3);
             //get the location layout nonstatic part
         TextView locationText = (TextView)location.getChildAt(1);
-        locationText.setPadding((int) 0.01*width, (int)0.026*height, 0,(int)0.026*height);
         locationText.setText(extras.getString("location"));
         setContentView(layout);
     }
