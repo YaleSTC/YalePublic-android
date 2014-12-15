@@ -34,6 +34,9 @@ public class CalendarCache {
         myCalendar = Calendar.getInstance();
         int month = myCalendar.get(Calendar.MONTH);
         int year = myCalendar.get(Calendar.YEAR);
+
+        if(!needToCache(month,year))
+            return;
         responses = new String[4];
             //TO DO: refactor and put all of them in arrays. Initialize as a loop.
         String[] queries = new String[4];
@@ -183,8 +186,51 @@ public class CalendarCache {
             }
         }
     }
-
+        //checkes if new data has to be pulled and deletes obsolete files.
     boolean needToCache(int currentMonth, int currentYear){
-        
+        File dir = mContext.getCacheDir();
+        String maxDate="";
+        if(dir.exists()){
+            File[] files = dir.listFiles();
+            for(File file : files){
+                String nameYearMonth = file.getName().substring(0,6);
+                int year = Integer.parseInt(nameYearMonth.substring(0,4));
+                int month = Integer.parseInt(nameYearMonth.substring(5,6));
+                if(!dateWithinBounds(currentMonth, currentYear, year, month)){
+                    file.delete();
+                }
+                maxDate = nameYearMonth;
+            }
+        }
+        if(maxDate.equals(parseDateForParse(currentYear,currentMonth+3,0).substring(0,6)))
+            return false;
+        else
+            return true;
+    }
+
+        //TO DO: think about storing the bounds in preferences... similarly with needToCache being substrituted
+    //by pairs within preferences and checking if a month has changed... this would be starter
+    private boolean dateWithinBounds(int currentMonth, int currentYear, int year, int month){
+        int minMonth;
+        int minYear;
+        int maxMonth;
+        int maxYear;
+        if(currentMonth + 3 > 11){
+            maxYear = currentYear++;
+        } else {
+            maxYear = currentYear;
+        }
+        maxMonth = (currentMonth+3)%12;
+        if(currentMonth -1 < 0){
+            minYear = currentYear-1 ;
+        } else {
+            minYear = currentYear;
+        }
+        minMonth = (currentMonth-1)%12;
+
+        if( (year <= maxYear && year >= minYear ) && (month <= maxMonth && month >= minMonth))
+            return true;
+        else
+            return false;
     }
 }
