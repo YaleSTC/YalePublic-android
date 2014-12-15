@@ -7,6 +7,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import edu.yalestc.yalepublic.R;
@@ -79,7 +80,6 @@ public class EventsParseForDateWithinCategory {
         }
         return givenEvents;
     }
-
         //check if given event is valid
         //if we are looking for all events - it only has to start in current month
         //if we are looking for special category it has to start in current month and be in the given category!
