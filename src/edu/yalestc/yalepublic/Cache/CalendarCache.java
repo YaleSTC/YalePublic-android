@@ -1,6 +1,7 @@
 package edu.yalestc.yalepublic.Cache;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.util.Pair;
@@ -232,5 +233,29 @@ public class CalendarCache {
             return true;
         else
             return false;
+    }
+
+    private void createPreferences(){
+        SharedPreferences eventPreferences = mContext.getSharedPreferences("events",0);
+        SharedPreferences.Editor createEventPreferences = eventPreferences.edit();
+        int mYear = myCalendar.get(Calendar.YEAR);
+        int mMonth = myCalendar.get(Calendar.MONTH);
+        int mDay = 1;
+        createEventPreferences.putString("dateCached", parseDateForParse(mYear, mMonth, mDay));
+        int topMonth = mMonth + 3;
+        int topYear = mYear;
+        if(topMonth > 11){
+            topMonth = topMonth%12;
+            topYear++;
+        }
+        createEventPreferences.putString("topBoundDate", parseDateForParse(topYear,topMonth,mDay));
+        int botYear = mYear;
+        int botMonth = mMonth - 1;
+        if(topMonth < 0){
+            botMonth = topMonth % 12;
+            botYear --;
+        }
+        createEventPreferences.putString("botBoundDate", parseDateForParse(botYear, botMonth, mDay));
+        createEventPreferences.apply();
     }
 }
