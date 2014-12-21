@@ -235,11 +235,12 @@ public class CalendarCache {
             return false;
     }
 
-    private void createPreferences(){
+        //can be used both to create and update preferences.
+    private void updatePreferences(int currentYear, int currentMonth){
         SharedPreferences eventPreferences = mContext.getSharedPreferences("events",0);
         SharedPreferences.Editor createEventPreferences = eventPreferences.edit();
-        int mYear = myCalendar.get(Calendar.YEAR);
-        int mMonth = myCalendar.get(Calendar.MONTH);
+        int mYear = currentYear;
+        int mMonth = currentMonth;
         int mDay = 1;
         createEventPreferences.putString("dateCached", parseDateForParse(mYear, mMonth, mDay));
         int topMonth = mMonth + 3;
