@@ -18,6 +18,18 @@ public class dateFormater {
         return result;
     }
 
+        //the result and the input is in the calendar format
+    public static int toYearMonth(int year, int month){
+        if(month < 0){
+            month = month % 12;
+            year --;
+        } else if(month > 11){
+            month = month % 12;
+            year++;
+        }
+        return year*100 + month;
+    }
+
         //from calendar format to DD from 01 to 31
     public static String formatDayFromCalendarFormat(int day){
         String result ="";
@@ -30,12 +42,14 @@ public class dateFormater {
 
         //from calendar format to YYYY-MM-01
     public static String formatDateForJSONQuery(int year, int month){
+            //since the calendar operates 0-11
+        month++;
         int myMonth = 0;
         String result = "";
         if(month == 12){
-            myMonth = 0;
+            myMonth = 1;
             year++;
-        } else if(month == -1){
+        } else if(month == 0){
             myMonth = 12;
             year--;
         }
@@ -58,5 +72,4 @@ public class dateFormater {
         result = Integer.toString(year) + formatMonthFromCalendarFormat(myMonth) + formatDayFromCalendarFormat(day);
         return result;
     }
-
 }
