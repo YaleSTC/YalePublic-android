@@ -14,6 +14,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
+
+import edu.yalestc.yalepublic.Cache.CalendarCache;
 import edu.yalestc.yalepublic.Videos.VideoList;
 import edu.yalestc.yalepublic.Events.EventCategories;
 import edu.yalestc.yalepublic.news.NewsChooser;
@@ -70,7 +73,12 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        RelativeLayout mLayout = (RelativeLayout) getResources().getLayout(R.layout.activity_main);
+        mLayout.getChildAt(0).setVisibility(View.VISIBLE);
+        setContentView(mLayout);
+        CalendarCache cache = new CalendarCache(this);
+        mLayout.getChildAt(0).setVisibility(View.INVISIBLE);
+        setContentView(mLayout);
         /*Configuration config = getResources().getConfiguration();
         DisplayMetrics dm = getResources().getDisplayMetrics();
         screenWidth = (double)config.screenWidthDp * dm.density;

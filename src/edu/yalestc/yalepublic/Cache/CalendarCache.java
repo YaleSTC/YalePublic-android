@@ -31,7 +31,7 @@ public class CalendarCache{
     private EventsParseForDateWithinCategory dataParser;
     private String[] responses;
 
-    CalendarCache(Context context){
+    public CalendarCache(Context context){
             //for creating and getting preferences and tables!
         mContext = context;
         myCalendar = Calendar.getInstance();
