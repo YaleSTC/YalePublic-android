@@ -146,10 +146,10 @@ public class EventsCalendarEventList extends BaseAdapter {
     }
         //make the little blob next to events name etc.
     private GradientDrawable createBlob(int color, int colorFrom) {
-        GradientDrawable blob = new GradientDrawable();
+        int[] colors = new int[]{colorFrom, color};
+        GradientDrawable blob = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, colors);
         blob.setShape(GradientDrawable.OVAL);
         blob.setSize(40,40);
-        blob.setColors(new int[]{colorFrom, color});
         blob.setGradientType(GradientDrawable.RADIAL_GRADIENT);
         blob.setGradientRadius(30);
         blob.setGradientCenter((float)0.5,(float)0.0);
