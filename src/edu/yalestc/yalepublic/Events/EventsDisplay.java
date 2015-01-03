@@ -102,7 +102,7 @@ public class EventsDisplay extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    private class DayTab extends Fragment {
+   /* private class DayTab extends Fragment {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View view = inflater.inflate(R.layout.fragment_event_categories, container, false);
@@ -122,5 +122,5 @@ public class EventsDisplay extends Activity {
 
             return view;
         }
-    }
+    }*/
 }
