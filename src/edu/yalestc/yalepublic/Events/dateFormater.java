@@ -11,7 +11,7 @@ public class dateFormater {
         //calendar operates on months enumrated as 0 - 11!
         int realMonth = month + 1;
         String result ="";
-        if(month < 10){
+        if(realMonth < 10){
             result = "0";
         }
         result += Integer.toString(realMonth);
@@ -21,10 +21,10 @@ public class dateFormater {
         //the result and the input is in the calendar format
     public static int toYearMonth(int year, int month){
         if(month < 0){
-            month = month % 12;
-            year --;
+            month = month + 12;
+            year--;
         } else if(month > 11){
-            month = month % 12;
+            month = month - 12;
             year++;
         }
         return year*100 + month;
@@ -42,18 +42,16 @@ public class dateFormater {
 
         //from calendar format to YYYY-MM-01
     public static String formatDateForJSONQuery(int year, int month){
-            //since the calendar operates 0-11
-        month++;
-        int myMonth = 0;
         String result = "";
-        if(month == 12){
-            myMonth = 1;
+        if(month > 11){
+            month = month % 12;
             year++;
-        } else if(month == 0){
-            myMonth = 12;
+        } else if(month < 0){
+                //modulo in java is just flawed in so many ways.
+            month = month + 12;
             year--;
         }
-        result = Integer.toString(year) + "-" + formatMonthFromCalendarFormat(myMonth);
+        result = Integer.toString(year) + "-" + formatMonthFromCalendarFormat(month);
         result += "-01";
         return result;
     }
