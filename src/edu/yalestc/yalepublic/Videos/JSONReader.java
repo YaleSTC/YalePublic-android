@@ -50,7 +50,7 @@ public class JSONReader extends AsyncTask<Void, String, String>{
     //for checking if we are online since this class is not an Activity class
     private Context mContext;
 
-    JSONReader(Context context){
+    protected JSONReader(Context context){
         mContext = context;
     }
 
@@ -92,62 +92,7 @@ public class JSONReader extends AsyncTask<Void, String, String>{
     }
     @Override
     protected String doInBackground(Void... params){
-       if(isOnline()) {
-           try {
-               // first we create the URI
-               Uri builtUri = buildMyUri();
-
-               // send a GET request to the server
-               URL url = new URL(builtUri.toString());
-               HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-               urlConnection.setRequestMethod("GET");
-               urlConnection.connect();
-
-               // read all the data
-               InputStream inputStream = urlConnection.getInputStream();
-               StringBuffer buffer = new StringBuffer();
-               if (inputStream == null) {
-                   // Nothing to do.
-                   return null;
-               }
-               BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-               String line;
-               while ((line = reader.readLine()) != null) {
-                   // Since it's JSON, adding a newline isn't necessary (it won't affect parsing)
-                   // But it does make debugging a *lot* easier if you print out the completed
-                   // buffer for debugging.
-                   buffer.append(line + "\n");
-               }
-
-               if (buffer.length() == 0) {
-                   // Stream was empty.  No point in parsing.
-                   return null;
-               }
-               String JSONresponse = buffer.toString();
-               // we pass the data to getPlaylistsFromJson
-               //but also remember to save the playlistID's for future
-               return JSONresponse;
-
-               // TODO check if there are more than 50 videos in the arrays
-           } catch (MalformedURLException e){
-               Log.e("URI", "URL was malformed!");
-               return null;
-           } catch (IllegalArgumentException e) {
-               Log.e("URI", "the argument proxy is null or of is an invalid type.");
-               return null;
-           } catch(UnsupportedOperationException e) {
-               Log.e("URI"," the protocol handler does not support opening connections through proxies.");
-               return null;
-           }catch (IOException e) {
-               Log.e("URI", "uri was invalid or api request failed");
-               e.printStackTrace();
-               return null;
-           }
-           //if isOnline returns false, we toast the user
-       } else {
-           Log.e("URI","You are not connected to internet!");
-           return null;
-       }
+       return getData();
     }
 
     @Override
@@ -161,5 +106,64 @@ public class JSONReader extends AsyncTask<Void, String, String>{
             return true;
         }
         return false;
+    }
+
+    protected String getData(){
+        if(isOnline()) {
+            try {
+                // first we create the URI
+                Uri builtUri = buildMyUri();
+
+                // send a GET request to the server
+                URL url = new URL(builtUri.toString());
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("GET");
+                urlConnection.connect();
+
+                // read all the data
+                InputStream inputStream = urlConnection.getInputStream();
+                StringBuffer buffer = new StringBuffer();
+                if (inputStream == null) {
+                    // Nothing to do.
+                    return null;
+                }
+                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    // Since it's JSON, adding a newline isn't necessary (it won't affect parsing)
+                    // But it does make debugging a *lot* easier if you print out the completed
+                    // buffer for debugging.
+                    buffer.append(line + "\n");
+                }
+
+                if (buffer.length() == 0) {
+                    // Stream was empty.  No point in parsing.
+                    return null;
+                }
+                String JSONresponse = buffer.toString();
+                // we pass the data to getPlaylistsFromJson
+                //but also remember to save the playlistID's for future
+                return JSONresponse;
+
+                // TODO check if there are more than 50 videos in the arrays
+            } catch (MalformedURLException e){
+                Log.e("URI", "URL was malformed!");
+                return null;
+            } catch (IllegalArgumentException e) {
+                Log.e("URI", "the argument proxy is null or of is an invalid type.");
+                return null;
+            } catch(UnsupportedOperationException e) {
+                Log.e("URI"," the protocol handler does not support opening connections through proxies.");
+                return null;
+            }catch (IOException e) {
+                Log.e("URI", "uri was invalid or api request failed");
+                e.printStackTrace();
+                return null;
+            }
+            //if isOnline returns false, we toast the user
+        } else {
+            Log.e("URI","You are not connected to internet!");
+            return null;
+        }
     }
 }
