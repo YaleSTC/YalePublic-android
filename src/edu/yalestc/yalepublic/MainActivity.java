@@ -14,7 +14,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 
 import edu.yalestc.yalepublic.Cache.CalendarCache;
 import edu.yalestc.yalepublic.Videos.VideoList;
@@ -69,16 +68,13 @@ public class MainActivity extends ActionBarActivity {
             }
         };
     };
-    
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        RelativeLayout mLayout = (RelativeLayout) getResources().getLayout(R.layout.activity_main);
-        mLayout.getChildAt(0).setVisibility(View.VISIBLE);
-        setContentView(mLayout);
+        setContentView(R.layout.activity_main);
         CalendarCache cache = new CalendarCache(this);
-        mLayout.getChildAt(0).setVisibility(View.INVISIBLE);
-        setContentView(mLayout);
+        cache.execute();
         /*Configuration config = getResources().getConfiguration();
         DisplayMetrics dm = getResources().getDisplayMetrics();
         screenWidth = (double)config.screenWidthDp * dm.density;
@@ -101,7 +97,6 @@ public class MainActivity extends ActionBarActivity {
         });*/
         registerButtons();
     }
-    
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
