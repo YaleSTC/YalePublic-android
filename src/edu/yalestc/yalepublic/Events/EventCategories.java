@@ -55,7 +55,6 @@ public class EventCategories extends Activity {
 
     public class PlaceholderFragment extends Fragment {
 
-
         public PlaceholderFragment() {
         }
 
