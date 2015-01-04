@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -14,18 +15,18 @@ import java.util.ArrayList;
 
 public class CalendarDatabaseTableHandler extends SQLiteOpenHelper {
 
-    private static final int TABLE_VERSION = 0;
+    private static final int TABLE_VERSION = 1;
     private static final String TABLE_NAME = "events";
     String TABLE_CREATE =
             "CREATE TABLE " + TABLE_NAME+ " (" +
-                    "Date" + " TEXT, " +
+                    "DateDescription" + " TEXT, " +
                     "Title" + " TEXT, "+
                     "StartTime" + " TEXT, " +
                     "EndTime" + " TEXT, " +
                     "Location" + " TEXT, " +
                     "Description" + " TEXT, " +
                     "Category" + " TEXT, " +
-                    "NumericalDate" + "INTEGER);";
+                    "NumericalDate" + " INTEGER);";
 
     CalendarDatabaseTableHandler(Context context){
         super(context, TABLE_NAME, null, TABLE_VERSION);
@@ -44,7 +45,7 @@ public class CalendarDatabaseTableHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        values.put("Date", eventInfo[4]);
+        values.put("DateDescription", eventInfo[4]);
         values.put("Title", eventInfo[0]);
         values.put("StartTime", eventInfo[1]);
         values.put("EndTime", eventInfo[2]);
@@ -52,8 +53,8 @@ public class CalendarDatabaseTableHandler extends SQLiteOpenHelper {
         values.put("Description",eventInfo[5]);
         values.put("Category", eventInfo[6]);
             //for easier implementation of deleteEvents
-        values.put("NumericalDate", Integer.parseInt(eventInfo[4]));
-
+        values.put("NumericalDate", Integer.parseInt(eventInfo[7]));
+        Log.i("DATABASE", "Event " + eventInfo[0] + " added");
         db.insert(TABLE_NAME, null, values);
         db.close();
     }
