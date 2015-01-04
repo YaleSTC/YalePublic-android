@@ -42,8 +42,8 @@ public class CalendarCache extends JSONReader {
     Context mContext;
     Calendar myCalendar;
     SharedPreferences prefs;
-    int year;
-    int month;
+    final int year;
+    final int month;
     private ProgressDialog dialog;
 
     public CalendarCache(Context context){
@@ -69,7 +69,7 @@ public class CalendarCache extends JSONReader {
     @Override
     protected String doInBackground(Void... voids) {
         if(prefs.contains("dateCached")){
-            //check if the cached data is up-to-date and update if it is not.
+            updateDatabase(year, month);
         } else {
             createDatabaseForTheFirstTime(year, month);
         }
@@ -93,17 +93,9 @@ public class CalendarCache extends JSONReader {
         createEventPreferences.putString("dateCached", dateFormater.formatDateForEventsParseForDate(mYear, mMonth, mDay));
         int topMonth = mMonth + 3;
         int topYear = mYear;
-        if(topMonth > 11){
-            topMonth = topMonth%12;
-            topYear++;
-        }
         createEventPreferences.putString("topBoundDate", dateFormater.formatDateForEventsParseForDate(topYear,topMonth,mDay));
         int botYear = mYear;
         int botMonth = mMonth - 1;
-        if(topMonth < 0){
-            botMonth = topMonth % 12;
-            botYear --;
-        }
         createEventPreferences.putString("botBoundDate", dateFormater.formatDateForEventsParseForDate(botYear, botMonth, mDay));
         createEventPreferences.apply();
     }
@@ -124,6 +116,38 @@ public class CalendarCache extends JSONReader {
                 }
             }
         }
+    }
+
+    //NOT TESTED. PLEASE TEST AFTER DEMO SINCE THIS IS NOT TOO IMPORTANT.
+    private void updateDatabase(int year, int month){
+        CalendarDatabaseTableHandler eventTable = new CalendarDatabaseTableHandler(mContext);
+        deleteObsolete(year, month, eventTable);
+        for(int i = 0; i<4; i++){
+            int before = dateFormater.toYearMonth(year, month + i);
+            int after = dateFormater.toYearMonth(year, month + i - 1);
+            if(eventTable.getEventsBeforeAndAfter(after, before).size() == 0){
+                int yearMonth = dateFormater.toYearMonth(year, month + i - 1);
+                String query = "http://calendar.yale.edu/feeds/feed/opa/json/" + dateFormater.formatDateForJSONQuery(year, month + i - 1) + "/30days";
+                super.setURL(query);
+                String result = super.getData();
+                Log.i("Cache", "contents of result[" + Integer.toString(i) + "]:" + result.substring(0, 100));
+                if (result == null) {
+                    Toast toast = new Toast(mContext);
+                    toast = Toast.makeText(mContext, "You need internet connection to succesfully finish", Toast.LENGTH_LONG);
+                    toast.show();
+                    return;
+                }
+                parseAndSaveToDb(result, (int) (yearMonth / 100), yearMonth % 100);
+            }
+        }
+    }
+
+    private void deleteObsolete(int year, int month, CalendarDatabaseTableHandler eventTable){
+        //YYYYMM00
+        int lowerbound = dateFormater.toYearMonth(year,month+3)*100;
+        //YYYYMM33
+        int upperbound = dateFormater.toYearMonth(year, month-1)+33;
+        eventTable.deleteEvents(lowerbound, upperbound);
     }
 
     private void createDatabaseForTheFirstTime(int year, int month){
