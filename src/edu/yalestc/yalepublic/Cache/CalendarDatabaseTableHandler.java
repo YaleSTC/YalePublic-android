@@ -59,7 +59,7 @@ public class CalendarDatabaseTableHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    public ArrayList<String[]> getEvents(String date){
+    public ArrayList<String[]> getEventsOn(String date){
        SQLiteDatabase db = this.getReadableDatabase();
 
         String query = "select * from " + TABLE_NAME
@@ -77,6 +77,28 @@ public class CalendarDatabaseTableHandler extends SQLiteOpenHelper {
         }
         return result;
     }
+
+    public ArrayList<String[]> getEventsBeforeAndAfter(int dateAfter, int dateBefore){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String query = "select * from " + TABLE_NAME
+                + "where NumericalDate > " + Integer.toString(dateBefore)
+                + "AND NumericalDate < " + Integer.toString(dateAfter) + ";";
+
+        Cursor cursor = db.rawQuery(query,null);
+
+        ArrayList<String[]> result = new ArrayList<String[]>();
+        if(cursor.moveToFirst()){
+            do {
+                String[] event = new String[7];
+                for (int i = 0; i < 7; i++)
+                    event[i] = cursor.getString(i);
+                result.add(event);
+            } while (cursor.moveToNext());
+        }
+        return result;
+    }
+
 
     public void deleteEvents(int lowerBoundDate, int upperBoundDate){
         SQLiteDatabase db = this.getWritableDatabase();
