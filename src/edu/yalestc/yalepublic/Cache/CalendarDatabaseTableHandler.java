@@ -99,6 +99,27 @@ public class CalendarDatabaseTableHandler extends SQLiteOpenHelper {
         return result;
     }
 
+    public ArrayList<String[]> getEventsOnDateWithinCategory(String date, int category){
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String query = "select * from " + TABLE_NAME
+                + "where Category = " + Integer.toString(category)
+                + "AND Date in ('Date'," + date +");";
+
+        Cursor cursor = db.rawQuery(query, null);
+
+        ArrayList<String[]> result = new ArrayList<String[]>();
+        if(cursor.moveToFirst()){
+            do {
+                String[] event = new String[7];
+                for (int i = 0; i < 7; i++)
+                    event[i] = cursor.getString(i);
+                result.add(event);
+            } while (cursor.moveToNext());
+        }
+        return result;
+    }
+
 
     public void deleteEvents(int lowerBoundDate, int upperBoundDate){
         SQLiteDatabase db = this.getWritableDatabase();
