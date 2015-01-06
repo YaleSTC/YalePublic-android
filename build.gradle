@@ -20,8 +20,8 @@ apply plugin: 'android'
 
 android {
 
-    compileSdkVersion 19
-    buildToolsVersion "19.1.0"
+    compileSdkVersion 21
+    buildToolsVersion "21.1.1"
 
     // Since we have an Eclipse-style project, sourceSets defines the locations of files
     sourceSets {
