@@ -80,6 +80,7 @@ public class EventCategories extends Activity {
                     showEvents.putExtra("category", categories[arg2]);
                     //to parse only for events in selected category
                     showEvents.putExtra("numberOfCategorySearchedFor", arg2);
+                    //0 means no particular category
                     if (arg2 == 0) {
                         showEvents.putExtra("JsonCategories", "All");
                         showEvents.putExtra("colorsTo", colorsTo);
@@ -101,7 +102,6 @@ public class EventCategories extends Activity {
 
     //custom adapter creating relativelayouts consisting of  imageview and textview
     private class EventsCategoriesAdapter extends BaseAdapter {
-        private int white = getResources().getColor(R.color.white);
         private Context mContext;
         //for screen dimensions (so that it looks okay on all sizes of displays)
         private DisplayMetrics display;

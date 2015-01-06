@@ -19,16 +19,16 @@ public class CalendarDatabaseTableHandler extends SQLiteOpenHelper {
     private static final String TABLE_NAME = "events";
     String TABLE_CREATE =
             "CREATE TABLE " + TABLE_NAME+ " (" +
-                    "DateDescription" + " TEXT, " +
                     "Title" + " TEXT, "+
                     "StartTime" + " TEXT, " +
                     "EndTime" + " TEXT, " +
                     "Location" + " TEXT, " +
+                    "DateDescription" + " TEXT, " +
                     "Description" + " TEXT, " +
                     "Category" + " TEXT, " +
                     "NumericalDate" + " INTEGER);";
 
-    CalendarDatabaseTableHandler(Context context){
+    public CalendarDatabaseTableHandler(Context context){
         super(context, TABLE_NAME, null, TABLE_VERSION);
     }
 
@@ -44,17 +44,16 @@ public class CalendarDatabaseTableHandler extends SQLiteOpenHelper {
     public void addEvent(String[] eventInfo){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-
-        values.put("DateDescription", eventInfo[4]);
         values.put("Title", eventInfo[0]);
         values.put("StartTime", eventInfo[1]);
         values.put("EndTime", eventInfo[2]);
         values.put("Location", eventInfo[3]);
+        values.put("DateDescription", eventInfo[4]);
         values.put("Description",eventInfo[5]);
         values.put("Category", eventInfo[6]);
             //for easier implementation of deleteEvents
         values.put("NumericalDate", Integer.parseInt(eventInfo[7]));
-        Log.i("DATABASE", "Event " + eventInfo[0] + " added");
+        Log.i("DATABASE", "Event " + eventInfo[0] + " added on " + eventInfo[7]);
         db.insert(TABLE_NAME, null, values);
         db.close();
     }
@@ -75,6 +74,9 @@ public class CalendarDatabaseTableHandler extends SQLiteOpenHelper {
                 result.add(event);
             } while (cursor.moveToNext());
         }
+        Log.i("Database","Queried for : " + query);
+        Log.i("Database","Returned " + Integer.toString(result.size()) + " elements");
+        db.close();
         return result;
     }
 
@@ -82,8 +84,8 @@ public class CalendarDatabaseTableHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         String query = "select * from " + TABLE_NAME
-                + "where NumericalDate > " + Integer.toString(dateBefore)
-                + "AND NumericalDate < " + Integer.toString(dateAfter) + ";";
+                + " where NumericalDate > " + Integer.toString(dateAfter)
+                + " AND NumericalDate < " + Integer.toString(dateBefore) + ";";
 
         Cursor cursor = db.rawQuery(query,null);
 
@@ -96,16 +98,24 @@ public class CalendarDatabaseTableHandler extends SQLiteOpenHelper {
                 result.add(event);
             } while (cursor.moveToNext());
         }
+        Log.i("Database","Queried for : " + query);
+        Log.i("Database","Returned " + Integer.toString(result.size()) + " elements");
+        db.close();
         return result;
     }
 
     public ArrayList<String[]> getEventsOnDateWithinCategory(String date, int category){
+        String query;
+        if(category != 0) {
+            query = "select * from " + TABLE_NAME
+                    + " where Category = " + Integer.toString(category)
+                    + " AND NumericalDate='" + date + "';";
+        } else {
+            query = "select * from " + TABLE_NAME
+                    + " where NumericalDate= '" + date + "';";
+        }
+
         SQLiteDatabase db = this.getReadableDatabase();
-
-        String query = "select * from " + TABLE_NAME
-                + "where Category = " + Integer.toString(category)
-                + "AND Date in ('Date'," + date +");";
-
         Cursor cursor = db.rawQuery(query, null);
 
         ArrayList<String[]> result = new ArrayList<String[]>();
@@ -117,6 +127,9 @@ public class CalendarDatabaseTableHandler extends SQLiteOpenHelper {
                 result.add(event);
             } while (cursor.moveToNext());
         }
+        Log.i("Database","Queried for : " + query);
+        Log.i("Database","Returned " + Integer.toString(result.size()) + " elements");
+        db.close();
         return result;
     }
 
@@ -125,7 +138,7 @@ public class CalendarDatabaseTableHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         String query = "delete from " + TABLE_NAME
-                + "where NumericalDate > " + Integer.toString(upperBoundDate) +
+                + " where NumericalDate > " + Integer.toString(upperBoundDate) +
                 " OR NumericalDate < " + Integer.toString(lowerBoundDate) + ";";
 
         db.rawQuery(query, null);

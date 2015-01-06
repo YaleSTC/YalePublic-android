@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import edu.yalestc.yalepublic.Cache.CalendarDatabaseTableHandler;
 import edu.yalestc.yalepublic.R;
 
 /**
@@ -32,7 +33,11 @@ public class EventsCalendarEventList extends BaseAdapter {
     private int mYear;
     private int mMonth;
         //for quicker parsing of events. Is passed in from MonthFragment. See EventsParseForDateWithinCategory for more information
+    //if allTheEvents is null, it means that we are using cached information!
     private EventsParseForDateWithinCategory allTheEvents;
+        //workaround for now. There is a discrepancy between how EventsParseForDateWithinCategory and db work...
+    //IDEA: after any data-pulling always add it to db. It's text and is cleared every month. ----> seems like a good idea
+    private int mCategoryNo;
         //for ovals next to time
     private int[] mColors;
     private int[] mColorsFrom;
@@ -50,20 +55,38 @@ public class EventsCalendarEventList extends BaseAdapter {
         mColors = colors;
         mColorsFrom = colorsFrom;
         mSelectedDayOfMonth = selectedDayOfMonth;
-        eventsOnCurrentDay = allTheEvents.getEventsOnGivenDate(getStringDateYearMonthDay());
+        eventsOnCurrentDay = allTheEvents.getEventsOnGivenDate(dateFormater.convertDateToString(mYear, mMonth, mSelectedDayOfMonth));
         display = context.getResources().getDisplayMetrics();
         height = display.heightPixels;
     }
 
+    EventsCalendarEventList(Context context, int year, int month, int selectedDayOfMonth, int category, int[] colors, int colorsFrom[]){
+        mContext = context;
+        allTheEvents = null;
+        mYear = year;
+        //since calendar returns number 0 - 11 as a month
+        mMonth = month+1;
+        mColors = colors;
+        mColorsFrom = colorsFrom;
+        mSelectedDayOfMonth = selectedDayOfMonth;
+        CalendarDatabaseTableHandler db = new CalendarDatabaseTableHandler(mContext);
+        eventsOnCurrentDay = db.getEventsOnDateWithinCategory((dateFormater.convertDateToString(mYear, mMonth, mSelectedDayOfMonth)), mCategoryNo);
+        display = context.getResources().getDisplayMetrics();
+        height = display.heightPixels;
+        mCategoryNo = category;
+    }
+
         //used from CalendarFragment for getting the events
     public String[] getEventInfo(int whichEvent){
-        return eventsOnCurrentDay.get(whichEvent);
+            return eventsOnCurrentDay.get(whichEvent);
     }
 
         //called after the month is changed, parses the newly retrieved JSON object and updates
     //current Year and Month
     public void update(String rawData, int month, int year){
-        allTheEvents.setNewEvents(rawData, month, year);
+        if(allTheEvents != null) {
+            allTheEvents.setNewEvents(rawData, month, year);
+        }
         mYear = year;
         //because calendar operates on months labelled 0 through 11
         mMonth = month + 1;
@@ -72,22 +95,12 @@ public class EventsCalendarEventList extends BaseAdapter {
         //called when the selected day is changed. Updates the events for a given day and the day itself.
     public void setmSelectedDayOfMonth(int selectedDayOfMonth) {
         mSelectedDayOfMonth = selectedDayOfMonth;
-        eventsOnCurrentDay = allTheEvents.getEventsOnGivenDate(getStringDateYearMonthDay());
+        if(allTheEvents != null) {
+            eventsOnCurrentDay = allTheEvents.getEventsOnGivenDate((dateFormater.convertDateToString(mYear, mMonth, mSelectedDayOfMonth)));
+        } else {
+            CalendarDatabaseTableHandler db = new CalendarDatabaseTableHandler(mContext);
+            eventsOnCurrentDay = db.getEventsOnDateWithinCategory((dateFormater.convertDateToString(mYear, mMonth, mSelectedDayOfMonth)), mCategoryNo);
     }
-
-        //helper for calling the EventsParseForDateWithinCategory in proper format. returns the date
-    //as a string in the YYYYMMDD format.
-    private String getStringDateYearMonthDay() {
-        String date = Integer.toString(mYear);
-        if(mMonth < 10){
-            date += "0";
-        }
-        date += Integer.toString(mMonth);
-        if(mSelectedDayOfMonth < 10) {
-            date+="0";
-        }
-        date += Integer.toString(mSelectedDayOfMonth);
-        return date;
     }
 
     @Override

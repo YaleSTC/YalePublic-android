@@ -2,6 +2,7 @@ package edu.yalestc.yalepublic.Events;
 
 import android.app.Fragment;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -80,7 +81,12 @@ public class CalendarFragment extends Fragment {
 
         calendarAdapter = new EventsCalendarGridAdapter(getActivity());
         calendarAdapter.update(year, month);
-        listEvents = new EventsCalendarEventList(getActivity(), new EventsParseForDateWithinCategory(mRawData, month, year, getActivity(), mExtras.getInt("numberOfCategorySearchedFor")), year, month, calendarAdapter.getCurrentlySelected(), mExtras.getIntArray("colors"), mExtras.getIntArray("colorsFrom"));
+        if(!isCached()) {
+            listEvents = new EventsCalendarEventList(getActivity(), new EventsParseForDateWithinCategory(mRawData, month, year, getActivity(), mExtras.getInt("numberOfCategorySearchedFor")), year, month, calendarAdapter.getCurrentlySelected(), mExtras.getIntArray("colors"), mExtras.getIntArray("colorsFrom"));
+        } else {
+            //Context context, int year, int month, int selectedDayOfMonth, int category, int[] colors, int colorsFrom[]
+            listEvents = new EventsCalendarEventList(getActivity(), year, month, calendarAdapter.getCurrentlySelected(), mExtras.getInt("numberOfCategorySearchedFor"), mExtras.getIntArray("colors"), mExtras.getIntArray("colorsFrom"));
+        }
         ((ListView) ((RelativeLayout) rootView).getChildAt(4)).setAdapter(listEvents);
             //set the listener for elemnts on the list, create intent and add all the information required
         ((ListView) ((RelativeLayout) rootView).getChildAt(4)).setOnItemClickListener(new AdapterView.OnItemClickListener(){
@@ -170,8 +176,18 @@ public class CalendarFragment extends Fragment {
         dayOfWeek = c.get(Calendar.DAY_OF_WEEK_IN_MONTH);
         calendarAdapter.update(year, month);
         calendarAdapter.notifyDataSetChanged();
-             //pull new data for a given month!!
-        JSONReader newData = new JSONReader("http://calendar.yale.edu/feeds/feed/opa/json/" + Integer.toString(year) + "-" + monthNumberToString() + "-01"  + "/30days", getActivity());
+        if(!isCached()){
+            //pull new data for a given month!!
+            pullDataFromInternet();
+        }
+            //parse mRawData into array of events. Checkout EventsParseForDateWithinCategory and EventsCalendarEventList for more information.
+        listEvents.update(mRawData, month, year);
+            //set the proper name of month at the header of the calendar
+        ((TextView) ((RelativeLayout) (((RelativeLayout) rootView).getChildAt(0))).getChildAt(1)).setText(monthName);
+    }
+
+    private void pullDataFromInternet(){
+        JSONReader newData = new JSONReader("http://calendar.yale.edu/feeds/feed/opa/json/" + dateFormater.formatDateForJSONQuery(year, month) + "/30days", getActivity());
         try {
             mRawData = newData.execute().get();
             //rawData is null if there are problems. We get a toast for no internet!
@@ -188,22 +204,16 @@ public class CalendarFragment extends Fragment {
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
-            //parse mRawData into array of events. Checkout EventsParseForDateWithinCategory and EventsCalendarEventList for more information.
-        listEvents.update(mRawData, month, year);
-            //set the proper name of month at the header of the calendar
-        ((TextView) ((RelativeLayout) (((RelativeLayout) rootView).getChildAt(0))).getChildAt(1)).setText(monthName);
     }
 
-        //helper used in creating new URL for querying. Returns the month in the format MM and in the range 01-12
-    String monthNumberToString() {
-        String stringMonth;
-        if (month + 1 < 10) {
-            stringMonth = "0";
-        } else {
-            stringMonth = new String();
-        }
-            //+1 because of the way calendar treats months (0-11)
-        stringMonth += Integer.toString(month + 1);
-        return stringMonth;
+    private boolean isCached(){
+        Calendar mCalendar = Calendar.getInstance();
+        //YYYYMM01 format
+        int eventsParseFormat = Integer.parseInt(dateFormater.formatDateForEventsParseForDate(year, month, 1));
+        //same format as above. See CalendarCache
+        SharedPreferences eventPreferences = getActivity().getSharedPreferences("events", 0);
+        int lowerBoundDate = eventPreferences.getInt("botBoundDate", 0);
+        int topBoundDate = eventPreferences.getInt("topBoundDate", 0);
+        return dateFormater.inInterval(lowerBoundDate, topBoundDate, eventsParseFormat);
     }
 }

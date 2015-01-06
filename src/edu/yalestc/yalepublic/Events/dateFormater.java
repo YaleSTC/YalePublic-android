@@ -18,8 +18,19 @@ public class dateFormater {
         return result;
     }
 
-        //the result and the input is in the calendar format
-    public static int toYearMonth(int year, int month){
+        //the input is in calendar format the output in real format
+    public static int toYearMonthCalendToReal(int year, int month){
+        if(month < 0){
+            month = month + 12;
+            year--;
+        } else if(month > 11){
+            month = month - 12;
+            year++;
+        }
+        return year*100 + month + 1;
+    }
+
+    public static int toYearMonthCalendToCalend(int year, int month){
         if(month < 0){
             month = month + 12;
             year--;
@@ -40,6 +51,15 @@ public class dateFormater {
         return result;
     }
 
+        //from real human-usable format to real human-usable format (String as YYYYMMDD, MM from 01 to 12)
+    public static String convertDateToString(int year, int month, int day){
+        String result = "";
+            //input calendar format to the toYearMonthCalendToReal and than change it back to real format!
+        result = Integer.toString(toYearMonthCalendToReal(year, month - 1));
+        result += formatDayFromCalendarFormat(day);
+        return result;
+    }
+
         //from calendar format to YYYY-MM-01
     public static String formatDateForJSONQuery(int year, int month){
         String result = "";
@@ -56,15 +76,15 @@ public class dateFormater {
         return result;
     }
 
-        //from calendar format to YYYYMMDD
-    public static String formatDateForEventsParseForDate(int year, int month, int day){
-        int myMonth = 0;
+        //from calendar format to YYYYMMDD (with month incremented)
+    public static String formatDateForEventsParseForDate(int year, int calendarMonth, int day){
+        int myMonth = calendarMonth;
         String result = "";
-        if(month == 12){
-            myMonth = 0;
+        if(calendarMonth > 11){
+            myMonth = calendarMonth % 12;
             year++;
-        } else if(month == -1){
-            myMonth = 12;
+        } else if(calendarMonth < 0){
+            myMonth = calendarMonth + 12;
             year--;
         }
         result = Integer.toString(year) + formatMonthFromCalendarFormat(myMonth) + formatDayFromCalendarFormat(day);
@@ -78,5 +98,3 @@ public class dateFormater {
         return false;
     }
 }
-
-
