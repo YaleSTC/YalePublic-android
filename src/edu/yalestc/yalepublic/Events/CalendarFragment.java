@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -188,6 +189,7 @@ public class CalendarFragment extends Fragment {
 
     private void pullDataFromInternet(){
         JSONReader newData = new JSONReader("http://calendar.yale.edu/feeds/feed/opa/json/" + dateFormater.formatDateForJSONQuery(year, month) + "/30days", getActivity());
+        Log.i("CalendarFragment","Pulling uncached data using query http://calendar.yale.edu/feeds/feed/opa/json/\" + dateFormater.formatDateForJSONQuery(year, month) + /30days");
         try {
             mRawData = newData.execute().get();
             //rawData is null if there are problems. We get a toast for no internet!
@@ -196,7 +198,10 @@ public class CalendarFragment extends Fragment {
                 toast = Toast.makeText(getActivity(), "You need internet connection to view the content!", Toast.LENGTH_LONG);
                 toast.show();
                 getParentFragment().getActivity().finish();
+                Log.i("CalendarFragment", "Failure");
                 return;
+            } else {
+                Log.i("CalendarFragment", "Success");
             }
 
         } catch (InterruptedException e) {
@@ -207,9 +212,9 @@ public class CalendarFragment extends Fragment {
     }
 
     private boolean isCached(){
-        Calendar mCalendar = Calendar.getInstance();
         //YYYYMM01 format
         int eventsParseFormat = Integer.parseInt(dateFormater.formatDateForEventsParseForDate(year, month, 1));
+        Log.i("CalendarFragment", "Checking if date " + Integer.toString(eventsParseFormat) + " is cached");
         //same format as above. See CalendarCache
         SharedPreferences eventPreferences = getActivity().getSharedPreferences("events", 0);
         int lowerBoundDate = eventPreferences.getInt("botBoundDate", 0);

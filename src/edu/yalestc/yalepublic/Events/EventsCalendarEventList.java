@@ -1,10 +1,12 @@
 package edu.yalestc.yalepublic.Events;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,18 +86,22 @@ public class EventsCalendarEventList extends BaseAdapter {
         //called after the month is changed, parses the newly retrieved JSON object and updates
     //current Year and Month
     public void update(String rawData, int month, int year){
-        if(allTheEvents != null) {
-            allTheEvents.setNewEvents(rawData, month, year);
-        }
         mYear = year;
         //because calendar operates on months labelled 0 through 11
         mMonth = month + 1;
+        if(!isCached()) {
+            if(allTheEvents != null) {
+                allTheEvents.setNewEvents(rawData, month, year);
+            } else {
+                allTheEvents = new EventsParseForDateWithinCategory(rawData, month, year, mContext, mCategoryNo);
+            }
+        }
     }
 
         //called when the selected day is changed. Updates the events for a given day and the day itself.
     public void setmSelectedDayOfMonth(int selectedDayOfMonth) {
         mSelectedDayOfMonth = selectedDayOfMonth;
-        if(allTheEvents != null) {
+        if(!isCached()) {
             eventsOnCurrentDay = allTheEvents.getEventsOnGivenDate((dateFormater.convertDateToString(mYear, mMonth, mSelectedDayOfMonth)));
         } else {
             CalendarDatabaseTableHandler db = new CalendarDatabaseTableHandler(mContext);
@@ -168,5 +174,16 @@ public class EventsCalendarEventList extends BaseAdapter {
         blob.setGradientCenter((float)0.5,(float)0.0);
 
         return blob;
+    }
+
+    private boolean isCached(){
+        //YYYYMM01 format
+        int eventsParseFormat = Integer.parseInt(dateFormater.formatDateForEventsParseForDate(mYear, mMonth-1, 1));
+        Log.i("EventsCalendarEventList", "Checking if date " + Integer.toString(eventsParseFormat) + " is cached");
+        //same format as above. See CalendarCache
+        SharedPreferences eventPreferences = mContext.getSharedPreferences("events", 0);
+        int lowerBoundDate = eventPreferences.getInt("botBoundDate", 0);
+        int topBoundDate = eventPreferences.getInt("topBoundDate", 0);
+        return dateFormater.inInterval(lowerBoundDate, topBoundDate, eventsParseFormat);
     }
 }
