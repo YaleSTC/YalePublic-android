@@ -119,6 +119,9 @@ public class CalendarCache extends JSONReader {
     }
 
     //NOT TESTED. PLEASE TEST AFTER DEMO SINCE THIS IS NOT TOO IMPORTANT.
+    //maybe instead of doing that just delete the whole database and redownload it? will be slower
+    //but will have all events, even those added at the last moment
+    //Best way out: have Yale Calendar return JSON with a field being "last updated: YYYYMMDD...
     private void updateDatabase(int year, int month){
         CalendarDatabaseTableHandler eventTable = new CalendarDatabaseTableHandler(mContext);
         deleteObsolete(year, month, eventTable);
