@@ -1,5 +1,6 @@
 package edu.yalestc.yalepublic.Videos;
 
+import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -42,7 +43,6 @@ import java.util.List;
 public class JSONReader extends AsyncTask<Void, String, String>{
     //The URL that we will be adding parameters to. For example https://www.googleapis.com/youtube/v3/playlists
     private String BASE_URL = "";
-    private ProgressDialog dialog;
     //These are the parameters we will be adding to the URL specified above. For example, if parameters = [("part","snippet")]
     //will later result in adding ?part=snippet to the URL making https://www.googleapis.com/youtube/v3/playlists?part=snippet
     //If there is more than one element in parameters, the code will automatically adapt to create, for example
@@ -95,24 +95,15 @@ public class JSONReader extends AsyncTask<Void, String, String>{
 
     @Override
     protected void onPreExecute(){
-        dialog = new ProgressDialog(mContext);
-        dialog.setCancelable(false);
-        dialog.setMessage("Downloading the latest data...");
-        dialog.setTitle("Please wait, it shouldn't be too long...");
-        dialog.setIndeterminate(true);
-        dialog.show();
     }
 
     @Override
     protected String doInBackground(Void... params){
-       return getData();
+        return getData();
     }
 
     @Override
     protected void onPostExecute(String result){
-        if(dialog != null && dialog.isShowing()){
-            dialog.dismiss();
-        }
     }
 
     private boolean isOnline() {

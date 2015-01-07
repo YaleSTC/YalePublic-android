@@ -51,7 +51,7 @@ public class EventsDisplay extends Activity {
             rawData = null;
         }
 
-        monthTab = new CalendarFragment(getIntent().getExtras(), rawData);
+        monthTab = CalendarFragment.newInstance(getIntent().getExtras(), rawData);
 
         ActionBar actionBar = getActionBar();
         monthT = actionBar.newTab().setText("Month");

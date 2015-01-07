@@ -1,10 +1,14 @@
 package edu.yalestc.yalepublic.Events;
 
+import android.app.Activity;
 import android.app.Fragment;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,6 +44,7 @@ import static edu.yalestc.yalepublic.R.drawable.calendar_grid_button_unselected;
 public class CalendarFragment extends Fragment {
 
     View rootView;
+    Activity mActivity;
     Calendar c = Calendar.getInstance();
     int month = c.get(Calendar.MONTH);
     int year = c.get(Calendar.YEAR);
@@ -48,14 +53,34 @@ public class CalendarFragment extends Fragment {
     int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
     EventsCalendarGridAdapter calendarAdapter;
     EventsCalendarEventList listEvents;
+    ProgressDialog dialog;
         //passed in constructor!
     Bundle mExtras;
         //For initial rawData
     String mRawData;
 
-    public CalendarFragment(Bundle extras, String rawData){
-        mExtras = extras;
-        mRawData = rawData;
+    public static final CalendarFragment newInstance(Bundle extras, String rawData){
+        CalendarFragment f = new CalendarFragment();
+        Bundle bld = extras;
+        bld.putString("rawData", rawData);
+        f.setArguments(bld);
+        return f;
+    }
+
+    public CalendarFragment(){
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+        mRawData = getArguments().getString("rawData");
+        mExtras = getArguments();
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mActivity = activity;
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -188,28 +213,58 @@ public class CalendarFragment extends Fragment {
     }
 
     private void pullDataFromInternet(){
-        JSONReader newData = new JSONReader("http://calendar.yale.edu/feeds/feed/opa/json/" + dateFormater.formatDateForJSONQuery(year, month) + "/30days", getActivity());
-        Log.i("CalendarFragment","Pulling uncached data using query http://calendar.yale.edu/feeds/feed/opa/json/\" + dateFormater.formatDateForJSONQuery(year, month) + /30days");
-        try {
-            mRawData = newData.execute().get();
-            //rawData is null if there are problems. We get a toast for no internet!
-            if (mRawData == null) {
-                Toast toast = new Toast(getActivity());
-                toast = Toast.makeText(getActivity(), "You need internet connection to view the content!", Toast.LENGTH_LONG);
-                toast.show();
-                getParentFragment().getActivity().finish();
-                Log.i("CalendarFragment", "Failure");
-                return;
-            } else {
-                Log.i("CalendarFragment", "Success");
-            }
+            //to handle the UI thread without collisions
+        final Handler mHandler = new Handler();
+            //to handle fragment detachment
+        if(mActivity != null) {
+            dialog = new ProgressDialog(mActivity);
+        } else {
+            dialog = new ProgressDialog(getActivity());
+        }
+        dialog.setCancelable(false);
+        dialog.setMessage("Getting the newest information");
+        dialog.setTitle("This shouldn't take too long!");
+        dialog.setIndeterminate(true);
+        dialog.show();
+        Thread mThread = new Thread(new Runnable() {
+            public void run() {
+                final JSONReader newData = new JSONReader("http://calendar.yale.edu/feeds/feed/opa/json/" + dateFormater.formatDateForJSONQuery(year, month) + "/30days", mActivity);
+                Log.i("CalendarFragment","Pulling uncached data using query http://calendar.yale.edu/feeds/feed/opa/json/\" + dateFormater.formatDateForJSONQuery(year, month) + /30days");
+                try {
+                    mRawData = newData.execute().get();
+                    dialog.dismiss();
+                    //rawData is null if there are problems. We get a toast for no internet!
+                    if (mRawData == null) {
+                        Toast toast = new Toast(getActivity());
+                        toast = Toast.makeText(getActivity(), "You need internet connection to view the content!", Toast.LENGTH_LONG);
+                        toast.show();
+                        getActivity().finish();
+                        Log.i("CalendarFragment", "Failure");
+                        return;
+                    } else {
+                        Log.i("CalendarFragment", "Success");
+                    }
 
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+                mHandler.post(new Runnable() {
+                    public void run() {
+                       // dialog.dismiss();
+                    }
+                });
+            }
+        });
+        mThread.start();
+        try{
+            mThread.join();
+        } catch (InterruptedException e){
             e.printStackTrace();
         }
     }
+
 
     private boolean isCached(){
         //YYYYMM01 format
@@ -219,6 +274,8 @@ public class CalendarFragment extends Fragment {
         SharedPreferences eventPreferences = getActivity().getSharedPreferences("events", 0);
         int lowerBoundDate = eventPreferences.getInt("botBoundDate", 0);
         int topBoundDate = eventPreferences.getInt("topBoundDate", 0);
-        return dateFormater.inInterval(lowerBoundDate, topBoundDate, eventsParseFormat);
+        boolean result = dateFormater.inInterval(lowerBoundDate, topBoundDate, eventsParseFormat);
+        Log.i("CalendarFragment",Boolean.toString(result));
+        return result;
     }
 }

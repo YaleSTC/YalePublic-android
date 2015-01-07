@@ -92,7 +92,7 @@ public class dateFormater {
     }
         //the lines and date are given in the format YYYYMM.
     public static boolean inInterval(int bottomLine, int upperLine, int date){
-        if(date < upperLine && date > bottomLine){
+        if(date <= upperLine && date >= bottomLine){
             return true;
         }
         return false;
