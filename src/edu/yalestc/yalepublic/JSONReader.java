@@ -1,5 +1,6 @@
-package edu.yalestc.yalepublic.Videos;
+package edu.yalestc.yalepublic;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -50,15 +51,15 @@ public class JSONReader extends AsyncTask<Void, String, String>{
     //parameters = [("part","snippet"),("channelId","UC4EY_qnSeAP1xGsh61eOoJA ")]
     private ArrayList<Pair<String, String> > parameters = new ArrayList<Pair<String, String>>();
     //for checking if we are online since this class is not an Activity class
-    private Context mContext;
+    private Activity mActivity;
 
-    protected JSONReader(Context context){
-        mContext = context;
+    protected JSONReader(Activity activity){
+        mActivity = activity;
     }
 
-    public JSONReader(String URL, Context context){
+    public JSONReader(String URL, Activity activity){
         BASE_URL = URL;
-        mContext = context;
+        mActivity = activity;
     }
 
     public String getURL(){
@@ -107,7 +108,7 @@ public class JSONReader extends AsyncTask<Void, String, String>{
     }
 
     private boolean isOnline() {
-        ConnectivityManager cm = (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager cm = (ConnectivityManager) mActivity.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo netInfo = cm.getActiveNetworkInfo();
         if (netInfo != null && netInfo.isConnectedOrConnecting()) {
             return true;

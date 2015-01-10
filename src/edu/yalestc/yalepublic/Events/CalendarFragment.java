@@ -3,12 +3,10 @@ package edu.yalestc.yalepublic.Events;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,14 +18,11 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.Locale;
-import java.util.concurrent.ExecutionException;
 
 import edu.yalestc.yalepublic.R;
-import edu.yalestc.yalepublic.Videos.JSONReader;
 
 import static edu.yalestc.yalepublic.R.drawable.calendar_grid_button_current_selected;
 import static edu.yalestc.yalepublic.R.drawable.calendar_grid_button_current_unselected;

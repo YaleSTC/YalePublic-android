@@ -11,7 +11,7 @@ import java.util.Calendar;
 
 import edu.yalestc.yalepublic.Events.EventsParseForDateWithinCategory;
 import edu.yalestc.yalepublic.Events.dateFormater;
-import edu.yalestc.yalepublic.Videos.JSONReader;
+import edu.yalestc.yalepublic.JSONReader;
 
 /**
  * Created by Stan Swidwinski on 12/15/14.

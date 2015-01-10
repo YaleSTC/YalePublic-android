@@ -11,9 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -23,6 +21,7 @@ import org.json.JSONObject;
 import java.util.concurrent.ExecutionException;
 
 import edu.yalestc.yalepublic.DeveloperKey;
+import edu.yalestc.yalepublic.JSONReader;
 import edu.yalestc.yalepublic.R;
 
 //**
@@ -85,7 +84,6 @@ public class VideoList extends Activity {
             } catch (ExecutionException e) {
                 e.printStackTrace();
             }
-
 
             if(getPlaylistsFromJson(rawData)) {
                 // initialize the ArrayAdapter

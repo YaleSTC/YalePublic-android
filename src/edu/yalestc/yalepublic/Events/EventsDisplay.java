@@ -6,12 +6,8 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
@@ -19,7 +15,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
-import edu.yalestc.yalepublic.Videos.JSONReader;
+import edu.yalestc.yalepublic.JSONReader;
 import edu.yalestc.yalepublic.R;
 
 //info on making tabs:

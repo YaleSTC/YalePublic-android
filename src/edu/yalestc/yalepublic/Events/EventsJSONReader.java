@@ -5,10 +5,7 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
-
-import edu.yalestc.yalepublic.Videos.JSONReader;
+import edu.yalestc.yalepublic.JSONReader;
 
 /**
  * Created by Stan Swidwinski on 1/10/15.
