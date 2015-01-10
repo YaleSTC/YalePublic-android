@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -30,7 +31,7 @@ import edu.yalestc.yalepublic.R;
 
 public class VideoList extends Activity {
     // this is a class parameter so that it can be modified in the asynctask
-    private ArrayAdapter<String> mVideoAdapter;
+    private PlaylistAdapter adapter;
     //this is a string in which we store the ID's of playlists to pass them
     //into VideosWithinPlaylist
     private String[] playlistIds;
@@ -88,11 +89,9 @@ public class VideoList extends Activity {
 
             if(getPlaylistsFromJson(rawData)) {
                 // initialize the ArrayAdapter
-                mVideoAdapter = new ArrayAdapter<String>(
-                        getActivity(), R.layout.tab, R.id.tab);
-                mVideoAdapter.addAll(allPlaylists);
+                adapter  = new PlaylistAdapter(getActivity(), allPlaylists);
                 ListView listView = (ListView) rootView.findViewById(R.id.listview_video);
-                listView.setAdapter(mVideoAdapter);
+                listView.setAdapter(adapter);
                 //set OnItemClickListener to open up a new activity in which we get
                 //all the videos listed
                 listView.setOnItemClickListener(new OnItemClickListener() {

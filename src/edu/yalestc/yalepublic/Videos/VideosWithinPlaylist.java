@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 import android.content.Context;
 
+import android.graphics.Color;
 import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -163,6 +164,7 @@ public class VideosWithinPlaylist extends Activity {
                 ((ImageView)((RelativeLayout) convertView).getChildAt(0)).setImageBitmap(bitmaps[position]);
                 ((TextView)((RelativeLayout) convertView).getChildAt(1)).setText(titles[position]);
                 ((TextView)((RelativeLayout) convertView).getChildAt(2)).setText(dates[position]);
+                convertView.setBackgroundColor(Color.parseColor("#dbdbdd"));
                 return ((RelativeLayout)convertView);
             } else {
                 //if not, create a new one from the template of a view using inflate
@@ -171,6 +173,7 @@ public class VideosWithinPlaylist extends Activity {
                 ((ImageView)thumbnail.getChildAt(0)).setImageBitmap(bitmaps[position]);
                 ((TextView)thumbnail.getChildAt(1)).setText(titles[position]);
                 ((TextView)thumbnail.getChildAt(2)).setText(dates[position]);
+                thumbnail.setBackgroundColor(Color.parseColor("#dbdbdd"));
                 return thumbnail;
             } 
             
