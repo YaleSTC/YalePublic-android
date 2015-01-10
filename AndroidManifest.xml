@@ -61,7 +61,7 @@
         </activity>
 
         <activity
-            android:name=".VideosWithinPlaylist"
+            android:name=".Videos.VideosWithinPlaylist"
             android:label="@string/title_activity_videos_within_list"
             android:screenOrientation="portrait" >
         </activity>

@@ -43,7 +43,7 @@ public class MainActivity extends ActionBarActivity {
                 startActivity(iMaps);
                 break;
             case R.id.bVideos:
-                Intent videoListIntent = new Intent(MainActivity.this, PhotoList.class);
+                Intent videoListIntent = new Intent(MainActivity.this, VideoList.class);
                 videoListIntent.putExtra(VIDEO_MODE_KEY, true);
                 startActivity(videoListIntent);
                 break;
