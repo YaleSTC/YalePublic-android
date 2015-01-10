@@ -15,6 +15,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
+import edu.yalestc.yalepublic.Cache.CalendarCache;
+import edu.yalestc.yalepublic.Videos.VideoList;
+import edu.yalestc.yalepublic.Events.EventCategories;
 import edu.yalestc.yalepublic.news.NewsChooser;
 
 @SuppressLint("NewApi")
@@ -50,6 +53,8 @@ public class MainActivity extends ActionBarActivity {
                 startActivity(photoListIntent);
                 break;
             case R.id.bEvents:
+                Intent iEvents = new Intent(MainActivity.this, EventCategories.class);
+                startActivity(iEvents);
                 break;
             case R.id.bTransit:
                 Uri uriUrl1 = Uri.parse("http://yale.transloc.com");
@@ -69,11 +74,13 @@ public class MainActivity extends ActionBarActivity {
             }
         };
     };
-    
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        CalendarCache cache = new CalendarCache(this);
+        cache.execute();
         /*Configuration config = getResources().getConfiguration();
         DisplayMetrics dm = getResources().getDisplayMetrics();
         screenWidth = (double)config.screenWidthDp * dm.density;
@@ -96,7 +103,6 @@ public class MainActivity extends ActionBarActivity {
         });*/
         registerButtons();
     }
-    
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

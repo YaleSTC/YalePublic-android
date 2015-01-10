@@ -7,10 +7,9 @@
     android:paddingRight="0dp"
     android:paddingTop="0dp"
     tools:context="edu.yalestc.yalepublic.Videos.VideoList$PlaceholderFragment" >
-    <!-- tools:context="edu.yalestc.yalepublic.PhotoList$PlaceholderFragment" -->
-
+    
     <ListView
-        android:id="@+id/listview_photo"
+        android:id="@+id/listview_video"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="0dp"

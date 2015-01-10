@@ -2,17 +2,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="0dp"
     android:paddingLeft="0dp"
     android:paddingRight="0dp"
     android:paddingTop="0dp"
-    tools:context="edu.yalestc.yalepublic.VideoWithinPlaylist$PlaceholderFragment" >
-    
+    android:paddingBottom="0dp"
+    tools:context="edu.yalestc.yalepublic.Events.EventCategories$PlaceholderFragment">
+
     <ListView
-        android:id="@+id/listview_video_in_playlist"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:id="@+id/listview_event_categories"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:divider="@drawable/separator_events"
-        android:dividerHeight="2dp"/>
+        android:dividerHeight="2dp"
+        />
 
 </RelativeLayout>

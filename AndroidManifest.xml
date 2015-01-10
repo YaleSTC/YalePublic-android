@@ -26,14 +26,6 @@
         android:screenOrientation="portrait"
         android:theme="@style/AppTheme" >
 
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
-
-        <meta-data
-            android:name="com.google.android.maps.v2.API_KEY"
-            android:value="@string/GoogleMapsKey"/>
-
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -79,8 +71,8 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".VideoYoutubePlayback"
             android:configChanges="orientation"
+            android:name=".Videos.VideoYoutubePlayback"
             android:label="@string/title_activity_video_playback"
             android:screenOrientation="landscape" >
         </activity>
@@ -91,6 +83,11 @@
         <activity
             android:name=".PhotoList"
             android:label="@string/title_activity_photo_list" >
+        </activity>
+        <activity
+            android:name=".Events.EventCategories"
+            android:label="@string/title_activity_event_categories"
+            android:screenOrientation="portrait">
         </activity>
 
         <activity
@@ -103,6 +100,17 @@
             android:name=".About"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".Events.EventsDisplay"
+            android:label="@string/title_activity_events_display"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity
+            android:name=".Events.EventsDetails"
+            android:label="@string/title_activity_events_details"
+            android:screenOrientation="portrait">
         </activity>
 
     </application>

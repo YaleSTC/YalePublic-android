@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ededef">
+
+    <LinearLayout
+        android:id="@+id/events_details_title"
+        android:orientation="horizontal"
+        android:background="#eeeef0"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/events_details_title_rectangle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/calendar_arrow"/>
+
+        <TextView
+            android:id="@+id/events_details_title_text"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="Placeholder"
+            android:textStyle="bold"
+            android:textColor="#3e3f44"/>
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="20px"
+        android:src="@drawable/separator_calendar_events_list"/>
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#ebebec">
+        <LinearLayout
+            android:id="@+id/event_details_information"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ebebec">
+
+            <LinearLayout
+                android:id="@+id/event_details_start"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:layout_marginBottom="2dp"
+                android:paddingRight="10dp"
+                android:background="#dbdbdd"
+                android:weightSum="4">
+
+                <TextView
+                    android:id="@+id/events_details_start_static"
+                    android:layout_height="wrap_content"
+                    android:layout_width="fill_parent"
+                    android:text="starts"
+                    android:textStyle="bold"
+                    android:textColor="#4c80bb"
+                    android:layout_weight="3"
+                    android:layout_marginRight="10dp"
+                    android:gravity="right"
+                    />
+
+                <TextView
+                    android:id="@+id/events_details_start_time"
+                    android:layout_height="wrap_content"
+                    android:layout_width="fill_parent"
+                    android:layout_gravity="center_vertical"
+                    android:text="Placeholder"
+                    android:textStyle="bold"
+                    android:textColor="#3e3f44"
+                    android:layout_weight="1"/>
+
+                </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/event_details_end"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:paddingRight="10dp"
+                android:background="#dbdbdd"
+                android:weightSum="4"
+                android:layout_marginBottom="30dp">
+
+                <TextView
+                    android:id="@+id/event_details_end_static"
+                    android:layout_height="wrap_content"
+                    android:layout_width="fill_parent"
+                    android:text="ends"
+                    android:textStyle="bold"
+                    android:textColor="#4c80bb"
+                    android:layout_weight="3"
+                    android:layout_marginRight="10dp"
+                    android:gravity="right"/>
+
+                <TextView
+                    android:id="@+id/event_details_end_time"
+                    android:layout_height="wrap_content"
+                    android:layout_width="fill_parent"
+                    android:text="Placeholder"
+                    android:textStyle="bold"
+                    android:textColor="#3e3f44"
+                    android:layout_weight="1"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/event_details_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:paddingTop="10dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="10dp"
+                android:background="#dbdbdd"
+                android:weightSum="4"
+                android:layout_marginBottom="2dp">
+
+                <TextView
+                    android:id="@+id/event_details_description_static"
+                    android:layout_height="wrap_content"
+                    android:layout_width="fill_parent"
+                    android:layout_gravity="center_vertical"
+                    android:text="description"
+                    android:textStyle="bold"
+                    android:textColor="#4c80bb"
+                    android:layout_weight="3"
+                    android:layout_marginRight="10dp"
+                    android:gravity="right"/>
+
+                <TextView
+                    android:id="@+id/event_details_description_text"
+                    android:layout_height="wrap_content"
+                    android:layout_width="fill_parent"
+                    android:layout_gravity="center_vertical"
+                    android:text="Placeholder"
+                    android:textStyle="bold"
+                    android:textColor="#3e3f44"
+                    android:layout_weight="1"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/event_details_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:paddingTop="15dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="10dp"
+                android:background="#dbdbdd"
+                android:weightSum="4">
+
+                <TextView
+                    android:id="@+id/event_details_description_location_static"
+                    android:layout_height="wrap_content"
+                    android:layout_width="fill_parent"
+                    android:layout_gravity="center_vertical"
+                    android:text="location"
+                    android:textStyle="bold"
+                    android:textColor="#4c80bb"
+                    android:layout_weight="3"
+                    android:layout_marginRight="10dp"
+                    android:gravity="right"/>
+
+                <TextView
+                    android:id="@+id/event_details_location_text"
+                    android:layout_height="wrap_content"
+                    android:layout_width="fill_parent"
+                    android:layout_gravity="center_vertical"
+                    android:text="Placeholder"
+                    android:textStyle="bold"
+                    android:textColor="#3e3f44"
+                    android:layout_weight="1"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

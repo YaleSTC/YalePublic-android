@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#cdcdcdcd">
+
+    <ImageView
+        android:id="@+id/event_circle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="5dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"/>
+
+    <TextView
+        android:id="@+id/event_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:paddingRight="10dp"
+        android:text="placeholder"
+        android:layout_toRightOf="@+id/event_circle"
+        android:textStyle="bold"
+        android:textColor="#000000"/>
+
+    <TextView
+        android:id="@+id/event_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:maxLines="2"
+        android:layout_toRightOf="@+id/event_time"
+        android:text="placeholder"
+        android:paddingTop="2dp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/event_time"
+        android:id="@+id/event_place"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="placeholder"
+        android:singleLine="true"/>
+
+</RelativeLayout>

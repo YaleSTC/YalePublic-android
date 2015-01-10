@@ -1,16 +1,10 @@
 package edu.yalestc.yalepublic.Videos;
 
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 import android.content.Context;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import android.graphics.Color;
 import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -25,11 +19,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.app.Activity;
 import android.app.Fragment;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -173,6 +164,7 @@ public class VideosWithinPlaylist extends Activity {
                 ((ImageView)((RelativeLayout) convertView).getChildAt(0)).setImageBitmap(bitmaps[position]);
                 ((TextView)((RelativeLayout) convertView).getChildAt(1)).setText(titles[position]);
                 ((TextView)((RelativeLayout) convertView).getChildAt(2)).setText(dates[position]);
+                convertView.setBackgroundColor(Color.parseColor("#dbdbdd"));
                 return ((RelativeLayout)convertView);
             } else {
                 //if not, create a new one from the template of a view using inflate
@@ -181,6 +173,7 @@ public class VideosWithinPlaylist extends Activity {
                 ((ImageView)thumbnail.getChildAt(0)).setImageBitmap(bitmaps[position]);
                 ((TextView)thumbnail.getChildAt(1)).setText(titles[position]);
                 ((TextView)thumbnail.getChildAt(2)).setText(dates[position]);
+                thumbnail.setBackgroundColor(Color.parseColor("#dbdbdd"));
                 return thumbnail;
             } 
             

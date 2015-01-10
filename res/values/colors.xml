@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item name="white" type="color">#FFFFFF</item>
+
+    <array name="event_categories_colors">
+        <item>#FFFFFF</item>
+        <item>#E01616</item>
+        <item>#23ADAD</item>
+        <item>#245913</item>
+        <item>#E3A20B</item>
+        <item>#1B7EE0</item>
+        <item>#9464B5</item>
+        <item>#B30C4f</item>
+        <item>#BFB8A1</item>
+        <item>#FF9191</item>
+        <item>#25466B</item>
+        <item>#1BB83A</item>
+        <item>#F2DC33</item>
+        <item>#0AC275</item>
+    </array>
+
+    <array name="event_categories_colors_into">
+        <item>#FFFFFF</item>
+        <item>#e32d2d</item>
+        <item>#39b5b5</item>
+        <item>#3a692b</item>
+        <item>#e5ab23</item>
+        <item>#328be3</item>
+        <item>#9e73bc</item>
+        <item>#ba2460</item>
+        <item>#c6bfab</item>
+        <item>#ff9d9d</item>
+        <item>#3c5a7b</item>
+        <item>#24c884</item>
+        <item>#f3e04b</item>
+        <item>#05d781</item>
+    </array>
+
+    <array name="event_categories_colors_from">
+        <item>#FFFFFF</item>
+        <item>#F19393</item>
+        <item>#9ddbdb</item>
+        <item>#9db495</item>
+        <item>#f3d694</item>
+        <item>#9ac6f1</item>
+        <item>#ceb8dd</item>
+        <item>#dc90af</item>
+        <item>#e3dfd5</item>
+        <item>#ffcdcd</item>
+        <item>#92a3b5</item>
+        <item>#85e1bb</item>
+        <item>#f9ee9d</item>
+        <item>#87c2a9</item>
+    </array>
+</resources>
+
