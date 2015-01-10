@@ -75,6 +75,7 @@ public class CalendarFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mRawData = getArguments().getString("rawData");
         mExtras = getArguments();
+        mActivity = getActivity();
     }
 
     @Override
@@ -205,66 +206,18 @@ public class CalendarFragment extends Fragment {
         if(!isCached()){
             //pull new data for a given month!!
             pullDataFromInternet();
+        } else {
+            listEvents.update(mRawData, month, year);
         }
-            //parse mRawData into array of events. Checkout EventsParseForDateWithinCategory and EventsCalendarEventList for more information.
-        listEvents.update(mRawData, month, year);
             //set the proper name of month at the header of the calendar
         ((TextView) ((RelativeLayout) (((RelativeLayout) rootView).getChildAt(0))).getChildAt(1)).setText(monthName);
     }
 
-    private void pullDataFromInternet(){
-            //to handle the UI thread without collisions
-        final Handler mHandler = new Handler();
-            //to handle fragment detachment
-        if(mActivity != null) {
-            dialog = new ProgressDialog(mActivity);
-        } else {
-            dialog = new ProgressDialog(getActivity());
-        }
-        dialog.setCancelable(false);
-        dialog.setMessage("Getting the newest information");
-        dialog.setTitle("This shouldn't take too long!");
-        dialog.setIndeterminate(true);
-        dialog.show();
-        Thread mThread = new Thread(new Runnable() {
-            public void run() {
-                final JSONReader newData = new JSONReader("http://calendar.yale.edu/feeds/feed/opa/json/" + dateFormater.formatDateForJSONQuery(year, month) + "/30days", mActivity);
-                Log.i("CalendarFragment","Pulling uncached data using query http://calendar.yale.edu/feeds/feed/opa/json/\" + dateFormater.formatDateForJSONQuery(year, month) + /30days");
-                try {
-                    mRawData = newData.execute().get();
-                    dialog.dismiss();
-                    //rawData is null if there are problems. We get a toast for no internet!
-                    if (mRawData == null) {
-                        Toast toast = new Toast(getActivity());
-                        toast = Toast.makeText(getActivity(), "You need internet connection to view the content!", Toast.LENGTH_LONG);
-                        toast.show();
-                        getActivity().finish();
-                        Log.i("CalendarFragment", "Failure");
-                        return;
-                    } else {
-                        Log.i("CalendarFragment", "Success");
-                    }
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                }
-                mHandler.post(new Runnable() {
-                    public void run() {
-                       // dialog.dismiss();
-                    }
-                });
-            }
-        });
-        mThread.start();
-        try{
-            mThread.join();
-        } catch (InterruptedException e){
-            e.printStackTrace();
-        }
+    private void pullDataFromInternet() {
+        EventsJSONReader newData = new EventsJSONReader("http://calendar.yale.edu/feeds/feed/opa/json/" + dateFormater.formatDateForJSONQuery(year, month) + "/30days", mActivity);
+        Log.i("CalendarFragment", "Pulling uncached data using query http://calendar.yale.edu/feeds/feed/opa/json/\" + dateFormater.formatDateForJSONQuery(year, month) + /30days");
+        newData.execute();
     }
-
 
     private boolean isCached(){
         //YYYYMM01 format
