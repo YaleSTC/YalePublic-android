@@ -1,5 +1,6 @@
 package edu.yalestc.yalepublic.Events;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.util.Log;
@@ -12,18 +13,18 @@ import edu.yalestc.yalepublic.JSONReader;
  */
 public class EventsJSONReader extends JSONReader {
 
-    Context mContext;
+    Activity mActivity;
     private ProgressDialog dialog;
     private String mRawData;
     private int mMonth;
     private int mYear;
     private EventsCalendarEventList mAdapter;
 
-    public EventsJSONReader(Context context){
-        super(context);
+    public EventsJSONReader(Activity activity){
+        super(activity);
         //for creating and getting preferences and tables!
-        mContext = context;
-        dialog = new ProgressDialog(mContext);
+        mActivity = activity;
+        dialog = new ProgressDialog(mActivity);
         dialog.setCancelable(false);
         dialog.setTitle("Getting the most up-to-date event list!");
         dialog.setMessage("This should not take too long, please wait...");
@@ -32,10 +33,10 @@ public class EventsJSONReader extends JSONReader {
         mMonth = 0;
     }
 
-    public EventsJSONReader(String URL, Context context){
-        super(URL, context);
-        mContext = context;
-        dialog = new ProgressDialog(mContext);
+    public EventsJSONReader(String URL, Activity activity){
+        super(URL, activity);
+        mActivity = activity;
+        dialog = new ProgressDialog(mActivity);
         dialog.setCancelable(false);
         dialog.setTitle("Getting the most up-to-date event list!");
         dialog.setMessage("This should not take too long, please wait...");
@@ -62,8 +63,8 @@ public class EventsJSONReader extends JSONReader {
     protected String doInBackground(Void... voids) {
         mRawData = super.getData();
         if (mRawData == null) {
-            Toast toast = new Toast(mContext);
-            toast = Toast.makeText(mContext, "You need internet connection to view the content!", Toast.LENGTH_LONG);
+            Toast toast = new Toast(mActivity);
+            toast = Toast.makeText(mActivity, "You need internet connection to view the content!", Toast.LENGTH_LONG);
             toast.show();
             Log.i("CalendarFragment", "Failure");
             return null;
