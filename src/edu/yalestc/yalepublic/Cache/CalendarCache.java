@@ -138,6 +138,8 @@ public class CalendarCache extends JSONReader {
                 parseAndSaveToDb(result, (int) (yearMonth / 100), yearMonth % 100);
             }
         }
+        //create the preferences
+        updatePreferences(year, month);
     }
 
     private void deleteObsolete(int year, int month, CalendarDatabaseTableHandler eventTable){
@@ -154,8 +156,6 @@ public class CalendarCache extends JSONReader {
         //for later parsing purposes. EventsParseForDateWithinCategory has to discard nonsense events
         //and for that needs year and month (YYYYMM)in real format
         int[] yearMonth;
-        //create the preferences
-        updatePreferences(year, month);
         //prepare the queries and JSONReaders for -1 month up to +2 months and get info
         queries = new String[4];
         yearMonth = new int[4];
@@ -179,5 +179,7 @@ public class CalendarCache extends JSONReader {
         for(int i = 0; i < 4; i++) {
             parseAndSaveToDb(results[i], (int) (yearMonth[i] / 100), yearMonth[i] % 100);
         }
+        //create the preferences
+        updatePreferences(year, month);
     }
 }
