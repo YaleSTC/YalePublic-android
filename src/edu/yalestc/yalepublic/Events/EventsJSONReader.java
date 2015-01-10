@@ -67,6 +67,7 @@ public class EventsJSONReader extends JSONReader {
             toast = Toast.makeText(mActivity, "You need internet connection to view the content!", Toast.LENGTH_LONG);
             toast.show();
             Log.i("CalendarFragment", "Failure");
+            mActivity.finish();
             return null;
         } else {
             Log.i("CalendarFragment", "Success");
