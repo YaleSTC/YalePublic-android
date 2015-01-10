@@ -1,10 +1,12 @@
 package edu.yalestc.yalepublic.Events;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import edu.yalestc.yalepublic.Cache.CalendarDatabaseTableHandler;
 import edu.yalestc.yalepublic.R;
 
 /**
@@ -32,7 +35,11 @@ public class EventsCalendarEventList extends BaseAdapter {
     private int mYear;
     private int mMonth;
         //for quicker parsing of events. Is passed in from MonthFragment. See EventsParseForDateWithinCategory for more information
+    //if allTheEvents is null, it means that we are using cached information!
     private EventsParseForDateWithinCategory allTheEvents;
+        //workaround for now. There is a discrepancy between how EventsParseForDateWithinCategory and db work...
+    //IDEA: after any data-pulling always add it to db. It's text and is cleared every month. ----> seems like a good idea
+    private int mCategoryNo;
         //for ovals next to time
     private int[] mColors;
     private int[] mColorsFrom;
@@ -50,44 +57,56 @@ public class EventsCalendarEventList extends BaseAdapter {
         mColors = colors;
         mColorsFrom = colorsFrom;
         mSelectedDayOfMonth = selectedDayOfMonth;
-        eventsOnCurrentDay = allTheEvents.getEventsOnGivenDate(getStringDateYearMonthDay());
+        eventsOnCurrentDay = allTheEvents.getEventsOnGivenDate(dateFormater.convertDateToString(mYear, mMonth, mSelectedDayOfMonth));
         display = context.getResources().getDisplayMetrics();
         height = display.heightPixels;
     }
 
+    EventsCalendarEventList(Context context, int year, int month, int selectedDayOfMonth, int category, int[] colors, int colorsFrom[]){
+        mContext = context;
+        allTheEvents = null;
+        mYear = year;
+        //since calendar returns number 0 - 11 as a month
+        mMonth = month+1;
+        mColors = colors;
+        mColorsFrom = colorsFrom;
+        mSelectedDayOfMonth = selectedDayOfMonth;
+        CalendarDatabaseTableHandler db = new CalendarDatabaseTableHandler(mContext);
+        eventsOnCurrentDay = db.getEventsOnDateWithinCategory((dateFormater.convertDateToString(mYear, mMonth, mSelectedDayOfMonth)), mCategoryNo);
+        display = context.getResources().getDisplayMetrics();
+        height = display.heightPixels;
+        mCategoryNo = category;
+    }
+
         //used from CalendarFragment for getting the events
     public String[] getEventInfo(int whichEvent){
-        return eventsOnCurrentDay.get(whichEvent);
+            return eventsOnCurrentDay.get(whichEvent);
     }
 
         //called after the month is changed, parses the newly retrieved JSON object and updates
     //current Year and Month
     public void update(String rawData, int month, int year){
-        allTheEvents.setNewEvents(rawData, month, year);
         mYear = year;
         //because calendar operates on months labelled 0 through 11
         mMonth = month + 1;
+        if(!isCached()) {
+            if(allTheEvents != null) {
+                allTheEvents.setNewEvents(rawData, month, year);
+            } else {
+                allTheEvents = new EventsParseForDateWithinCategory(rawData, month, year, mContext, mCategoryNo);
+            }
+        }
     }
 
         //called when the selected day is changed. Updates the events for a given day and the day itself.
     public void setmSelectedDayOfMonth(int selectedDayOfMonth) {
         mSelectedDayOfMonth = selectedDayOfMonth;
-        eventsOnCurrentDay = allTheEvents.getEventsOnGivenDate(getStringDateYearMonthDay());
+        if(!isCached()) {
+            eventsOnCurrentDay = allTheEvents.getEventsOnGivenDate((dateFormater.convertDateToString(mYear, mMonth, mSelectedDayOfMonth)));
+        } else {
+            CalendarDatabaseTableHandler db = new CalendarDatabaseTableHandler(mContext);
+            eventsOnCurrentDay = db.getEventsOnDateWithinCategory((dateFormater.convertDateToString(mYear, mMonth, mSelectedDayOfMonth)), mCategoryNo);
     }
-
-        //helper for calling the EventsParseForDateWithinCategory in proper format. returns the date
-    //as a string in the YYYYMMDD format.
-    private String getStringDateYearMonthDay() {
-        String date = Integer.toString(mYear);
-        if(mMonth < 10){
-            date += "0";
-        }
-        date += Integer.toString(mMonth);
-        if(mSelectedDayOfMonth < 10) {
-            date+="0";
-        }
-        date += Integer.toString(mSelectedDayOfMonth);
-        return date;
     }
 
     @Override
@@ -146,14 +165,25 @@ public class EventsCalendarEventList extends BaseAdapter {
     }
         //make the little blob next to events name etc.
     private GradientDrawable createBlob(int color, int colorFrom) {
-        GradientDrawable blob = new GradientDrawable();
+        int[] colors = new int[]{colorFrom, color};
+        GradientDrawable blob = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, colors);
         blob.setShape(GradientDrawable.OVAL);
         blob.setSize(40,40);
-        blob.setColors(new int[]{colorFrom, color});
         blob.setGradientType(GradientDrawable.RADIAL_GRADIENT);
         blob.setGradientRadius(30);
         blob.setGradientCenter((float)0.5,(float)0.0);
 
         return blob;
+    }
+
+    private boolean isCached(){
+        //YYYYMM01 format
+        int eventsParseFormat = Integer.parseInt(dateFormater.formatDateForEventsParseForDate(mYear, mMonth-1, 1));
+        Log.i("EventsCalendarEventList", "Checking if date " + Integer.toString(eventsParseFormat) + " is cached");
+        //same format as above. See CalendarCache
+        SharedPreferences eventPreferences = mContext.getSharedPreferences("events", 0);
+        int lowerBoundDate = eventPreferences.getInt("botBoundDate", 0);
+        int topBoundDate = eventPreferences.getInt("topBoundDate", 0);
+        return dateFormater.inInterval(lowerBoundDate, topBoundDate, eventsParseFormat);
     }
 }

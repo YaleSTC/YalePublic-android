@@ -1,9 +1,15 @@
 package edu.yalestc.yalepublic.Events;
 
+import android.app.Activity;
 import android.app.Fragment;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +44,7 @@ import static edu.yalestc.yalepublic.R.drawable.calendar_grid_button_unselected;
 public class CalendarFragment extends Fragment {
 
     View rootView;
+    Activity mActivity;
     Calendar c = Calendar.getInstance();
     int month = c.get(Calendar.MONTH);
     int year = c.get(Calendar.YEAR);
@@ -46,14 +53,35 @@ public class CalendarFragment extends Fragment {
     int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
     EventsCalendarGridAdapter calendarAdapter;
     EventsCalendarEventList listEvents;
+    ProgressDialog dialog;
         //passed in constructor!
     Bundle mExtras;
         //For initial rawData
     String mRawData;
 
-    public CalendarFragment(Bundle extras, String rawData){
-        mExtras = extras;
-        mRawData = rawData;
+    public static final CalendarFragment newInstance(Bundle extras, String rawData){
+        CalendarFragment f = new CalendarFragment();
+        Bundle bld = extras;
+        bld.putString("rawData", rawData);
+        f.setArguments(bld);
+        return f;
+    }
+
+    public CalendarFragment(){
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+        mRawData = getArguments().getString("rawData");
+        mExtras = getArguments();
+        mActivity = getActivity();
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mActivity = activity;
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -80,7 +108,12 @@ public class CalendarFragment extends Fragment {
 
         calendarAdapter = new EventsCalendarGridAdapter(getActivity());
         calendarAdapter.update(year, month);
-        listEvents = new EventsCalendarEventList(getActivity(), new EventsParseForDateWithinCategory(mRawData, month, year, getActivity(), mExtras.getInt("numberOfCategorySearchedFor")), year, month, calendarAdapter.getCurrentlySelected(), mExtras.getIntArray("colors"), mExtras.getIntArray("colorsFrom"));
+        if(!isCached()) {
+            listEvents = new EventsCalendarEventList(getActivity(), new EventsParseForDateWithinCategory(mRawData, month, year, getActivity(), mExtras.getInt("numberOfCategorySearchedFor")), year, month, calendarAdapter.getCurrentlySelected(), mExtras.getIntArray("colors"), mExtras.getIntArray("colorsFrom"));
+        } else {
+            //Context context, int year, int month, int selectedDayOfMonth, int category, int[] colors, int colorsFrom[]
+            listEvents = new EventsCalendarEventList(getActivity(), year, month, calendarAdapter.getCurrentlySelected(), mExtras.getInt("numberOfCategorySearchedFor"), mExtras.getIntArray("colors"), mExtras.getIntArray("colorsFrom"));
+        }
         ((ListView) ((RelativeLayout) rootView).getChildAt(4)).setAdapter(listEvents);
             //set the listener for elemnts on the list, create intent and add all the information required
         ((ListView) ((RelativeLayout) rootView).getChildAt(4)).setOnItemClickListener(new AdapterView.OnItemClickListener(){
@@ -170,40 +203,32 @@ public class CalendarFragment extends Fragment {
         dayOfWeek = c.get(Calendar.DAY_OF_WEEK_IN_MONTH);
         calendarAdapter.update(year, month);
         calendarAdapter.notifyDataSetChanged();
-             //pull new data for a given month!!
-        JSONReader newData = new JSONReader("http://calendar.yale.edu/feeds/feed/opa/json/" + Integer.toString(year) + "-" + monthNumberToString() + "-01"  + "/30days", getActivity());
-        try {
-            mRawData = newData.execute().get();
-            //rawData is null if there are problems. We get a toast for no internet!
-            if (mRawData == null) {
-                Toast toast = new Toast(getActivity());
-                toast = Toast.makeText(getActivity(), "You need internet connection to view the content!", Toast.LENGTH_LONG);
-                toast.show();
-                getParentFragment().getActivity().finish();
-                return;
-            }
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
+        if(!isCached()){
+            //pull new data for a given month!!
+            pullDataFromInternet();
+        } else {
+            listEvents.update(mRawData, month, year);
         }
-            //parse mRawData into array of events. Checkout EventsParseForDateWithinCategory and EventsCalendarEventList for more information.
-        listEvents.update(mRawData, month, year);
             //set the proper name of month at the header of the calendar
         ((TextView) ((RelativeLayout) (((RelativeLayout) rootView).getChildAt(0))).getChildAt(1)).setText(monthName);
     }
 
-        //helper used in creating new URL for querying. Returns the month in the format MM and in the range 01-12
-    String monthNumberToString() {
-        String stringMonth;
-        if (month + 1 < 10) {
-            stringMonth = "0";
-        } else {
-            stringMonth = new String();
-        }
-            //+1 because of the way calendar treats months (0-11)
-        stringMonth += Integer.toString(month + 1);
-        return stringMonth;
+    private void pullDataFromInternet() {
+        EventsJSONReader newData = new EventsJSONReader("http://calendar.yale.edu/feeds/feed/opa/json/" + dateFormater.formatDateForJSONQuery(year, month) + "/30days", mActivity);
+        Log.i("CalendarFragment", "Pulling uncached data using query http://calendar.yale.edu/feeds/feed/opa/json/\" + dateFormater.formatDateForJSONQuery(year, month) + /30days");
+        newData.execute();
+    }
+
+    private boolean isCached(){
+        //YYYYMM01 format
+        int eventsParseFormat = Integer.parseInt(dateFormater.formatDateForEventsParseForDate(year, month, 1));
+        Log.i("CalendarFragment", "Checking if date " + Integer.toString(eventsParseFormat) + " is cached");
+        //same format as above. See CalendarCache
+        SharedPreferences eventPreferences = getActivity().getSharedPreferences("events", 0);
+        int lowerBoundDate = eventPreferences.getInt("botBoundDate", 0);
+        int topBoundDate = eventPreferences.getInt("topBoundDate", 0);
+        boolean result = dateFormater.inInterval(lowerBoundDate, topBoundDate, eventsParseFormat);
+        Log.i("CalendarFragment",Boolean.toString(result));
+        return result;
     }
 }

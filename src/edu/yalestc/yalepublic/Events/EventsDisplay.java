@@ -4,7 +4,9 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
@@ -26,6 +29,7 @@ import edu.yalestc.yalepublic.R;
 public class EventsDisplay extends Activity {
     ActionBar.Tab monthT, weekT, dayT;
     private String rawData;
+    private Calendar mCalendar;
     private Fragment dayTab;
     private Fragment monthTab;
     private Fragment weekTab;
@@ -38,27 +42,17 @@ public class EventsDisplay extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_events_display);
-        dataPuller = new JSONReader("http://calendar.yale.edu/feeds/feed/opa/json/" + currentDate +"-01"+ "/30days", this);
+        mCalendar = Calendar.getInstance();
 
-        try {
-            rawData = dataPuller.execute().get();
-            //Log.d("rawData", rawData.toString());
-            //rawData is null if there are problems. We get a toast for no internet!
-            if (rawData == null) {
-                Toast toast = new Toast(this);
-                toast = Toast.makeText(this, "You need internet connection to view the content!", Toast.LENGTH_LONG);
-                toast.show();
-                finish();
-                return;
-            }
-
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
+        if(!isCached()){
+            // if caching has failed, pull the data from internet
+            pullNewDataFromInternet();
+        } else {
+            rawData = null;
         }
 
-        monthTab = new CalendarFragment(getIntent().getExtras(), rawData);
+        monthTab = CalendarFragment.newInstance(getIntent().getExtras(), rawData);
+
         ActionBar actionBar = getActionBar();
         monthT = actionBar.newTab().setText("Month");
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -102,7 +96,46 @@ public class EventsDisplay extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    private class DayTab extends Fragment {
+    private void pullNewDataFromInternet(){
+        dataPuller = new JSONReader("http://calendar.yale.edu/feeds/feed/opa/json/" + currentDate +"-01"+ "/30days", this);
+
+        try {
+            rawData = dataPuller.execute().get();
+            //Log.d("rawData", rawData.toString());
+            //rawData is null if there are problems. We get a toast for no internet!
+            if (rawData == null) {
+                Toast toast = new Toast(this);
+                toast = Toast.makeText(this, "You need internet connection to view the content!", Toast.LENGTH_LONG);
+                toast.show();
+                finish();
+                return;
+            }
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void getDataFromDb(){
+
+    }
+
+    private boolean isCached(){
+        Calendar mCalendar = Calendar.getInstance();
+        int month = mCalendar.get(Calendar.MONTH);
+        int year = mCalendar.get(Calendar.YEAR);
+            //YYYYMM01 format
+        int eventsParseFormat = Integer.parseInt(dateFormater.formatDateForEventsParseForDate(year, month, 1));
+            //same format as above. See CalendarCache
+        SharedPreferences eventPreferences = this.getSharedPreferences("events", 0);
+        int lowerBoundDate = eventPreferences.getInt("botBoundDate", 0);
+        int topBoundDate = eventPreferences.getInt("topBoundDate", 0);
+        return dateFormater.inInterval(lowerBoundDate, topBoundDate, eventsParseFormat);
+    }
+
+   /* private class DayTab extends Fragment {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View view = inflater.inflate(R.layout.fragment_event_categories, container, false);
@@ -122,5 +155,5 @@ public class EventsDisplay extends Activity {
 
             return view;
         }
-    }
+    }*/
 }

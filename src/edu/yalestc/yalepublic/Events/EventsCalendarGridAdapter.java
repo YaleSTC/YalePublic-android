@@ -35,17 +35,10 @@ public class EventsCalendarGridAdapter extends BaseAdapter{
         private int daysInMonth;
         private int daysInPreviousMonth;
         private int firstDayInWeekOfMonth;
-            //for setting the size of drawable
-        private DisplayMetrics display;
-        private int width;
-        private int height;
 
             //Context for getting resources and layout inflater
         EventsCalendarGridAdapter(Context context) {
             mContext = context;
-            display = context.getResources().getDisplayMetrics();
-            width = display.widthPixels;
-            height = display.heightPixels;
                 //automatically set selected day to current date
             currentlySelected = c.get(Calendar.DAY_OF_MONTH);
         }

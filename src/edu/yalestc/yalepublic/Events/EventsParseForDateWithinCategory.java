@@ -7,6 +7,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import edu.yalestc.yalepublic.R;
@@ -67,9 +68,10 @@ public class EventsParseForDateWithinCategory {
     //event[1] = start time
     //event[2] = end time
     //event[3] = place
-    //event[4] = date
+    //event[4] = dateDescription
     //event[5] = description
     //event[6] = categoryNumber
+    //event[7] = date
     public ArrayList<String[]> getEventsOnGivenDate(String date){
         ArrayList<String[]> givenEvents = new ArrayList<String[]>();
         for(int i = 0; i < validEvents.size(); i++){
@@ -79,7 +81,6 @@ public class EventsParseForDateWithinCategory {
         }
         return givenEvents;
     }
-
         //check if given event is valid
         //if we are looking for all events - it only has to start in current month
         //if we are looking for special category it has to start in current month and be in the given category!
@@ -159,7 +160,7 @@ public class EventsParseForDateWithinCategory {
 
             //return a String[] with information about the event
         public String[] getInfo() {
-            String[] eventInfo = new String[]{title, startTime, endTime, place, dateDescription, description, Integer.toString(categoryNumber)};
+            String[] eventInfo = new String[]{title, startTime, endTime, place, dateDescription, description, Integer.toString(categoryNumber), date};
             return eventInfo;
         }
 
