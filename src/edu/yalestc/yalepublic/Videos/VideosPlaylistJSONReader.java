@@ -21,7 +21,7 @@ import edu.yalestc.yalepublic.JSONReader;
  * Created by Stan Swidwinski on 1/10/15.
  */
 
-public class VideosJSONReader extends JSONReader {
+public class VideosPlaylistJSONReader extends JSONReader {
 
     Activity mActivity;
     private ProgressDialog dialog;
@@ -32,7 +32,7 @@ public class VideosJSONReader extends JSONReader {
     String[] allPlaylists;
 
 
-    public VideosJSONReader(Activity activity){
+    public VideosPlaylistJSONReader(Activity activity){
         super(activity);
         //for creating and getting preferences and tables!
         mActivity = activity;
@@ -41,11 +41,10 @@ public class VideosJSONReader extends JSONReader {
         dialog.setTitle("Fetching the videos!");
         dialog.setMessage("This should not take too long, please wait...");
         dialog.setIndeterminate(true);
-        mAdapter = null;
         mListView = null;
     }
 
-    public VideosJSONReader(String URL, Activity activity){
+    public VideosPlaylistJSONReader(String URL, Activity activity){
         super(URL, activity);
         mActivity = activity;
         dialog = new ProgressDialog(mActivity);
@@ -53,7 +52,6 @@ public class VideosJSONReader extends JSONReader {
         dialog.setTitle("Fetching the videos!");
         dialog.setMessage("This should not take too long, please wait...");
         dialog.setIndeterminate(true);
-        mAdapter = null;
         mListView = null;
     }
 
@@ -69,7 +67,6 @@ public class VideosJSONReader extends JSONReader {
             Toast toast = new Toast(mActivity);
             toast = Toast.makeText(mActivity, "You need internet connection to view the content!", Toast.LENGTH_LONG);
             toast.show();
-            Log.i("CalendarFragment", "Failure");
             mActivity.finish();
             return null;
         } else {
@@ -84,6 +81,12 @@ public class VideosJSONReader extends JSONReader {
             getPlaylistsFromJson(mRawData);
             mAdapter = new PlaylistAdapter(mActivity, allPlaylists);
             display();
+        } else {
+            Toast toast = new Toast(mActivity);
+            toast = Toast.makeText(mActivity, "You need internet connection to view the content!", Toast.LENGTH_LONG);
+            toast.show();
+            mActivity.finish();
+            return;
         }
         if(dialog != null && dialog.isShowing()){
             dialog.dismiss();
