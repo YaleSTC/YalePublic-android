@@ -89,10 +89,13 @@ public class VideosWithinPlaylistJSONReader extends JSONReader {
     protected String doInBackground(Void... voids) {
         mRawData = super.getData();
         if (mRawData == null) {
-            Toast toast = new Toast(mActivity);
-            toast = Toast.makeText(mActivity, "You need internet connection to view the content!", Toast.LENGTH_LONG);
-            toast.show();
-            Log.i("CalendarFragment", "Failure");
+            mActivity.runOnUiThread(new Runnable() {
+                public void run(){
+                    Toast toast = new Toast(mActivity);
+                    toast = Toast.makeText(mActivity, "You need internet connection to view the content!", Toast.LENGTH_LONG);
+                    toast.show();
+                }
+            });
             mActivity.finish();
             return null;
         } else {
@@ -120,12 +123,14 @@ public class VideosWithinPlaylistJSONReader extends JSONReader {
                 }
             });
         } else {
-            Toast toast = new Toast(mActivity);
-            toast = Toast.makeText(mActivity, "You need internet connection to view the content!", Toast.LENGTH_LONG);
-            toast.show();
-            Log.i("CalendarFragment", "Failure");
+            mActivity.runOnUiThread(new Runnable() {
+                public void run(){
+                    Toast toast = new Toast(mActivity);
+                    toast = Toast.makeText(mActivity, "You need internet connection to view the content!", Toast.LENGTH_LONG);
+                    toast.show();
+                }
+            });
             mActivity.finish();
-            return;
         }
         if (dialog != null && dialog.isShowing()) {
             dialog.dismiss();
@@ -133,6 +138,10 @@ public class VideosWithinPlaylistJSONReader extends JSONReader {
     }
 
     private void parseDataAndDownloadThumbs(){
+        if(mRawData == null){
+            parsingAndDownloadingSuccess = false;
+            return;
+        }
         JSONObject videoData;
         JSONArray playlistData;
         try {
