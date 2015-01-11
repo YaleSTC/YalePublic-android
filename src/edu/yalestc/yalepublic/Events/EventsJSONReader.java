@@ -63,10 +63,13 @@ public class EventsJSONReader extends JSONReader {
     protected String doInBackground(Void... voids) {
         mRawData = super.getData();
         if (mRawData == null) {
-            Toast toast = new Toast(mActivity);
-            toast = Toast.makeText(mActivity, "You need internet connection to view the content!", Toast.LENGTH_LONG);
-            toast.show();
-            Log.i("CalendarFragment", "Failure");
+            mActivity.runOnUiThread(new Runnable() {
+                public void run(){
+                    Toast toast = new Toast(mActivity);
+                    toast = Toast.makeText(mActivity, "You need internet connection to view the content!", Toast.LENGTH_LONG);
+                    toast.show();
+                }
+            });
             mActivity.finish();
             return null;
         } else {

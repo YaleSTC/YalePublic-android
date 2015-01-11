@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.Locale;
@@ -104,6 +105,20 @@ public class CalendarFragment extends Fragment {
         calendarAdapter = new EventsCalendarGridAdapter(getActivity());
         calendarAdapter.update(year, month);
         if(!isCached()) {
+            //if we query for the first time and there is no internet, we have nothing cached and mRawData is empty!.
+        //this is an ugly work-around for now but its bullet proof. What should be done is moving this whole chunk into
+        //the async task and leaving only the UI stuff here...
+            if(mRawData == null){
+                mActivity.runOnUiThread(new Runnable() {
+                    public void run(){
+                        Toast toast = new Toast(mActivity);
+                        toast = Toast.makeText(mActivity, "You need internet connection to view the content!", Toast.LENGTH_LONG);
+                        toast.show();
+                    }
+                });
+                mActivity.finish();
+                return null;
+            }
             listEvents = new EventsCalendarEventList(getActivity(), new EventsParseForDateWithinCategory(mRawData, month, year, getActivity(), mExtras.getInt("numberOfCategorySearchedFor")), year, month, calendarAdapter.getCurrentlySelected(), mExtras.getIntArray("colors"), mExtras.getIntArray("colorsFrom"));
         } else {
             //Context context, int year, int month, int selectedDayOfMonth, int category, int[] colors, int colorsFrom[]
