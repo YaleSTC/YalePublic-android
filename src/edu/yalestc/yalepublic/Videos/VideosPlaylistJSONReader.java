@@ -64,9 +64,13 @@ public class VideosPlaylistJSONReader extends JSONReader {
     protected String doInBackground(Void... voids) {
         mRawData = super.getData();
         if (mRawData == null) {
-            Toast toast = new Toast(mActivity);
-            toast = Toast.makeText(mActivity, "You need internet connection to view the content!", Toast.LENGTH_LONG);
-            toast.show();
+            mActivity.runOnUiThread(new Runnable() {
+                public void run(){
+                    Toast toast = new Toast(mActivity);
+                    toast = Toast.makeText(mActivity, "You need internet connection to view the content!", Toast.LENGTH_LONG);
+                    toast.show();
+                }
+            });
             mActivity.finish();
             return null;
         } else {
@@ -77,16 +81,18 @@ public class VideosPlaylistJSONReader extends JSONReader {
 
     @Override
     protected void onPostExecute(String result){
-        if(mListView != null){
-            getPlaylistsFromJson(mRawData);
-            mAdapter = new PlaylistAdapter(mActivity, allPlaylists);
-            display();
+        if(mListView != null && getPlaylistsFromJson(mRawData)){
+                mAdapter = new PlaylistAdapter(mActivity, allPlaylists);
+                display();
         } else {
-            Toast toast = new Toast(mActivity);
-            toast = Toast.makeText(mActivity, "You need internet connection to view the content!", Toast.LENGTH_LONG);
-            toast.show();
+            mActivity.runOnUiThread(new Runnable() {
+                public void run(){
+                    Toast toast = new Toast(mActivity);
+                    toast = Toast.makeText(mActivity, "You need internet connection to view the content!", Toast.LENGTH_LONG);
+                    toast.show();
+                }
+            });
             mActivity.finish();
-            return;
         }
         if(dialog != null && dialog.isShowing()){
             dialog.dismiss();
@@ -118,6 +124,8 @@ public class VideosPlaylistJSONReader extends JSONReader {
     }
 
     private boolean getPlaylistsFromJson(String rawData){
+        if(rawData == null)
+            return false;
         JSONObject videoData;
         try {
             videoData = new JSONObject(rawData);
