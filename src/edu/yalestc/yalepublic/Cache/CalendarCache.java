@@ -169,9 +169,13 @@ public class CalendarCache extends JSONReader {
             Log.i("CacheUpdater","Created puller with query" + queries[i]);
              Log.i("CacheUpdater", "yearMonth " + yearMonth[i]);
             if (results[i] == null) {
-                Toast toast = new Toast(mActivity);
-                toast = Toast.makeText(mActivity, "You need internet connection to succesfully finish", Toast.LENGTH_LONG);
-                toast.show();
+                mActivity.runOnUiThread(new Runnable() {
+                    public void run(){
+                        Toast toast = new Toast(mActivity);
+                        toast = Toast.makeText(mActivity, "Downloading newest data failed. No internet connection.", Toast.LENGTH_LONG);
+                        toast.show();
+                    }
+                });
                 return;
             }
         }
