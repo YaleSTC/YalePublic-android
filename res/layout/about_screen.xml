@@ -28,21 +28,24 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal">
+        android:layout_gravity="center_horizontal"
+        android:weightSum="3">
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/ibFeedback"
             android:layout_gravity="center_horizontal"
-            android:src="@drawable/info_button_feedback" />
+            android:src="@drawable/info_button_feedback"
+            android:layout_weight="1"/>
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/ibShare"
             android:layout_gravity="center_horizontal"
-            android:src="@drawable/info_button_share" />
+            android:src="@drawable/info_button_share"
+            android:layout_weight="1"/>
 
         <ImageButton
             android:layout_width="wrap_content"
@@ -51,14 +54,16 @@
             android:layout_gravity="center_horizontal"
             android:src="@drawable/info_button_more"
             android:maxHeight="20dp"
-            android:maxWidth="20dp"/>
+            android:maxWidth="20dp"
+            android:layout_weight="1"/>
     </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal">
+        android:layout_gravity="center_horizontal"
+        android:weightSum="3">
 
         <TextView
             android:layout_width="wrap_content"
