@@ -22,6 +22,7 @@ import android.graphics.Point;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
@@ -242,11 +243,15 @@ public class PhotosWithinAlbum extends Activity {
 
     // Set up a new ImageView with specified parameters
     public class ImageThumbnailAdapter extends BaseAdapter {
-
+        private DisplayMetrics display;
         private Context mContext;
+        int width;
 
         public ImageThumbnailAdapter(Context c) {
-             mContext = c;
+            mContext = c;
+            display = new DisplayMetrics();
+            getWindowManager().getDefaultDisplay().getMetrics(display);
+            width = display.widthPixels;
          }
 
         @Override
@@ -254,7 +259,7 @@ public class PhotosWithinAlbum extends Activity {
             ImageView imageView;
             if (convertView == null) {
                 imageView = new ImageView(mContext);
-                imageView.setLayoutParams(new GridView.LayoutParams(85, 85));
+                imageView.setLayoutParams(new GridView.LayoutParams(2*width/9, 2*width/9));
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 imageView.setPadding(0, 0, 0, 0);
             } else {
