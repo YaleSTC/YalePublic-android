@@ -123,9 +123,9 @@ public class MainActivity extends ActionBarActivity {
                 Intent iAbout = new Intent(MainActivity.this, About.class);
                 startActivity(iAbout);
                 return true;
-            case R.id.action_settings:
-                // Open the settings menu here
-                return true;
+//            case R.id.action_settings:
+//                // Open the settings menu here
+//                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
