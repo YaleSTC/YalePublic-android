@@ -4,17 +4,13 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.concurrent.ExecutionException;
 
 import edu.yalestc.yalepublic.JSONReader;
-import edu.yalestc.yalepublic.R;
+
 
 public class EventsDisplay extends Activity {
     ActionBar.Tab monthT, weekT, dayT;
