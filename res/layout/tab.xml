@@ -7,4 +7,4 @@
     android:minHeight="?android:attr/listPreferredItemHeight"
     android:gravity="center_vertical"
     android:paddingLeft="10dp"
-    android:id="@+id/tab" />
+    android:id="@+id/tab"/>

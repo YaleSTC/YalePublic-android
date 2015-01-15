@@ -43,5 +43,4 @@
         android:id="@+id/tvDescription"
         android:text="Description"
         android:layout_below="@+id/tvDate"/>
-
 </RelativeLayout>

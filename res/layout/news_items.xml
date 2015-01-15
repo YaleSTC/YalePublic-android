@@ -17,12 +17,11 @@
         android:text="RSS Reader"
         android:id="@+id/tvRSSTitle"
         android:layout_gravity="center_horizontal"
-        android:paddingTop="20dp" />
+        android:paddingTop="20dp"/>
 
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/listNews"
-        android:layout_gravity="center_horizontal" />
-
+        android:layout_gravity="center_horizontal"/>
 </LinearLayout>
