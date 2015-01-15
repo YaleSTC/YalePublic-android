@@ -36,7 +36,7 @@
 
     <ImageView
         android:layout_width="fill_parent"
-        android:layout_height="20px"
+        android:layout_height="20dp"
         android:src="@drawable/separator_calendar_events_list"/>
 
     <ScrollView
