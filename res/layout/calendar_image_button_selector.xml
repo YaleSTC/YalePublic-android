@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-
+<!-- Created by Stan Swidwinski
+      Layout describing the unselected grid in the calendar. Note that this grid corresponds to
+      "non-current" day.
+-->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"

@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-
+<!-- Created by Stan Swidwinski
+   Layout for the details screen of an events. Displayed after clicking specific event in
+   any of the tabs in the calendar functionality. Data displayed taken from cache or pulled from
+   internet.
+-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"

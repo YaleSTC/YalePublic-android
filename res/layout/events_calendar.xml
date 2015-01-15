@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Created by Stan Swidwinski
+   This layout is used as the general schema for the month tab withing the events function
+   of the application. Nearly all elements within the schema are later programatically changed.
+-->
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/events_calendar"

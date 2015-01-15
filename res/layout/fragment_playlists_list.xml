@@ -1,3 +1,6 @@
+<!-- Created by Stan Swidwinski and Carsten Peterson
+   General layout for displaying the video playlists within the video functionality
+-->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -6,8 +9,8 @@
     android:paddingLeft="0dp"
     android:paddingRight="0dp"
     android:paddingTop="0dp"
-    tools:context="edu.yalestc.yalepublic.Videos.VideoList$PlaceholderFragment">
-    
+    tools:context="edu.yalestc.yalepublic.Videos.PlaylistList$PlaceholderFragment">
+
     <ListView
         android:id="@+id/listview_video"
         android:layout_width="match_parent"

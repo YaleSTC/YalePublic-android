@@ -16,12 +16,12 @@ import edu.yalestc.yalepublic.R;
 //Created by Stan Swidwinski and Carsten Peterson
 //**
 
-public class VideoList extends Activity {
+public class PlaylistList extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_video_list);
+        setContentView(R.layout.activity_playlist_list);
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
                     .add(R.id.container, new PlaceholderFragment()).commit();
@@ -40,7 +40,7 @@ public class VideoList extends Activity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_video_list,
+            View rootView = inflater.inflate(R.layout.fragment_playlists_list,
                     container, false);
 
             // create an asynctask that fetches the playlist titles. It should speak for itself.

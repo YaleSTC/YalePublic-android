@@ -21,7 +21,7 @@ import edu.yalestc.yalepublic.JSONReader;
  * Created by Stan Swidwinski on 1/10/15.
  */
 
-public class VideosPlaylistJSONReader extends JSONReader {
+public class PlaylistJSONReader extends JSONReader {
 
     Activity mActivity;
     private ProgressDialog dialog;
@@ -32,7 +32,7 @@ public class VideosPlaylistJSONReader extends JSONReader {
     String[] allPlaylists;
 
 
-    public VideosPlaylistJSONReader(Activity activity){
+    public PlaylistJSONReader(Activity activity){
         super(activity);
         //for creating and getting preferences and tables!
         mActivity = activity;
@@ -44,7 +44,7 @@ public class VideosPlaylistJSONReader extends JSONReader {
         mListView = null;
     }
 
-    public VideosPlaylistJSONReader(String URL, Activity activity){
+    public PlaylistJSONReader(String URL, Activity activity){
         super(URL, activity);
         mActivity = activity;
         dialog = new ProgressDialog(mActivity);
