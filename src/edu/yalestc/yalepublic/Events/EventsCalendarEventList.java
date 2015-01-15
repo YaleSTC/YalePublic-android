@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.LayerDrawable;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -57,7 +55,7 @@ public class EventsCalendarEventList extends BaseAdapter {
         mColors = colors;
         mColorsFrom = colorsFrom;
         mSelectedDayOfMonth = selectedDayOfMonth;
-        eventsOnCurrentDay = allTheEvents.getEventsOnGivenDate(dateFormater.convertDateToString(mYear, mMonth, mSelectedDayOfMonth));
+        eventsOnCurrentDay = allTheEvents.getEventsOnGivenDate(DateFormater.convertDateToString(mYear, mMonth, mSelectedDayOfMonth));
         display = context.getResources().getDisplayMetrics();
         height = display.heightPixels;
     }
@@ -72,7 +70,7 @@ public class EventsCalendarEventList extends BaseAdapter {
         mColorsFrom = colorsFrom;
         mSelectedDayOfMonth = selectedDayOfMonth;
         CalendarDatabaseTableHandler db = new CalendarDatabaseTableHandler(mContext);
-        eventsOnCurrentDay = db.getEventsOnDateWithinCategory((dateFormater.convertDateToString(mYear, mMonth, mSelectedDayOfMonth)), mCategoryNo);
+        eventsOnCurrentDay = db.getEventsOnDateWithinCategory((DateFormater.convertDateToString(mYear, mMonth, mSelectedDayOfMonth)), mCategoryNo);
         display = context.getResources().getDisplayMetrics();
         height = display.heightPixels;
         mCategoryNo = category;
@@ -102,10 +100,10 @@ public class EventsCalendarEventList extends BaseAdapter {
     public void setmSelectedDayOfMonth(int selectedDayOfMonth) {
         mSelectedDayOfMonth = selectedDayOfMonth;
         if(!isCached()) {
-            eventsOnCurrentDay = allTheEvents.getEventsOnGivenDate((dateFormater.convertDateToString(mYear, mMonth, mSelectedDayOfMonth)));
+            eventsOnCurrentDay = allTheEvents.getEventsOnGivenDate((DateFormater.convertDateToString(mYear, mMonth, mSelectedDayOfMonth)));
         } else {
             CalendarDatabaseTableHandler db = new CalendarDatabaseTableHandler(mContext);
-            eventsOnCurrentDay = db.getEventsOnDateWithinCategory((dateFormater.convertDateToString(mYear, mMonth, mSelectedDayOfMonth)), mCategoryNo);
+            eventsOnCurrentDay = db.getEventsOnDateWithinCategory((DateFormater.convertDateToString(mYear, mMonth, mSelectedDayOfMonth)), mCategoryNo);
     }
     }
 
@@ -178,12 +176,12 @@ public class EventsCalendarEventList extends BaseAdapter {
 
     private boolean isCached(){
         //YYYYMM01 format
-        int eventsParseFormat = Integer.parseInt(dateFormater.formatDateForEventsParseForDate(mYear, mMonth-1, 1));
+        int eventsParseFormat = Integer.parseInt(DateFormater.formatDateForEventsParseForDate(mYear, mMonth - 1, 1));
         Log.i("EventsCalendarEventList", "Checking if date " + Integer.toString(eventsParseFormat) + " is cached");
         //same format as above. See CalendarCache
         SharedPreferences eventPreferences = mContext.getSharedPreferences("events", 0);
         int lowerBoundDate = eventPreferences.getInt("botBoundDate", 0);
         int topBoundDate = eventPreferences.getInt("topBoundDate", 0);
-        return dateFormater.inInterval(lowerBoundDate, topBoundDate, eventsParseFormat);
+        return DateFormater.inInterval(lowerBoundDate, topBoundDate, eventsParseFormat);
     }
 }

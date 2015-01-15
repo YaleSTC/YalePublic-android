@@ -3,8 +3,8 @@ package edu.yalestc.yalepublic.Events;
 /**
  * Created by Stan Swidwinski on 1/3/15.
  */
-public class dateFormater {
-    dateFormater(){}
+public class DateFormater {
+    DateFormater(){}
 
         //from calendar format to MM from 01 to 12
     public static String formatMonthFromCalendarFormat(int month){
