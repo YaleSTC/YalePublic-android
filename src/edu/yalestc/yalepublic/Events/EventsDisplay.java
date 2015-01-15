@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import edu.yalestc.yalepublic.JSONReader;
+import edu.yalestc.yalepublic.R;
 
 
 public class EventsDisplay extends Activity {
