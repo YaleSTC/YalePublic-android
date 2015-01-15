@@ -45,12 +45,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Videos.PlaylistList"
+            android:name=".Videos$PlaylistList"
             android:label="@string/title_activity_video_list"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".News.NewsReader"
+            android:name=".News$NewsReader"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -59,7 +59,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".News.NewsChooser"
+            android:name=".News$NewsChooser"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -69,7 +69,7 @@
         </activity>
 
         <activity
-            android:name=".Videos.VideosWithinPlaylist"
+            android:name=".Videos$VideosWithinPlaylist"
             android:label="@string/title_activity_videos_within_list"
             android:screenOrientation="portrait" >
         </activity>
@@ -80,7 +80,7 @@
         </activity>
         <activity
             android:configChanges="orientation"
-            android:name=".Videos.VideoYoutubePlayback"
+            android:name=".Videos$VideoYoutubePlayback"
             android:label="@string/title_activity_video_playback"
             android:screenOrientation="landscape" >
         </activity>
@@ -93,7 +93,7 @@
             android:label="@string/title_activity_photo_list" >
         </activity>
         <activity
-            android:name=".Events.EventCategories"
+            android:name=".Events$EventCategories"
             android:label="@string/title_activity_event_categories"
             android:screenOrientation="portrait">
         </activity>
@@ -110,13 +110,13 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".Events.EventsDisplay"
+            android:name=".Events$EventsDisplay"
             android:label="@string/title_activity_events_display"
             android:screenOrientation="portrait">
         </activity>
 
         <activity
-            android:name=".Events.EventsDetails"
+            android:name=".Events$EventsDetails"
             android:label="@string/title_activity_events_details"
             android:screenOrientation="portrait">
         </activity>
