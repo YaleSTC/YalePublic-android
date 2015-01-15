@@ -1,15 +1,10 @@
 package edu.yalestc.yalepublic.Events;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.RectShape;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -35,7 +30,7 @@ public class EventsDetails extends Activity {
         width = display.widthPixels;
         height = display.heightPixels;
 
-        LinearLayout layout = (LinearLayout) getLayoutInflater().inflate(R.layout.events_details,null);
+        LinearLayout layout = (LinearLayout) getLayoutInflater().inflate(R.layout.events_single_event_details,null);
             //set the rectangle at the top by the title
 
         ImageView rectangleByTitle = ((ImageView) ((LinearLayout)layout.getChildAt(0)).getChildAt(0));
