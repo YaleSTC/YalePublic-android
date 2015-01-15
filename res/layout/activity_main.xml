@@ -46,7 +46,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="News"/>
+                    android:text="@string/news"/>
             </LinearLayout>
 
             <LinearLayout
@@ -70,7 +70,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Directory"/>
+                    android:text="@string/directory"/>
             </LinearLayout>
 
             <LinearLayout
@@ -94,7 +94,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Maps"/>
+                    android:text="@string/maps"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -127,7 +127,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Videos"/>
+                    android:text="@string/videos"/>
             </LinearLayout>
 
             <LinearLayout
@@ -151,7 +151,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Photos"/>
+                    android:text="@string/photos"/>
             </LinearLayout>
 
             <LinearLayout
@@ -175,7 +175,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Events"/>
+                    android:text="@string/events"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -208,7 +208,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Transit"/>
+                    android:text="@string/transit"/>
             </LinearLayout>
 
             <LinearLayout
@@ -232,7 +232,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Athletics"/>
+                    android:text="@string/athletics"/>
             </LinearLayout>
 
             <LinearLayout
@@ -256,7 +256,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Arts Events"/>
+                    android:text="@string/arts_events"/>
             </LinearLayout>
         </LinearLayout>
 
