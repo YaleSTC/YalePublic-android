@@ -5,9 +5,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageButton;
-
-import edu.yalestc.yalepublic.news.NewsChooser;
 
 /**
  * Created by Jason Liu on 11/8/14.

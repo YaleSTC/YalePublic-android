@@ -1,4 +1,4 @@
-package edu.yalestc.yalepublic.news;
+package edu.yalestc.yalepublic.News;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -10,10 +10,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 
 import edu.yalestc.yalepublic.R;
 

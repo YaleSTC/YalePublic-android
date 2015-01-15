@@ -18,7 +18,7 @@ import android.view.ViewGroup;
 import edu.yalestc.yalepublic.Cache.CalendarCache;
 import edu.yalestc.yalepublic.Videos.PlaylistList;
 import edu.yalestc.yalepublic.Events.EventCategories;
-import edu.yalestc.yalepublic.news.NewsChooser;
+import edu.yalestc.yalepublic.News.NewsChooser;
 
 @SuppressLint("NewApi")
 public class MainActivity extends ActionBarActivity {

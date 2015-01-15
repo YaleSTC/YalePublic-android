@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package edu.yalestc.yalepublic.news;
+package edu.yalestc.yalepublic.News;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

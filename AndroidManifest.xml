@@ -50,7 +50,7 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".news.NewsReader"
+            android:name=".News.NewsReader"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -59,7 +59,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".news.NewsChooser"
+            android:name=".News.NewsChooser"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
