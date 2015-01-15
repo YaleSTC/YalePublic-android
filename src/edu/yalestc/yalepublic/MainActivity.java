@@ -16,7 +16,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
 import edu.yalestc.yalepublic.Cache.CalendarCache;
-import edu.yalestc.yalepublic.Videos.VideoList;
+import edu.yalestc.yalepublic.Videos.PlaylistList;
 import edu.yalestc.yalepublic.Events.EventCategories;
 import edu.yalestc.yalepublic.news.NewsChooser;
 
@@ -43,7 +43,7 @@ public class MainActivity extends ActionBarActivity {
                 startActivity(iMaps);
                 break;
             case R.id.bVideos:
-                Intent videoListIntent = new Intent(MainActivity.this, VideoList.class);
+                Intent videoListIntent = new Intent(MainActivity.this, PlaylistList.class);
                 videoListIntent.putExtra(VIDEO_MODE_KEY, true);
                 startActivity(videoListIntent);
                 break;

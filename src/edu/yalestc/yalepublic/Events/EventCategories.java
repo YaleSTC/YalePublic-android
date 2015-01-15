@@ -37,7 +37,7 @@ public class EventCategories extends Activity {
         colors = getResources().getIntArray(R.array.event_categories_colors);
         colorsTo = getResources().getIntArray(R.array.event_categories_colors);
         colorsFrom = getResources().getIntArray(R.array.event_categories_colors_from);
-        setContentView(R.layout.activity_event_categories);
+        setContentView(R.layout.events_event_categories);
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
                     .add(R.id.container, new PlaceholderFragment())

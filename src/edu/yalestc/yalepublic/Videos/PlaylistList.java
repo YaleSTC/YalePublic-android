@@ -45,7 +45,7 @@ public class PlaylistList extends Activity {
 
             // create an asynctask that fetches the playlist titles. It should speak for itself.
             //Just note that in constructor we give in the base url (WITHOUT "?" at the end).
-            VideosPlaylistJSONReader scrapeData = new VideosPlaylistJSONReader("https://www.googleapis.com/youtube/v3/playlists", getActivity());
+            PlaylistJSONReader scrapeData = new PlaylistJSONReader("https://www.googleapis.com/youtube/v3/playlists", getActivity());
             scrapeData.addParams(new Pair<String, String>("part", "snippet"));
             scrapeData.addParams(new Pair<String, String>("channelId", "UC4EY_qnSeAP1xGsh61eOoJA"));
             scrapeData.addParams(new Pair<String, String>("key", new DeveloperKey().DEVELOPER_KEY));
