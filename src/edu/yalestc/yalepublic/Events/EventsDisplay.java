@@ -15,7 +15,6 @@ import edu.yalestc.yalepublic.R;
 
 public class EventsDisplay extends Activity {
     ActionBar.Tab monthT, weekT, dayT;
-    private String rawData;
 //    private Fragment dayTab;
     private Fragment monthTab;
 //    private Fragment weekTab;
