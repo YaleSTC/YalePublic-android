@@ -128,7 +128,7 @@ public class EventCategories extends Activity {
             // i != 0 because the 0th element does not have an image in the imageView, so we do not want to reuse it!
             if (convertView != null && i != 0) {
                 ((ImageView) ((RelativeLayout) convertView).getChildAt(0)).setImageDrawable(rectangle);
-                ((RelativeLayout) convertView).setPadding(((int)width/20), ((int) width / 25), 0, ((int) width / 25));
+                ((RelativeLayout) convertView).setPadding(width / 20, width / 25, 0, width / 25);
                 ((TextView) ((RelativeLayout) convertView).getChildAt(1)).setTextSize(width / 45);
                 ((TextView) ((RelativeLayout) convertView).getChildAt(1)).setText(categories[i]);
                 convertView.setBackgroundColor(Color.parseColor("#dbdbdd"));
@@ -137,7 +137,7 @@ public class EventCategories extends Activity {
             } else {
                 LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 RelativeLayout button = ((RelativeLayout) inflater.inflate(R.layout.events_category_button, null));
-                button.setPadding(((int)width/20), ((int) width / 25), 0, ((int) width / 25));
+                button.setPadding(width / 20, width / 25, 0, width / 25);
                 if (i == 0) {
 
                 } else {
