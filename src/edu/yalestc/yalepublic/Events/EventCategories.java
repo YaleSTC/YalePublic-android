@@ -154,19 +154,19 @@ public class EventCategories extends Activity {
             GradientDrawable[] layers = new GradientDrawable[2];
             layers[0] = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{colorsFrom[i], colorsTo[i]});
             layers[0].setShape(GradientDrawable.RECTANGLE);
-            layers[0].setSize(((int) (width / 10)), ((int) (width / 20)));
+            layers[0].setSize(width / 10, width / 20);
             //adding rounded corners
             layers[0].setCornerRadii(new float[]{16, 16, 16, 16, 0, 0, 0, 0});
 
             layers[1] = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{colors[i], colors[i]});
             layers[1].setShape(GradientDrawable.RECTANGLE);
-            layers[1].setSize(((int) (width / 10)), ((int) (width / 20)));
+            layers[1].setSize(width / 10, width / 20);
             //adding rounded corners
             layers[1].setCornerRadii(new float[]{0, 0, 0, 0, 16, 16, 16, 16});
 
             LayerDrawable button = new LayerDrawable(layers);
-            button.setLayerInset(0,0,0,0,width/20);
-            button.setLayerInset(1,0,width/20,0,0);
+            button.setLayerInset(0, 0, 0, 0, width/20);
+            button.setLayerInset(1, 0, width/20, 0, 0);
             return button;
         }
     }

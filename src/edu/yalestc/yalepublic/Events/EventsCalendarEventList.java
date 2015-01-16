@@ -104,7 +104,7 @@ public class EventsCalendarEventList extends BaseAdapter {
         } else {
             CalendarDatabaseTableHandler db = new CalendarDatabaseTableHandler(mContext);
             eventsOnCurrentDay = db.getEventsOnDateWithinCategory((DateFormater.convertDateToString(mYear, mMonth, mSelectedDayOfMonth)), mCategoryNo);
-    }
+        }
     }
 
     @Override
