@@ -45,12 +45,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Videos.VideoList"
+            android:name=".Videos.PlaylistList"
             android:label="@string/title_activity_video_list"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".news.NewsReader"
+            android:name=".News.NewsReader"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -59,7 +59,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".news.NewsChooser"
+            android:name=".News.NewsChooser"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

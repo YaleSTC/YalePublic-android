@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-
+<!-- Created by Stan Swidwinski
+   Layout for the details screen of an events. Displayed after clicking specific event in
+   any of the tabs in the calendar functionality. Data displayed taken from cache or pulled from
+   internet.
+-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -25,21 +29,21 @@
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="Placeholder"
+            android:text="@string/placeholder"
             android:textStyle="bold"
             android:textColor="#3e3f44"/>
-
     </LinearLayout>
 
     <ImageView
         android:layout_width="fill_parent"
-        android:layout_height="20px"
+        android:layout_height="20dp"
         android:src="@drawable/separator_calendar_events_list"/>
 
     <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#ebebec">
+
         <LinearLayout
             android:id="@+id/event_details_information"
             android:orientation="vertical"
@@ -63,24 +67,22 @@
                     android:id="@+id/events_details_start_static"
                     android:layout_height="wrap_content"
                     android:layout_width="fill_parent"
-                    android:text="starts"
+                    android:text="@string/starts"
                     android:textStyle="bold"
                     android:textColor="#4c80bb"
                     android:layout_weight="3"
                     android:layout_marginRight="10dp"
-                    android:gravity="right"
-                    />
+                    android:gravity="right"/>
 
                 <TextView
                     android:id="@+id/events_details_start_time"
                     android:layout_height="wrap_content"
                     android:layout_width="fill_parent"
                     android:layout_gravity="center_vertical"
-                    android:text="Placeholder"
+                    android:text="@string/placeholder"
                     android:textStyle="bold"
                     android:textColor="#3e3f44"
                     android:layout_weight="1"/>
-
                 </LinearLayout>
 
             <LinearLayout
@@ -99,7 +101,7 @@
                     android:id="@+id/event_details_end_static"
                     android:layout_height="wrap_content"
                     android:layout_width="fill_parent"
-                    android:text="ends"
+                    android:text="@string/ends"
                     android:textStyle="bold"
                     android:textColor="#4c80bb"
                     android:layout_weight="3"
@@ -110,11 +112,10 @@
                     android:id="@+id/event_details_end_time"
                     android:layout_height="wrap_content"
                     android:layout_width="fill_parent"
-                    android:text="Placeholder"
+                    android:text="@string/placeholder"
                     android:textStyle="bold"
                     android:textColor="#3e3f44"
                     android:layout_weight="1"/>
-
             </LinearLayout>
 
             <LinearLayout
@@ -134,7 +135,7 @@
                     android:layout_height="wrap_content"
                     android:layout_width="fill_parent"
                     android:layout_gravity="center_vertical"
-                    android:text="description"
+                    android:text="@string/description"
                     android:textStyle="bold"
                     android:textColor="#4c80bb"
                     android:layout_weight="3"
@@ -146,11 +147,10 @@
                     android:layout_height="wrap_content"
                     android:layout_width="fill_parent"
                     android:layout_gravity="center_vertical"
-                    android:text="Placeholder"
+                    android:text="@string/placeholder"
                     android:textStyle="bold"
                     android:textColor="#3e3f44"
                     android:layout_weight="1"/>
-
             </LinearLayout>
 
             <LinearLayout
@@ -169,7 +169,7 @@
                     android:layout_height="wrap_content"
                     android:layout_width="fill_parent"
                     android:layout_gravity="center_vertical"
-                    android:text="location"
+                    android:text="@string/location"
                     android:textStyle="bold"
                     android:textColor="#4c80bb"
                     android:layout_weight="3"
@@ -181,14 +181,11 @@
                     android:layout_height="wrap_content"
                     android:layout_width="fill_parent"
                     android:layout_gravity="center_vertical"
-                    android:text="Placeholder"
+                    android:text="@string/placeholder"
                     android:textStyle="bold"
                     android:textColor="#3e3f44"
                     android:layout_weight="1"/>
-
             </LinearLayout>
-
         </LinearLayout>
     </ScrollView>
-
 </LinearLayout>

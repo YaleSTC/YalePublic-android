@@ -14,14 +14,13 @@
     android:padding="20dp">
 
     <TextView
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:paddingLeft="10dp"
         android:id="@+id/tvTitle"
         android:textStyle="bold"
-        android:text="Title"
+        android:text="@string/title"
         android:paddingBottom="5dp"/>
 
     <TextView
@@ -30,7 +29,7 @@
         android:gravity="center_vertical"
         android:paddingLeft="10dp"
         android:id="@+id/tvDate"
-        android:text="Date"
+        android:text="@string/date"
         android:textColor="#0071c5"
         android:layout_below="@+id/tvTitle"
         android:paddingBottom="5dp"/>
@@ -41,7 +40,6 @@
         android:gravity="center_vertical"
         android:paddingLeft="10dp"
         android:id="@+id/tvDescription"
-        android:text="Description"
+        android:text="@string/description"
         android:layout_below="@+id/tvDate"/>
-
 </RelativeLayout>

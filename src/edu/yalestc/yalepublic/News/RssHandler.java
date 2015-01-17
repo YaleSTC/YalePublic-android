@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-package edu.yalestc.yalepublic.news;
+package edu.yalestc.yalepublic.News;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Locale;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.helpers.DefaultHandler;
@@ -65,7 +66,7 @@ public class RssHandler extends DefaultHandler {
             
             try {
                 if (qName != null && qName.length() > 0) {
-                    String methodName = "set" + qName.substring(0, 1).toUpperCase() + qName.substring(1);
+                    String methodName = "set" + qName.substring(0, 1).toUpperCase(Locale.US) + qName.substring(1);
                     Method method = rssFeed.getClass().getMethod(methodName, String.class);
                     method.invoke(rssFeed, stringBuilder.toString());
                 }
@@ -82,7 +83,7 @@ public class RssHandler extends DefaultHandler {
             try {
                 if(qName.equals("content:encoded")) 
                     qName = "content";
-                String methodName = "set" + qName.substring(0, 1).toUpperCase() + qName.substring(1);
+                String methodName = "set" + qName.substring(0, 1).toUpperCase(Locale.US) + qName.substring(1);
                 Method method = rssItem.getClass().getMethod(methodName, String.class);
                 method.invoke(rssItem, stringBuilder.toString());
             } catch (SecurityException e) {

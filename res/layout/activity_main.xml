@@ -21,7 +21,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="horizontal"
-            android:baselineAligned="false" >
+            android:baselineAligned="false">
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -29,7 +29,7 @@
                 android:layout_weight="1"
                 android:padding="6dp"
                 android:gravity="center"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <ImageButton
                     android:id="@+id/bNews"
@@ -46,7 +46,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="News" />
+                    android:text="@string/news"/>
             </LinearLayout>
 
             <LinearLayout
@@ -55,7 +55,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:padding="6dp"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <ImageButton
                     android:id="@+id/bDirectory"
@@ -63,14 +63,14 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/thumb_directory_default"
                     android:clickable="true"
-                    android:background="@android:color/transparent" />
+                    android:background="@android:color/transparent"/>
 
                 <TextView
                     style="@style/textViewStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Directory" />
+                    android:text="@string/directory"/>
             </LinearLayout>
 
             <LinearLayout
@@ -79,7 +79,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:padding="6dp"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <ImageButton
                     android:id="@+id/bMaps"
@@ -87,14 +87,14 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/thumb_maps_default"
                     android:clickable="true"
-                    android:background="@android:color/transparent" />
+                    android:background="@android:color/transparent"/>
 
                 <TextView
                     style="@style/textViewStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Maps" />
+                    android:text="@string/maps"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -104,7 +104,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="horizontal"
-            android:baselineAligned="false" >
+            android:baselineAligned="false">
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -112,7 +112,7 @@
                 android:layout_weight="1"
                 android:padding="6dp"
                 android:gravity="center"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <ImageButton
                     android:id="@+id/bVideos"
@@ -120,14 +120,14 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/thumb_videos_default"
                     android:clickable="true"
-                    android:background="@android:color/transparent" />
+                    android:background="@android:color/transparent"/>
 
                 <TextView
                     style="@style/textViewStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Videos" />
+                    android:text="@string/videos"/>
             </LinearLayout>
 
             <LinearLayout
@@ -136,7 +136,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:padding="6dp"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <ImageButton
                     android:id="@+id/bPhotos"
@@ -144,14 +144,14 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/thumb_photos_default"
                     android:clickable="true"
-                    android:background="@android:color/transparent" />
+                    android:background="@android:color/transparent"/>
 
                 <TextView
                     style="@style/textViewStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Photos" />
+                    android:text="@string/photos"/>
             </LinearLayout>
 
             <LinearLayout
@@ -160,7 +160,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:padding="6dp"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <ImageButton
                     android:id="@+id/bEvents"
@@ -168,14 +168,14 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/thumb_events_default"
                     android:clickable="true"
-                    android:background="@android:color/transparent" />
+                    android:background="@android:color/transparent"/>
 
                 <TextView
                     style="@style/textViewStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Events" />
+                    android:text="@string/events"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -185,7 +185,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="horizontal"
-            android:baselineAligned="false" >
+            android:baselineAligned="false">
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -193,7 +193,7 @@
                 android:layout_weight="1"
                 android:padding="6dp"
                 android:gravity="center"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <ImageButton
                     android:id="@+id/bTransit"
@@ -201,14 +201,14 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/thumb_transit_default"
                     android:clickable="true"
-                    android:background="@android:color/transparent" />
+                    android:background="@android:color/transparent"/>
 
                 <TextView
                     style="@style/textViewStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Transit" />
+                    android:text="@string/transit"/>
             </LinearLayout>
 
             <LinearLayout
@@ -217,7 +217,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:padding="6dp"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <ImageButton
                     android:id="@+id/bAthletics"
@@ -225,14 +225,14 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/thumb_athletics_default"
                     android:clickable="true"
-                    android:background="@android:color/transparent" />
+                    android:background="@android:color/transparent"/>
 
                 <TextView
                     style="@style/textViewStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Athletics" />
+                    android:text="@string/athletics"/>
             </LinearLayout>
 
             <LinearLayout
@@ -241,7 +241,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:padding="6dp"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <ImageButton
                     android:id="@+id/bArts"
@@ -249,16 +249,15 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/thumb_arts_events_default"
                     android:clickable="true"
-                    android:background="@android:color/transparent" />
+                    android:background="@android:color/transparent"/>
 
                 <TextView
                     style="@style/textViewStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Arts Events" />
+                    android:text="@string/arts_events"/>
             </LinearLayout>
-
         </LinearLayout>
 
         <LinearLayout
@@ -267,9 +266,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:padding="6dp"
-            android:orientation="vertical" />
-
+            android:orientation="vertical"/>
 
     </LinearLayout>
-
 </RelativeLayout>

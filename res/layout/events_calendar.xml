@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Created by Stan Swidwinski
+   This layout is used as the general schema for the month tab withing the events function
+   of the application. Nearly all elements within the schema are later programatically changed.
+-->
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/events_calendar"
@@ -24,10 +28,10 @@
 
         <TextView
             android:id="@+id/month_name"
-            android:text="Placeholder"
+            android:text="@string/placeholder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="30dp"
+            android:textSize="30sp"
             android:layout_weight="1"
             android:layout_toLeftOf="@+id/month_arrow_right"
             android:layout_toRightOf="@+id/month_arrow_left"
@@ -41,7 +45,7 @@
             android:rotation="90"
             android:background="@drawable/calendar_arrow"
             android:layout_alignParentRight="true"/>
-        </RelativeLayout>
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_below="@+id/month_tabs"
@@ -53,55 +57,53 @@
         android:orientation="horizontal">
 
         <TextView
-            android:text="Sun"
+            android:text="@string/sun"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            />
-        <TextView
-            android:text="Mon"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            />
-        <TextView
-            android:text="Tue"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            />
-        <TextView
-            android:text="Wed"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            />
-        <TextView
-            android:text="Thu"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            />
-        <TextView
-            android:text="Fri"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            />
-        <TextView
-            android:text="Sat"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            />
+            android:gravity="center_horizontal"/>
 
+        <TextView
+            android:text="@string/mon"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"/>
+
+        <TextView
+            android:text="@string/tue"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"/>
+
+        <TextView
+            android:text="@string/wed"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"/>
+
+        <TextView
+            android:text="@string/thu"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"/>
+
+        <TextView
+            android:text="@string/fri"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"/>
+
+        <TextView
+            android:text="@string/sat"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"/>
     </LinearLayout>
 
     <GridView
@@ -118,7 +120,7 @@
     <ImageView
         android:id="@+id/separator_events_calendar"
         android:layout_width="fill_parent"
-        android:layout_height="20px"
+        android:layout_height="20dp"
         android:src="@drawable/separator_calendar_events_list"
         android:layout_below="@+id/month"/>
 
@@ -130,5 +132,4 @@
         android:divider="@drawable/separator_events"
         android:dividerHeight="2dp">
     </ListView>
-
 </RelativeLayout>

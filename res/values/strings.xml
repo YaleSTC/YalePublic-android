@@ -64,7 +64,8 @@
         <item>tour</item>
     </string-array>
 
-    <string name="calendar_cache_progress">Obsolete data detected. Downloading newest information from Yale servers. \n\n This might take a moment, please wait...</string>
+    <string name="calendar_cache_progress">Obsolete data detected. Downloading newest information from Yale servers.
+        \n\nThis might take a moment, please wait…</string>
 
     <string name="title_activity_video_list">VideoList</string>
     <string name="title_activity_videos_within_list">VideosInPlaylist</string>
@@ -76,5 +77,34 @@
     <string name="title_activity_event_categories">EventCategories</string>
     <string name="title_activity_events_display">EventsDisplay</string>
     <string name="title_activity_events_details">Details</string>
+    <string name="current_version">release 0.1</string>
+    <string name="feedback">Feedback</string>
+    <string name="share">Share</string>
+    <string name="more_info">More Info</string>
+    <string name="authors">Authors: \nJason Liu\nStanislaw Swidwinski\nCarsten Peterson\nAbhishek Chandra\nJessica Yang</string>
+    <string name="news">News</string>
+    <string name="directory">Directory</string>
+    <string name="maps">Maps</string>
+    <string name="videos">Videos</string>
+    <string name="photos">Photos</string>
+    <string name="events">Events</string>
+    <string name="transit">Transit</string>
+    <string name="athletics">Athletics</string>
+    <string name="arts_events">Arts Events</string>
+    <string name="placeholder">placeholder</string>
+    <string name="sun">Sun</string>
+    <string name="mon">Mon</string>
+    <string name="tue">Tue</string>
+    <string name="wed">Wed</string>
+    <string name="thu">Thu</string>
+    <string name="fri">Fri</string>
+    <string name="sat">Sat</string>
+    <string name="starts">starts</string>
+    <string name="ends">ends</string>
+    <string name="description">Description</string>
+    <string name="location">location</string>
+    <string name="rss_reader">RSS Reader</string>
+    <string name="title">Title</string>
+    <string name="date">Date</string>
 
 </resources>

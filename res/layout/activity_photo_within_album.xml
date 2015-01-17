@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="edu.yalestc.yalepublic.PhotosWithinAlbum"
-    tools:ignore="MergeRootFrame" >
+    tools:ignore="MergeRootFrame">
 
     <LinearLayout
         android:orientation="vertical"
@@ -17,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/pbLoading"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -25,8 +25,6 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text=""
         android:id="@+id/tvPhotoLoading"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"/>
     </LinearLayout>
-
-
 </FrameLayout>

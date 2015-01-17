@@ -1,15 +1,10 @@
 package edu.yalestc.yalepublic.Events;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.RectShape;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -35,13 +30,13 @@ public class EventsDetails extends Activity {
         width = display.widthPixels;
         height = display.heightPixels;
 
-        LinearLayout layout = (LinearLayout) getLayoutInflater().inflate(R.layout.events_details,null);
+        LinearLayout layout = (LinearLayout) getLayoutInflater().inflate(R.layout.events_single_event_details,null);
             //set the rectangle at the top by the title
 
         ImageView rectangleByTitle = ((ImageView) ((LinearLayout)layout.getChildAt(0)).getChildAt(0));
             //see function at the end. Analogous to the one in EventCategories.
         rectangleByTitle.setImageDrawable(createRectangle(extras.getInt("color"), extras.getInt("colorFrom"), extras.getInt("colorTo")));
-        rectangleByTitle.setPadding((int) width/50, (int) (height*0.023), (int) width*3/100, (int) (height*0.023));
+        rectangleByTitle.setPadding(width/50, (int) (height*0.023), width*3/100, (int) (height*0.023));
 
             //set the title
         TextView title = ((TextView)((LinearLayout)layout.getChildAt(0)).getChildAt(1));
@@ -80,19 +75,19 @@ public class EventsDetails extends Activity {
         GradientDrawable[] layers = new GradientDrawable[2];
         layers[0] = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{colorFrom, colorTo});
         layers[0].setShape(GradientDrawable.RECTANGLE);
-        layers[0].setSize(((int) (width / 10)), ((int) (width / 20)));
+        layers[0].setSize(width/10, width/20);
         //adding rounded corners
         layers[0].setCornerRadii(new float[]{16, 16, 16, 16, 0, 0, 0, 0});
 
         layers[1] = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{color, color});
         layers[1].setShape(GradientDrawable.RECTANGLE);
-        layers[1].setSize(((int) (width / 10)), ((int) (width / 20)));
+        layers[1].setSize(width/10, width/20);
         //adding rounded corners
         layers[1].setCornerRadii(new float[]{0, 0, 0, 0, 16, 16, 16, 16});
 
         LayerDrawable button = new LayerDrawable(layers);
-        button.setLayerInset(0,0,0,0,width/20);
-        button.setLayerInset(1,0,width/20,0,0);
+        button.setLayerInset(0, 0, 0, 0, width/20);
+        button.setLayerInset(1, 0, width/20, 0, 0);
         return button;
     }
 }

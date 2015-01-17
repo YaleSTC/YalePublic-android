@@ -1,3 +1,6 @@
+<!-- Created by Stan Swidwinski
+   General layout for displaying buttons for categories of events within the events functionality.
+-->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -13,7 +16,5 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:divider="@drawable/separator_events"
-        android:dividerHeight="2dp"
-        />
-
+        android:dividerHeight="2dp"/>
 </RelativeLayout>

@@ -6,7 +6,7 @@
     android:paddingLeft="0dp"
     android:paddingRight="0dp"
     android:paddingTop="0dp"
-    tools:context="edu.yalestc.yalepublic.Videos.VideoList$PlaceholderFragment" >
+    tools:context="edu.yalestc.yalepublic.Videos.PlaylistList$PlaceholderFragment">
     <!-- tools:context="edu.yalestc.yalepublic.PhotoList$PlaceholderFragment" -->
 
     <ListView
@@ -17,5 +17,4 @@
         android:padding="0dp"
         android:divider="@drawable/separator_events"
         android:dividerHeight="2dp"/>
-
 </RelativeLayout>

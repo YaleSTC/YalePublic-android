@@ -1,4 +1,4 @@
-package edu.yalestc.yalepublic.news;
+package edu.yalestc.yalepublic.News;
 
 import android.app.Activity;
 import android.content.Context;
@@ -12,23 +12,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import org.xml.sax.SAXException;
-
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 import edu.yalestc.yalepublic.R;
-import edu.yalestc.yalepublic.news.RssReader;
-import edu.yalestc.yalepublic.news.RssFeed;
 
 /**
  * Created by Jason Liu on 10/4/14.

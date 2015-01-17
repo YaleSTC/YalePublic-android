@@ -6,12 +6,11 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="edu.yalestc.yalepublic.ImageActivity" >
+    tools:context="edu.yalestc.yalepublic.ImageActivity">
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:contentDescription="@string/currentphoto"
         android:id="@+id/photoImageView"/>
-
 </RelativeLayout>

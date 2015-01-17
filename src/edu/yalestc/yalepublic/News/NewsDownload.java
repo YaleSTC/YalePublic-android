@@ -1,9 +1,7 @@
-package edu.yalestc.yalepublic.news;
+package edu.yalestc.yalepublic.News;
 
 import android.os.AsyncTask;
 
-import android.net.Uri;
-import android.os.Bundle;
 import android.util.Log;
 
 import org.xml.sax.SAXException;
@@ -12,10 +10,6 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-
-import edu.yalestc.yalepublic.R;
-import edu.yalestc.yalepublic.news.RssReader;
-import edu.yalestc.yalepublic.news.RssFeed;
 
 /**
  * Created by Jason Liu on 10/4/14.
