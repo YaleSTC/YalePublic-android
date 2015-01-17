@@ -18,8 +18,8 @@ public class About extends Activity {
                 case R.id.ibFeedback:
                     Intent sendFeedback = new Intent(Intent.ACTION_SEND);
                     sendFeedback.setType("message/rfc822");
-                    sendFeedback.putExtra(Intent.EXTRA_EMAIL  , new String[]{"test-email@example.com"});
-                    sendFeedback.putExtra(Intent.EXTRA_SUBJECT, "YalePublic-android Feedback");
+                    sendFeedback.putExtra(Intent.EXTRA_EMAIL, new String[]{"mobile.apps@yale.edu"});
+                    sendFeedback.putExtra(Intent.EXTRA_SUBJECT, "Yale Feedback");
                     sendFeedback.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);  // TODO: Return to app after email
                     startActivity(sendFeedback);
                     break;
