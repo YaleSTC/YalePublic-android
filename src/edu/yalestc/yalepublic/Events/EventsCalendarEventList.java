@@ -31,6 +31,7 @@ public class EventsCalendarEventList extends BaseAdapter {
     private DisplayMetrics display;
     private int height;
     private int mYear;
+    //month here will be in the standard format
     private int mMonth;
         //for quicker parsing of events. Is passed in from MonthFragment. See EventsParseForDateWithinCategory for more information
     //if allTheEvents is null, it means that we are using cached information!
@@ -77,10 +78,11 @@ public class EventsCalendarEventList extends BaseAdapter {
         //allTheEvents is null as of the constructor, so need to check if it is the first time that
         //we need to parse any data.
         if (allTheEvents != null) {
-            allTheEvents.setNewEvents(rawData, mMonth, mYear);
+            //the parser accepts the calendar-formatted date!
+            allTheEvents.setNewEvents(rawData, mMonth-1, mYear);
         } else {
             //the constructor by default takes in data to parse, so no need to call setNewEvents
-            allTheEvents = new EventsParseForDateWithinCategory(rawData, mMonth, mYear, mActivity, mCategoryNo);
+            allTheEvents = new EventsParseForDateWithinCategory(rawData, mMonth-1, mYear, mActivity, mCategoryNo);
         }
     }
 
@@ -180,12 +182,15 @@ public class EventsCalendarEventList extends BaseAdapter {
         SharedPreferences eventPreferences = mActivity.getSharedPreferences("events", 0);
         int lowerBoundDate = eventPreferences.getInt("botBoundDate", 0);
         int topBoundDate = eventPreferences.getInt("topBoundDate", 0);
-        return DateFormater.inInterval(lowerBoundDate, topBoundDate, eventsParseFormat);
+        boolean result = DateFormater.inInterval(lowerBoundDate, topBoundDate, eventsParseFormat);
+        Log.i("EventsCalendarEventList",Boolean.toString(result));
+        return result;
     }
 
     private void pullDataFromInternet() {
-        EventsJSONReader newData = new EventsJSONReader("http://calendar.yale.edu/feeds/feed/opa/json/" + DateFormater.calendarDateToJSONQuery(mYear, mMonth) + "/30days", mActivity);
-        Log.i("CalendarFragment", "Pulling uncached data using query http://calendar.yale.edu/feeds/feed/opa/json/\" + dateFormater.calendarDateToJSONQuery(year, month) + /30days");
+        EventsJSONReader newData = new EventsJSONReader("http://calendar.yale.edu/feeds/feed/opa/json/" + DateFormater.calendarDateToJSONQuery(mYear, mMonth-1) + "/30days", mActivity);
+        newData.setEventsListAdapter(this);
+        Log.i("EventsCalendarEventList", "Pulling uncached data using query http://calendar.yale.edu/feeds/feed/opa/json/" + DateFormater.calendarDateToJSONQuery(mYear, mMonth-1) + "/30days");
         newData.execute();
     }
 }

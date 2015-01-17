@@ -17,8 +17,6 @@ public class EventsJSONReader extends JSONReader {
     Activity mActivity;
     private ProgressDialog dialog;
     private String mRawData;
-    private int mMonth;
-    private int mYear;
     private EventsCalendarEventList mAdapter;
 
     public EventsJSONReader(Activity activity){
@@ -30,8 +28,6 @@ public class EventsJSONReader extends JSONReader {
         dialog.setTitle("Getting the most up-to-date event list!");
         dialog.setMessage("This should not take too long, please wait...");
         dialog.setIndeterminate(true);
-        mYear = 0;
-        mMonth = 0;
     }
 
     public EventsJSONReader(String URL, Activity activity){
@@ -42,13 +38,6 @@ public class EventsJSONReader extends JSONReader {
         dialog.setTitle("Getting the most up-to-date event list!");
         dialog.setMessage("This should not take too long, please wait...");
         dialog.setIndeterminate(true);
-        mYear = 0;
-        mMonth = 0;
-    }
-
-    public void setYearAndMonth(int year, int month){
-        mYear = year;
-        mMonth = month;
     }
 
     public void setEventsListAdapter(EventsCalendarEventList adapter){
@@ -74,15 +63,16 @@ public class EventsJSONReader extends JSONReader {
             mActivity.finish();
             return null;
         } else {
-            Log.i("CalendarFragment", "Success");
+            Log.i("EventsJSONReader", "Success");
         }
         return mRawData;
     }
 
     @Override
     protected void onPostExecute(String result){
-        if(mAdapter != null && mYear != 0 && mMonth != 0){
+        if(mAdapter != null){
             mAdapter.updateEvents(mRawData);
+            Log.i("EventsJSONReader","Updating the events data set in adapter");
         }
         if(dialog != null && dialog.isShowing()){
             dialog.dismiss();
