@@ -47,6 +47,7 @@ public class EventsCalendarGridAdapter extends BaseAdapter{
         //using onclick listeners in the main activity!
         public void update(int year, int month) {
             mYear = year;
+            //in calendar format
             mMonth = month;
             c.set(Calendar.YEAR, year);
             c.set(Calendar.MONTH, month);
@@ -58,12 +59,12 @@ public class EventsCalendarGridAdapter extends BaseAdapter{
         }
 
             //used in the onClickListeners of gridview to change the imageviews of tiles ("highligh" them,
-        //"dehighlight" them etc.
+        //"dehighlight" them etc. gives the id number of grid
         public int getCurrentlySelected(){
             return currentlySelected;
         }
 
-            //used in the onClickListeners to updateEvents the value.
+            //used in the onClickListeners to updateEvents the value. sets the id of currently selected grid
         public void setCurrentlySelected(int i){
                 currentlySelected = i;
             }
@@ -86,8 +87,8 @@ public class EventsCalendarGridAdapter extends BaseAdapter{
             return dayMatch && monthMatch && yearMatch;
         }
 
-            //get day number as the "Calendar" number - for example 1st of June gives the number 1 but might be 4th as counted
-        //by grid enumeration!
+            //get day number as the "Calendar" number (ID # of the grid) - for example 1st of June
+            // gives the number 1 but might be 4th as counted by grid enumeration!
         public int getDayNumber (int i){
             if (i < firstDayInWeekOfMonth - 1){
                 return daysInPreviousMonth + i - firstDayInWeekOfMonth + 2;
@@ -98,9 +99,10 @@ public class EventsCalendarGridAdapter extends BaseAdapter{
             }
         }
 
-            //checks if given tile represents a day not in the current month. Used for coloring the text fields.
-        // It is called from the fragment class, hence shorthand if
-        //an illegal number is passed (negative) we treat it as currentlySelected (not to invoke getCurrentlySelected)
+            //checks if given tile ( i is the ID #!) represents a day not in the current month.
+            // Used for coloring the text fields. It is called from the fragment class, hence shorthand if
+             //an illegal number is passed (negative) we treat it as currentlySelected
+             //(not to invoke getCurrentlySelected)
         public boolean isOutsideCurrentMonth(int i){
             if (i < 0)
                 i = currentlySelected;
@@ -180,9 +182,6 @@ public class EventsCalendarGridAdapter extends BaseAdapter{
                         ((TextView) ((RelativeLayout) calendar_grid).getChildAt(1)).setTextColor(Color.parseColor("#3d4b5a"));
                     }
                 }
-                /*   //set the image size
-                ((ImageView)((RelativeLayout)calendar_grid).getChildAt(0)).getLayoutParams().height=((int)(height*136/1920));
-                ((ImageView)((RelativeLayout)calendar_grid).getChildAt(0)).getLayoutParams().width=((int)(width/6.5));*/
                 //set the day number. It is the cardinal calendar number!
                 ((TextView)calendar_grid.getChildAt(1)).setText(Integer.toString(getDayNumber(i)));
                 return calendar_grid;
