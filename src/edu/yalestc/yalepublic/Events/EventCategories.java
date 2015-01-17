@@ -1,5 +1,6 @@
 package edu.yalestc.yalepublic.Events;
 
+import android.app.ActionBar;
 import android.app.Activity;
 
 import android.app.Fragment;
@@ -32,6 +33,13 @@ public class EventCategories extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ActionBar actionbar = getActionBar();
+        actionbar.setDisplayHomeAsUpEnabled(true);     // Show home as a back arrow
+        //actionbar.setDisplayShowHomeEnabled(true);     // Show application logo
+        actionbar.setDisplayShowTitleEnabled(true);    // Show activity title/subtitle
+        actionbar.setDisplayUseLogoEnabled(false);     // Use activity logo instead of activity icon
+        actionbar.setTitle(getString(R.string.events));  // Set title
+
         super.onCreate(savedInstanceState);
         categories = getResources().getStringArray(R.array.events_category_names);
         colors = getResources().getIntArray(R.array.event_categories_colors);
