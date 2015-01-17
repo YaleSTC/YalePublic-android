@@ -5,7 +5,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="14"
+        android:minSdkVersion="16"
         android:targetSdkVersion="21" />
 
     <uses-feature
@@ -47,7 +47,8 @@
         <activity
             android:name=".Videos.PlaylistList"
             android:label="@string/title_activity_video_list"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:parentActivityName=".MainActivity">
         </activity>
         <activity
             android:name=".News.NewsReader"
@@ -60,7 +61,8 @@
         </activity>
         <activity
             android:name=".News.NewsChooser"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:parentActivityName=".MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -90,18 +92,21 @@
         </activity>
         <activity
             android:name=".PhotoList"
-            android:label="@string/title_activity_photo_list" >
+            android:label="@string/title_activity_photo_list"
+            android:parentActivityName=".MainActivity">
         </activity>
         <activity
             android:name=".Events.EventCategories"
             android:label="@string/title_activity_event_categories"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:parentActivityName=".MainActivity">
         </activity>
 
         <activity
             android:name=".MapView"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:parentActivityName=".MainActivity">
         </activity>
 
         <activity
