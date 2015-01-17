@@ -52,7 +52,8 @@
         </activity>
         <activity
             android:name=".News.NewsReader"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:parentActivityName=".News.NewsChooser">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -73,11 +74,13 @@
         <activity
             android:name=".Videos.VideosWithinPlaylist"
             android:label="@string/title_activity_videos_within_list"
+            android:parentActivityName=".Videos.PlaylistList"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".PhotosWithinAlbum"
             android:label="@string/photos_in_album"
+            android:parentActivityName=".PhotoList"
             android:screenOrientation="portrait" >
         </activity>
         <activity
@@ -112,10 +115,12 @@
         <activity
             android:name=".About"
             android:label="@string/app_name"
+            android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".Events.EventsDisplay"
+            android:parentActivityName=".Events.EventCategories"
             android:label="@string/title_activity_events_display"
             android:screenOrientation="portrait">
         </activity>

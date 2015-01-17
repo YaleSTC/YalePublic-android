@@ -1,5 +1,6 @@
 package edu.yalestc.yalepublic.News;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -50,6 +51,12 @@ public class NewsReader extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ActionBar actionbar = getActionBar();
+        actionbar.setDisplayHomeAsUpEnabled(true);     // Show home as a back arrow
+        //actionbar.setDisplayShowHomeEnabled(true);     // Show application logo
+        actionbar.setDisplayShowTitleEnabled(true);    // Show activity title/subtitle
+        actionbar.setDisplayUseLogoEnabled(false);     // Use activity logo instead of activity icon
+        actionbar.setTitle(getString(R.string.news));  // Set title
         super.onCreate(savedInstanceState);
         setContentView(R.layout.news_items);
         //tRSSTitle = (TextView) findViewById(R.id.tvRSSTitle);

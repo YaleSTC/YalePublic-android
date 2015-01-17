@@ -2,6 +2,8 @@ package edu.yalestc.yalepublic.Videos;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
+
+import android.app.ActionBar;
 import android.content.Context;
 
 import android.graphics.Color;
@@ -38,6 +40,12 @@ public class VideosWithinPlaylist extends Activity {
     Bundle extras;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ActionBar actionbar = getActionBar();
+        actionbar.setDisplayHomeAsUpEnabled(true);     // Show home as a back arrow
+        //actionbar.setDisplayShowHomeEnabled(true);     // Show application logo
+        actionbar.setDisplayShowTitleEnabled(true);    // Show activity title/subtitle
+        actionbar.setDisplayUseLogoEnabled(false);     // Use activity logo instead of activity icon
+        actionbar.setTitle(getString(R.string.videos));  // Set title
         super.onCreate(savedInstanceState);
         //to get the passed parameters
         extras = getIntent().getExtras();
