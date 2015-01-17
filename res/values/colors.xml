@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <item name="white" type="color">#FFFFFF</item>
 
     <array name="event_categories_colors">
@@ -53,5 +52,11 @@
         <item>#f9ee9d</item>
         <item>#87c2a9</item>
     </array>
-</resources>
 
+    <drawable name="blue">#770000ff</drawable>
+    <!-- see res/values-v21/styles.xml for usage of these colors -->
+    <color name="primary">#29B6F6</color>
+    <color name="primary_dark">#039BE5</color>
+    <color name="accent">#AED581</color>
+    <color name="text_primary">#B0BEC5</color>
+</resources>

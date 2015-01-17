@@ -2,6 +2,7 @@ package edu.yalestc.yalepublic;
 
 // import android.support.v7.app.ActionBarActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
@@ -21,7 +22,7 @@ import edu.yalestc.yalepublic.Events.EventCategories;
 import edu.yalestc.yalepublic.News.NewsChooser;
 
 @SuppressLint("NewApi")
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends Activity {
 
     double screenWidth;
     double screenHeight;
