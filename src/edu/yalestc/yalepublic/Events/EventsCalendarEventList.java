@@ -1,6 +1,6 @@
 package edu.yalestc.yalepublic.Events;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
@@ -26,8 +26,8 @@ import edu.yalestc.yalepublic.R;
  *
  */
 public class EventsCalendarEventList extends BaseAdapter {
-        //for inflating layouts
-    private Context mContext;
+        //for inflating layouts and DisplayMetrics
+    private Activity mActivity;
     private DisplayMetrics display;
     private int height;
     private int mYear;
@@ -46,32 +46,16 @@ public class EventsCalendarEventList extends BaseAdapter {
         //array holding only the displayed events
     ArrayList<String[]> eventsOnCurrentDay;
 
-    EventsCalendarEventList (Context context, EventsParseForDateWithinCategory eventsParser, int year, int month, int selectedDayOfMonth, int[] colors, int[] colorsFrom){
-        mContext = context;
-        allTheEvents = eventsParser;
-        mYear = year;
-        //since calendar returns number 0 - 11 as a month
-        mMonth = month+1;
-        mColors = colors;
-        mColorsFrom = colorsFrom;
-        mSelectedDayOfMonth = selectedDayOfMonth;
-        eventsOnCurrentDay = allTheEvents.getEventsOnGivenDate(DateFormater.convertDateToString(mYear, mMonth, mSelectedDayOfMonth));
-        display = context.getResources().getDisplayMetrics();
-        height = display.heightPixels;
-    }
-
-    EventsCalendarEventList(Context context, int year, int month, int selectedDayOfMonth, int category, int[] colors, int colorsFrom[]){
-        mContext = context;
+    EventsCalendarEventList(Activity activity, int year, int month, int selectedDayOfMonth, int category, int[] colors, int colorsFrom[]){
         allTheEvents = null;
-        mYear = year;
-        //since calendar returns number 0 - 11 as a month
-        mMonth = month+1;
+        mActivity = activity;
+        update(year, month);
         mColors = colors;
         mColorsFrom = colorsFrom;
         mSelectedDayOfMonth = selectedDayOfMonth;
-        CalendarDatabaseTableHandler db = new CalendarDatabaseTableHandler(mContext);
+        CalendarDatabaseTableHandler db = new CalendarDatabaseTableHandler(mActivity);
         eventsOnCurrentDay = db.getEventsOnDateWithinCategory((DateFormater.convertDateToString(mYear, mMonth, mSelectedDayOfMonth)), mCategoryNo);
-        display = context.getResources().getDisplayMetrics();
+        display = mActivity.getResources().getDisplayMetrics();
         height = display.heightPixels;
         mCategoryNo = category;
     }
@@ -81,28 +65,42 @@ public class EventsCalendarEventList extends BaseAdapter {
             return eventsOnCurrentDay.get(whichEvent);
     }
 
-        //called after the month is changed, parses the newly retrieved JSON object and updates
-    //current Year and Month
-    public void update(String rawData, int month, int year){
+        //sets new values to mMonth and mYear
+    public void updateMonthYear(int year, int month){
         mYear = year;
-        //because calendar operates on months labelled 0 through 11
-        mMonth = month + 1;
-        if(!isCached()) {
-            if(allTheEvents != null) {
-                allTheEvents.setNewEvents(rawData, month, year);
-            } else {
-                allTheEvents = new EventsParseForDateWithinCategory(rawData, month, year, mContext, mCategoryNo);
-            }
+        //because calendar operates on 0 - 11
+        mMonth = month+1;
+    }
+
+        //called from EventsJSONReader after new data has been downloaded and is ready to be parsed.
+    public void updateEvents(String rawData){
+        //allTheEvents is null as of the constructor, so need to check if it is the first time that
+        //we need to parse any data.
+        if (allTheEvents != null) {
+            allTheEvents.setNewEvents(rawData, mMonth, mYear);
+        } else {
+            //the constructor by default takes in data to parse, so no need to call setNewEvents
+            allTheEvents = new EventsParseForDateWithinCategory(rawData, mMonth, mYear, mActivity, mCategoryNo);
+        }
+    }
+
+        //set the new month and year, then pull the data from internet if needed. The AsyncTask
+    //then calls updateEvents once it is done, so there is no need to call it at all.
+    public void update(int year, int month){
+        updateMonthYear(year, month);
+        if(!isCached()){
+            pullDataFromInternet();
         }
     }
 
         //called when the selected day is changed. Updates the events for a given day and the day itself.
     public void setmSelectedDayOfMonth(int selectedDayOfMonth) {
         mSelectedDayOfMonth = selectedDayOfMonth;
+        //getting the dataset to display depends on the existance of it in the cached database
         if(!isCached()) {
             eventsOnCurrentDay = allTheEvents.getEventsOnGivenDate((DateFormater.convertDateToString(mYear, mMonth, mSelectedDayOfMonth)));
         } else {
-            CalendarDatabaseTableHandler db = new CalendarDatabaseTableHandler(mContext);
+            CalendarDatabaseTableHandler db = new CalendarDatabaseTableHandler(mActivity);
             eventsOnCurrentDay = db.getEventsOnDateWithinCategory((DateFormater.convertDateToString(mYear, mMonth, mSelectedDayOfMonth)), mCategoryNo);
         }
     }
@@ -148,15 +146,15 @@ public class EventsCalendarEventList extends BaseAdapter {
             ((TextView) ((RelativeLayout) convertView).getChildAt(3)).setText(singleEvent[3]);
             return convertView;
         } else {
-            RelativeLayout eventListElement = (RelativeLayout) LayoutInflater.from(mContext).inflate(R.layout.calendar_list_element, null);
+            RelativeLayout eventListElement = (RelativeLayout) LayoutInflater.from(mActivity).inflate(R.layout.calendar_list_element, null);
             eventListElement.setMinimumHeight((int)(height*0.104));
-            ((ImageView) ((RelativeLayout) eventListElement).getChildAt(0)).setImageDrawable(circle);
+            ((ImageView) eventListElement.getChildAt(0)).setImageDrawable(circle);
                 //set the time of the event
-            ((TextView) ((RelativeLayout) eventListElement).getChildAt(1)).setText(singleEvent[1]);
+            ((TextView) eventListElement.getChildAt(1)).setText(singleEvent[1]);
                 //set the title of the event
-            ((TextView) ((RelativeLayout) eventListElement).getChildAt(2)).setText(singleEvent[0]);
+            ((TextView) eventListElement.getChildAt(2)).setText(singleEvent[0]);
                 //set the palce of the event
-            ((TextView) ((RelativeLayout) eventListElement).getChildAt(3)).setText(singleEvent[3]);
+            ((TextView) eventListElement.getChildAt(3)).setText(singleEvent[3]);
             eventListElement.setBackgroundColor(Color.parseColor("#dbdbdd"));
             return eventListElement;
         }
@@ -179,9 +177,15 @@ public class EventsCalendarEventList extends BaseAdapter {
         int eventsParseFormat = Integer.parseInt(DateFormater.caledarDateToEventsParseForDate(mYear, mMonth - 1, 1));
         Log.i("EventsCalendarEventList", "Checking if date " + Integer.toString(eventsParseFormat) + " is cached");
         //same format as above. See CalendarCache
-        SharedPreferences eventPreferences = mContext.getSharedPreferences("events", 0);
+        SharedPreferences eventPreferences = mActivity.getSharedPreferences("events", 0);
         int lowerBoundDate = eventPreferences.getInt("botBoundDate", 0);
         int topBoundDate = eventPreferences.getInt("topBoundDate", 0);
         return DateFormater.inInterval(lowerBoundDate, topBoundDate, eventsParseFormat);
+    }
+
+    private void pullDataFromInternet() {
+        EventsJSONReader newData = new EventsJSONReader("http://calendar.yale.edu/feeds/feed/opa/json/" + DateFormater.calendarDateToJSONQuery(mYear, mMonth) + "/30days", mActivity);
+        Log.i("CalendarFragment", "Pulling uncached data using query http://calendar.yale.edu/feeds/feed/opa/json/\" + dateFormater.calendarDateToJSONQuery(year, month) + /30days");
+        newData.execute();
     }
 }

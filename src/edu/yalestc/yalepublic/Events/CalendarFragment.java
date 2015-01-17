@@ -3,10 +3,8 @@ package edu.yalestc.yalepublic.Events;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -106,12 +104,8 @@ public class CalendarFragment extends Fragment {
 
         calendarAdapter = new EventsCalendarGridAdapter(getActivity());
         calendarAdapter.update(year, month);
-        if(!isCached()) {
-            pullDataFromInternet();
-            listEvents = new EventsCalendarEventList(getActivity(), new EventsParseForDateWithinCategory(mRawData, month, year, getActivity(), mExtras.getInt("numberOfCategorySearchedFor")), year, month, calendarAdapter.getCurrentlySelected(), mExtras.getIntArray("colors"), mExtras.getIntArray("colorsFrom"));
-        } else {
-            listEvents = new EventsCalendarEventList(getActivity(), year, month, calendarAdapter.getCurrentlySelected(), mExtras.getInt("numberOfCategorySearchedFor"), mExtras.getIntArray("colors"), mExtras.getIntArray("colorsFrom"));
-        }
+
+        listEvents = new EventsCalendarEventList(getActivity(), year, month, calendarAdapter.getCurrentlySelected(), mExtras.getInt("category"), mExtras.getIntArray("colors"), mExtras.getIntArray("colorsFrom"));
         ((ListView) ((RelativeLayout) rootView).getChildAt(4)).setAdapter(listEvents);
 
             //set the listener for elements on the list, create intent and add all the information required
@@ -169,7 +163,7 @@ public class CalendarFragment extends Fragment {
                     calendarAdapter.setCurrentlySelected(i);
                     //get new set of items to be displayed in the list of events beneath the calendar
                     listEvents.setmSelectedDayOfMonth(calendarAdapter.getDayNumber(i));
-                    //update the list of events
+                    //updateEvents the list of events
                     listEvents.notifyDataSetChanged();
                     //change the drawables of tiles that become "selected"
                     //NOTE: -1 in below tells calendarAdapter to look at currentlySelected (stored within the adapter)
@@ -190,7 +184,7 @@ public class CalendarFragment extends Fragment {
         return rootView;
     }
 
-        //change the month by i and update related fields. That includes: year, calendarAdapter, dayOfWeek
+        //change the month by i and updateEvents related fields. That includes: year, calendarAdapter, dayOfWeek
     //daysInMonth, monthName, mRawData, listEvents
     void updateMonthAndData(int i) {
         c.getFirstDayOfWeek();
@@ -211,34 +205,10 @@ public class CalendarFragment extends Fragment {
         dayOfWeek = c.get(Calendar.DAY_OF_WEEK_IN_MONTH);
         //notify the adapter of new date
         calendarAdapter.update(year, month);
-        //ask adapter to update the UI
+        //ask adapter to updateEvents the UI
         calendarAdapter.notifyDataSetChanged();
-        if(!isCached()){
-            //pull new data for a given month!!
-            pullDataFromInternet();
-        } else {
-            listEvents.update(mRawData, month, year);
-        }
-            //set the proper name of month at the header of the calendar
+        listEvents.update(year, month);
+        //set the proper name of month at the header of the calendar
         ((TextView) ((RelativeLayout) (((RelativeLayout) rootView).getChildAt(0))).getChildAt(1)).setText(monthName);
-    }
-
-    private void pullDataFromInternet() {
-        EventsJSONReader newData = new EventsJSONReader("http://calendar.yale.edu/feeds/feed/opa/json/" + DateFormater.calendarDateToJSONQuery(year, month) + "/30days", mActivity);
-        Log.i("CalendarFragment", "Pulling uncached data using query http://calendar.yale.edu/feeds/feed/opa/json/\" + dateFormater.calendarDateToJSONQuery(year, month) + /30days");
-        newData.execute();
-    }
-
-    private boolean isCached(){
-        //YYYYMM01 format
-        int eventsParseFormat = Integer.parseInt(DateFormater.caledarDateToEventsParseForDate(year, month, 1));
-        Log.i("CalendarFragment", "Checking if date " + Integer.toString(eventsParseFormat) + " is cached");
-        //same format as above. See CalendarCache
-        SharedPreferences eventPreferences = getActivity().getSharedPreferences("events", 0);
-        int lowerBoundDate = eventPreferences.getInt("botBoundDate", 0);
-        int topBoundDate = eventPreferences.getInt("topBoundDate", 0);
-        boolean result = DateFormater.inInterval(lowerBoundDate, topBoundDate, eventsParseFormat);
-        Log.i("CalendarFragment",Boolean.toString(result));
-        return result;
     }
 }

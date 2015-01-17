@@ -73,7 +73,7 @@ public class CalendarCache extends JSONReader {
         }
     }
 
-        //can be used both to create and update preferences.
+        //can be used both to create and updateEvents preferences.
     private void updatePreferences(int currentYear, int currentMonth){
         SharedPreferences eventPreferences = mActivity.getSharedPreferences("events",0);
         SharedPreferences.Editor createEventPreferences = eventPreferences.edit();

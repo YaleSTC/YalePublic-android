@@ -2,7 +2,6 @@ package edu.yalestc.yalepublic.Events;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -10,6 +9,8 @@ import edu.yalestc.yalepublic.JSONReader;
 
 /**
  * Created by Stan Swidwinski on 1/10/15.
+ *
+ * Class downloading the data about events and displaying the progress dialog on screen.
  */
 public class EventsJSONReader extends JSONReader {
 
@@ -81,7 +82,7 @@ public class EventsJSONReader extends JSONReader {
     @Override
     protected void onPostExecute(String result){
         if(mAdapter != null && mYear != 0 && mMonth != 0){
-            mAdapter.update(mRawData, mYear, mMonth);
+            mAdapter.updateEvents(mRawData);
         }
         if(dialog != null && dialog.isShowing()){
             dialog.dismiss();

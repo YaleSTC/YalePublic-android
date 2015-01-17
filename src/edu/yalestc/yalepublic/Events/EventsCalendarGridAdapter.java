@@ -43,7 +43,7 @@ public class EventsCalendarGridAdapter extends BaseAdapter{
             currentlySelected = c.get(Calendar.DAY_OF_MONTH);
         }
 
-            //month and year are set from outside, we need to update the inner values every time we change them
+            //month and year are set from outside, we need to updateEvents the inner values every time we change them
         //using onclick listeners in the main activity!
         public void update(int year, int month) {
             mYear = year;
@@ -63,7 +63,7 @@ public class EventsCalendarGridAdapter extends BaseAdapter{
             return currentlySelected;
         }
 
-            //used in the onClickListeners to update the value.
+            //used in the onClickListeners to updateEvents the value.
         public void setCurrentlySelected(int i){
                 currentlySelected = i;
             }
