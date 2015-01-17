@@ -80,13 +80,13 @@ public class CalendarCache extends JSONReader {
         int mYear = currentYear;
         int mMonth = currentMonth;
         int mDay = 1;
-        createEventPreferences.putInt("dateCached", Integer.parseInt(DateFormater.formatDateForEventsParseForDate(mYear, mMonth, mDay)));
+        createEventPreferences.putInt("dateCached", Integer.parseInt(DateFormater.caledarDateToEventsParseForDate(mYear, mMonth, mDay)));
         int topMonth = mMonth + 2;
         int topYear = mYear;
-        createEventPreferences.putInt("topBoundDate", Integer.parseInt(DateFormater.formatDateForEventsParseForDate(topYear, topMonth, mDay)));
+        createEventPreferences.putInt("topBoundDate", Integer.parseInt(DateFormater.caledarDateToEventsParseForDate(topYear, topMonth, mDay)));
         int botYear = mYear;
         int botMonth = mMonth - 1;
-        createEventPreferences.putInt("botBoundDate", Integer.parseInt(DateFormater.formatDateForEventsParseForDate(botYear, botMonth, mDay)));
+        createEventPreferences.putInt("botBoundDate", Integer.parseInt(DateFormater.caledarDateToEventsParseForDate(botYear, botMonth, mDay)));
         createEventPreferences.apply();
     }
 
@@ -98,8 +98,8 @@ public class CalendarCache extends JSONReader {
         EventsParseForDateWithinCategory parser = new EventsParseForDateWithinCategory(rawData, month - 1, year, mActivity, 0);
             //brute force all days
         for(int i = 1; i < 32; i++){
-            //formatDateForEventsParseForDate takes in calendar format so need to decrement the month
-            String date = DateFormater.formatDateForEventsParseForDate(year, month - 1, i);
+            //caledarDateToEventsParseForDate takes in calendar format so need to decrement the month
+            String date = DateFormater.caledarDateToEventsParseForDate(year, month - 1, i);
             Log.i("Cache", "date " + date);
             ArrayList<String[]> validEvents = parser.getEventsOnGivenDate(date);
             if(validEvents.size() > 0){
@@ -119,12 +119,12 @@ public class CalendarCache extends JSONReader {
         deleteObsolete(year, month, eventTable);
         for(int i = 0; i<4; i++){
             //-1 is effect of checking months from -1 in past to +2 in future
-            int before = (DateFormater.toYearMonthCalendToReal(year, month + i))*100;
-            int after = (DateFormater.toYearMonthCalendToReal(year, month + i - 1))*100;
+            int before = (DateFormater.yearMonthFromCalendarToStandard(year, month + i))*100;
+            int after = (DateFormater.yearMonthFromCalendarToStandard(year, month + i - 1))*100;
             Log.i("CalendarCache","Checking if events between " + Integer.toString(after) + " and " + Integer.toString(before) + " are present");
             if(eventTable.getEventsBeforeAndAfter(after, before).size() == 0){
-                int yearMonth = DateFormater.toYearMonthCalendToReal(year, month + i - 1);
-                String query = "http://calendar.yale.edu/feeds/feed/opa/json/" + DateFormater.formatDateForJSONQuery(year, month + i - 1) + "/30days";
+                int yearMonth = DateFormater.yearMonthFromCalendarToStandard(year, month + i - 1);
+                String query = "http://calendar.yale.edu/feeds/feed/opa/json/" + DateFormater.calendarDateToJSONQuery(year, month + i - 1) + "/30days";
                 super.setURL(query);
                 String result = super.getData();
                 Log.i("Cache", "contents of result[" + Integer.toString(i) + "]:" + result.substring(0, 100));
@@ -143,9 +143,9 @@ public class CalendarCache extends JSONReader {
 
     private void deleteObsolete(int year, int month, CalendarDatabaseTableHandler eventTable){
         //YYYYMM00
-        int lowerbound = DateFormater.toYearMonthCalendToReal(year, month + 3)*100;
+        int lowerbound = DateFormater.yearMonthFromCalendarToStandard(year, month + 3)*100;
         //YYYYMM33
-        int upperbound = DateFormater.toYearMonthCalendToReal(year, month - 1)+33;
+        int upperbound = DateFormater.yearMonthFromCalendarToStandard(year, month - 1)+33;
         eventTable.deleteEvents(lowerbound, upperbound);
     }
 
@@ -160,8 +160,8 @@ public class CalendarCache extends JSONReader {
         yearMonth = new int[4];
         results = new String[4];
         for (int i = 0; i < 4; i++){
-            yearMonth[i] = DateFormater.toYearMonthCalendToReal(year, month + i - 1);
-            queries[i] = "http://calendar.yale.edu/feeds/feed/opa/json/" + DateFormater.formatDateForJSONQuery(year, month + i - 1) + "/30days";
+            yearMonth[i] = DateFormater.yearMonthFromCalendarToStandard(year, month + i - 1);
+            queries[i] = "http://calendar.yale.edu/feeds/feed/opa/json/" + DateFormater.calendarDateToJSONQuery(year, month + i - 1) + "/30days";
             super.setURL(queries[i]);
             results[i] = super.getData();
             //Log.i("Cache", "contents of result[" + Integer.toString(i) + "]:" + results[i].substring(0, 100));

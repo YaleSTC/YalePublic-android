@@ -224,14 +224,14 @@ public class CalendarFragment extends Fragment {
     }
 
     private void pullDataFromInternet() {
-        EventsJSONReader newData = new EventsJSONReader("http://calendar.yale.edu/feeds/feed/opa/json/" + DateFormater.formatDateForJSONQuery(year, month) + "/30days", mActivity);
-        Log.i("CalendarFragment", "Pulling uncached data using query http://calendar.yale.edu/feeds/feed/opa/json/\" + dateFormater.formatDateForJSONQuery(year, month) + /30days");
+        EventsJSONReader newData = new EventsJSONReader("http://calendar.yale.edu/feeds/feed/opa/json/" + DateFormater.calendarDateToJSONQuery(year, month) + "/30days", mActivity);
+        Log.i("CalendarFragment", "Pulling uncached data using query http://calendar.yale.edu/feeds/feed/opa/json/\" + dateFormater.calendarDateToJSONQuery(year, month) + /30days");
         newData.execute();
     }
 
     private boolean isCached(){
         //YYYYMM01 format
-        int eventsParseFormat = Integer.parseInt(DateFormater.formatDateForEventsParseForDate(year, month, 1));
+        int eventsParseFormat = Integer.parseInt(DateFormater.caledarDateToEventsParseForDate(year, month, 1));
         Log.i("CalendarFragment", "Checking if date " + Integer.toString(eventsParseFormat) + " is cached");
         //same format as above. See CalendarCache
         SharedPreferences eventPreferences = getActivity().getSharedPreferences("events", 0);
