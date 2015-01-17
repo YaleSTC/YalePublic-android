@@ -52,9 +52,9 @@ public class NewsReader extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.news_items);
-        tRSSTitle = (TextView) findViewById(R.id.tvRSSTitle);
+        //tRSSTitle = (TextView) findViewById(R.id.tvRSSTitle);
 
-        tRSSTitle.setVisibility(View.GONE);     // Hide the top textview
+        //tRSSTitle.setVisibility(View.GONE);     // Hide the top textview
 
         downloadurl = this.getIntent().getStringExtra("rssfeed");
         Log.d("NewsReader passed", downloadurl);
