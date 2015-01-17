@@ -27,7 +27,7 @@ public class EventCategories extends Activity {
     //gradient colors - gradient from colorFrom to colorTo
     private int[] colorsTo;
     private int[] colorsFrom;
-    //button consists of two parts. lower is solid colors. these are the colors.
+    //button consists of two parts. lower is solid color, the top is gradient.
     private int[] colors;
 
     @Override
@@ -94,6 +94,7 @@ public class EventCategories extends Activity {
 
     //custom adapter creating relativelayouts consisting of  imageview and textview
     private class EventsCategoriesAdapter extends BaseAdapter {
+        //for DisplayMetrics
         private Context mContext;
         //for screen dimensions (so that it looks okay on all sizes of displays)
         private DisplayMetrics display;
@@ -128,11 +129,11 @@ public class EventCategories extends Activity {
             // i != 0 because the 0th element does not have an image in the imageView, so we do not want to reuse it!
             if (convertView != null && i != 0) {
                 ((ImageView) ((RelativeLayout) convertView).getChildAt(0)).setImageDrawable(rectangle);
-                ((RelativeLayout) convertView).setPadding(width/20, width/25, 0, width/25);
+                convertView.setPadding(width/20, width/25, 0, width/25);
                 ((TextView) ((RelativeLayout) convertView).getChildAt(1)).setTextSize(width/45);
                 ((TextView) ((RelativeLayout) convertView).getChildAt(1)).setText(categories[i]);
                 convertView.setBackgroundColor(Color.parseColor("#dbdbdd"));
-                return ((RelativeLayout) convertView);
+                return convertView;
 
             } else {
                 LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -150,6 +151,7 @@ public class EventCategories extends Activity {
             }
         }
 
+            //creates and returns the rounded rectangle on the left of category name.
         private LayerDrawable createRectangle(int i) {
             GradientDrawable[] layers = new GradientDrawable[2];
             layers[0] = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{colorsFrom[i], colorsTo[i]});
