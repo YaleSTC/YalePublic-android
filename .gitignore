@@ -1,0 +1,11 @@
+.classpath
+.gradle/
+.idea/
+.project
+YalePublic-android.iml
+bin/
+build/
+gen/
+local.properties
+res/
+src/
