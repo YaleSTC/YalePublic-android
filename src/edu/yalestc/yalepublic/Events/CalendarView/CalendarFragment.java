@@ -102,10 +102,10 @@ public class CalendarFragment extends Fragment {
             }
         });
 
-        calendarAdapter = new EventsCalendarGridAdapter(getActivity());
+        calendarAdapter = new EventsCalendarGridAdapter(mActivity);
         calendarAdapter.update(year, month);
 
-        listEvents = new EventsCalendarEventList(getActivity(), year, month, calendarAdapter.getCurrentlySelected(), mExtras.getInt("numberOfCategorySearchedFor"), mExtras.getIntArray("colors"), mExtras.getIntArray("colorsFrom"));
+        listEvents = new EventsCalendarEventList(mActivity, year, month, calendarAdapter.getCurrentlySelected(), mExtras.getInt("numberOfCategorySearchedFor"), mExtras.getIntArray("colors"), mExtras.getIntArray("colorsFrom"));
         ((ListView) ((RelativeLayout) rootView).getChildAt(4)).setAdapter(listEvents);
 
         //set the listener for elements on the list, create intent and add all the information required
