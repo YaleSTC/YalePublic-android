@@ -1,4 +1,4 @@
-package edu.yalestc.yalepublic.Events;
+package edu.yalestc.yalepublic.Events.CalendarView;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -19,6 +19,7 @@ import android.widget.TextView;
 import java.util.Calendar;
 import java.util.Locale;
 
+import edu.yalestc.yalepublic.Events.EventsDetails;
 import edu.yalestc.yalepublic.R;
 
 import static edu.yalestc.yalepublic.R.drawable.calendar_grid_button_current_selected;

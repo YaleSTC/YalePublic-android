@@ -1,4 +1,4 @@
-package edu.yalestc.yalepublic.Events;
+package edu.yalestc.yalepublic.Events.CalendarView;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
@@ -17,6 +17,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import edu.yalestc.yalepublic.Cache.CalendarDatabaseTableHandler;
+import edu.yalestc.yalepublic.Events.DateFormater;
+import edu.yalestc.yalepublic.Events.EventsJSONReader;
+import edu.yalestc.yalepublic.Events.EventsParseForDateWithinCategory;
 import edu.yalestc.yalepublic.R;
 
 /**
