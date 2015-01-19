@@ -55,8 +55,9 @@
 
     <drawable name="blue">#770000ff</drawable>
     <!-- see res/values-v21/styles.xml for usage of these colors -->
-    <color name="primary">#29B6F6</color>
-    <color name="primary_dark">#039BE5</color>
+    <color name="primary">#1b5697</color>
+    <color name="primary_dark">#16457923</color>
     <color name="accent">#AED581</color>
     <color name="text_primary">#B0BEC5</color>
+    <color name="text_white">#ffffff</color>
 </resources>
