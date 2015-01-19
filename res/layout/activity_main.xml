@@ -36,7 +36,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:src="@drawable/thumb_news_default"
+                    android:src="@drawable/module_news_default"
                     android:clickable="true"
                     android:background="@android:color/transparent"/>
 
@@ -61,7 +61,7 @@
                     android:id="@+id/bDirectory"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/thumb_directory_default"
+                    android:src="@drawable/module_directory_default"
                     android:clickable="true"
                     android:background="@android:color/transparent"/>
 
@@ -85,7 +85,7 @@
                     android:id="@+id/bMaps"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/thumb_maps_default"
+                    android:src="@drawable/module_maps_default"
                     android:clickable="true"
                     android:background="@android:color/transparent"/>
 
@@ -118,7 +118,7 @@
                     android:id="@+id/bVideos"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/thumb_videos_default"
+                    android:src="@drawable/module_videos_default"
                     android:clickable="true"
                     android:background="@android:color/transparent"/>
 
@@ -142,7 +142,7 @@
                     android:id="@+id/bPhotos"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/thumb_photos_default"
+                    android:src="@drawable/module_photos_default"
                     android:clickable="true"
                     android:background="@android:color/transparent"/>
 
@@ -166,7 +166,7 @@
                     android:id="@+id/bEvents"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/thumb_events_default"
+                    android:src="@drawable/module_events_default"
                     android:clickable="true"
                     android:background="@android:color/transparent"/>
 
@@ -199,7 +199,7 @@
                     android:id="@+id/bTransit"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/thumb_transit_default"
+                    android:src="@drawable/module_transit_default"
                     android:clickable="true"
                     android:background="@android:color/transparent"/>
 
@@ -223,7 +223,7 @@
                     android:id="@+id/bAthletics"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/thumb_athletics_default"
+                    android:src="@drawable/module_athletics_default"
                     android:clickable="true"
                     android:background="@android:color/transparent"/>
 
@@ -247,7 +247,7 @@
                     android:id="@+id/bArts"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/thumb_arts_events_default"
+                    android:src="@drawable/module_arts_events_default"
                     android:clickable="true"
                     android:background="@android:color/transparent"/>
 
