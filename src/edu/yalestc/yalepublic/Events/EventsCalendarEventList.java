@@ -188,9 +188,10 @@ public class EventsCalendarEventList extends BaseAdapter {
     }
 
     private void pullDataFromInternet() {
-        EventsJSONReader newData = new EventsJSONReader("http://calendar.yale.edu/feeds/feed/opa/json/" + DateFormater.calendarDateToJSONQuery(mYear, mMonth-1) + "/30days", mActivity);
+        String dateSearched = DateFormater.calendarDateToJSONQuery(mYear, mMonth - 1);
+        EventsJSONReader newData = new EventsJSONReader("http://calendar.yale.edu/feeds/feed/opa/json/" + dateSearched + "/30days", mActivity);
         newData.setEventsListAdapter(this);
-        Log.i("EventsCalendarEventList", "Pulling uncached data using query http://calendar.yale.edu/feeds/feed/opa/json/" + DateFormater.calendarDateToJSONQuery(mYear, mMonth-1) + "/30days");
+        Log.i("EventsCalendarEventList", "Pulling uncached data using query http://calendar.yale.edu/feeds/feed/opa/json/" + dateSearched + "/30days");
         newData.execute();
     }
 }
