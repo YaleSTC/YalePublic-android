@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import edu.yalestc.yalepublic.Cache.CalendarCache;
 import edu.yalestc.yalepublic.Cache.CalendarDatabaseTableHandler;
 import edu.yalestc.yalepublic.Events.DateFormater;
 import edu.yalestc.yalepublic.Events.EventsJSONReader;
@@ -92,7 +93,7 @@ public class EventsCalendarEventList extends BaseAdapter {
     //then calls updateEvents once it is done, so there is no need to call it at all.
     public void update(int year, int month) {
         updateMonthYear(year, month);
-        if (!isCached()) {
+        if (!CalendarCache.isCached(mActivity, mMonth, mYear)) {
             pullDataFromInternet();
         }
     }
@@ -101,7 +102,7 @@ public class EventsCalendarEventList extends BaseAdapter {
     public void setmSelectedDayOfMonth(int selectedDayOfMonth) {
         mSelectedDayOfMonth = selectedDayOfMonth;
         //getting the dataset to display depends on the existance of it in the cached database
-        if (!isCached()) {
+        if (!CalendarCache.isCached(mActivity, mMonth, mYear)) {
             eventsOnCurrentDay = allTheEvents.getEventsOnGivenDate((DateFormater.convertDateToString(mYear, mMonth, mSelectedDayOfMonth)));
         } else {
             CalendarDatabaseTableHandler db = new CalendarDatabaseTableHandler(mActivity);
@@ -175,19 +176,6 @@ public class EventsCalendarEventList extends BaseAdapter {
         blob.setGradientCenter((float) 0.5, (float) 0.0);
 
         return blob;
-    }
-
-    private boolean isCached() {
-        //YYYYMM01 format
-        int eventsParseFormat = Integer.parseInt(DateFormater.calendarDateToEventsParseForDate(mYear, mMonth - 1, 1));
-        Log.i("EventsCalendarEventList", "Checking if date " + Integer.toString(eventsParseFormat) + " is cached");
-        //same format as above. See CalendarCache
-        SharedPreferences eventPreferences = mActivity.getSharedPreferences("events", 0);
-        int lowerBoundDate = eventPreferences.getInt("botBoundDate", 0);
-        int topBoundDate = eventPreferences.getInt("topBoundDate", 0);
-        boolean result = DateFormater.inInterval(lowerBoundDate, topBoundDate, eventsParseFormat);
-        Log.i("EventsCalendarEventList", Boolean.toString(result));
-        return result;
     }
 
     private void pullDataFromInternet() {
