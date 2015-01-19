@@ -185,4 +185,17 @@ public class CalendarCache extends JSONReader {
         //create the preferences
         updatePreferences(year, month);
     }
+
+    public static boolean isCached(Activity mActivity, int month, int year){
+            //YYYYMM01 format
+            int eventsParseFormat = Integer.parseInt(DateFormater.calendarDateToEventsParseForDate(year, month - 1, 1));
+            Log.i("EventsCalendarEventList", "Checking if date " + Integer.toString(eventsParseFormat) + " is cached");
+            //same format as above. See CalendarCache
+            SharedPreferences eventPreferences = mActivity.getSharedPreferences("events", 0);
+            int lowerBoundDate = eventPreferences.getInt("botBoundDate", 0);
+            int topBoundDate = eventPreferences.getInt("topBoundDate", 0);
+            boolean result = DateFormater.inInterval(lowerBoundDate, topBoundDate, eventsParseFormat);
+            Log.i("EventsCalendarEventList", Boolean.toString(result));
+            return result;
+    }
 }
