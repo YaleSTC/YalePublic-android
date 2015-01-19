@@ -106,5 +106,6 @@
     <string name="rss_reader">RSS Reader</string>
     <string name="title">Title</string>
     <string name="date">Date</string>
+    <string name="yale">Yale University</string>
 
 </resources>

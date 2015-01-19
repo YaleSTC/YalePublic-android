@@ -83,7 +83,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         ActionBar actionbar = getActionBar();
         //actionbar.setDisplayHomeAsUpEnabled(true); // Show home as a back arrow
-        actionbar.setDisplayShowHomeEnabled(true);   // Show application logo
+        //actionbar.setDisplayShowHomeEnabled(true);   // Show application logo
         actionbar.setDisplayShowTitleEnabled(true);  // Show activity title/subtitle
         actionbar.setDisplayUseLogoEnabled(false);   // Use activity logo instead of activity icon
         //actionbar.setTitle("Yale");                // Set title
