@@ -19,8 +19,7 @@ public class EventsJSONReader extends JSONReader {
     Activity mActivity;
     private ProgressDialog dialog;
     private String mRawData;
-    private EventsCalendarEventList calendarAdapter;
-    private EventsListAdapter listAdapter;
+    private EventsAdapterForLists mAdapter;
 
     public EventsJSONReader(Activity activity) {
         super(activity);
@@ -43,12 +42,8 @@ public class EventsJSONReader extends JSONReader {
         dialog.setIndeterminate(true);
     }
 
-    public void setCalendarListAdapter(EventsCalendarEventList adapter) {
-        calendarAdapter = adapter;
-    }
-
-    public void setListAdapter(EventsListAdapter adapter){
-        listAdapter = adapter;
+    public void setAdapter(EventsAdapterForLists adapter) {
+        mAdapter = adapter;
     }
 
     @Override
@@ -77,12 +72,9 @@ public class EventsJSONReader extends JSONReader {
 
     @Override
     protected void onPostExecute(String result) {
-        if (calendarAdapter != null) {
-            calendarAdapter.updateEvents(mRawData);
+        if (mAdapter != null) {
+            mAdapter.updateEvents(mRawData);
             Log.i("EventsJSONReader", "Updating the events data set in calendar adapter");
-        } else if (listAdapter != null) {
-            listAdapter.updateEvents(mRawData);
-            Log.i("EventsJSONReader", "Updating the events data set in list adapter");
         }
 
         if (dialog != null && dialog.isShowing()) {

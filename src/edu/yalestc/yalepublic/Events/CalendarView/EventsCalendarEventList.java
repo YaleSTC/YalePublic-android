@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import edu.yalestc.yalepublic.Cache.CalendarCache;
 import edu.yalestc.yalepublic.Cache.CalendarDatabaseTableHandler;
 import edu.yalestc.yalepublic.Events.DateFormater;
+import edu.yalestc.yalepublic.Events.EventsAdapterForLists;
 import edu.yalestc.yalepublic.Events.EventsJSONReader;
 import edu.yalestc.yalepublic.Events.EventsParseForDateWithinCategory;
 import edu.yalestc.yalepublic.R;
@@ -27,74 +28,26 @@ import edu.yalestc.yalepublic.R;
  * <p/>
  * Class handles displaying the data in the list beneath the custom calendar.
  */
-public class EventsCalendarEventList extends BaseAdapter {
-    //for inflating layouts and DisplayMetrics
-    private Activity mActivity;
-    private DisplayMetrics display;
-    private int height;
-    private int mYear;
-    //month here will be in the standard format
-    private int mMonth;
-    //for quicker parsing of events. Is passed in from MonthFragment. See EventsParseForDateWithinCategory for more information
-    //if allTheEvents is null, it means that we are using cached information!
-    private EventsParseForDateWithinCategory allTheEvents;
-    //workaround for now. There is a discrepancy between how EventsParseForDateWithinCategory and db work...
-    //IDEA: after any data-pulling always add it to db. It's text and is cleared every month. ----> seems like a good idea
-    private int mCategoryNo;
-    //for ovals next to time
-    private int[] mColors;
-    private int[] mColorsFrom;
+public class EventsCalendarEventList extends EventsAdapterForLists {
+
     //for displaying only relevant data. Given as the day of month as understood by EventsCalendarGridAdapter.getDayNumber()..
     private int mSelectedDayOfMonth;
     //array holding only the displayed events
     ArrayList<String[]> eventsOnCurrentDay;
 
     public EventsCalendarEventList(Activity activity, int year, int month, int selectedDayOfMonth, int category, int[] colors, int colorsFrom[]) {
+        super(activity, year, month, category, colors, colorsFrom);
         allTheEvents = null;
         mActivity = activity;
         update(year, month);
-        mColors = colors;
-        mColorsFrom = colorsFrom;
         mSelectedDayOfMonth = selectedDayOfMonth;
         CalendarDatabaseTableHandler db = new CalendarDatabaseTableHandler(mActivity);
         eventsOnCurrentDay = db.getEventsOnDateWithinCategory((DateFormater.convertDateToString(mYear, mMonth, mSelectedDayOfMonth)), mCategoryNo);
-        display = mActivity.getResources().getDisplayMetrics();
-        height = display.heightPixels;
-        mCategoryNo = category;
     }
 
     //used from CalendarFragment for getting the events
     public String[] getEventInfo(int whichEvent) {
         return eventsOnCurrentDay.get(whichEvent);
-    }
-
-    //sets new values to mMonth and mYear
-    public void updateMonthYear(int year, int month) {
-        mYear = year;
-        //because calendar operates on 0 - 11
-        mMonth = month + 1;
-    }
-
-    //called from EventsJSONReader after new data has been downloaded and is ready to be parsed.
-    public void updateEvents(String rawData) {
-        //allTheEvents is null as of the constructor, so need to check if it is the first time that
-        //we need to parse any data.
-        if (allTheEvents != null) {
-            //the parser accepts the calendar-formatted date!
-            allTheEvents.setNewEvents(rawData, mMonth - 1, mYear);
-        } else {
-            //the constructor by default takes in data to parse, so no need to call setNewEvents
-            allTheEvents = new EventsParseForDateWithinCategory(rawData, mMonth - 1, mYear, mActivity, mCategoryNo);
-        }
-    }
-
-    //set the new month and year, then pull the data from internet if needed. The AsyncTask
-    //then calls updateEvents once it is done, so there is no need to call it at all.
-    public void update(int year, int month) {
-        updateMonthYear(year, month);
-        if (!CalendarCache.isCached(mActivity, mMonth, mYear)) {
-            pullDataFromInternet();
-        }
     }
 
     //called when the selected day is changed. Updates the events for a given day and the day itself.
@@ -138,50 +91,12 @@ public class EventsCalendarEventList extends BaseAdapter {
             colorFrom = mColorsFrom[0];
         }
         //Log.v("EventsCalendarEventList", "Created a view for the " + Integer.toString(i) + " view");
-        GradientDrawable circle = createBlob(color, colorFrom);
+        GradientDrawable circle = super.createBlob(color, colorFrom);
 
         if (convertView != null) {
-            ((ImageView) ((RelativeLayout) convertView).getChildAt(0)).setImageDrawable(circle);
-            //set the time of the event
-            ((TextView) ((RelativeLayout) convertView).getChildAt(1)).setText(singleEvent[1]);
-            //set the title of the event
-            ((TextView) ((RelativeLayout) convertView).getChildAt(2)).setText(singleEvent[0]);
-            //set the place of the event
-            ((TextView) ((RelativeLayout) convertView).getChildAt(3)).setText(singleEvent[3]);
-            return convertView;
+            return super.recycleView((RelativeLayout) convertView, singleEvent, circle);
         } else {
-            RelativeLayout eventListElement = (RelativeLayout) LayoutInflater.from(mActivity).inflate(R.layout.calendar_list_element, null);
-            eventListElement.setMinimumHeight((int) (height * 0.104));
-            ((ImageView) eventListElement.getChildAt(0)).setImageDrawable(circle);
-            //set the time of the event
-            ((TextView) eventListElement.getChildAt(1)).setText(singleEvent[1]);
-            //set the title of the event
-            ((TextView) eventListElement.getChildAt(2)).setText(singleEvent[0]);
-            //set the palce of the event
-            ((TextView) eventListElement.getChildAt(3)).setText(singleEvent[3]);
-            eventListElement.setBackgroundColor(Color.parseColor("#dbdbdd"));
-            return eventListElement;
+            return super.createNewEventElement(singleEvent, circle);
         }
-    }
-
-    //make the little blob next to events name etc.
-    private GradientDrawable createBlob(int color, int colorFrom) {
-        int[] colors = new int[]{colorFrom, color};
-        GradientDrawable blob = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, colors);
-        blob.setShape(GradientDrawable.OVAL);
-        blob.setSize(40, 40);
-        blob.setGradientType(GradientDrawable.RADIAL_GRADIENT);
-        blob.setGradientRadius(30);
-        blob.setGradientCenter((float) 0.5, (float) 0.0);
-
-        return blob;
-    }
-
-    private void pullDataFromInternet() {
-        String dateSearched = DateFormater.calendarDateToJSONQuery(mYear, mMonth - 1);
-        EventsJSONReader newData = new EventsJSONReader("http://calendar.yale.edu/feeds/feed/opa/json/" + dateSearched + "/30days", mActivity);
-        newData.setCalendarListAdapter(this);
-        Log.i("EventsCalendarEventList", "Pulling uncached data using query http://calendar.yale.edu/feeds/feed/opa/json/" + dateSearched + "/30days");
-        newData.execute();
     }
 }
