@@ -68,8 +68,7 @@ public class DateFormater {
     public static String convertDateToString(int year, int month, int day){
         String result = "";
             //input calendar format to the yearMonthFromCalendarToStandard and than change it back to real format!
-        result = Integer.toString(yearMonthFromCalendarToStandard(year, month - 1));
-        result += dayToString(day);
+        result = Integer.toString(yearMonthFromCalendarToStandard(year, month - 1)) + dayToString(day);
         return result;
     }
 
@@ -84,8 +83,7 @@ public class DateFormater {
             month = month + 12;
             year--;
         }
-        result = Integer.toString(year) + "-" + monthFromCalendarToStandard(month);
-        result += "-01";
+        result = Integer.toString(year) + "-" + monthFromCalendarToStandard(month) + "-01";
         return result;
     }
 
