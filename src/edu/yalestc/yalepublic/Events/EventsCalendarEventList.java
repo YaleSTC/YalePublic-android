@@ -176,7 +176,7 @@ public class EventsCalendarEventList extends BaseAdapter {
 
     private boolean isCached(){
         //YYYYMM01 format
-        int eventsParseFormat = Integer.parseInt(DateFormater.caledarDateToEventsParseForDate(mYear, mMonth - 1, 1));
+        int eventsParseFormat = Integer.parseInt(DateFormater.calendarDateToEventsParseForDate(mYear, mMonth - 1, 1));
         Log.i("EventsCalendarEventList", "Checking if date " + Integer.toString(eventsParseFormat) + " is cached");
         //same format as above. See CalendarCache
         SharedPreferences eventPreferences = mActivity.getSharedPreferences("events", 0);

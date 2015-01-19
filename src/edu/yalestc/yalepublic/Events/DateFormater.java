@@ -90,7 +90,7 @@ public class DateFormater {
     }
 
         //from calendar format to standard format. The output is of the format YYYYMMDD.
-    public static String caledarDateToEventsParseForDate(int year, int calendarMonth, int day){
+    public static String calendarDateToEventsParseForDate(int year, int calendarMonth, int day){
         int myMonth = calendarMonth;
         String result = "";
         if(calendarMonth > 11){

@@ -80,13 +80,13 @@ public class CalendarCache extends JSONReader {
         int mYear = currentYear;
         int mMonth = currentMonth;
         int mDay = 1;
-        createEventPreferences.putInt("dateCached", Integer.parseInt(DateFormater.caledarDateToEventsParseForDate(mYear, mMonth, mDay)));
+        createEventPreferences.putInt("dateCached", Integer.parseInt(DateFormater.calendarDateToEventsParseForDate(mYear, mMonth, mDay)));
         int topMonth = mMonth + 2;
         int topYear = mYear;
-        createEventPreferences.putInt("topBoundDate", Integer.parseInt(DateFormater.caledarDateToEventsParseForDate(topYear, topMonth, mDay)));
+        createEventPreferences.putInt("topBoundDate", Integer.parseInt(DateFormater.calendarDateToEventsParseForDate(topYear, topMonth, mDay)));
         int botYear = mYear;
         int botMonth = mMonth - 1;
-        createEventPreferences.putInt("botBoundDate", Integer.parseInt(DateFormater.caledarDateToEventsParseForDate(botYear, botMonth, mDay)));
+        createEventPreferences.putInt("botBoundDate", Integer.parseInt(DateFormater.calendarDateToEventsParseForDate(botYear, botMonth, mDay)));
         createEventPreferences.apply();
     }
 
@@ -98,8 +98,8 @@ public class CalendarCache extends JSONReader {
         EventsParseForDateWithinCategory parser = new EventsParseForDateWithinCategory(rawData, month - 1, year, mActivity, 0);
             //brute force all days
         for(int i = 1; i < 32; i++){
-            //caledarDateToEventsParseForDate takes in calendar format so need to decrement the month
-            String date = DateFormater.caledarDateToEventsParseForDate(year, month - 1, i);
+            //calendarDateToEventsParseForDate takes in calendar format so need to decrement the month
+            String date = DateFormater.calendarDateToEventsParseForDate(year, month - 1, i);
             Log.i("Cache", "date " + date);
             ArrayList<String[]> validEvents = parser.getEventsOnGivenDate(date);
             if(validEvents.size() > 0){
