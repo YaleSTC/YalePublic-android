@@ -3,10 +3,8 @@ package edu.yalestc.yalepublic.Events;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,15 +28,14 @@ import static edu.yalestc.yalepublic.R.drawable.calendar_grid_button_unselected;
 
 /**
  * Created by Stan Swidwinski on 11/17/14.
- *
+ * <p/>
  * Fragment being the core of the calendar screen.
- *
  */
 
 public class CalendarFragment extends Fragment {
 
     View rootView;
-        //for keeping track of parent activity, specifically when onAttach after detaching
+    //for keeping track of parent activity, specifically when onAttach after detaching
     Activity mActivity;
     Calendar c = Calendar.getInstance();
     int month = c.get(Calendar.MONTH);
@@ -46,18 +43,18 @@ public class CalendarFragment extends Fragment {
     String monthName = c.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault());
     int daysInMonth = c.getActualMaximum(Calendar.DAY_OF_MONTH);
     int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
-        //grids
+    //grids
     EventsCalendarGridAdapter calendarAdapter;
-        //list under the calendar grids
+    //list under the calendar grids
     EventsCalendarEventList listEvents;
-        //passed using static newInstance, assigned in onCreate()
+    //passed using static newInstance, assigned in onCreate()
     Bundle mExtras;
-        //For rawData pulled from internet (raw JSON)
+    //For rawData pulled from internet (raw JSON)
     String mRawData;
 
-        //since fragments need empty constructor, a static function for creatino of new fragments
+    //since fragments need empty constructor, a static function for creatino of new fragments
     //is necessary
-    public static final CalendarFragment newInstance(Bundle extras){
+    public static final CalendarFragment newInstance(Bundle extras) {
         CalendarFragment f = new CalendarFragment();
         Bundle bld = extras;
         //Arguments can and are accessed within a fragment. See onCreate();
@@ -65,11 +62,11 @@ public class CalendarFragment extends Fragment {
         return f;
     }
 
-    public CalendarFragment(){
+    public CalendarFragment() {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState){
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mRawData = null;
         mExtras = getArguments();
@@ -85,10 +82,10 @@ public class CalendarFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.events_calendar, container, false);
-            //set the month name above the calendar grids
+        //set the month name above the calendar grids
         ((TextView) ((RelativeLayout) (((RelativeLayout) rootView).getChildAt(0))).getChildAt(1)).setText(monthName);
 
-            //set the onclick listener of arrow changing month to the previous one
+        //set the onclick listener of arrow changing month to the previous one
         ((Button) ((RelativeLayout) (((RelativeLayout) rootView).getChildAt(0))).getChildAt(0)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -96,7 +93,7 @@ public class CalendarFragment extends Fragment {
             }
         });
 
-             //set onclick listener to arrow changing the month to the next one
+        //set onclick listener to arrow changing the month to the next one
         ((Button) ((RelativeLayout) (((RelativeLayout) rootView).getChildAt(0))).getChildAt(2)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -106,24 +103,20 @@ public class CalendarFragment extends Fragment {
 
         calendarAdapter = new EventsCalendarGridAdapter(getActivity());
         calendarAdapter.update(year, month);
-        if(!isCached()) {
-            pullDataFromInternet();
-            listEvents = new EventsCalendarEventList(getActivity(), new EventsParseForDateWithinCategory(mRawData, month, year, getActivity(), mExtras.getInt("numberOfCategorySearchedFor")), year, month, calendarAdapter.getCurrentlySelected(), mExtras.getIntArray("colors"), mExtras.getIntArray("colorsFrom"));
-        } else {
-            listEvents = new EventsCalendarEventList(getActivity(), year, month, calendarAdapter.getCurrentlySelected(), mExtras.getInt("numberOfCategorySearchedFor"), mExtras.getIntArray("colors"), mExtras.getIntArray("colorsFrom"));
-        }
+
+        listEvents = new EventsCalendarEventList(getActivity(), year, month, calendarAdapter.getCurrentlySelected(), mExtras.getInt("numberOfCategorySearchedFor"), mExtras.getIntArray("colors"), mExtras.getIntArray("colorsFrom"));
         ((ListView) ((RelativeLayout) rootView).getChildAt(4)).setAdapter(listEvents);
 
-            //set the listener for elements on the list, create intent and add all the information required
-        ((ListView) ((RelativeLayout) rootView).getChildAt(4)).setOnItemClickListener(new AdapterView.OnItemClickListener(){
+        //set the listener for elements on the list, create intent and add all the information required
+        ((ListView) ((RelativeLayout) rootView).getChildAt(4)).setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String[] eventInfo = listEvents.getEventInfo(i);
                 int color, colorTo, colorFrom;
-                    //depending on the category, we either have a single color (!=0) or many colors
-                    // (0)
-                if(mExtras.getIntArray("colors").length == 1){
+                //depending on the category, we either have a single color (!=0) or many colors
+                // (0)
+                if (mExtras.getIntArray("colors").length == 1) {
                     color = mExtras.getIntArray("colors")[0];
                     colorTo = mExtras.getIntArray("colorsTo")[0];
                     colorFrom = mExtras.getIntArray("colorsFrom")[0];
@@ -133,22 +126,22 @@ public class CalendarFragment extends Fragment {
                     colorFrom = mExtras.getIntArray("colorsFrom")[Integer.parseInt(eventInfo[6])];
                 }
                 Intent eventDetails = new Intent(getActivity(), EventsDetails.class);
-                eventDetails.putExtra("title",eventInfo[0]);
-                eventDetails.putExtra("start",eventInfo[4] + eventInfo[1]);
-                eventDetails.putExtra("end",eventInfo[4] + eventInfo[2]);
-                    //category color in the middle of the blob/rectangle
-                eventDetails.putExtra("color",color);
-                    //category color at the bottom of the blob/rectangle
+                eventDetails.putExtra("title", eventInfo[0]);
+                eventDetails.putExtra("start", eventInfo[4] + eventInfo[1]);
+                eventDetails.putExtra("end", eventInfo[4] + eventInfo[2]);
+                //category color in the middle of the blob/rectangle
+                eventDetails.putExtra("color", color);
+                //category color at the bottom of the blob/rectangle
                 eventDetails.putExtra("colorTo", colorTo);
-                    //category color at the top of the blob/rectangle
+                //category color at the top of the blob/rectangle
                 eventDetails.putExtra("colorFrom", colorFrom);
-                eventDetails.putExtra("description",eventInfo[5]);
-                eventDetails.putExtra("location",eventInfo[3]);
+                eventDetails.putExtra("description", eventInfo[5]);
+                eventDetails.putExtra("location", eventInfo[3]);
                 startActivity(eventDetails);
             }
         });
         ((GridView) (((RelativeLayout) rootView).getChildAt(2))).setAdapter(calendarAdapter);
-            //onClickListener for the grids within the calendar
+        //onClickListener for the grids within the calendar
         ((GridView) (((RelativeLayout) rootView).getChildAt(2))).setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -169,7 +162,7 @@ public class CalendarFragment extends Fragment {
                     calendarAdapter.setCurrentlySelected(i);
                     //get new set of items to be displayed in the list of events beneath the calendar
                     listEvents.setmSelectedDayOfMonth(calendarAdapter.getDayNumber(i));
-                    //update the list of events
+                    //updateEvents the list of events
                     listEvents.notifyDataSetChanged();
                     //change the drawables of tiles that become "selected"
                     //NOTE: -1 in below tells calendarAdapter to look at currentlySelected (stored within the adapter)
@@ -190,7 +183,7 @@ public class CalendarFragment extends Fragment {
         return rootView;
     }
 
-        //change the month by i and update related fields. That includes: year, calendarAdapter, dayOfWeek
+    //change the month by i and updateEvents related fields. That includes: year, calendarAdapter, dayOfWeek
     //daysInMonth, monthName, mRawData, listEvents
     void updateMonthAndData(int i) {
         c.getFirstDayOfWeek();
@@ -211,34 +204,10 @@ public class CalendarFragment extends Fragment {
         dayOfWeek = c.get(Calendar.DAY_OF_WEEK_IN_MONTH);
         //notify the adapter of new date
         calendarAdapter.update(year, month);
-        //ask adapter to update the UI
+        //ask adapter to updateEvents the UI
         calendarAdapter.notifyDataSetChanged();
-        if(!isCached()){
-            //pull new data for a given month!!
-            pullDataFromInternet();
-        } else {
-            listEvents.update(mRawData, month, year);
-        }
-            //set the proper name of month at the header of the calendar
+        listEvents.update(year, month);
+        //set the proper name of month at the header of the calendar
         ((TextView) ((RelativeLayout) (((RelativeLayout) rootView).getChildAt(0))).getChildAt(1)).setText(monthName);
-    }
-
-    private void pullDataFromInternet() {
-        EventsJSONReader newData = new EventsJSONReader("http://calendar.yale.edu/feeds/feed/opa/json/" + DateFormater.formatDateForJSONQuery(year, month) + "/30days", mActivity);
-        Log.i("CalendarFragment", "Pulling uncached data using query http://calendar.yale.edu/feeds/feed/opa/json/\" + dateFormater.formatDateForJSONQuery(year, month) + /30days");
-        newData.execute();
-    }
-
-    private boolean isCached(){
-        //YYYYMM01 format
-        int eventsParseFormat = Integer.parseInt(DateFormater.formatDateForEventsParseForDate(year, month, 1));
-        Log.i("CalendarFragment", "Checking if date " + Integer.toString(eventsParseFormat) + " is cached");
-        //same format as above. See CalendarCache
-        SharedPreferences eventPreferences = getActivity().getSharedPreferences("events", 0);
-        int lowerBoundDate = eventPreferences.getInt("botBoundDate", 0);
-        int topBoundDate = eventPreferences.getInt("topBoundDate", 0);
-        boolean result = DateFormater.inInterval(lowerBoundDate, topBoundDate, eventsParseFormat);
-        Log.i("CalendarFragment",Boolean.toString(result));
-        return result;
     }
 }
