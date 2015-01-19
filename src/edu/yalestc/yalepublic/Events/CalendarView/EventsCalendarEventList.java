@@ -49,7 +49,7 @@ public class EventsCalendarEventList extends BaseAdapter {
     //array holding only the displayed events
     ArrayList<String[]> eventsOnCurrentDay;
 
-    EventsCalendarEventList(Activity activity, int year, int month, int selectedDayOfMonth, int category, int[] colors, int colorsFrom[]) {
+    public EventsCalendarEventList(Activity activity, int year, int month, int selectedDayOfMonth, int category, int[] colors, int colorsFrom[]) {
         allTheEvents = null;
         mActivity = activity;
         update(year, month);
