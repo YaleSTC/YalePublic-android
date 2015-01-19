@@ -1,5 +1,6 @@
 package edu.yalestc.yalepublic.News;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,6 +26,12 @@ public class NewsChooser extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ActionBar actionbar = getActionBar();
+        actionbar.setDisplayHomeAsUpEnabled(true);     // Show home as a back arrow
+        //actionbar.setDisplayShowHomeEnabled(true);     // Show application logo
+        actionbar.setDisplayShowTitleEnabled(true);    // Show activity title/subtitle
+        actionbar.setDisplayUseLogoEnabled(false);     // Use activity logo instead of activity icon
+        actionbar.setTitle(getString(R.string.news));  // Set title
 
         setContentView(R.layout.news_items);
         rss_feeds = getResources().getStringArray(R.array.rss_feeds); // Array of RSS URLs

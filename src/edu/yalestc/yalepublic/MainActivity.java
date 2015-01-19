@@ -2,6 +2,7 @@ package edu.yalestc.yalepublic;
 
 // import android.support.v7.app.ActionBarActivity;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -80,6 +81,13 @@ public class MainActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ActionBar actionbar = getActionBar();
+        //actionbar.setDisplayHomeAsUpEnabled(true); // Show home as a back arrow
+        actionbar.setDisplayShowHomeEnabled(true);   // Show application logo
+        actionbar.setDisplayShowTitleEnabled(true);  // Show activity title/subtitle
+        actionbar.setDisplayUseLogoEnabled(false);   // Use activity logo instead of activity icon
+        //actionbar.setTitle("Yale");                // Set title
+
         CalendarCache cache = new CalendarCache(this);
         cache.execute();
         /*Configuration config = getResources().getConfiguration();

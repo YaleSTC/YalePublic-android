@@ -25,6 +25,13 @@ public class EventsDisplay extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ActionBar actionbar = getActionBar();
+        actionbar.setDisplayHomeAsUpEnabled(true);     // Show home as a back arrow
+        //actionbar.setDisplayShowHomeEnabled(true);     // Show application logo
+        actionbar.setDisplayShowTitleEnabled(true);    // Show activity title/subtitle
+        actionbar.setDisplayUseLogoEnabled(false);     // Use activity logo instead of activity icon
+        actionbar.setTitle(getString(R.string.events));  // Set title
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_events_display);
 

@@ -1,5 +1,6 @@
 package edu.yalestc.yalepublic.Videos;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
@@ -21,6 +22,13 @@ public class PlaylistList extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ActionBar actionbar = getActionBar();
+        actionbar.setDisplayHomeAsUpEnabled(true);     // Show home as a back arrow
+        //actionbar.setDisplayShowHomeEnabled(true);     // Show application logo
+        actionbar.setDisplayShowTitleEnabled(true);    // Show activity title/subtitle
+        actionbar.setDisplayUseLogoEnabled(false);     // Use activity logo instead of activity icon
+        actionbar.setTitle(getString(R.string.videos));  // Set title
+
         setContentView(R.layout.activity_playlist_list);
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()

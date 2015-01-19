@@ -1,5 +1,6 @@
 package edu.yalestc.yalepublic;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -18,8 +19,8 @@ public class About extends Activity {
                 case R.id.ibFeedback:
                     Intent sendFeedback = new Intent(Intent.ACTION_SEND);
                     sendFeedback.setType("message/rfc822");
-                    sendFeedback.putExtra(Intent.EXTRA_EMAIL  , new String[]{"test-email@example.com"});
-                    sendFeedback.putExtra(Intent.EXTRA_SUBJECT, "YalePublic-android Feedback");
+                    sendFeedback.putExtra(Intent.EXTRA_EMAIL, new String[]{"mobile.apps@yale.edu"});
+                    sendFeedback.putExtra(Intent.EXTRA_SUBJECT, "Yale Feedback");
                     sendFeedback.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);  // TODO: Return to app after email
                     startActivity(sendFeedback);
                     break;
@@ -42,6 +43,12 @@ public class About extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ActionBar actionbar = getActionBar();
+        actionbar.setDisplayHomeAsUpEnabled(true);     // Show home as a back arrow
+        //actionbar.setDisplayShowHomeEnabled(true);     // Show application logo
+        actionbar.setDisplayShowTitleEnabled(true);    // Show activity title/subtitle
+        actionbar.setDisplayUseLogoEnabled(false);     // Use activity logo instead of activity icon
+        actionbar.setTitle(getString(R.string.action_about));  // Set title
         setContentView(R.layout.about_screen);
 
         findViewById(R.id.ibFeedback).setOnClickListener(ibListener);
