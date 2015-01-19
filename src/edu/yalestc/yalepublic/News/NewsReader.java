@@ -31,7 +31,6 @@ import edu.yalestc.yalepublic.R;
 
 public class NewsReader extends Activity {
 
-    TextView tRSSTitle;
     RssFeed feed;
     long time, timediff, hourdiff, daydiff;
     String downloadurl;
@@ -59,9 +58,6 @@ public class NewsReader extends Activity {
         actionbar.setTitle(getString(R.string.news));  // Set title
         super.onCreate(savedInstanceState);
         setContentView(R.layout.news_items);
-        //tRSSTitle = (TextView) findViewById(R.id.tvRSSTitle);
-
-        //tRSSTitle.setVisibility(View.GONE);     // Hide the top textview
 
         downloadurl = this.getIntent().getStringExtra("rssfeed");
         Log.d("NewsReader passed", downloadurl);
