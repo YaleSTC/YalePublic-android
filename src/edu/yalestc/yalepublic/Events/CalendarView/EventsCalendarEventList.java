@@ -1,7 +1,6 @@
 package edu.yalestc.yalepublic.Events.CalendarView;
 
 import android.app.Activity;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.util.DisplayMetrics;
@@ -181,7 +180,7 @@ public class EventsCalendarEventList extends BaseAdapter {
     private void pullDataFromInternet() {
         String dateSearched = DateFormater.calendarDateToJSONQuery(mYear, mMonth - 1);
         EventsJSONReader newData = new EventsJSONReader("http://calendar.yale.edu/feeds/feed/opa/json/" + dateSearched + "/30days", mActivity);
-        newData.setEventsListAdapter(this);
+        newData.setCalendarListAdapter(this);
         Log.i("EventsCalendarEventList", "Pulling uncached data using query http://calendar.yale.edu/feeds/feed/opa/json/" + dateSearched + "/30days");
         newData.execute();
     }
