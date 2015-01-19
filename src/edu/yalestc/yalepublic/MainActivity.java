@@ -172,7 +172,6 @@ public class MainActivity extends Activity {
         register(R.id.bTransit);
         register(R.id.bAthletics);
         register(R.id.bArts);
-        ;
     }
     
 
