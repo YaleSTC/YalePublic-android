@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import edu.yalestc.yalepublic.R;
 
 public class EventCategories extends Activity {
@@ -129,8 +130,8 @@ public class EventCategories extends Activity {
             // i != 0 because the 0th element does not have an image in the imageView, so we do not want to reuse it!
             if (convertView != null && i != 0) {
                 ((ImageView) ((RelativeLayout) convertView).getChildAt(0)).setImageDrawable(rectangle);
-                convertView.setPadding(width/20, width/25, 0, width/25);
-                ((TextView) ((RelativeLayout) convertView).getChildAt(1)).setTextSize(width/45);
+                convertView.setPadding(width / 20, width / 25, 0, width / 25);
+                ((TextView) ((RelativeLayout) convertView).getChildAt(1)).setTextSize(width / 45);
                 ((TextView) ((RelativeLayout) convertView).getChildAt(1)).setText(categories[i]);
                 convertView.setBackgroundColor(Color.parseColor("#dbdbdd"));
                 return convertView;
@@ -138,37 +139,37 @@ public class EventCategories extends Activity {
             } else {
                 LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 RelativeLayout button = ((RelativeLayout) inflater.inflate(R.layout.events_category_button, null));
-                button.setPadding(width/20, width/25, 0, width/25);
+                button.setPadding(width / 20, width / 25, 0, width / 25);
                 if (i == 0) {
 
                 } else {
                     ((ImageView) button.getChildAt(0)).setImageDrawable(rectangle);
                 }
-                ((TextView) button.getChildAt(1)).setTextSize(width/45);
+                ((TextView) button.getChildAt(1)).setTextSize(width / 45);
                 ((TextView) button.getChildAt(1)).setText(categories[i]);
                 button.setBackgroundColor(Color.parseColor("#dbdbdd"));
                 return button;
             }
         }
 
-            //creates and returns the rounded rectangle on the left of category name.
+        //creates and returns the rounded rectangle on the left of category name.
         private LayerDrawable createRectangle(int i) {
             GradientDrawable[] layers = new GradientDrawable[2];
             layers[0] = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{colorsFrom[i], colorsTo[i]});
             layers[0].setShape(GradientDrawable.RECTANGLE);
-            layers[0].setSize(width/10, width/20);
+            layers[0].setSize(width / 10, width / 20);
             //adding rounded corners
             layers[0].setCornerRadii(new float[]{16, 16, 16, 16, 0, 0, 0, 0});
 
             layers[1] = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{colors[i], colors[i]});
             layers[1].setShape(GradientDrawable.RECTANGLE);
-            layers[1].setSize(width/10, width/20);
+            layers[1].setSize(width / 10, width / 20);
             //adding rounded corners
             layers[1].setCornerRadii(new float[]{0, 0, 0, 0, 16, 16, 16, 16});
 
             LayerDrawable button = new LayerDrawable(layers);
-            button.setLayerInset(0, 0, 0, 0, width/20);
-            button.setLayerInset(1, 0, width/20, 0, 0);
+            button.setLayerInset(0, 0, 0, 0, width / 20);
+            button.setLayerInset(1, 0, width / 20, 0, 0);
             return button;
         }
     }

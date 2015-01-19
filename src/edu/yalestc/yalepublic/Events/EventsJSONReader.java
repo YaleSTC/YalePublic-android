@@ -9,7 +9,7 @@ import edu.yalestc.yalepublic.JSONReader;
 
 /**
  * Created by Stan Swidwinski on 1/10/15.
- *
+ * <p/>
  * Class downloading the data about events and displaying the progress dialog on screen.
  */
 public class EventsJSONReader extends JSONReader {
@@ -19,7 +19,7 @@ public class EventsJSONReader extends JSONReader {
     private String mRawData;
     private EventsCalendarEventList mAdapter;
 
-    public EventsJSONReader(Activity activity){
+    public EventsJSONReader(Activity activity) {
         super(activity);
         //for creating and getting preferences and tables!
         mActivity = activity;
@@ -30,7 +30,7 @@ public class EventsJSONReader extends JSONReader {
         dialog.setIndeterminate(true);
     }
 
-    public EventsJSONReader(String URL, Activity activity){
+    public EventsJSONReader(String URL, Activity activity) {
         super(URL, activity);
         mActivity = activity;
         dialog = new ProgressDialog(mActivity);
@@ -40,12 +40,12 @@ public class EventsJSONReader extends JSONReader {
         dialog.setIndeterminate(true);
     }
 
-    public void setEventsListAdapter(EventsCalendarEventList adapter){
+    public void setEventsListAdapter(EventsCalendarEventList adapter) {
         mAdapter = adapter;
     }
 
     @Override
-    protected void onPreExecute(){
+    protected void onPreExecute() {
         dialog.show();
     }
 
@@ -54,7 +54,7 @@ public class EventsJSONReader extends JSONReader {
         mRawData = super.getData();
         if (mRawData == null) {
             mActivity.runOnUiThread(new Runnable() {
-                public void run(){
+                public void run() {
                     Toast toast = new Toast(mActivity);
                     toast = Toast.makeText(mActivity, "You need internet connection to view the content!", Toast.LENGTH_LONG);
                     toast.show();
@@ -69,12 +69,12 @@ public class EventsJSONReader extends JSONReader {
     }
 
     @Override
-    protected void onPostExecute(String result){
-        if(mAdapter != null){
+    protected void onPostExecute(String result) {
+        if (mAdapter != null) {
             mAdapter.updateEvents(mRawData);
-            Log.i("EventsJSONReader","Updating the events data set in adapter");
+            Log.i("EventsJSONReader", "Updating the events data set in adapter");
         }
-        if(dialog != null && dialog.isShowing()){
+        if (dialog != null && dialog.isShowing()) {
             dialog.dismiss();
         }
     }

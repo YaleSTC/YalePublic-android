@@ -15,12 +15,12 @@ import edu.yalestc.yalepublic.R;
 
 public class EventsDisplay extends Activity {
     ActionBar.Tab monthT, weekT, dayT;
-//    private Fragment dayTab;
+    //    private Fragment dayTab;
     private Fragment monthTab;
-//    private Fragment weekTab;
+    //    private Fragment weekTab;
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM");
     String currentDate = dateFormat.format(new Date());
-        //for use in onCreate only. Later data pulling when the month is changed is done within the tabs fragments
+    //for use in onCreate only. Later data pulling when the month is changed is done within the tabs fragments
     private JSONReader dataPuller;
 
     @Override

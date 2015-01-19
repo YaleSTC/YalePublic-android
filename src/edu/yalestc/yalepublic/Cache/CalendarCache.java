@@ -36,7 +36,7 @@ public class CalendarCache extends JSONReader {
     final int month;
     private ProgressDialog dialog;
 
-    public CalendarCache(Activity activity){
+    public CalendarCache(Activity activity) {
         super(activity);
         //for creating and getting preferences and tables!
         mActivity = activity;
@@ -48,17 +48,17 @@ public class CalendarCache extends JSONReader {
         myCalendar = Calendar.getInstance();
         month = myCalendar.get(Calendar.MONTH);
         year = myCalendar.get(Calendar.YEAR);
-        prefs = mActivity.getSharedPreferences("events",0);
+        prefs = mActivity.getSharedPreferences("events", 0);
     }
 
     @Override
-    protected void onPreExecute(){
+    protected void onPreExecute() {
         dialog.show();
     }
 
     @Override
     protected String doInBackground(Void... voids) {
-        if(prefs.contains("dateCached")){
+        if (prefs.contains("dateCached")) {
             updateDatabase(year, month);
         } else {
             createDatabaseForTheFirstTime(year, month);
@@ -67,15 +67,15 @@ public class CalendarCache extends JSONReader {
     }
 
     @Override
-    protected void onPostExecute(String result){
-        if(dialog != null && dialog.isShowing()){
+    protected void onPostExecute(String result) {
+        if (dialog != null && dialog.isShowing()) {
             dialog.dismiss();
         }
     }
 
-        //can be used both to create and updateEvents preferences.
-    private void updatePreferences(int currentYear, int currentMonth){
-        SharedPreferences eventPreferences = mActivity.getSharedPreferences("events",0);
+    //can be used both to create and updateEvents preferences.
+    private void updatePreferences(int currentYear, int currentMonth) {
+        SharedPreferences eventPreferences = mActivity.getSharedPreferences("events", 0);
         SharedPreferences.Editor createEventPreferences = eventPreferences.edit();
         int mYear = currentYear;
         int mMonth = currentMonth;
@@ -90,20 +90,20 @@ public class CalendarCache extends JSONReader {
         createEventPreferences.apply();
     }
 
-        //month and year needed to query for events on given day. can be refactored by changing the EventsParseForDateWithinCategory class.
-    private void parseAndSaveToDb (String rawData, int year, int month){
+    //month and year needed to query for events on given day. can be refactored by changing the EventsParseForDateWithinCategory class.
+    private void parseAndSaveToDb(String rawData, int year, int month) {
         CalendarDatabaseTableHandler eventTable = new CalendarDatabaseTableHandler(mActivity);
-            //the 0 at the end means that we disregard the categories and just get all of them.
+        //the 0 at the end means that we disregard the categories and just get all of them.
         //-1 because we need calendar format and we provide real format
         EventsParseForDateWithinCategory parser = new EventsParseForDateWithinCategory(rawData, month - 1, year, mActivity, 0);
-            //brute force all days
-        for(int i = 1; i < 32; i++){
+        //brute force all days
+        for (int i = 1; i < 32; i++) {
             //calendarDateToEventsParseForDate takes in calendar format so need to decrement the month
             String date = DateFormater.calendarDateToEventsParseForDate(year, month - 1, i);
             Log.i("Cache", "date " + date);
             ArrayList<String[]> validEvents = parser.getEventsOnGivenDate(date);
-            if(validEvents.size() > 0){
-                for(String[] event : validEvents){
+            if (validEvents.size() > 0) {
+                for (String[] event : validEvents) {
                     eventTable.addEvent(event);
                 }
             }
@@ -114,15 +114,15 @@ public class CalendarCache extends JSONReader {
     //maybe instead of doing that just delete the whole database and redownload it? will be slower
     //but will have all events, even those added at the last moment
     //Best way out: have Yale Calendar return JSON with a field being "last updated: YYYYMMDD...
-    private void updateDatabase(int year, int month){
+    private void updateDatabase(int year, int month) {
         CalendarDatabaseTableHandler eventTable = new CalendarDatabaseTableHandler(mActivity);
         deleteObsolete(year, month, eventTable);
-        for(int i = 0; i<4; i++){
+        for (int i = 0; i < 4; i++) {
             //-1 is effect of checking months from -1 in past to +2 in future
-            int before = (DateFormater.yearMonthFromCalendarToStandard(year, month + i))*100;
-            int after = (DateFormater.yearMonthFromCalendarToStandard(year, month + i - 1))*100;
-            Log.i("CalendarCache","Checking if events between " + Integer.toString(after) + " and " + Integer.toString(before) + " are present");
-            if(eventTable.getEventsBeforeAndAfter(after, before).size() == 0){
+            int before = (DateFormater.yearMonthFromCalendarToStandard(year, month + i)) * 100;
+            int after = (DateFormater.yearMonthFromCalendarToStandard(year, month + i - 1)) * 100;
+            Log.i("CalendarCache", "Checking if events between " + Integer.toString(after) + " and " + Integer.toString(before) + " are present");
+            if (eventTable.getEventsBeforeAndAfter(after, before).size() == 0) {
                 int yearMonth = DateFormater.yearMonthFromCalendarToStandard(year, month + i - 1);
                 String query = "http://calendar.yale.edu/feeds/feed/opa/json/" + DateFormater.calendarDateToJSONQuery(year, month + i - 1) + "/30days";
                 super.setURL(query);
@@ -141,15 +141,15 @@ public class CalendarCache extends JSONReader {
         updatePreferences(year, month);
     }
 
-    private void deleteObsolete(int year, int month, CalendarDatabaseTableHandler eventTable){
+    private void deleteObsolete(int year, int month, CalendarDatabaseTableHandler eventTable) {
         //YYYYMM00
-        int lowerbound = DateFormater.yearMonthFromCalendarToStandard(year, month + 3)*100;
+        int lowerbound = DateFormater.yearMonthFromCalendarToStandard(year, month + 3) * 100;
         //YYYYMM33
-        int upperbound = DateFormater.yearMonthFromCalendarToStandard(year, month - 1)+33;
+        int upperbound = DateFormater.yearMonthFromCalendarToStandard(year, month - 1) + 33;
         eventTable.deleteEvents(lowerbound, upperbound);
     }
 
-    private void createDatabaseForTheFirstTime(int year, int month){
+    private void createDatabaseForTheFirstTime(int year, int month) {
         String[] queries;
         String[] results;
         //for later parsing purposes. EventsParseForDateWithinCategory has to discard nonsense events
@@ -159,17 +159,17 @@ public class CalendarCache extends JSONReader {
         queries = new String[4];
         yearMonth = new int[4];
         results = new String[4];
-        for (int i = 0; i < 4; i++){
+        for (int i = 0; i < 4; i++) {
             yearMonth[i] = DateFormater.yearMonthFromCalendarToStandard(year, month + i - 1);
             queries[i] = "http://calendar.yale.edu/feeds/feed/opa/json/" + DateFormater.calendarDateToJSONQuery(year, month + i - 1) + "/30days";
             super.setURL(queries[i]);
             results[i] = super.getData();
             //Log.i("Cache", "contents of result[" + Integer.toString(i) + "]:" + results[i].substring(0, 100));
-            Log.i("CacheUpdater","Created puller with query" + queries[i]);
-             Log.i("CacheUpdater", "yearMonth " + yearMonth[i]);
+            Log.i("CacheUpdater", "Created puller with query" + queries[i]);
+            Log.i("CacheUpdater", "yearMonth " + yearMonth[i]);
             if (results[i] == null) {
                 mActivity.runOnUiThread(new Runnable() {
-                    public void run(){
+                    public void run() {
                         Toast toast = new Toast(mActivity);
                         toast = Toast.makeText(mActivity, "Downloading newest data failed. No internet connection.", Toast.LENGTH_LONG);
                         toast.show();
@@ -179,7 +179,7 @@ public class CalendarCache extends JSONReader {
             }
         }
 
-        for(int i = 0; i < 4; i++) {
+        for (int i = 0; i < 4; i++) {
             parseAndSaveToDb(results[i], (int) (yearMonth[i] / 100), yearMonth[i] % 100);
         }
         //create the preferences
