@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import edu.yalestc.yalepublic.Events.CalendarView.CalendarFragment;
+import edu.yalestc.yalepublic.Events.ListView.ListFragment;
 import edu.yalestc.yalepublic.JSONReader;
 import edu.yalestc.yalepublic.R;
 
@@ -18,9 +19,8 @@ public class EventsDisplay extends Activity {
     ActionBar.Tab monthT, weekT, dayT;
     //    private Fragment dayTab;
     private Fragment monthTab;
-    //    private Fragment weekTab;
+    private Fragment listTab;
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM");
-    String currentDate = dateFormat.format(new Date());
     //for use in onCreate only. Later data pulling when the month is changed is done within the tabs fragments
     private JSONReader dataPuller;
 
@@ -37,11 +37,13 @@ public class EventsDisplay extends Activity {
         setContentView(R.layout.activity_events_display);
 
         monthTab = CalendarFragment.newInstance(getIntent().getExtras());
+        listTab = ListFragment.newInstance(getIntent().getExtras());
 
         ActionBar actionBar = getActionBar();
         monthT = actionBar.newTab().setText("Month");
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
+        //TODO recycle the tabs. at the moment we just recreate them
         monthT.setTabListener(new ActionBar.TabListener() {
             @Override
             public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
@@ -59,6 +61,24 @@ public class EventsDisplay extends Activity {
         });
 
         actionBar.addTab(monthT);
+
+        dayT = actionBar.newTab().setText("List");
+        dayT.setTabListener(new ActionBar.TabListener(){
+
+            @Override
+            public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+                fragmentTransaction.replace(R.id.container, listTab);
+            }
+
+            @Override
+            public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+                fragmentTransaction.remove(listTab);
+            }
+
+            @Override
+            public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
+            }
+        });
 
     }
 
