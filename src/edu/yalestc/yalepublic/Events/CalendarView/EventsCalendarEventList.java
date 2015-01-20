@@ -41,8 +41,12 @@ public class EventsCalendarEventList extends EventsAdapterForLists {
         mActivity = activity;
         update(year, month);
         mSelectedDayOfMonth = selectedDayOfMonth;
-        CalendarDatabaseTableHandler db = new CalendarDatabaseTableHandler(mActivity);
-        eventsOnCurrentDay = db.getEventsOnDateWithinCategory((DateFormater.convertDateToString(mYear, mMonth, mSelectedDayOfMonth)), mCategoryNo);
+        // there is no need for handling anything when the data is not cached since the underlying EventsAdapterForLists
+        // already does it!
+        if(CalendarCache.isCached(mActivity, mMonth, mYear)){
+            CalendarDatabaseTableHandler db = new CalendarDatabaseTableHandler(mActivity);
+            eventsOnCurrentDay = db.getEventsOnDateWithinCategory((DateFormater.convertDateToString(mYear, mMonth, mSelectedDayOfMonth)), mCategoryNo);
+        }
     }
 
     //used from CalendarFragment for getting the events

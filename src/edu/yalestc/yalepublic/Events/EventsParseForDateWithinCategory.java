@@ -25,6 +25,7 @@ public class EventsParseForDateWithinCategory {
     private int mMonth;
     private int mYear;
     private int mSearchedCategoryNumber;
+    private int numberOfEvents;
     //for use in events class to parse the category of an event that will be used in the EventsCalendarEventList class
     //for deciding on the color of the blobs
     final private String[] availableCategories;
@@ -42,6 +43,7 @@ public class EventsParseForDateWithinCategory {
         //because the calendar gives numbers 0-11
         mMonth = month + 1;
         mYear = year;
+        numberOfEvents = 0;
         JSONArray events;
         JSONObject mAllData;
         validEvents = new ArrayList<event>();
@@ -53,12 +55,17 @@ public class EventsParseForDateWithinCategory {
                     .getJSONArray("events");
             for (int i = 0; i < events.length(); i++) {
                 if (isValidEvent(events.getJSONObject(i))) {
+                    numberOfEvents++;
                     validEvents.add(new event(events.getJSONObject(i)));
                 }
             }
         } catch (JSONException e) {
             Log.e("EventsParseForCategory", "setNewEvents JSON error");
         }
+    }
+
+    public int getNumberOfEvents(){
+        return numberOfEvents;
     }
 
     //returns an ArrayList of String[] with the information about events on a given date.
@@ -79,6 +86,14 @@ public class EventsParseForDateWithinCategory {
             }
         }
         return givenEvents;
+    }
+
+    public ArrayList<String[]> getAllEventsInfo(){
+        ArrayList<String[]> allEvents = new ArrayList<String[]>();
+        for (int i = 0; i < validEvents.size(); i++) {
+           allEvents.add(validEvents.get(i).getInfo());
+        }
+        return allEvents;
     }
 
     //check if given event is valid

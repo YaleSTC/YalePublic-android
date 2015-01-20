@@ -6,20 +6,27 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+
+import java.util.Calendar;
 
 import edu.yalestc.yalepublic.Events.CalendarView.EventsCalendarEventList;
 import edu.yalestc.yalepublic.R;
 
 /**
- * Created by root on 1/19/15.
+ * Created by Stan Swidwinski on 1/19/15.
  */
 public class ListFragment extends Fragment {
 
     View rootView;
     Bundle mExtras;
     Activity mActivity;
-    //TO DO: Get rid of one. each fragment, calendar and list has its own. suboptimal.
-    EventsCalendarEventList mAdapter;
+    Calendar c = Calendar.getInstance();
+    int month = c.get(Calendar.MONTH);
+    int year = c.get(Calendar.YEAR);
+    int day = c.get(Calendar.DAY_OF_MONTH);
+    EventsListAdapter mAdapter;
 
     public static ListFragment newInstance(Bundle extras){
         ListFragment f = new ListFragment();
@@ -48,7 +55,8 @@ public class ListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.activity_events_list, container, false);
-
+        mAdapter = new EventsListAdapter(mActivity, year, month, day, mExtras.getInt("numberOfCategorySearchedFor"), mExtras.getIntArray("colors"), mExtras.getIntArray("colorsFrom"));
+        ((ListView)((RelativeLayout) rootView).getChildAt(0)).setAdapter(mAdapter);
         return rootView;
     }
 }

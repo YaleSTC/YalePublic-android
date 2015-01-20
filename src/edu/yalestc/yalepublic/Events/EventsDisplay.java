@@ -16,7 +16,7 @@ import edu.yalestc.yalepublic.R;
 
 
 public class EventsDisplay extends Activity {
-    ActionBar.Tab monthT, weekT, dayT;
+    ActionBar.Tab monthT, listT;
     //    private Fragment dayTab;
     private Fragment monthTab;
     private Fragment listTab;
@@ -62,8 +62,8 @@ public class EventsDisplay extends Activity {
 
         actionBar.addTab(monthT);
 
-        dayT = actionBar.newTab().setText("List");
-        dayT.setTabListener(new ActionBar.TabListener(){
+        listT = actionBar.newTab().setText("List");
+        listT.setTabListener(new ActionBar.TabListener(){
 
             @Override
             public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
@@ -79,6 +79,7 @@ public class EventsDisplay extends Activity {
             public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
             }
         });
+        actionBar.addTab(listT);
 
     }
 
