@@ -120,7 +120,7 @@
     <ImageView
         android:id="@+id/separator_events_calendar"
         android:layout_width="fill_parent"
-        android:layout_height="20dp"
+        android:layout_height="5dp"
         android:src="@drawable/separator_calendar_events_list"
         android:layout_below="@+id/month"/>
 
