@@ -124,15 +124,19 @@ public class EventsListAdapter extends EventsAdapterForLists {
         description.setText(nameOfDay + " " + nameOfMonth + " " + DateFormater.dayToString(date%100) + " " + Integer.toString(date/10000));
         description.setTextColor(Color.parseColor("#FFFFFF"));
         description.setTypeface(null, Typeface.BOLD);
-        description.setPadding((int)(height*0.05), 0, 0, 0);
+        description.setPadding((int)(height*0.05), (int)(height*0.01), 0, (int)(height*0.01));
         view.addView(description);
         view.setClickable(false);
         return view;
     }
 
     public String[] getInformation(int i){
-        String[] data = allEventsInfo.get(converter.convertElementIdToEventId(i));
-        return data;
+        if(converter.isSeparator(i)){
+            return null;
+        } else {
+            String[] data = allEventsInfo.get(converter.convertElementIdToEventId(i));
+            return data;
+        }
     }
 
     public class elementIdToEventId{

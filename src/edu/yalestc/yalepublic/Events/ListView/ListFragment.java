@@ -64,6 +64,10 @@ public class ListFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String[] eventInfo = mAdapter.getInformation(i);
+
+                if(eventInfo == null)
+                    return;
+
                 int color, colorTo, colorFrom;
                 //depending on the category, we either have a single color (!=0) or many colors
                 // (0)
