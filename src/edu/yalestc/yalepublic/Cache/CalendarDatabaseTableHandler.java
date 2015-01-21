@@ -11,6 +11,8 @@ import java.util.ArrayList;
 
 /**
  * Created by Stan Swidwinski on 1/3/15.
+ *
+ * Used to handle the database. Includes all the queries etc.
  */
 
 public class CalendarDatabaseTableHandler extends SQLiteOpenHelper {
