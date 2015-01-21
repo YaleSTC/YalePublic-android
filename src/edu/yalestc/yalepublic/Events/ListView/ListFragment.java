@@ -2,16 +2,19 @@ package edu.yalestc.yalepublic.Events.ListView;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import java.util.Calendar;
 
 import edu.yalestc.yalepublic.Events.CalendarView.EventsCalendarEventList;
+import edu.yalestc.yalepublic.Events.EventsDetails;
 import edu.yalestc.yalepublic.R;
 
 /**
@@ -56,7 +59,41 @@ public class ListFragment extends Fragment {
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.activity_events_list, container, false);
         mAdapter = new EventsListAdapter(mActivity, year, month, day, mExtras.getInt("numberOfCategorySearchedFor"), mExtras.getIntArray("colors"), mExtras.getIntArray("colorsFrom"));
+        ((ListView)((RelativeLayout) rootView).getChildAt(0)).setOnItemClickListener(new AdapterView.OnItemClickListener(){
+
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String[] eventInfo = mAdapter.getInformation(i);
+                int color, colorTo, colorFrom;
+                //depending on the category, we either have a single color (!=0) or many colors
+                // (0)
+                if (mExtras.getIntArray("colors").length == 1) {
+                    color = mExtras.getIntArray("colors")[0];
+                    colorTo = mExtras.getIntArray("colorsTo")[0];
+                    colorFrom = mExtras.getIntArray("colorsFrom")[0];
+                } else {
+                    color = mExtras.getIntArray("colors")[Integer.parseInt(eventInfo[6])];
+                    colorTo = mExtras.getIntArray("colorsTo")[Integer.parseInt(eventInfo[6])];
+                    colorFrom = mExtras.getIntArray("colorsFrom")[Integer.parseInt(eventInfo[6])];
+                }
+                Intent eventDetails = new Intent(getActivity(), EventsDetails.class);
+                eventDetails.putExtra("title", eventInfo[0]);
+                eventDetails.putExtra("start", eventInfo[4] + eventInfo[1]);
+                eventDetails.putExtra("end", eventInfo[4] + eventInfo[2]);
+                //category color in the middle of the blob/rectangle
+                eventDetails.putExtra("color", color);
+                //category color at the bottom of the blob/rectangle
+                eventDetails.putExtra("colorTo", colorTo);
+                //category color at the top of the blob/rectangle
+                eventDetails.putExtra("colorFrom", colorFrom);
+                eventDetails.putExtra("description", eventInfo[5]);
+                eventDetails.putExtra("location", eventInfo[3]);
+                startActivity(eventDetails);
+            }
+        });
+
         ((ListView)((RelativeLayout) rootView).getChildAt(0)).setAdapter(mAdapter);
+
         return rootView;
     }
 }

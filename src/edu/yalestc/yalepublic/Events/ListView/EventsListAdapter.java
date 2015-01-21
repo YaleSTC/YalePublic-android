@@ -130,6 +130,11 @@ public class EventsListAdapter extends EventsAdapterForLists {
         return view;
     }
 
+    public String[] getInformation(int i){
+        String[] data = allEventsInfo.get(converter.convertElementIdToEventId(i));
+        return data;
+    }
+
     public class elementIdToEventId{
         private int daysWithEvents;
         // map id in the list of separators to number of separator. Separators are enumerated from 1st to nth
