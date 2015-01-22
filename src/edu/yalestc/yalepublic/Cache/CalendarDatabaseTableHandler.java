@@ -140,7 +140,7 @@ public class CalendarDatabaseTableHandler extends SQLiteOpenHelper {
         if (category != 0) {
             query = "select * from " + TABLE_NAME
                     + " where Category = " + Integer.toString(category)
-                    + " AND ( NumericalDate > '" + Integer.toString(date)
+                    + " AND ( NumericalDate > " + Integer.toString(date)
                     + " AND NumericalDate < " + Integer.toString(date + 99) + ") ;";
         } else {
             query = "select * from " + TABLE_NAME
