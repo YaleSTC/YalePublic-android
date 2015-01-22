@@ -128,8 +128,8 @@ public class CalendarFragment extends Fragment {
                 }
                 Intent eventDetails = new Intent(getActivity(), EventsDetails.class);
                 eventDetails.putExtra("title", eventInfo[0]);
-                eventDetails.putExtra("start", eventInfo[4] + eventInfo[1]);
-                eventDetails.putExtra("end", eventInfo[4] + eventInfo[2]);
+                eventDetails.putExtra("start", eventInfo[4] + " " + eventInfo[1]);
+                eventDetails.putExtra("end", eventInfo[4] + " " + eventInfo[2]);
                 //category color in the middle of the blob/rectangle
                 eventDetails.putExtra("color", color);
                 //category color at the bottom of the blob/rectangle
