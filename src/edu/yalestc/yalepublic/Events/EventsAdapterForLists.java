@@ -31,6 +31,7 @@ public class EventsAdapterForLists extends BaseAdapter {
     DisplayMetrics display;
     protected Activity mActivity;
     protected int height;
+    protected int width;
     //for quicker parsing of events. Is passed in from MonthFragment. See EventsParseForDateWithinCategory for more information
     //if allTheEvents is null, it means that we are using cached information!
     protected EventsParseForDateWithinCategory allTheEvents;
@@ -48,6 +49,7 @@ public class EventsAdapterForLists extends BaseAdapter {
         mColorsFrom = colorsFrom;
         display = mActivity.getResources().getDisplayMetrics();
         height = display.heightPixels;
+        width = display.widthPixels;
         mCategoryNo = category;
     }
 
@@ -126,6 +128,8 @@ public class EventsAdapterForLists extends BaseAdapter {
         RelativeLayout eventListElement = (RelativeLayout) LayoutInflater.from(mActivity).inflate(R.layout.calendar_list_element, null);
         eventListElement.setMinimumHeight((int) (height * 0.104));
         ((ImageView) eventListElement.getChildAt(0)).setImageDrawable(circle);
+        //set the size of the time element
+        ((TextView) eventListElement.getChildAt((1))).setMinWidth(width/5);
         //set the time of the event
         ((TextView) eventListElement.getChildAt(1)).setText(information[1]);
         //set the title of the event
