@@ -194,7 +194,8 @@ public class EventsParseForDateWithinCategory {
 
         private void setTitle(JSONObject JSONevent) {
             try {
-                title = JSONevent.getString("summary");
+                String tmp = JSONevent.getString("summary");
+                title = tmp.replace("&amp;","&");
             } catch (JSONException e) {
                 Log.e("EventsParseForCategory/setTitle", "JSON error");
             }
@@ -260,7 +261,8 @@ public class EventsParseForDateWithinCategory {
 
         private void setDescription(JSONObject JSONevent) {
             try {
-                description = JSONevent.getString("description");
+                String tmp = JSONevent.getString("description");
+                description = tmp.replace("&amp;","&");
             } catch (JSONException e) {
                 Log.e("EventsParseForCategory/setTime", "JSON error");
             }
