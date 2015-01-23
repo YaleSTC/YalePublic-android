@@ -103,6 +103,8 @@
             android:label="@string/title_activity_event_categories"
             android:screenOrientation="portrait"
             android:parentActivityName=".MainActivity">
+            <meta-data android:name="android.app.default_searchable"
+                android:value=".Events.SearchEvents.SearchByName"/>
         </activity>
 
         <activity
@@ -118,11 +120,28 @@
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" >
         </activity>
+
         <activity
             android:name=".Events.EventsDisplay"
             android:parentActivityName=".Events.EventCategories"
             android:label="@string/title_activity_events_display"
             android:screenOrientation="portrait">
+        <meta-data android:name="android.app.default_searchable"
+            android:value=".Events.SearchEvents.SearchByName"/>
+        </activity>
+
+        <activity
+            android:name=".Events.SearchEvents.SearchByName"
+            android:parentActivityName=".Events.EventCategories"
+            android:label="@string/title_activity_events_display"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH"/>
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/event_search"/>
         </activity>
 
         <activity

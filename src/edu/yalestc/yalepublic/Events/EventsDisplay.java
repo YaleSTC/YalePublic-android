@@ -4,7 +4,11 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.app.SearchManager;
+import android.content.Context;
 import android.os.Bundle;
+import android.view.Menu;
+import android.widget.SearchView;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -25,12 +29,30 @@ public class EventsDisplay extends Activity {
     private JSONReader dataPuller;
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.events_display, menu);
+
+        // Associate searchable configuration with the SearchView
+        SearchManager searchManager =
+                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView =
+                (SearchView) menu.findItem(R.id.search).getActionView();
+        searchView.setSearchableInfo(
+                searchManager.getSearchableInfo(getComponentName()));
+
+        return true;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         ActionBar actionbar = getActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);     // Show home as a back arrow
         //actionbar.setDisplayShowHomeEnabled(true);     // Show application logo
         actionbar.setDisplayShowTitleEnabled(true);    // Show activity title/subtitle
         actionbar.setDisplayUseLogoEnabled(false);     // Use activity logo instead of activity icon
+
         actionbar.setTitle(getString(R.string.events));  // Set title
 
         super.onCreate(savedInstanceState);

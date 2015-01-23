@@ -1,6 +1,7 @@
 package edu.yalestc.yalepublic.Events;
 
 import android.app.Activity;
+import android.app.usage.UsageEvents;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.util.DisplayMetrics;
@@ -41,6 +42,15 @@ public class EventsAdapterForLists extends BaseAdapter {
     //for ovals next to time
     protected int[] mColors;
     protected int[] mColorsFrom;
+
+    //if we want to have a class that inherits, does not manage everything for us, but still
+    //gives access to all those functions
+    protected EventsAdapterForLists(Activity activity){
+        mActivity = activity;
+        display = mActivity.getResources().getDisplayMetrics();
+        height = display.heightPixels;
+        width = display.widthPixels;
+    };
 
     protected EventsAdapterForLists(Activity activity, int year, int month, int category, int[] colors, int colorsFrom[]){
         mActivity = activity;

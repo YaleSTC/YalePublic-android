@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -38,6 +39,15 @@ public class EventsListAdapter extends EventsAdapterForLists {
     public elementIdToEventId converter;
     ArrayList<String[]> allEventsInfo;
 
+    //for usage with the search capacity. we do not want anything done here, as we will
+    //set the allEventsInfo by hand.
+    public EventsListAdapter(Activity activity){
+        super(activity);
+        mActivity = activity;
+        super.mColors = mActivity.getResources().getIntArray(R.array.event_categories_colors_from);
+        super.mColorsFrom = mActivity.getResources().getIntArray(R.array.event_categories_colors);
+    }
+
     public EventsListAdapter(Activity activity, int year, int month, int day, int category, int[] colors, int colorsFrom[]) {
         super(activity, year, month, category, colors, colorsFrom);
         mDay = day;
@@ -47,7 +57,7 @@ public class EventsListAdapter extends EventsAdapterForLists {
             //retrieve events from db
             CalendarDatabaseTableHandler db = new CalendarDatabaseTableHandler(mActivity);
             allEventsInfo = db.getEventsInMonthWithinCategory(mYear * 10000 + mMonth * 100, mCategoryNo);
-            allEventsInfo.addAll(db.getEventsInMonthWithinCategory((DateFormater.yearMonthFromStandardToStandard(mYear, mMonth + 1)*100), mCategoryNo));
+            allEventsInfo.addAll(db.getEventsInMonthWithinCategory((DateFormater.yearMonthFromStandardToStandard(mYear, mMonth + 1) * 100), mCategoryNo));
         } else {
             // data is retrieved from internet by underlying EventsAdapterForLists. We only have to set
             // this variable!
@@ -138,6 +148,11 @@ public class EventsListAdapter extends EventsAdapterForLists {
             String[] data = allEventsInfo.get(converter.convertElementIdToEventId(i));
             return data;
         }
+    }
+
+    public void setAllEventsInfo(ArrayList<String[]> events){
+        allEventsInfo = events;
+        converter = new elementIdToEventId(events);
     }
 
     //class used for convertion of listID to the ID of event in the ArrayList of all event on given month

@@ -166,6 +166,29 @@ public class CalendarDatabaseTableHandler extends SQLiteOpenHelper {
         return result;
     }
 
+    public ArrayList<String[]> searchEventsByName(String name){
+        String query = "select * from " + TABLE_NAME
+                + " where Title like \'%" + name + "%\';";
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        ArrayList<String[]> result = new ArrayList<String[]>();
+        if (cursor.moveToFirst()) {
+            do {
+                String[] event = new String[8];
+                for (int i = 0; i <8; i++)
+                    event[i] = cursor.getString(i);
+                result.add(event);
+            } while (cursor.moveToNext());
+        }
+        Log.i("Database", "Queried for : " + query);
+        Log.i("Database", "Returned " + Integer.toString(result.size()) + " elements");
+        db.close();
+        return result;
+
+    }
+
 
     public void deleteEvents(int lowerBoundDate, int upperBoundDate) {
         SQLiteDatabase db = this.getWritableDatabase();
