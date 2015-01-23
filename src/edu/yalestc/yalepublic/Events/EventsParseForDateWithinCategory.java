@@ -25,7 +25,6 @@ public class EventsParseForDateWithinCategory {
     private int mMonth;
     private int mYear;
     private int mSearchedCategoryNumber;
-    private int numberOfEvents;
     //for use in events class to parse the category of an event that will be used in the EventsCalendarEventList class
     //for deciding on the color of the blobs
     final private String[] availableCategories;
@@ -43,7 +42,6 @@ public class EventsParseForDateWithinCategory {
         //because the calendar gives numbers 0-11
         mMonth = month + 1;
         mYear = year;
-        numberOfEvents = 0;
         JSONArray events;
         JSONObject mAllData;
         validEvents = new ArrayList<event>();
@@ -55,7 +53,6 @@ public class EventsParseForDateWithinCategory {
                     .getJSONArray("events");
             for (int i = 0; i < events.length(); i++) {
                 if (isValidEvent(events.getJSONObject(i))) {
-                    numberOfEvents++;
                     validEvents.add(new event(events.getJSONObject(i)));
                 }
             }
@@ -65,7 +62,7 @@ public class EventsParseForDateWithinCategory {
     }
 
     public int getNumberOfEvents(){
-        return numberOfEvents;
+        return validEvents.size();
     }
 
     //returns an ArrayList of String[] with the information about events on a given date.
