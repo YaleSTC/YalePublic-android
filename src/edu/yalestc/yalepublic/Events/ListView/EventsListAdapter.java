@@ -47,10 +47,13 @@ public class EventsListAdapter extends EventsAdapterForLists {
             //retrieve events from db
             CalendarDatabaseTableHandler db = new CalendarDatabaseTableHandler(mActivity);
             allEventsInfo = db.getEventsInMonthWithinCategory(mYear * 10000 + mMonth * 100, mCategoryNo);
+            allEventsInfo.addAll(db.getEventsInMonthWithinCategory((DateFormater.yearMonthFromStandardToStandard(mYear, mMonth + 1)*100), mCategoryNo));
         } else {
             // data is retrieved from internet by underlying EventsAdapterForLists. We only have to set
             // this variable!
             allEventsInfo = allTheEvents.getAllEventsInfo();
+            super.update(mYear, mMonth + 1);
+            allEventsInfo.addAll(allTheEvents.getAllEventsInfo());
         }
         lastCheckedDate = 0;
         today = DateFormater.yearMonthFromCalendarToStandard(year, month) * 100 + day;
@@ -107,8 +110,10 @@ public class EventsListAdapter extends EventsAdapterForLists {
         }
     }
 
+    //create the blue view that separates the events on consecutive days
     private View createSeparator(int date) {
         calendar = Calendar.getInstance();
+        calendar.set(Calendar.MONTH, ((date/100)-1) % 100);
         calendar.set(Calendar.DAY_OF_MONTH, date % 100);
         String nameOfMonth = calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.US);
         String nameOfDay = calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, Locale.US);
@@ -124,7 +129,9 @@ public class EventsListAdapter extends EventsAdapterForLists {
         return view;
     }
 
+    //get information about the event of listID i
     public String[] getInformation(int i) {
+        //to know that separators are not clickable, return null and handle in onClickListener
         if (converter.isSeparator(i)) {
             return null;
         } else {
@@ -133,6 +140,7 @@ public class EventsListAdapter extends EventsAdapterForLists {
         }
     }
 
+    //class used for convertion of listID to the ID of event in the ArrayList of all event on given month
     public class elementIdToEventId {
         private int daysWithEvents;
         // map id in the list of separators to number of separator. Separators are enumerated from 1st to nth
@@ -172,6 +180,7 @@ public class EventsListAdapter extends EventsAdapterForLists {
             return id - dayToId.get(intervals.get(intervals.size() - 1));
         }
 
+        //check if the element id in list is a separator
         public boolean isSeparator(int id) {
             List<Integer> separators = new ArrayList<Integer>(dayToId.keySet());
             for (int separator : separators) {
