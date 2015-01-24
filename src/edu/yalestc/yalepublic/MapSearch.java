@@ -2,6 +2,8 @@ package edu.yalestc.yalepublic;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.SearchManager;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -11,7 +13,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 /**
- * Created by Jason Liu on 10/18/14.
+ * Created by Jason Liu on 01/24/15.
  */
 public class MapSearch extends Activity {
 
@@ -25,7 +27,14 @@ public class MapSearch extends Activity {
         actionbar.setDisplayUseLogoEnabled(false);     // Use activity logo instead of activity icon
         actionbar.setTitle(getString(R.string.maps));  // Set title
 
-        setContentView(R.layout.map_simple);
+        // Get the intent, verify the action and get the query
+        Intent intent = getIntent();
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            doMySearch(query);
+        }
+
+        /* setContentView(R.layout.map_simple);
 
         // Get a handle to the Map Fragment
         GoogleMap map = ((MapFragment) getFragmentManager()
@@ -39,7 +48,20 @@ public class MapSearch extends Activity {
         map.addMarker(new MarkerOptions()
                 .title("Yale")
                 .snippet("The best university ever.")
-                .position(yale));
+                .position(yale)); */
+
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            doMySearch(query);
+        }
+    }
+
+    private void doMySearch(String query) {
+        return;
+    }
 }
