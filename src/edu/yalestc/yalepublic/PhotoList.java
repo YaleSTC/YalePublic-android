@@ -4,20 +4,26 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.jinstagram.auth.InstagramAuthService;
+import org.jinstagram.auth.model.Token;
+import org.jinstagram.auth.oauth.InstagramService;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import android.R.integer;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -25,6 +31,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
@@ -32,9 +40,12 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import javax.net.ssl.HttpsURLConnection;
+
 public class PhotoList extends Activity {
 
     public static final String PHOTO_ID_KEY = "playlistId";
+    public static final String CALLBACK_URL = "http://www.yale.edu/";
     public enum Mode {
         VIDEO,
         PHOTO,
@@ -70,8 +81,8 @@ public class PhotoList extends Activity {
             getFragmentManager().beginTransaction()
                     .add(R.id.photoContainer, new PlaceholderFragment()).commit();
         }
-        loading = (TextView) findViewById(R.id.tvPhotoLoading);  // Set up spinner and text
-        spinner = (ProgressBar) findViewById(R.id.pbLoading);
+//        loading = (TextView) findViewById(R.id.tvPhotoLoading);  // Set up spinner and text
+//        spinner = (ProgressBar) findViewById(R.id.pbLoading);
     }
 
 
@@ -91,9 +102,14 @@ public class PhotoList extends Activity {
             // initialize the ArrayAdapter
             mVideoAdapter = new ArrayAdapter<String>(
                     getActivity(), R.layout.tab, R.id.tab);
+            Log.d("Auth","started");
+            PhotoAuth photoauth = new PhotoAuth();
+            photoauth.AuthorizeUser();
             // create an asynctask that fetches the playlist titles
-            VideoTask videoList = new VideoTask();
-            videoList.execute();
+//            PhotoTask photoTask = new PhotoTask();
+//            photoTask.execute();
+//            VideoTask videoList = new VideoTask();
+//            videoList.execute();
 
             ListView listView = (ListView) rootView.findViewById(R.id.listview_photo);
             listView.setAdapter(mVideoAdapter);
@@ -130,13 +146,75 @@ public class PhotoList extends Activity {
             videoList.execute();
         }
     }
+    public class PhotoAuth{
+        private static final String ACCESS_TOKEN_KEY ="Instagram Access Token";
 
-    // Parses the raw data (which is a String in JSON format) and extracts the titles of
+        public void AuthorizeUser() {
+            //build the base url with client_id, client_secret and redirect url
+            InstagramService service = new InstagramAuthService()
+                    .apiKey(DeveloperKey.INSTAGRAM_CLIENT_ID)
+                    .apiSecret(DeveloperKey.INSTAGRAM_CLIENT_SECRET)
+                    .callback(CALLBACK_URL)
+                    .build();
+            //generate authorization url
+            final Token EMPTY_TOKEN = null;
+            String authorizationUrl = service.getAuthorizationUrl(EMPTY_TOKEN);
+            Log.d("Auth",authorizationUrl);
+            //get Instagram code from authorization url
+            getTokenFromAuthorizationUrl(authorizationUrl);
+        }
+        public void getTokenFromAuthorizationUrl(String authorizationUrl) {
+            WebView webview = new WebView(getApplicationContext());
+            webview.setWebViewClient(new WebViewClient() {
+                @Override
+                public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                    if(url.startsWith(CALLBACK_URL)) {
+                        Log.d("Auth",url);
+                        if (url.indexOf("code=")!=-1) {
+                            String code = url.split("=")[1];
+                            Log.d("AuthCode", code);
+
+                            //TODO: Do stuff
+
+                        }
+                        else if(url.indexOf("error=access_denied")!=-1) {
+                        Log.d("Auth", "Access denied");
+                        }
+                     //Do not load redirect url
+                     return true;
+                    }
+                    //load url
+                    return super.shouldOverrideUrlLoading(view,url);
+                }
+
+            });
+            Log.d("Auth","loading webview");
+            webview.loadUrl(authorizationUrl);
+        }
+    }
+    public class PhotoTask extends AsyncTask<Void,Void,String> {
+
+        @Override
+        protected String doInBackground(Void... params) {
+            InstagramService service = new InstagramAuthService()
+                                        .apiKey(DeveloperKey.INSTAGRAM_CLIENT_ID)
+                                        .apiSecret(DeveloperKey.INSTAGRAM_CLIENT_SECRET)
+                                        .callback(CALLBACK_URL)
+                                        .build();
+            final Token EMPTY_TOKEN = null;
+            String authorizationUrl = service.getAuthorizationUrl(EMPTY_TOKEN);
+            Log.d("Auth",authorizationUrl);
+            return null;
+        }
+    }
     // the photo albums to display in a ListView.
+
+
+
     public class VideoTask extends AsyncTask<Void, Void, String[]> {
 
         private String[] getPlaylistsFromJson(String rawData){
-           
+
             JSONObject videoData;
             JSONArray playlistData = null;
             try {
@@ -151,15 +229,15 @@ public class PhotoList extends Activity {
                     break;
                 default:
                     break;
-                
+
                 }
-                
+
             } catch (JSONException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
                 return null;
             }
-            
+
             String[] allPlaylists = new String[playlistData.length()];
             //we need to remember playlistIDs for future processing!
             int playlistDataLength = playlistData.length();
@@ -190,7 +268,7 @@ public class PhotoList extends Activity {
             }
             return allPlaylists;
         }
-        
+
         @Override
         protected String[] doInBackground(Void... params) {
             Uri builtUri = null;
@@ -206,7 +284,7 @@ public class PhotoList extends Activity {
                 default:
                     break;
                 }
-                
+
                 // send a GET request to the server
                 URL url = new URL(builtUri.toString());
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
@@ -214,7 +292,7 @@ public class PhotoList extends Activity {
                 urlConnection.connect();
 
                 // read all the data
-                InputStream inputStream = urlConnection.getInputStream();                
+                InputStream inputStream = urlConnection.getInputStream();
                 StringBuffer buffer = new StringBuffer();
                 if (inputStream == null) {
                     // Nothing to do.
@@ -237,10 +315,10 @@ public class PhotoList extends Activity {
                 // we pass the data to getPlaylistsFromJson
                 //but also remember to save the playlistID's for future
                 return getPlaylistsFromJson(videosJsonStr);
-                
+
                 // TODO check if there are more than 50 videos in the arrays (not for photos)
             }
-            
+
             catch (IOException e){
                 Log.e("URI", "uri was invalid or api request failed");
                 e.printStackTrace();
@@ -257,7 +335,7 @@ public class PhotoList extends Activity {
             Uri builtUri = Uri.parse(BASE_URL).buildUpon()
                         .appendQueryParameter("method", "flickr.photosets.getList")
                         .appendQueryParameter("api_key", new DeveloperKey().FLICKR_API_KEY)
-                        .appendQueryParameter("user_id", USER_ID) 
+                        .appendQueryParameter("user_id", USER_ID)
                         .appendQueryParameter("format", "json")
                         .appendQueryParameter("nojsoncallback", "1")
                         .build();
@@ -276,9 +354,12 @@ public class PhotoList extends Activity {
                     .build();
             return builtUri;
         }
-        
+
         @Override
         protected void onPostExecute(String[] result){
+            //if null, do nothing
+            if (result==null)
+                return;
             // we need to use result in our ArrayAdapter; adds all of the resulting values.
             spinner.setVisibility(View.GONE);
             loading.setVisibility(View.GONE);  // Hide the progress
