@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
+import android.database.MatrixCursor;
 import android.os.Bundle;
 import android.view.Menu;
 import android.widget.SearchView;
@@ -14,10 +15,15 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Created by Jason Liu on 10/18/14.
  */
 public class MapView extends Activity {
+
+    private Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +56,7 @@ public class MapView extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.map_menu, menu);
+        this.menu = menu;
 
         // Associate searchable configuration with the SearchView
         SearchManager searchManager =
@@ -59,6 +66,43 @@ public class MapView extends Activity {
         searchView.setSearchableInfo(
                 searchManager.getSearchableInfo(getComponentName()));
 
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String query) {
+                loadHistory(query);
+                return true;
+            }
+
+        });
         return super.onCreateOptionsMenu(menu);
+    }
+
+    private void loadHistory(String query) {
+        // Cursor
+        String[] columns = new String[] { "_id", "text" };
+        Object[] temp = new Object[] { 0, "default" };
+        List<String> items = Arrays.asList("sup1", "sup2", "sup3");
+
+        MatrixCursor cursor = new MatrixCursor(columns);
+
+        for(int i = 0; i < items.size(); i++) {
+            temp[0] = i;
+            temp[1] = items.get(i);
+            cursor.addRow(temp);
+        }
+
+        // SearchView
+        SearchManager manager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+
+        //final SearchView search = (SearchView) menu.findItem(R.id.search).getActionView();
+        SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+
+        searchView.setSuggestionsAdapter(new MapAdapter(this, cursor, items));
     }
 }
