@@ -2,12 +2,14 @@ package edu.yalestc.yalepublic;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
 
+import java.util.Arrays;
 import java.util.List;
 
 import edu.yalestc.yalepublic.R;
@@ -43,5 +45,7 @@ public class MapAdapter extends CursorAdapter {
         return view;
 
     }
+
+
 }
 

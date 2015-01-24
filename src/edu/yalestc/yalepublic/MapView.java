@@ -81,6 +81,20 @@ public class MapView extends Activity {
             }
         });
 
+        searchView.setOnSuggestionListener(new SearchView.OnSuggestionListener() {
+            @Override
+            public boolean onSuggestionSelect(int position) {
+                Log.d("Position1", Integer.toString(position));
+                return false;
+            }
+
+            @Override
+            public boolean onSuggestionClick(int position) {
+                Log.d("Position2", Integer.toString(position));
+                return false;
+            }
+        });
+
 
         return super.onCreateOptionsMenu(menu);
     }
