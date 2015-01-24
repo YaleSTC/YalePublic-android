@@ -6,6 +6,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.database.MatrixCursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.widget.SearchView;
 
@@ -67,9 +68,9 @@ public class MapView extends Activity {
                 searchManager.getSearchableInfo(getComponentName()));
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-
             @Override
             public boolean onQueryTextSubmit(String query) {
+                Log.d("Query submit", query);
                 return false;
             }
 
@@ -78,8 +79,9 @@ public class MapView extends Activity {
                 loadHistory(query);
                 return true;
             }
-
         });
+
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -87,7 +89,7 @@ public class MapView extends Activity {
         // Cursor
         String[] columns = new String[] { "_id", "text" };
         Object[] temp = new Object[] { 0, "default" };
-        List<String> items = Arrays.asList("sup1", "sup2", "sup3");
+        List<String> items = Arrays.asList(getResources().getStringArray(R.array.building_strs));
 
         MatrixCursor cursor = new MatrixCursor(columns);
 

@@ -3,8 +3,10 @@
     android:layout_height="fill_parent">
 
     <TextView
-        android:id="@+id/map_search_text"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/map_search_text"
+        android:layout_below="@+id/map_search_text"/>
 
 </RelativeLayout>

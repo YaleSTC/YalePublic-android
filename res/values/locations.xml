@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+
+	<string-array name="building_strs">
+		<item>A&amp;A     &#8211;  Art &amp; Architecture</item>
+		<item>AACC    &#8211;  African American Cultural Ctr</item>
+		<item>AKW     &#8211;  Arthur K. Watson Hall</item>
+		<item>AMISB   &#8211;  Amistad Street Bldg</item>
+		<item>BAC     &#8211;  British Art Center</item> 
+		<item>BASS    &#8211;  Bass Center</item>
+		<item>BASSLB  &#8211;  Bass Library</item>
+		<item>BCMM    &#8211;  Boyer Ctr Molecular Medicine</item>
+		<item>BCT     &#8211;  Becton Center</item>
+		<item>BERKLY  &#8211;  Berkeley Center (Div)</item>
+		<item>BK      &#8211;  Berkeley College</item>
+		<item>BM      &#8211;  Bingham Hall</item>
+		<item>BML     &#8211;  Brady Memorial Laboratory</item>
+		<item>BOWERS  &#8211;  Bowers Hall</item>
+		<item>BR      &#8211;  Branford College</item>
+		<item>BRADY   &#8211;  Brady Memorial Laboratory</item>
+		<item>BRBL    &#8211;  Beinecke Rare Book Library</item>
+		<item>BRW35   &#8211;  35 Broadway</item>
+		<item>C       &#8211;  Connecticut Hall</item>
+		<item>CALHIL  &#8211;  Calvin Hill Day Care Center</item>
+		<item>CAW     &#8211;  Creative Arts Workshop</item>
+		<item>CC      &#8211;  Calhoun College</item>
+		<item>CCL     &#8211;  Cross Campus Library</item>
+		<item>CED330  &#8211;  330 Cedar Street</item>
+		<item>CH100   &#8211;  100 Church Street South</item>
+		<item>CHINA   &#8211;  Peking University</item>
+		<item>CO135   &#8211;  435 College Street</item>
+		<item>CO451   &#8211;  451 College Street</item>
+		<item>CO493   &#8211;  493 College Street</item>
+		<item>CR305   &#8211;  305 Crown Street</item>
+		<item>CRB     &#8211;  Chemistry Research Building</item>
+		<item>CSC     &#8211;  Child Study Center</item>
+		<item>DAVIES  &#8211;  Davies Auditorium Becton Ctr</item>,
+		<item>DC      &#8211;  Davenport College</item>
+		<item>DL      &#8211;  Dunham Laboratory</item>
+		<item>DMCA    &#8211;  Digital Media Center Arts</item>
+		<item>EDG32   &#8211;  32 Edgewood Avenue</item>
+		<item>EDW340  &#8211;  340 Edwards Street</item>
+		<item>EDW380  &#8211;  380 Edwards Street</item>
+		<item>ELM143  &#8211;  143 Elm Street</item>
+		<item>ELM149  &#8211;  149 Elm Street</item>
+		<item>ES      &#8211;  Ezra Stiles College</item>
+		<item>ESC     &#8211;  Environmental Sciences Center</item>
+		<item>ESH     &#8211;  Edward S Harkness Hall</item>
+		<item>FENCE   &#8211;  Fence Club</item>
+		<item>GEO300  &#8211;  300 George Street</item>
+		<item>GML     &#8211;  Greeley Memorial Laboratory</item>
+		<item>GR109   &#8211;  109 Grove Street</item>
+		<item>GREEN   &#8211;  Green Hall (1156 Chapel)</item>
+		<item>HEN     &#8211;  Hendrie Hall</item>
+		<item>HGS     &#8211;  Hall of Graduate Studies</item>
+		<item>HH      &#8211;  Hammond Hall</item>
+		<item>HLH15   &#8211;  15 Hillhouse Avenue</item>
+		<item>HLH24   &#8211;  24 Hillhouse Avenue</item>
+		<item>HLH27   &#8211;  27 Hillhouse Avenue</item>
+		<item>HLH28   &#8211;  28 Hillhouse Avenue</item>
+		<item>HLH31   &#8211;  31 Hillhouse Avenue</item>
+		<item>HLH51   &#8211;  51 Hillhouse Avenue</item>
+		<item>HLH55   &#8211;  55 Hillhouse</item>
+		<item>HOPE    &#8211;  Hope</item>
+		<item>ISM     &#8211;  Institute of Sacred Music</item>
+		<item>JE      &#8211;  Jonathan Edwards College</item>
+		<item>JPL     &#8211;  John B Pierce Laboratory</item>
+		<item>JWG     &#8211;  J.W. Gibbs Laboratory</item>
+		<item>K       &#8211;  Kirtland Hall</item>
+		<item>KBT     &#8211;  Kline Biology Tower</item>
+		<item>KGL     &#8211;  Kline Geology Laboratory</item>
+		<item>KRN     &#8211;  Kroon Hall</item>
+		<item>L       &#8211;  Lawrance Hall</item>
+		<item>LC      &#8211;  Linsly Chittenden Hall</item>
+		<item>LEIGH   &#8211;  Leigh Hall</item>
+		<item>LEPH    &#8211;  Laboratory of EPH</item>
+		<item>LOM     &#8211;  Leet Oliver Memorial Hall</item>
+		<item>LORIA   &#8211;  The Loria Center</item>
+		<item>LUCE    &#8211;  Luce Hall</item>
+		<item>MARSH   &#8211;  Marsh Hall</item>
+		<item>MC      &#8211;  Morse College</item>
+		<item>MEC     &#8211;  Malone Engineering Center</item>
+		<item>ML      &#8211;  Mason Laboratory</item>
+		<item>OAG     &#8211;  Old Art Gallery</item>
+		<item>OML     &#8211;  Osborn Memorial Laboratories</item>
+		<item>PACE    &#8211;  PACE Center</item>
+		<item>PC      &#8211;  Pierson College</item>
+		<item>PH      &#8211;  Phelps Hall</item>
+		<item>PK205   &#8211;  205 Park Street</item>
+		<item>PK217   &#8211;  217 Park Street</item>
+		<item>PM      &#8211;  Peabody Museum</item>
+		<item>PR124   &#8211;  124 Prospect Street</item>
+		<item>PR135   &#8211;  135 Prospect Street</item>
+		<item>PR140   &#8211;  140 Prospect Street</item>
+		<item>PR230   &#8211;  230 Prospect Street</item>
+		<item>PR301   &#8211;  301 Prospect Street</item>
+		<item>PR310   &#8211;  310 Prospect Street</item>
+		<item>PR77    &#8211;  77 Prospect Street</item>
+		<item>PRP8    &#8211;  8 Prospect Place</item>
+		<item>PWG     &#8211;  Payne Whitney Gymnasium</item>
+		<item>RDH     &#8211;  Rudolph Hall</item>
+		<item>RKZ     &#8211;  Rosenkranz Hall</item>
+		<item>S       &#8211;  Sage Hall</item>
+		<item>SA10    &#8211;  10 Sachem Street</item>
+		<item>SA80    &#8211;  80 Sachem Street</item>
+		<item>SCL     &#8211;  Sterling Chemistry Laboratory</item>
+		<item>SDQ     &#8211;  Sterling Divinity Quadrangle</item>
+		<item>SHM     &#8211;  Sterling Hall of Medicine</item>
+		<item>SLB     &#8211;  Sterling Law Buildings</item>
+		<item>SLIFKA  &#8211;  Slifka Center</item>
+		<item>SM      &#8211;  Sprague Memorial Hall</item>
+		<item>SML     &#8211;  Sterling Memorial Library</item>
+		<item>SPL     &#8211;  Sloane Physics Laboratory</item>
+		<item>SSS     &#8211;  Sheffield Sterling Strathcona</item>
+		<item>ST      &#8211;  Street Hall</item>
+		<item>STOECK  &#8211;  Stoeckel Hall</item>
+		<item>SW      &#8211;  Swing Dorm</item>
+		<item>SY      &#8211;  Saybrook College</item>
+		<item>TAC     &#8211;  The Anlyan Center</item>
+		<item>TC      &#8211;  Trumbull College</item>
+		<item>TD      &#8211;  Timothy Dwight College</item>
+		<item>TM320   &#8211;  320 Temple Street</item>
+		<item>TM370   &#8211;  370 Temple Street</item>
+		<item>TM405   &#8211;  405 Temple Street</item>
+		<item>TM432   &#8211;  432 Temple Street</item>
+		<item>TM434   &#8211;  434 Temple Street</item>
+		<item>UT      &#8211;  University Theater</item>
+		<item>WALL81  &#8211;  81 Wall Street</item>
+		<item>WH121   &#8211;  121 Whitney Avenue</item>
+		<item>WH158   &#8211;  158 Whitney Avenue</item>
+		<item>WH175   &#8211;  175 Whitney Avenue</item>
+		<item>WH221   &#8211;  221 Whitney Avenue</item>
+		<item>WHC     &#8211;  Whitney Humanities Center</item>
+		<item>WL53    &#8211;  53 Wall Street</item>
+		<item>WLH     &#8211;  William L. Harkness Hall</item>
+		<item>WNSL    &#8211;  Wright Nuclear Stucture Lab</item>
+		<item>WOOL    &#8211;  Woolsey Hall</item>
+		<item>WWW     &#8211;  William Wirt Winchester Bldg</item>
+		<item>YCMI    &#8211;  Yale Ctr Medical Informatics</item>
+		<item>YK149   &#8211;  149 York Street</item>
+		<item>YK204   &#8211;  204 York Street</item>
+		<item>YK212   &#8211;  212 York Street</item>
+		<item>YK220   &#8211;  220 York Street</item>
+		<item>YK222   &#8211;  222 York Street</item>
+		<item>YK254   &#8211;  254 York Street</item>
+		<item>YPSC    &#8211;  Yale Psyc Services Clinic</item>
+		<item>YRT     &#8211;  Yale Repertory Theatre</item>
+		<item>YUAG    &#8211;  Yale University Art Gallery</item>
+	</string-array>
+	
+	<string-array name="building_abbr">
+		<item>180+York+Street</item>
+		<item>211+Park+Street</item>
+		<item>51+Prospect+Street</item>
+		<item>10+Amistad+Street</item>
+		<item>1080+Chapel+Street</item>
+		<item>266+Whitney+Avenue</item>
+		<item>120+High+Street</item>
+		<item>295+Congress+Ave</item>
+		<item>15+Prospect+Street</item>
+		<item>363+St+Ronan+Street</item>
+		<item>205+Elm+Street</item>
+		<item>300+College+Street</item>
+		<item>310+Cedar+Street</item>
+		<item>205+Prospect+Street</item>
+		<item>74+High+Street</item>
+		<item>310+Cedar+Street</item>
+		<item>Wall+and+High+Streets</item>
+		<item>35+Broadway</item>
+		<item>344+College+Street</item>
+		<item>150+Highland</item>
+		<item>80+Audubon+Street</item>
+		<item>189+Elm+Street</item>
+		<item>120+High+Street</item>
+		<item>330+Cedar+Street</item>
+		<item>100+Church+Street+South</item>
+		<item>Peking+University</item>
+		<item>435+College+Street</item>
+		<item>451+College+Street</item>
+		<item>493+College+Street</item>
+		<item>305+Crown+Street</item>
+		<item>275+Prospect+Street</item>
+		<item>230+S+Frontage+Rd</item>
+		<item>15+Prospect+Street</item>
+		<item>248+York+Street</item>
+		<item>10+Hillhouse+Avenue</item>
+		<item>149+York+Street</item>
+		<item>32+Edgewood+Avenue</item>
+		<item>340+Edwards+Street</item>
+		<item>380+Edwards+Street</item>
+		<item>143+Elm+Street</item>
+		<item>149+Elm+Street</item>
+		<item>19+Tower+Pkwy</item>
+		<item>21+Sachem+Street</item>
+		<item>367+Cedar+Street</item>
+		<item>220+York+Street</item>
+		<item>300+George+Street</item>
+		<item>370+Prospect+Street</item>
+		<item>109+Grove+Street</item>
+		<item>1156+Chapel+Street</item>
+		<item>165+Elm+Street</item>
+		<item>320+York+Street</item>
+		<item>14+Mansfield+Street</item>
+		<item>15+Hillhouse+Avenue</item>
+		<item>24+Hillhouse+Avenue</item>
+		<item>27+Hillhouse+Avenue</item>
+		<item>28+Hillhouse+Avenue</item>
+		<item>31+Hillhouse+Avenue</item>
+		<item>51+Hillhouse+Avenue</item>
+		<item>55+Hillhouse+Avenue</item>
+		<item>315+Cedar+Street</item>
+		<item>409+Prospect+Street</item>
+		<item>68+High+Street</item>
+		<item>290+Congress+Avenue</item>
+		<item>260+Whitney+Avenue</item>
+		<item>2+Hillhouse+Avenue</item>
+		<item>219+Prospect+Street</item>
+		<item>210+Whitney+Avenue</item>
+		<item>195+Prospect+Street</item>
+		<item>358+College+Street</item>
+		<item>63+High+Street</item>
+		<item>435+College+Street</item>
+		<item>60+College+Street</item>
+		<item>12+Hillhouse+Avenue</item>
+		<item>190+York+Street</item>
+		<item>34+Hillhouse+Avenue</item>
+		<item>360+Prospect+Street</item>
+		<item>302+York+Street</item>
+		<item>55+Prospect+Street</item>
+		<item>9+Hillhouse+Avenue</item>
+		<item>56+High+Street</item>
+		<item>165+Prospect+Street</item>
+		<item>340+Edwards+Street</item>
+		<item>261+Park+Street</item>
+		<item>344+College+Street</item>
+		<item>205+Park+Street</item>
+		<item>217+Park+Street</item>
+		<item>170+Whitney+Avenue</item>
+		<item>124+Prospect+Street</item>
+		<item>135+Prospect+Street</item>
+		<item>140+Prospect+Street</item>
+		<item>230+Prospect+Street</item>
+		<item>301+Prospect+Street</item>
+		<item>310+Prospect+Street</item>
+		<item>77+Prospect+Street</item>
+		<item>8+Prospect+Place</item>
+		<item>70+Tower+Pkwy</item>
+		<item>180+York+Street</item>
+		<item>115+Prospect+Street</item>
+		<item>205+Prospect+Street</item>
+		<item>10+Sachem+Street</item>
+		<item>80+Sachem+Street</item>
+		<item>225+Prospect+Street</item>
+		<item>409+Prospect+Street</item>
+		<item>333+Cedar+Street</item>
+		<item>127+Wall+Street</item>
+		<item>80+Wall+Street</item>
+		<item>Sprague+Memorial+Hall</item>
+		<item>120+High+Street</item>
+		<item>217+Prospect+Street</item>
+		<item>1+Prospect+Street</item>
+		<item>1071+Chapel+Street</item>
+		<item>96+Wall+Street</item>
+		<item>100+Tower+Parkway</item>
+		<item>242+Elm+Street</item>
+		<item>300+Cedar+Street</item>
+		<item>241+Elm+Street</item>
+		<item>345+Temple+Street</item>
+		<item>320+Temple+Street</item>
+		<item>370+Temple+Street</item>
+		<item>405+Temple+Street</item>
+		<item>432+Temple+Street</item>
+		<item>434+Temple+Street</item>
+		<item>222+York+Street</item>
+		<item>81+Wall+Street</item>
+		<item>121+Whitney+Avenue</item>
+		<item>158+Whitney+Avenue</item>
+		<item>175+Whitney+Avenue</item>
+		<item>221+Whitney+Avenue</item>
+		<item>53+Wall+Street</item>
+		<item>53+Wall+Street</item>
+		<item>100+Wall+Street</item>
+		<item>272+Whitney+Avenue</item>
+		<item>College+and+Grove+Streets</item>
+		<item>25+York+Street</item>
+		<item>40+Temple+Street</item>
+		<item>149+York+Street</item>
+		<item>204+York+Street</item>
+		<item>212+York+Street</item>
+		<item>220+York+Street</item>
+		<item>222+York+Street</item>
+		<item>254+York+Street</item>
+		<item>405+Temple+Street</item>
+		<item>1120+Chapel+Street</item>
+		<item>1111+Chapel+Street</item>
+	</string-array>
+	
+</resources>
