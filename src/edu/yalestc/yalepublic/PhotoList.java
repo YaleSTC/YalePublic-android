@@ -81,8 +81,7 @@ public class PhotoList extends Activity {
             getFragmentManager().beginTransaction()
                     .add(R.id.photoContainer, new PlaceholderFragment()).commit();
         }
-        loading = (TextView) findViewById(R.id.tvPhotoLoading);  // Set up spinner and text
-        spinner = (ProgressBar) findViewById(R.id.pbLoading);
+
     }
 
 
@@ -180,8 +179,14 @@ public class PhotoList extends Activity {
                         else if(url.indexOf("error=access_denied")!=-1) {
                         Log.d("Auth", "Access denied");
                         }
-                     //Do not load redirect url
-                     return true;
+//                        setContentView(spinner);
+                        setContentView(R.layout.fragment_photo_list);
+//                        spinner.setVisibility(View.VISIBLE);
+                        loading = (TextView) findViewById(R.id.tvPhotoLoading);  // Set up spinner and text
+                        spinner = (ProgressBar) findViewById(R.id.pbLoading);
+//                        loading.setVisibility(View.VISIBLE);  // Hide the progress
+                        //Do not load redirect url
+                        return true;
                     }
                     //load url
                     return super.shouldOverrideUrlLoading(view,url);
@@ -189,8 +194,8 @@ public class PhotoList extends Activity {
 
             });
             Log.d("Auth","loading webview");
-            spinner.setVisibility(View.GONE);
-            loading.setVisibility(View.GONE);  // Hide the progress
+//            spinner.setVisibility(View.GONE);
+//            loading.setVisibility(View.GONE);  // Hide the progress
             setContentView(webview);
             webview.loadUrl(authorizationUrl);
         }
