@@ -1,0 +1,9 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="edu.yalestc.yalepublic.MapView">
+    <item android:id="@+id/search"
+        android:title="@string/building_search"
+        android:icon="@android:drawable/ic_menu_search"
+        android:showAsAction="collapseActionView|always"
+        android:actionViewClass="android.widget.SearchView"/>
+</menu>
