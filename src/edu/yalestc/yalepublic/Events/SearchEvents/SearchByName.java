@@ -54,7 +54,7 @@ public class SearchByName extends Activity {
     private void doMySearch(String query){
         CalendarDatabaseTableHandler db = new CalendarDatabaseTableHandler(this);
         ArrayList<String[]> eventsFound = db.searchEventsByName(query);
-        if(eventsFound != null){
+        if(eventsFound.size() != 0){
             mAdapter = new EventsListAdapter(this);
             mAdapter.setAllEventsInfo(eventsFound);
 
