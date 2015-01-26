@@ -105,7 +105,7 @@ public class PhotosWithinAlbum extends Activity {
                 JSONObject albumData;
                 JSONArray photolistData;
                 try {
-                    Log.d("rawData length:","get")
+                    Log.d("rawData length:", String.valueOf(rawData.length()));
                     albumData = new JSONObject(rawData);
                     Log.d("json length:", String.valueOf(albumData.toString().length()));
                     photolistData = albumData.getJSONArray("data");
@@ -117,15 +117,14 @@ public class PhotosWithinAlbum extends Activity {
                 int count = photolistData.length();
                 Log.d("Count:", String.valueOf(count));
                 bitmaps = new Bitmap[count];
+                titls = new String[count];
                 photoIds = new String[count];
                 int bytecount=0;
                 for (int i = 0; i < count; i++){
                     try {
-                        publishProgress(i, count);
-                        titls[i] = photolistData.getJSONObject(i)
-                                .getString("id");
-                        photoIds[i] = photolistData.getJSONObject(i)
-                                .getString("id");
+                        publishProgress(i+1, count);
+                        titls[i] = photolistData.getJSONObject(i).getString("id");
+                        photoIds[i] =photolistData.getJSONObject(i).getString("id");
                         //Here we actually download the thumbnail using URL obtained from JSONObject
                         try {
                             URL imageUrl = new URL(photolistData.getJSONObject(i).getJSONObject("images")
@@ -219,7 +218,7 @@ public class PhotosWithinAlbum extends Activity {
                 Uri builtUri = Uri.parse(BASE_URL).buildUpon()
                         .appendQueryParameter("min_timestamp", "1412000000")
                         .appendQueryParameter("max_timestamp", "1422263119")
-                        .appendQueryParameter("count", "30")
+                        .appendQueryParameter("count", "20")
                         .appendQueryParameter("client_id", DeveloperKey.INSTAGRAM_CLIENT_ID)
                         .build();
                 return builtUri;
