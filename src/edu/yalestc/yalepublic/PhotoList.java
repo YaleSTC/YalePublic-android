@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.jinstagram.Instagram;
 import org.jinstagram.auth.InstagramAuthService;
 import org.jinstagram.auth.model.Token;
 import org.jinstagram.auth.model.Verifier;
@@ -138,6 +139,7 @@ public class PhotoList extends Activity {
                 .apiKey(DeveloperKey.INSTAGRAM_CLIENT_ID)
                 .apiSecret(DeveloperKey.INSTAGRAM_CLIENT_SECRET)
                 .callback(CALLBACK_URL)
+                .scope("likes")
                 .build();
         //generate authorization url
         private final Token EMPTY_TOKEN = null;
@@ -148,19 +150,21 @@ public class PhotoList extends Activity {
             //get Instagram code from authorization url
             WebView webview = new WebView(getApplicationContext());
             webview.setWebViewClient(new WebViewClient() {
+                String code = null;
                 @Override
                 public boolean shouldOverrideUrlLoading(WebView view, String url) {
                     if(url.startsWith(CALLBACK_URL)) {
                         Log.d("Auth",url);
                         if (url.contains("code=")) {
-                            String code = url.split("=")[1];
+                            code = url.split("=")[1];
                             Log.d("AuthCode", code);
-                            TokenAsyncTask tokenAsyncTask = new TokenAsyncTask();
-                            tokenAsyncTask.execute(code);
                         }
                         else if(url.contains("error=access_denied")) {
                             Log.d("Auth", "Access denied");
                         }
+                        //execute photoTask
+                        PhotoTask photoTask = new PhotoTask();
+                        photoTask.execute(code);
                         //set content View back to our album
                         setContentView(R.layout.activity_photo_within_album);
                         //Do not load redirect url
@@ -175,31 +179,71 @@ public class PhotoList extends Activity {
             setContentView(webview);
             webview.loadUrl(authorizationUrl);
         }
-        class TokenAsyncTask extends AsyncTask<String, Void, Void> {
+        public class PhotoTask extends AsyncTask<String, Void,Void> {
+            private Token accessToken = EMPTY_TOKEN;
             @Override
             protected Void doInBackground(String... params) {
-                Verifier verifier = new Verifier(params[0]);
-                Token accessToken = service.getAccessToken(EMPTY_TOKEN,verifier);
-                Log.d("Auth","accessToken");
+                try {
+                    Verifier verifier = new Verifier(params[0]);
+                    accessToken = service.getAccessToken(EMPTY_TOKEN, verifier);
+                    Log.d("Auth", "accessToken");
+
+
+                    Uri builtUri = getPhotoAPIRequestUri();
+                    // send a GET request to the server
+                    URL url = new URL(builtUri.toString());
+                    HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                    urlConnection.setRequestMethod("GET");
+                    urlConnection.connect();
+
+                    // read all the data
+                    InputStream inputStream = urlConnection.getInputStream();
+                    StringBuffer buffer = new StringBuffer();
+                    if (inputStream == null) {
+                        // Nothing to do.
+                        return null;
+                    }
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        // Since it's JSON, adding a newline isn't necessary (it won't affect parsing)
+                        // But it does make debugging a *lot* easier if you print out the completed
+                        // buffer for debugging.
+                        buffer.append(line + "\n");
+                    }
+
+                    if (buffer.length() == 0) {
+                        // Stream was empty.  No point in parsing.
+                        return null;
+                    }
+                    String videosJsonStr = buffer.toString();
+                    // we pass the data to getPlaylistsFromJson
+                    //but also remember to save the playlistID's for future
+                    return getPlaylistsFromJson(videosJsonStr);
+                }
+                catch (Exception e){
+                    Log.d("Auth","Access Token not received");
+                }
+                Instagram instagram = new Instagram(accessToken);
+
                 return null;
             }
+            private Uri getPhotoAPIRequestUri() {
+                final String USER_ID = "1701574";    //Yale instagram user id
+                final String BASE_URL = "https://api.instagram.com/v1/users/"
+                                         + USER_ID + "/media/recent?";
+                Uri builtUri = Uri.parse(BASE_URL).buildUpon()
+                        .appendQueryParameter("min_timestamp","1422000000")
+                        .appendQueryParameter("max_timestamp","1422263119")
+                        .appendQueryParameter("client_id",DeveloperKey.INSTAGRAM_CLIENT_ID)
+                        .build();
+                return builtUri;
+            }
+//            @Override
+//            protected  void onPostExecute(){
+//              //Create Instagram object and fetch photos
+//            }
 
-        }
-    }
-    public class GetToken extends AsyncTask<String, Void, Void> {
-        private final InstagramService service = new InstagramAuthService()
-                .apiKey(DeveloperKey.INSTAGRAM_CLIENT_ID)
-                .apiSecret(DeveloperKey.INSTAGRAM_CLIENT_SECRET)
-                .callback(CALLBACK_URL)
-                .build();
-        //generate authorization url
-        private final Token EMPTY_TOKEN = null;
-        @Override
-        protected Void doInBackground(String... params) {
-            Verifier verifier = new Verifier(params[0]);
-            Token accessToken = service.getAccessToken(EMPTY_TOKEN,verifier);
-            Log.d("Auth","accessToken");
-            return null;
         }
     }
     public class VideoTask extends AsyncTask<Void, Void, String[]> {
