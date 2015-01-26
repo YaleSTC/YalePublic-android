@@ -15,7 +15,7 @@
         <!--   theme UI controls like checkboxes and text fields -->
         <item name="android:colorAccent">@color/accent</item>
         <!--   main text color of the menu bar (keep black for now) -->
-        <!-- <item name="android:textColorPrimary">@color/text_primary</item> -->
+        <item name="android:textColorPrimary">@color/text_primary</item>
     </style>
 
 </resources>
