@@ -187,8 +187,12 @@ public class PhotoList extends Activity {
                     Verifier verifier = new Verifier(params[0]);
                     accessToken = service.getAccessToken(EMPTY_TOKEN, verifier);
                     Log.d("Auth", "accessToken");
-
-
+                } catch (Exception e) {
+                    Log.d("Auth", "Access Token not received");
+                }
+                //TODO: Handle no accessToken : use client id instead.
+                Instagram instagram = new Instagram(accessToken);
+                try {
                     Uri builtUri = getPhotoAPIRequestUri();
                     // send a GET request to the server
                     URL url = new URL(builtUri.toString());
@@ -216,17 +220,17 @@ public class PhotoList extends Activity {
                         // Stream was empty.  No point in parsing.
                         return null;
                     }
-                    String videosJsonStr = buffer.toString();
+                    String photosJSonStr = buffer.toString();
                     // we pass the data to getPlaylistsFromJson
                     //but also remember to save the playlistID's for future
-                    return getPlaylistsFromJson(videosJsonStr);
-                }
-                catch (Exception e){
-                    Log.d("Auth","Access Token not received");
-                }
-                Instagram instagram = new Instagram(accessToken);
+                    return getPlaylistsFromJson(photosJSonStr);
 
-                return null;
+
+                } catch (Exception e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                    return null;
+                }
             }
             private Uri getPhotoAPIRequestUri() {
                 final String USER_ID = "1701574";    //Yale instagram user id
@@ -241,22 +245,11 @@ public class PhotoList extends Activity {
             }
             private String[] getPlaylistsFromJson(String rawData){
 
-                JSONObject videoData;
+                JSONObject photoData;
                 JSONArray playlistData = null;
                 try {
-                    videoData = new JSONObject(rawData);
-                    switch(mode){
-                        case VIDEO:
-                            playlistData = videoData.getJSONArray("items");
-                            break;
-                        case PHOTO:
-                            playlistData = videoData.getJSONArray("data");
-                            break;
-                        default:
-                            break;
-
-                    }
-
+                    photoData = new JSONObject(rawData);
+                    playlistData = photoData.getJSONArray("data");
                 } catch (JSONException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();

@@ -3,15 +3,12 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.R.integer;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
@@ -19,14 +16,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Point;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.util.TypedValue;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,19 +31,13 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-//PhotosWithinAlbum tries to mirror the structure of
-//VideosWithinPlaylist as far as possible for consistency
-//TODO: It may be worth while to create a single parent
-//Class for both of these.
 
 public class PhotosWithinAlbum extends Activity {
 
-    //TODO: Pass as parameters to AlbumTask asynctask
     public static final String TITLE_KEY ="title";
     private ImageThumbnailAdapter adapter;
-    private String albumId;
+    //TODO: Refactor out titls
     private String[] titls = new String[1];
     private Bitmap[] bitmaps = new Bitmap[1];
     private String[] photoIds;
@@ -59,98 +47,93 @@ public class PhotosWithinAlbum extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         ActionBar actionbar = getActionBar();
-        actionbar.setDisplayHomeAsUpEnabled(true);     // Show home as a back arrow
+        actionbar.setDisplayHomeAsUpEnabled(true);        // Show home as a back arrow
         //actionbar.setDisplayShowHomeEnabled(true);     // Show application logo
-        actionbar.setDisplayShowTitleEnabled(true);    // Show activity title/subtitle
+        actionbar.setDisplayShowTitleEnabled(true);     // Show activity title/subtitle
         actionbar.setDisplayUseLogoEnabled(false);     // Use activity logo instead of activity icon
-        actionbar.setTitle(getString(R.string.photos_in_album));  // Set title
+        actionbar.setTitle(getString(R.string.photos_in_album));        // Set title
         super.onCreate(savedInstanceState);
-        if (getIntent().getExtras() != null &&
-            getIntent().getExtras().containsKey(PhotoList.PHOTO_ID_KEY)) { //TODO:Pull album title
-            albumId = getIntent().getStringExtra(PhotoList.PHOTO_ID_KEY);
-            }
         setContentView(R.layout.activity_photo_within_album);
         if (savedInstanceState == null) {
             //load fragment
             getFragmentManager().beginTransaction()
                     .add(R.id.photoContainer, new PlaceholderFragment()).commit();
-            
+
         }
         loading = (TextView) findViewById(R.id.tvPhotoLoading);  // Set up spinner and text
         spinner = (ProgressBar) findViewById(R.id.pbLoading);
     }
 
-     public class PlaceholderFragment extends Fragment {
-            public PlaceholderFragment() {
-            }
-
-            @Override
-            public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                    Bundle savedInstanceState) {
-                View rootView = inflater.inflate(R.layout.fragment_photo_within_album,
-                        container, false);            
-                //initialize the adapter
-                adapter = new ImageThumbnailAdapter(PhotosWithinAlbum.this);
-                
-                //create custom AsyncTask to fetch all the details from youtube
-                AlbumTask gettingDetails = new AlbumTask();
-                gettingDetails.execute();
-                
-                //create listView from template and set the adapter. 
-                GridView gridview = (GridView) rootView.findViewById(R.id.imageGridView);
-                gridview.setAdapter(adapter);
-                
-                //create a OnItemClickListener to load photo
-                gridview.setOnItemClickListener(new OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view,
-                            int position, long id) {
-                        Intent intent = new Intent(PhotosWithinAlbum.this, ImageActivity.class);
-                        intent.putExtra(PhotoList.PHOTO_ID_KEY,photoIds[position]);
-                        intent.putExtra(TITLE_KEY,titls[position]);
-                        startActivity(intent);
-                    }
-                });
-                
-                return rootView;
-            }
+    public class PlaceholderFragment extends Fragment {
+        public PlaceholderFragment() {
         }
-     
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_photo_within_album,
+                    container, false);
+            //initialize the adapter
+            adapter = new ImageThumbnailAdapter(PhotosWithinAlbum.this);
+
+            //create custom AsyncTask to fetch recent Media
+            AlbumTask gettingDetails = new AlbumTask();
+            gettingDetails.execute();
+
+            //create gridView and set the adapter.
+            GridView gridview = (GridView) rootView.findViewById(R.id.imageGridView);
+            gridview.setAdapter(adapter);
+
+            //create a OnItemClickListener to load photo
+            gridview.setOnItemClickListener(new OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view,
+                        int position, long id) {
+                    Intent intent = new Intent(PhotosWithinAlbum.this, ImageActivity.class);
+                    intent.putExtra(PhotoList.PHOTO_ID_KEY,photoIds[position]);
+                    intent.putExtra(TITLE_KEY,titls[position]);
+                    startActivity(intent);
+                }
+            });
+            return rootView;
+        }
+        }
+
          public class AlbumTask extends AsyncTask<Void, Integer, Void> {
 
             private String getPhotosFromJson(String rawData) {
                 JSONObject albumData;
                 JSONArray photolistData;
                 try {
+                    Log.d("rawData length:","get")
                     albumData = new JSONObject(rawData);
-                    Log.d("json", albumData.toString());
-                    photolistData = albumData.getJSONObject("photoset")
-                            .getJSONArray("photo");
+                    Log.d("json length:", String.valueOf(albumData.toString().length()));
+                    photolistData = albumData.getJSONArray("data");
                 } catch (JSONException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                     return null;
                 }
-
-                int photolistDatalen = photolistData.length();
-                titls = new String[photolistDatalen];
-                bitmaps = new Bitmap[photolistDatalen];
-
-                photoIds = new String[photolistDatalen];
+                int count = photolistData.length();
+                Log.d("Count:", String.valueOf(count));
+                bitmaps = new Bitmap[count];
+                photoIds = new String[count];
                 int bytecount=0;
-                for (int i = 0; i < photolistDatalen; i++){
+                for (int i = 0; i < count; i++){
                     try {
-                        publishProgress(i, photolistDatalen);
+                        publishProgress(i, count);
                         titls[i] = photolistData.getJSONObject(i)
-                                .getString("title");
+                                .getString("id");
                         photoIds[i] = photolistData.getJSONObject(i)
                                 .getString("id");
                         //Here we actually download the thumbnail using URL obtained from JSONObject
                         try {
-                            URL imageUrl = new URL(photolistData.getJSONObject(i)
-                                    .getString("url_sq"));
-                            Log.d("json",photolistData.getJSONObject(i)
-                                    .getString("url_sq"));
+                            URL imageUrl = new URL(photolistData.getJSONObject(i).getJSONObject("images")
+                                    .getJSONObject("thumbnail")
+                                    .getString("url"));
+                            Log.d("json",photolistData.getJSONObject(i).getJSONObject("images")
+                                    .getJSONObject("thumbnail")
+                                    .getString("url"));
                             //connect to given server
                             HttpURLConnection conn = (HttpURLConnection)imageUrl.openConnection();
                             //safety features and avoiding errors is links redirect
@@ -166,21 +149,21 @@ public class PhotosWithinAlbum extends Activity {
                             e.printStackTrace();
                             return null;
                         }
-
                     } catch (Exception e) {
                         e.printStackTrace();
                         return null;
                     }
 
                 }
-                Log.d("json",Integer.toString(bytecount)); //TODO: OMG PER PIXEL BYTECOUNT IS TOOO DAMN HIGH
+                Log.d("json",Integer.toString(bytecount));
                 return "1"; //TODO: Why?
             }
             @Override
             protected Void doInBackground(Void... params) {
                 try {
                     //Send GET request to the server to get the list of photos
-                    URL url = new URL(getPhotosAPIRequestUri().toString());
+                    Log.d("Photos",getRequestUri().toString());
+                    URL url = new URL(getRequestUri().toString());
                     HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                     urlConnection.setRequestMethod("GET");
                     urlConnection.connect();
@@ -200,7 +183,7 @@ public class PhotosWithinAlbum extends Activity {
                     String photosJsonStr = buffer.toString();
 
                     // Note that onProgressUpdate can be accessed by any function called by the
-                    // doinBackground() function, such as this one.
+                    // doInBackground() function, such as this one.
                     getPhotosFromJson(photosJsonStr);
 
                     if (inputStream == null) {
@@ -229,20 +212,16 @@ public class PhotosWithinAlbum extends Activity {
                 loading.setVisibility(View.GONE);  // Hide the progress
             }
 
-            // See https://secure.flickr.com/services/api/flickr.photosets.getPhotos.html.
-            // Uri to download the list of the user's photos, in json format
-            private Uri getPhotosAPIRequestUri() {
-                final String USER_ID = "12208415@N08";    //Yale flickr user id
-                final String BASE_URL = "https://api.flickr.com/services/rest/?";
-                //TODO: extract api key and secret
+            private Uri getRequestUri() {
+                final String USER_ID = "1701574";    //Yale instagram user id
+                final String BASE_URL = "https://api.instagram.com/v1/users/"
+                        + USER_ID + "/media/recent?";
                 Uri builtUri = Uri.parse(BASE_URL).buildUpon()
-                            .appendQueryParameter("method", "flickr.photosets.getPhotos")
-                            .appendQueryParameter("api_key", new DeveloperKey().FLICKR_API_KEY)
-                            .appendQueryParameter("photoset_id", albumId)
-                            .appendQueryParameter("extras", "url_sq")
-                            .appendQueryParameter("format", "json")
-                            .appendQueryParameter("nojsoncallback", "1")
-                            .build();
+                        .appendQueryParameter("min_timestamp", "1412000000")
+                        .appendQueryParameter("max_timestamp", "1422263119")
+                        .appendQueryParameter("count", "30")
+                        .appendQueryParameter("client_id", DeveloperKey.INSTAGRAM_CLIENT_ID)
+                        .build();
                 return builtUri;
             }
 
