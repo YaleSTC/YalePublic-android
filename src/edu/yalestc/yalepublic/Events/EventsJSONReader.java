@@ -5,6 +5,8 @@ import android.app.ProgressDialog;
 import android.util.Log;
 import android.widget.Toast;
 
+import edu.yalestc.yalepublic.Events.CalendarView.EventsCalendarEventList;
+import edu.yalestc.yalepublic.Events.ListView.EventsListAdapter;
 import edu.yalestc.yalepublic.JSONReader;
 
 /**
@@ -17,7 +19,7 @@ public class EventsJSONReader extends JSONReader {
     Activity mActivity;
     private ProgressDialog dialog;
     private String mRawData;
-    private EventsCalendarEventList mAdapter;
+    private EventsAdapterForLists mAdapter;
 
     public EventsJSONReader(Activity activity) {
         super(activity);
@@ -40,7 +42,7 @@ public class EventsJSONReader extends JSONReader {
         dialog.setIndeterminate(true);
     }
 
-    public void setEventsListAdapter(EventsCalendarEventList adapter) {
+    public void setAdapter(EventsAdapterForLists adapter) {
         mAdapter = adapter;
     }
 
@@ -72,8 +74,9 @@ public class EventsJSONReader extends JSONReader {
     protected void onPostExecute(String result) {
         if (mAdapter != null) {
             mAdapter.updateEvents(mRawData);
-            Log.i("EventsJSONReader", "Updating the events data set in adapter");
+            Log.i("EventsJSONReader", "Updating the events data set in calendar adapter");
         }
+
         if (dialog != null && dialog.isShowing()) {
             dialog.dismiss();
         }

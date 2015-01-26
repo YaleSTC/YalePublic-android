@@ -1,4 +1,4 @@
-package edu.yalestc.yalepublic.Events;
+package edu.yalestc.yalepublic.Events.CalendarView;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -19,6 +19,7 @@ import android.widget.TextView;
 import java.util.Calendar;
 import java.util.Locale;
 
+import edu.yalestc.yalepublic.Events.EventsDetails;
 import edu.yalestc.yalepublic.R;
 
 import static edu.yalestc.yalepublic.R.drawable.calendar_grid_button_current_selected;
@@ -101,10 +102,10 @@ public class CalendarFragment extends Fragment {
             }
         });
 
-        calendarAdapter = new EventsCalendarGridAdapter(getActivity());
+        calendarAdapter = new EventsCalendarGridAdapter(mActivity);
         calendarAdapter.update(year, month);
 
-        listEvents = new EventsCalendarEventList(getActivity(), year, month, calendarAdapter.getCurrentlySelected(), mExtras.getInt("numberOfCategorySearchedFor"), mExtras.getIntArray("colors"), mExtras.getIntArray("colorsFrom"));
+        listEvents = new EventsCalendarEventList(mActivity, year, month, calendarAdapter.getCurrentlySelected(), mExtras.getInt("numberOfCategorySearchedFor"), mExtras.getIntArray("colors"), mExtras.getIntArray("colorsFrom"));
         ((ListView) ((RelativeLayout) rootView).getChildAt(4)).setAdapter(listEvents);
 
         //set the listener for elements on the list, create intent and add all the information required
@@ -127,8 +128,8 @@ public class CalendarFragment extends Fragment {
                 }
                 Intent eventDetails = new Intent(getActivity(), EventsDetails.class);
                 eventDetails.putExtra("title", eventInfo[0]);
-                eventDetails.putExtra("start", eventInfo[4] + eventInfo[1]);
-                eventDetails.putExtra("end", eventInfo[4] + eventInfo[2]);
+                eventDetails.putExtra("start", eventInfo[4] + " " + eventInfo[1]);
+                eventDetails.putExtra("end", eventInfo[4] + " " + eventInfo[2]);
                 //category color in the middle of the blob/rectangle
                 eventDetails.putExtra("color", color);
                 //category color at the bottom of the blob/rectangle

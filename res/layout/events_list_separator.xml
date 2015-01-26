@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Created by Stan Swidwinski.
+
+    The drawable for the separator (divider) between the real-events elements of the list.
+    -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/events_list_separator"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/upper_shadow"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_alignParentTop="true"
+        android:rotation="180"
+        android:src="@drawable/separator_list_events_list" />
+
+    <TextView
+        android:id="@+id/date_in_separator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/upper_shadow"
+        android:layout_centerVertical="true" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_below="@+id/date_in_separator"
+        android:src="@drawable/separator_list_events_list" />
+
+</RelativeLayout>

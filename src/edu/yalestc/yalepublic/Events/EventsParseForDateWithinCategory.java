@@ -7,8 +7,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.util.ArrayList;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 import edu.yalestc.yalepublic.R;
 
@@ -61,6 +61,10 @@ public class EventsParseForDateWithinCategory {
         }
     }
 
+    public int getNumberOfEvents(){
+        return validEvents.size();
+    }
+
     //returns an ArrayList of String[] with the information about events on a given date.
     //The structure of every event is:
     //event[0] = title
@@ -79,6 +83,14 @@ public class EventsParseForDateWithinCategory {
             }
         }
         return givenEvents;
+    }
+
+    public ArrayList<String[]> getAllEventsInfo(){
+        ArrayList<String[]> allEvents = new ArrayList<String[]>();
+        for (int i = 0; i < validEvents.size(); i++) {
+           allEvents.add(validEvents.get(i).getInfo());
+        }
+        return allEvents;
     }
 
     //check if given event is valid
@@ -182,7 +194,8 @@ public class EventsParseForDateWithinCategory {
 
         private void setTitle(JSONObject JSONevent) {
             try {
-                title = JSONevent.getString("summary");
+                String tmp = JSONevent.getString("summary");
+                title = StringEscapeUtils.escapeHtml3(tmp);
             } catch (JSONException e) {
                 Log.e("EventsParseForCategory/setTitle", "JSON error");
             }
@@ -218,12 +231,16 @@ public class EventsParseForDateWithinCategory {
             try {
                 JSONObject location = JSONevent.getJSONObject("location");
                 place = location.getString("name");
-                place += " - ";
-                place += location.getString("address");
-                place += ", ";
-                place += location.getString("city");
-                place += ", ";
-                place += location.getString("zip");
+                if(place.equals("")){
+                    place = "To Be Determined";
+                } else {
+                    place += " - ";
+                    place += location.getString("address");
+                    place += ", ";
+                    place += location.getString("city");
+                    place += ", ";
+                    place += location.getString("zip");
+                }
             } catch (JSONException e) {
                 Log.e("EventsParseForCategory/setPlace", "JSON error");
             }
@@ -248,8 +265,9 @@ public class EventsParseForDateWithinCategory {
 
         private void setDescription(JSONObject JSONevent) {
             try {
-                description = JSONevent.getString("description");
-            } catch (JSONException e) {
+                String tmp = JSONevent.getString("description");
+                description = StringEscapeUtils.escapeHtml3(tmp);
+             } catch (JSONException e) {
                 Log.e("EventsParseForCategory/setTime", "JSON error");
             }
         }

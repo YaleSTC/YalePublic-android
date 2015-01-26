@@ -11,6 +11,8 @@ import java.util.ArrayList;
 
 /**
  * Created by Stan Swidwinski on 1/3/15.
+ *
+ * Used to handle the database. Includes all the queries etc.
  */
 
 public class CalendarDatabaseTableHandler extends SQLiteOpenHelper {
@@ -68,8 +70,8 @@ public class CalendarDatabaseTableHandler extends SQLiteOpenHelper {
         ArrayList<String[]> result = new ArrayList<String[]>();
         if (cursor.moveToFirst()) {
             do {
-                String[] event = new String[7];
-                for (int i = 0; i < 7; i++)
+                String[] event = new String[8];
+                for (int i = 0; i < 8; i++)
                     event[i] = cursor.getString(i);
                 result.add(event);
             } while (cursor.moveToNext());
@@ -92,8 +94,8 @@ public class CalendarDatabaseTableHandler extends SQLiteOpenHelper {
         ArrayList<String[]> result = new ArrayList<String[]>();
         if (cursor.moveToFirst()) {
             do {
-                String[] event = new String[7];
-                for (int i = 0; i < 7; i++)
+                String[] event = new String[8];
+                for (int i = 0; i < 8; i++)
                     event[i] = cursor.getString(i);
                 result.add(event);
             } while (cursor.moveToNext());
@@ -121,8 +123,8 @@ public class CalendarDatabaseTableHandler extends SQLiteOpenHelper {
         ArrayList<String[]> result = new ArrayList<String[]>();
         if (cursor.moveToFirst()) {
             do {
-                String[] event = new String[7];
-                for (int i = 0; i < 7; i++)
+                String[] event = new String[8];
+                for (int i = 0; i < 8; i++)
                     event[i] = cursor.getString(i);
                 result.add(event);
             } while (cursor.moveToNext());
@@ -131,6 +133,60 @@ public class CalendarDatabaseTableHandler extends SQLiteOpenHelper {
         Log.i("Database", "Returned " + Integer.toString(result.size()) + " elements");
         db.close();
         return result;
+    }
+
+    public ArrayList<String[]> getEventsInMonthWithinCategory(int date, int category){
+        String query;
+        if (category != 0) {
+            query = "select * from " + TABLE_NAME
+                    + " where Category = " + Integer.toString(category)
+                    + " AND ( NumericalDate > " + Integer.toString(date)
+                    + " AND NumericalDate < " + Integer.toString(date + 99) + ") ;";
+        } else {
+            query = "select * from " + TABLE_NAME
+                    + " where NumericalDate > " + Integer.toString(date)
+                    + " AND NumericalDate < " + Integer.toString(date + 99) + ";";
+        }
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        ArrayList<String[]> result = new ArrayList<String[]>();
+        if (cursor.moveToFirst()) {
+            do {
+                String[] event = new String[8];
+                for (int i = 0; i <8; i++)
+                    event[i] = cursor.getString(i);
+                result.add(event);
+            } while (cursor.moveToNext());
+        }
+        Log.i("Database", "Queried for : " + query);
+        Log.i("Database", "Returned " + Integer.toString(result.size()) + " elements");
+        db.close();
+        return result;
+    }
+
+    public ArrayList<String[]> searchEventsByName(String name){
+        String query = "select * from " + TABLE_NAME
+                + " where Title like \'%" + name + "%\';";
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        ArrayList<String[]> result = new ArrayList<String[]>();
+        if (cursor.moveToFirst()) {
+            do {
+                String[] event = new String[8];
+                for (int i = 0; i <8; i++)
+                    event[i] = cursor.getString(i);
+                result.add(event);
+            } while (cursor.moveToNext());
+        }
+        Log.i("Database", "Queried for : " + query);
+        Log.i("Database", "Returned " + Integer.toString(result.size()) + " elements");
+        db.close();
+        return result;
+
     }
 
 

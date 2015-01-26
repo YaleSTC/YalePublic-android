@@ -76,6 +76,7 @@
     <string name="title_activity_photo_list">PhotoList</string>
     <string name="title_activity_event_categories">EventCategories</string>
     <string name="title_activity_events_display">EventsDisplay</string>
+    <string name="title_activity_events_search">Results</string>
     <string name="title_activity_events_details">Details</string>
     <string name="current_version">release 0.1</string>
     <string name="feedback">Feedback</string>
@@ -88,6 +89,8 @@
     <string name="videos">Videos</string>
     <string name="photos">Photos</string>
     <string name="events">Events</string>
+    <string name="events_search">Search for event by name</string>
+    <string name="events_search_not_found">We have found no events matching your query.\n\n Please try again!</string>
     <string name="transit">Transit</string>
     <string name="athletics">Athletics</string>
     <string name="arts_events">Arts Events</string>
@@ -107,5 +110,6 @@
     <string name="title">Title</string>
     <string name="date">Date</string>
     <string name="yale">Yale University</string>
+    <string name="description_lower">description</string>
 
 </resources>

@@ -1,4 +1,4 @@
-package edu.yalestc.yalepublic.Events;
+package edu.yalestc.yalepublic.Events.CalendarView;
 
 import android.content.Context;
 import android.graphics.Color;

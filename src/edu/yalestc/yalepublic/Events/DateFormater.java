@@ -55,6 +55,13 @@ public class DateFormater {
         return year * 100 + month;
     }
 
+    //take in year and month in the interval (-12, 24) and convert it to standard month
+    public static int yearMonthFromStandardToStandard(int year, int month){
+        int result = yearMonthFromCalendarToCalendar(year, month-1);
+        result += 1;
+        return result;
+    }
+
     //from integer to DD string. String ranges from 01 to 31
     public static String dayToString(int day) {
         String result = "";

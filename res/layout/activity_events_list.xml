@@ -2,10 +2,19 @@
    Empty layout on which the categories are displayed in the events functionality of the app.
    All content is added programatically, hence the layout is nearly blank.
 -->
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="edu.yalestc.yalepublic.EventsList"
-    tools:ignore="MergeRootFrame"/>
+    tools:ignore="MergeRootFrame">
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@drawable/separator_events"
+        android:dividerHeight="2dp">
+    </ListView>
+
+</RelativeLayout>

@@ -36,7 +36,7 @@
 
     <ImageView
         android:layout_width="fill_parent"
-        android:layout_height="20dp"
+        android:layout_height="5dp"
         android:src="@drawable/separator_calendar_events_list"/>
 
     <ScrollView
@@ -135,7 +135,7 @@
                     android:layout_height="wrap_content"
                     android:layout_width="fill_parent"
                     android:layout_gravity="center_vertical"
-                    android:text="@string/description"
+                    android:text="@string/description_lower"
                     android:textStyle="bold"
                     android:textColor="#4c80bb"
                     android:layout_weight="3"
