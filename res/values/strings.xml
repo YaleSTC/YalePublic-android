@@ -76,6 +76,7 @@
     <string name="title_activity_photo_list">PhotoList</string>
     <string name="title_activity_event_categories">EventCategories</string>
     <string name="title_activity_events_display">EventsDisplay</string>
+    <string name="title_activity_events_search">Results</string>
     <string name="title_activity_events_details">Details</string>
     <string name="current_version">release 0.1</string>
     <string name="feedback">Feedback</string>
