@@ -32,7 +32,7 @@ public class SearchByName extends Activity {
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         ActionBar actionbar = getActionBar();
-        //actionbar.setDisplayHomeAsUpEnabled(true); // Show home as a back arrow
+        actionbar.setDisplayHomeAsUpEnabled(true); // Show home as a back arrow
         actionbar.setDisplayShowTitleEnabled(true);  // Show activity title/subtitle
         actionbar.setDisplayUseLogoEnabled(false);   // Use activity logo instead of activity icon
         // Get the intent, verify the action and get the query
