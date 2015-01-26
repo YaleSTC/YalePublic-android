@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.jinstagram.Instagram;
 import org.jinstagram.auth.InstagramAuthService;
 import org.jinstagram.auth.model.Token;
 import org.jinstagram.auth.model.Verifier;
@@ -102,10 +101,6 @@ public class PhotoList extends Activity {
             PhotoAuth photoauth = new PhotoAuth();
             photoauth.AuthorizeUser();
             // create an asynctask that fetches the playlist titles
-//            PhotoTask photoTask = new PhotoTask();
-//            photoTask.execute();
-//            VideoTask videoList = new VideoTask();
-//            videoList.execute();
 
             ListView listView = (ListView) rootView.findViewById(R.id.listview_photo);
             listView.setAdapter(mVideoAdapter);
@@ -135,12 +130,6 @@ public class PhotoList extends Activity {
             });
             return rootView;
         }
-
-        private void populateAdapterWithVideos() {  // TODO: Unused, called in onCreateView
-            // create an asynctask that fetches the playlist titles
-            VideoTask videoList = new VideoTask();
-            videoList.execute();
-        }
     }
     public class PhotoAuth{
         private static final String ACCESS_TOKEN_KEY ="Instagram Access Token";
@@ -152,34 +141,25 @@ public class PhotoList extends Activity {
                 .build();
         //generate authorization url
         private final Token EMPTY_TOKEN = null;
+
         public void AuthorizeUser() {
             String authorizationUrl = service.getAuthorizationUrl(EMPTY_TOKEN);
             Log.d("Auth",authorizationUrl);
             //get Instagram code from authorization url
-            beginServerSideAuthorization(authorizationUrl);
-        }
-        public void beginServerSideAuthorization(String authorizationUrl) {
             WebView webview = new WebView(getApplicationContext());
-            final String[] code = new String[1];
-            code[0] = "boo";
             webview.setWebViewClient(new WebViewClient() {
                 @Override
                 public boolean shouldOverrideUrlLoading(WebView view, String url) {
                     if(url.startsWith(CALLBACK_URL)) {
                         Log.d("Auth",url);
                         if (url.contains("code=")) {
-                             String codequery = url.split("=")[1];
-                            Log.d("AuthCode", codequery);
-                            code[0]=codequery;
-                            GetToken getToken = new GetToken();
-                            getToken.execute(code[0]);
-//                            Verifier verifier = new Verifier(code);
-//                            Token accessToken = service.getAccessToken(EMPTY_TOKEN,verifier);
-//                            Log.d("Auth","accessToken");
-//                            Instagram instagram = new Instagram(accessToken);
+                            String code = url.split("=")[1];
+                            Log.d("AuthCode", code);
+                            TokenAsyncTask tokenAsyncTask = new TokenAsyncTask();
+                            tokenAsyncTask.execute(code);
                         }
                         else if(url.contains("error=access_denied")) {
-                        Log.d("Auth", "Access denied");
+                            Log.d("Auth", "Access denied");
                         }
                         //set content View back to our album
                         setContentView(R.layout.activity_photo_within_album);
@@ -192,12 +172,17 @@ public class PhotoList extends Activity {
 
             });
             Log.d("Auth","loading webview");
-//            spinner.setVisibility(View.GONE);
-//            loading.setVisibility(View.GONE);  // Hide the progress
             setContentView(webview);
             webview.loadUrl(authorizationUrl);
-
-
+        }
+        class TokenAsyncTask extends AsyncTask<String, Void, Void> {
+            @Override
+            protected Void doInBackground(String... params) {
+                Verifier verifier = new Verifier(params[0]);
+                Token accessToken = service.getAccessToken(EMPTY_TOKEN,verifier);
+                Log.d("Auth","accessToken");
+                return null;
+            }
 
         }
     }
@@ -217,25 +202,6 @@ public class PhotoList extends Activity {
             return null;
         }
     }
-    public class PhotoTask extends AsyncTask<Void,Void,String> {
-
-        @Override
-        protected String doInBackground(Void... params) {
-            InstagramService service = new InstagramAuthService()
-                                        .apiKey(DeveloperKey.INSTAGRAM_CLIENT_ID)
-                                        .apiSecret(DeveloperKey.INSTAGRAM_CLIENT_SECRET)
-                                        .callback(CALLBACK_URL)
-                                        .build();
-            final Token EMPTY_TOKEN = null;
-            String authorizationUrl = service.getAuthorizationUrl(EMPTY_TOKEN);
-            Log.d("Auth",authorizationUrl);
-            return null;
-        }
-    }
-    // the photo albums to display in a ListView.
-
-
-
     public class VideoTask extends AsyncTask<Void, Void, String[]> {
 
         private String[] getPlaylistsFromJson(String rawData){
