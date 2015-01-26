@@ -4,26 +4,24 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.jinstagram.Instagram;
 import org.jinstagram.auth.InstagramAuthService;
 import org.jinstagram.auth.model.Token;
+import org.jinstagram.auth.model.Verifier;
 import org.jinstagram.auth.oauth.InstagramService;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.JSONTokener;
 
-import android.R.integer;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -39,8 +37,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
-import javax.net.ssl.HttpsURLConnection;
 
 public class PhotoList extends Activity {
 
@@ -81,7 +77,8 @@ public class PhotoList extends Activity {
             getFragmentManager().beginTransaction()
                     .add(R.id.photoContainer, new PlaceholderFragment()).commit();
         }
-
+        loading = (TextView) findViewById(R.id.tvPhotoLoading);  // Set up spinner and text
+        spinner = (ProgressBar) findViewById(R.id.pbLoading);
     }
 
 
@@ -147,44 +144,45 @@ public class PhotoList extends Activity {
     }
     public class PhotoAuth{
         private static final String ACCESS_TOKEN_KEY ="Instagram Access Token";
-
+        //build the base url with client_id, client_secret and redirect url
+        private final InstagramService service = new InstagramAuthService()
+                .apiKey(DeveloperKey.INSTAGRAM_CLIENT_ID)
+                .apiSecret(DeveloperKey.INSTAGRAM_CLIENT_SECRET)
+                .callback(CALLBACK_URL)
+                .build();
+        //generate authorization url
+        private final Token EMPTY_TOKEN = null;
         public void AuthorizeUser() {
-            //build the base url with client_id, client_secret and redirect url
-            InstagramService service = new InstagramAuthService()
-                    .apiKey(DeveloperKey.INSTAGRAM_CLIENT_ID)
-                    .apiSecret(DeveloperKey.INSTAGRAM_CLIENT_SECRET)
-                    .callback(CALLBACK_URL)
-                    .build();
-            //generate authorization url
-            final Token EMPTY_TOKEN = null;
             String authorizationUrl = service.getAuthorizationUrl(EMPTY_TOKEN);
             Log.d("Auth",authorizationUrl);
             //get Instagram code from authorization url
-            getTokenFromAuthorizationUrl(authorizationUrl);
+            beginServerSideAuthorization(authorizationUrl);
         }
-        public void getTokenFromAuthorizationUrl(String authorizationUrl) {
+        public void beginServerSideAuthorization(String authorizationUrl) {
             WebView webview = new WebView(getApplicationContext());
+            final String[] code = new String[1];
+            code[0] = "boo";
             webview.setWebViewClient(new WebViewClient() {
                 @Override
                 public boolean shouldOverrideUrlLoading(WebView view, String url) {
                     if(url.startsWith(CALLBACK_URL)) {
                         Log.d("Auth",url);
-                        if (url.indexOf("code=")!=-1) {
-                            String code = url.split("=")[1];
-                            Log.d("AuthCode", code);
-
-                            //TODO: Do stuff
-
+                        if (url.contains("code=")) {
+                             String codequery = url.split("=")[1];
+                            Log.d("AuthCode", codequery);
+                            code[0]=codequery;
+                            GetToken getToken = new GetToken();
+                            getToken.execute(code[0]);
+//                            Verifier verifier = new Verifier(code);
+//                            Token accessToken = service.getAccessToken(EMPTY_TOKEN,verifier);
+//                            Log.d("Auth","accessToken");
+//                            Instagram instagram = new Instagram(accessToken);
                         }
-                        else if(url.indexOf("error=access_denied")!=-1) {
+                        else if(url.contains("error=access_denied")) {
                         Log.d("Auth", "Access denied");
                         }
-//                        setContentView(spinner);
-                        setContentView(R.layout.fragment_photo_list);
-//                        spinner.setVisibility(View.VISIBLE);
-                        loading = (TextView) findViewById(R.id.tvPhotoLoading);  // Set up spinner and text
-                        spinner = (ProgressBar) findViewById(R.id.pbLoading);
-//                        loading.setVisibility(View.VISIBLE);  // Hide the progress
+                        //set content View back to our album
+                        setContentView(R.layout.activity_photo_within_album);
                         //Do not load redirect url
                         return true;
                     }
@@ -198,6 +196,25 @@ public class PhotoList extends Activity {
 //            loading.setVisibility(View.GONE);  // Hide the progress
             setContentView(webview);
             webview.loadUrl(authorizationUrl);
+
+
+
+        }
+    }
+    public class GetToken extends AsyncTask<String, Void, Void> {
+        private final InstagramService service = new InstagramAuthService()
+                .apiKey(DeveloperKey.INSTAGRAM_CLIENT_ID)
+                .apiSecret(DeveloperKey.INSTAGRAM_CLIENT_SECRET)
+                .callback(CALLBACK_URL)
+                .build();
+        //generate authorization url
+        private final Token EMPTY_TOKEN = null;
+        @Override
+        protected Void doInBackground(String... params) {
+            Verifier verifier = new Verifier(params[0]);
+            Token accessToken = service.getAccessToken(EMPTY_TOKEN,verifier);
+            Log.d("Auth","accessToken");
+            return null;
         }
     }
     public class PhotoTask extends AsyncTask<Void,Void,String> {
