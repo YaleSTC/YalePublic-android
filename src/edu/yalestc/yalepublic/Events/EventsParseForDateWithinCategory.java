@@ -7,8 +7,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.util.ArrayList;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 import edu.yalestc.yalepublic.R;
 
@@ -262,8 +262,7 @@ public class EventsParseForDateWithinCategory {
         private void setDescription(JSONObject JSONevent) {
             try {
                 String tmp = JSONevent.getString("description");
-                description = tmp.replace("&amp;","&");
-            } catch (JSONException e) {
+             } catch (JSONException e) {
                 Log.e("EventsParseForCategory/setTime", "JSON error");
             }
         }
