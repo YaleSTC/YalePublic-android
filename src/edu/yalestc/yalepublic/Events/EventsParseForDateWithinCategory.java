@@ -233,13 +233,14 @@ public class EventsParseForDateWithinCategory {
                 place = location.getString("name");
                 if(place.equals("")){
                     place = "To Be Determined";
+                } else {
+                    place += " - ";
+                    place += location.getString("address");
+                    place += ", ";
+                    place += location.getString("city");
+                    place += ", ";
+                    place += location.getString("zip");
                 }
-                place += " - ";
-                place += location.getString("address");
-                place += ", ";
-                place += location.getString("city");
-                place += ", ";
-                place += location.getString("zip");
             } catch (JSONException e) {
                 Log.e("EventsParseForCategory/setPlace", "JSON error");
             }
