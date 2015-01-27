@@ -54,13 +54,13 @@ public class EventsAdapterForLists extends BaseAdapter {
 
     protected EventsAdapterForLists(Activity activity, int year, int month, int category, int[] colors, int colorsFrom[]){
         mActivity = activity;
+        mCategoryNo = category;
         update(year, month);
         mColors = colors;
         mColorsFrom = colorsFrom;
         display = mActivity.getResources().getDisplayMetrics();
         height = display.heightPixels;
         width = display.widthPixels;
-        mCategoryNo = category;
     }
 
     @Override

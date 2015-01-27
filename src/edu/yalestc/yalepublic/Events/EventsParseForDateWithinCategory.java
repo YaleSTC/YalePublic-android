@@ -125,6 +125,8 @@ public class EventsParseForDateWithinCategory {
         try {
             JSONArray mCategories = JSONevent.getJSONArray("categories");
             String category;
+            // the splitting is necessary for JSON names consisting of two words that are not a single
+            // category!
             for (int i = 0; i < mCategories.length(); i++) {
                 if (availableCategories[mSearchedCategoryNumber].split(" ").length != 1) {
                     category = availableCategories[mSearchedCategoryNumber].split(" ")[0];
@@ -169,11 +171,11 @@ public class EventsParseForDateWithinCategory {
         private String date;
         private String dateDescription;
         private String description;
-        private int categoryNumber;
+        private String categoryNumber;
 
         //return a String[] with information about the event
         public String[] getInfo() {
-            String[] eventInfo = new String[]{title, startTime, endTime, place, dateDescription, description, Integer.toString(categoryNumber), date};
+            String[] eventInfo = new String[]{title, startTime, endTime, place, dateDescription, description, categoryNumber, date};
             return eventInfo;
         }
 
@@ -284,35 +286,37 @@ public class EventsParseForDateWithinCategory {
                     //indicating the place of category in availableCategories array, since the color of the blob
                     //is the same! We always chose the first that matches. Although complexity here is big, there
                     //are rarely more than 5 elements in the first list and the second one is fixed and short.
+
+                    //The categories will be in the format ,NN,N,NN,NNN,N etc. where N are digits. The initial
+                    //coma is important for distinction between say 5 and 15 when querying db since we will
+                    //query for %,NN,% NN being a number!
+                    categoryNumber += ",";
                     for (int i = 0; i < mCategories.length(); i++) {
                         for (int j = 1; j < availableCategories.length; j++) {
                             if (availableCategories[j].split(" ").length != 1) {
                                 category = availableCategories[j].split(" ")[0];
                                 if (category.equals(mCategories.getString(i))) {
-                                    categoryNumber = j;
-                                    return;
+                                    categoryNumber += Integer.toString(j) + ",";
                                 }
                                 category = availableCategories[j].split(" ")[1];
                                 if (category.equals(mCategories.getString(i))) {
-                                    categoryNumber = j;
-                                    return;
+                                    categoryNumber += Integer.toString(j) + ",";
                                 }
                             } else {
                                 category = availableCategories[j];
                                 if (category.equals(mCategories.getString(i))) {
-                                    categoryNumber = j;
-                                    return;
+                                    categoryNumber += Integer.toString(j) + ",";
                                 }
                             }
                         }
                     }
                     //for the events that cannot be categorized!
-                    categoryNumber = 13;
+                    categoryNumber += "13,";
                 } catch (JSONException e) {
                     Log.e("EventsParseForCategory/events/setCategoryNumber", "Json error");
                 }
             } else {
-                categoryNumber = mSearchedCategoryNumber;
+                categoryNumber = "," + Integer.toString(mSearchedCategoryNumber)+",";
             }
         }
     }
