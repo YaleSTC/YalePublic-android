@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import java.util.Calendar;
 
 import edu.yalestc.yalepublic.Events.EventsDetails;
+import edu.yalestc.yalepublic.Events.EventsParseForDateWithinCategory;
 import edu.yalestc.yalepublic.R;
 
 /**
@@ -77,9 +78,11 @@ public class ListFragment extends Fragment {
                     colorTo = mExtras.getIntArray("colorsTo")[0];
                     colorFrom = mExtras.getIntArray("colorsFrom")[0];
                 } else {
-                    color = mExtras.getIntArray("colors")[Integer.parseInt(eventInfo[6])];
-                    colorTo = mExtras.getIntArray("colorsTo")[Integer.parseInt(eventInfo[6])];
-                    colorFrom = mExtras.getIntArray("colorsFrom")[Integer.parseInt(eventInfo[6])];
+                    //since the category is a string with multiple categories, we need to retrieve
+                    int cat = EventsParseForDateWithinCategory.retrieveCategory(eventInfo[6]);
+                    color = mExtras.getIntArray("colors")[cat];
+                    colorTo = mExtras.getIntArray("colorsTo")[cat];
+                    colorFrom = mExtras.getIntArray("colorsFrom")[cat];
                 }
                 //put data into the extras
                 Intent eventDetails = new Intent(getActivity(), EventsDetails.class);

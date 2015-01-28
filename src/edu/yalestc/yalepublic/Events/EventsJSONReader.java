@@ -72,7 +72,7 @@ public class EventsJSONReader extends JSONReader {
 
     @Override
     protected void onPostExecute(String result) {
-        if (mAdapter != null) {
+        if (mAdapter != null && mRawData != null) {
             mAdapter.updateEvents(mRawData);
             Log.i("EventsJSONReader", "Updating the events data set in calendar adapter");
         }

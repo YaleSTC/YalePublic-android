@@ -102,7 +102,7 @@ public class EventsParseForDateWithinCategory {
             String yearMonth = startTime.getString("datetime");
             yearMonth = yearMonth.substring(0, 6);
             //Log.v("isValidEvent", yearMonth);
-            if (yearMonth.equals(Integer.toString(mYear) + monthToString())) {
+            if (yearMonth.equals(Integer.toString(mYear) + DateFormater.monthToStringCalendarToCalendar(mMonth))) {
                 if (mSearchedCategoryNumber == 0) {
                     return true;
                 } else {
@@ -151,16 +151,16 @@ public class EventsParseForDateWithinCategory {
         }
     }
 
-    //helper function for usage in isValidEvent. returns the month as MM. MM ranges from 01 to 12.
-    private String monthToString() {
-        String stringMonth;
-        if (mMonth < 10) {
-            stringMonth = "0";
-        } else {
-            stringMonth = new String();
+    //to get the category from string of categories
+    public static int retrieveCategory(String categories){
+        String[] cats = categories.split(",");
+        for(String cat : cats){
+            //I have no clue why, but apparently I have some "null" in there. Super weird since
+            //this error does not occur by caching and the objects are the same
+            if(!cat.equals("") && !cat.equals("null"))
+                return Integer.parseInt(cat);
         }
-        stringMonth += Integer.toString(mMonth);
-        return stringMonth;
+        return 0;
     }
 
     private class event {

@@ -20,6 +20,7 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import edu.yalestc.yalepublic.Events.EventsDetails;
+import edu.yalestc.yalepublic.Events.EventsParseForDateWithinCategory;
 import edu.yalestc.yalepublic.R;
 
 import static edu.yalestc.yalepublic.R.drawable.calendar_grid_button_current_selected;
@@ -122,9 +123,11 @@ public class CalendarFragment extends Fragment {
                     colorTo = mExtras.getIntArray("colorsTo")[0];
                     colorFrom = mExtras.getIntArray("colorsFrom")[0];
                 } else {
-                    color = mExtras.getIntArray("colors")[Integer.parseInt(eventInfo[6])];
-                    colorTo = mExtras.getIntArray("colorsTo")[Integer.parseInt(eventInfo[6])];
-                    colorFrom = mExtras.getIntArray("colorsFrom")[Integer.parseInt(eventInfo[6])];
+                    //retrieve category from the string
+                    int cat = EventsParseForDateWithinCategory.retrieveCategory(eventInfo[6]);
+                    color = mExtras.getIntArray("colors")[cat];
+                    colorTo = mExtras.getIntArray("colorsTo")[cat];
+                    colorFrom = mExtras.getIntArray("colorsFrom")[cat];
                 }
                 Intent eventDetails = new Intent(getActivity(), EventsDetails.class);
                 eventDetails.putExtra("title", eventInfo[0]);

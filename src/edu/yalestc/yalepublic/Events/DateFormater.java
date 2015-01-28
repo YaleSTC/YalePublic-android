@@ -27,6 +27,18 @@ public class DateFormater {
         return result;
     }
 
+    //helper function for usage in isValidEvent. returns the month as MM. MM ranges from 01 to 12.
+    public static String monthToStringCalendarToCalendar(int month) {
+        String stringMonth;
+        if (month < 10) {
+            stringMonth = "0";
+        } else {
+            stringMonth = new String();
+        }
+        stringMonth += Integer.toString(month);
+        return stringMonth;
+    }
+
     //from calendar format to year format. Result is in the YYYYMM format and is an integer.
     //the function handles changing the year if month is out of bounds, however month has to be
     //within the interval -12, 24.

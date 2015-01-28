@@ -14,6 +14,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.concurrent.ExecutionException;
+
 import edu.yalestc.yalepublic.Cache.CalendarCache;
 import edu.yalestc.yalepublic.R;
 
@@ -42,6 +44,7 @@ public class EventsAdapterForLists extends BaseAdapter {
     //for ovals next to time
     protected int[] mColors;
     protected int[] mColorsFrom;
+    private BaseAdapter mAdapter;
 
     //if we want to have a class that inherits, does not manage everything for us, but still
     //gives access to all those functions
@@ -54,6 +57,7 @@ public class EventsAdapterForLists extends BaseAdapter {
 
     protected EventsAdapterForLists(Activity activity, int year, int month, int category, int[] colors, int colorsFrom[]){
         mActivity = activity;
+        allTheEvents = null;
         mCategoryNo = category;
         update(year, month);
         mColors = colors;
@@ -61,6 +65,10 @@ public class EventsAdapterForLists extends BaseAdapter {
         display = mActivity.getResources().getDisplayMetrics();
         height = display.heightPixels;
         width = display.widthPixels;
+    }
+
+    protected void setCallbackAdapter(BaseAdapter adapter){
+        mAdapter = adapter;
     }
 
     @Override
@@ -95,6 +103,7 @@ public class EventsAdapterForLists extends BaseAdapter {
             //the constructor by default takes in data to parse, so no need to call setNewEvents
             allTheEvents = new EventsParseForDateWithinCategory(rawData, mMonth - 1, mYear, mActivity, mCategoryNo);
         }
+        mAdapter.notifyDataSetChanged();
     }
 
     //set the new month and year, then pull the data from internet if needed. The AsyncTask

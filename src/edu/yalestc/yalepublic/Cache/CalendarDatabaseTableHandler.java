@@ -9,6 +9,8 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
+import edu.yalestc.yalepublic.Events.EventsParseForDateWithinCategory;
+
 /**
  * Created by Stan Swidwinski on 1/3/15.
  *
@@ -45,7 +47,8 @@ public class CalendarDatabaseTableHandler extends SQLiteOpenHelper {
 
     //IMPORTANT NOTE: Category is a string representing the numbers of categories as enumerated
     //in resources. The numbers are separated by ",". For example: ",1,10,2,4,". The category will be
-    //queried using " like '%,N,%' " where N is a number.
+    //queried using " like '%,N,%' " where N is a number. To retrieve such encoded category when
+    // searching using 0, use the EventsParseForDateWithinCategory.retrieveCategory(String cat);
     public void addEvent(String[] eventInfo) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -102,13 +105,7 @@ public class CalendarDatabaseTableHandler extends SQLiteOpenHelper {
                 for (int i = 0; i < 6; i++)
                     event[i] = cursor.getString(i);
                 // extract the category from string (seventh field)
-                String[] categories = cursor.getString(6).split(",");
-                for (String cat : categories) {
-                    if (!cat.equals("")) {
-                        event[6] = cat;
-                        break;
-                    }
-                }
+                event[6] = String.valueOf(EventsParseForDateWithinCategory.retrieveCategory(cursor.getString(6)));
                 // add the last field (numerical date)
                 event[7] = cursor.getString(7);
                 result.add(event);
@@ -147,14 +144,8 @@ public class CalendarDatabaseTableHandler extends SQLiteOpenHelper {
                 // which means that we want all the categories. IF we are querying for specific value,
                 // we can just put that value as category, since we only get events from that category
                 // from query
-                String[] categories = cursor.getString(6).split(",");
                 if (category == 0) {
-                    for (String cat : categories) {
-                        if (!cat.equals("")) {
-                            event[6] = cat;
-                            break;
-                        }
-                    }
+                    event[6] = String.valueOf(EventsParseForDateWithinCategory.retrieveCategory(cursor.getString(6)));
                 } else {
                     event[6] = Integer.toString(category);
                 }
@@ -199,12 +190,7 @@ public class CalendarDatabaseTableHandler extends SQLiteOpenHelper {
                 // from query
                 String[] categories = cursor.getString(6).split(",");
                 if (category == 0) {
-                    for (String cat : categories) {
-                        if (!cat.equals("")) {
-                            event[6] = cat;
-                            break;
-                        }
-                    }
+                    event[6] = String.valueOf(EventsParseForDateWithinCategory.retrieveCategory(cursor.getString(6)));
                 } else {
                     event[6] = Integer.toString(category);
                 }
@@ -234,13 +220,7 @@ public class CalendarDatabaseTableHandler extends SQLiteOpenHelper {
                 for (int i = 0; i < 6; i++)
                     event[i] = cursor.getString(i);
                 // since the category has to be extracted from a string
-                String[] categories = cursor.getString(6).split(",");
-                for (String cat : categories) {
-                    if (!cat.equals("")) {
-                        event[6] = cat;
-                        break;
-                    }
-                }
+                event[6] = String.valueOf(EventsParseForDateWithinCategory.retrieveCategory(cursor.getString(6)));
                 // add the numerical date
                 event[7] = cursor.getString(7);
                 result.add(event);
