@@ -28,10 +28,12 @@ public class EventsParseForDateWithinCategory {
     //for use in events class to parse the category of an event that will be used in the EventsCalendarEventList class
     //for deciding on the color of the blobs
     final private String[] availableCategories;
+    private ArrayList<Integer> daysWithEvents;
 
     //Context passed in for access to resources
     public EventsParseForDateWithinCategory(String rawData, int month, int year, Context context, int searchedCategoryNumber) {
         mSearchedCategoryNumber = searchedCategoryNumber;
+        daysWithEvents = new ArrayList<>();
         availableCategories = context.getResources().getStringArray(R.array.events_category_names_json);
         setNewEvents(rawData, month, year);
     }
@@ -93,6 +95,10 @@ public class EventsParseForDateWithinCategory {
         return allEvents;
     }
 
+    public ArrayList<Integer> getDaysWithEvents(){
+        return daysWithEvents;
+    }
+
     //check if given event is valid
     //if we are looking for all events - it only has to start in current month
     //if we are looking for special category it has to start in current month and be in the given category!
@@ -100,6 +106,7 @@ public class EventsParseForDateWithinCategory {
         try {
             JSONObject startTime = JSONevent.getJSONObject("start");
             String yearMonth = startTime.getString("datetime");
+            int day = Integer.parseInt(yearMonth)%100;
             yearMonth = yearMonth.substring(0, 6);
             //Log.v("isValidEvent", yearMonth);
             if (yearMonth.equals(Integer.toString(mYear) + DateFormater.monthToStringCalendarToCalendar(mMonth))) {
@@ -107,6 +114,7 @@ public class EventsParseForDateWithinCategory {
                     return true;
                 } else {
                     if (isInConsideredCategory(JSONevent)) {
+                        daysWithEvents.add(day);
                         return true;
                     } else {
                         return false;

@@ -114,7 +114,6 @@ public class EventsCalendarGridAdapter extends BaseAdapter {
         }
     }
 
-
     //the count has to include the "fill in" tiles to have a nice rectangular region.
     @Override
     public int getCount() {
