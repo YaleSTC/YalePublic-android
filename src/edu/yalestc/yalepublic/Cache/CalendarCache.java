@@ -81,11 +81,11 @@ public class CalendarCache extends JSONReader {
         int mMonth = currentMonth;
         int mDay = 1;
         createEventPreferences.putInt("dateCached", Integer.parseInt(DateFormater.calendarDateToEventsParseForDate(mYear, mMonth, mDay)));
-        int topMonth = mMonth + 2;
+        int topMonth = mMonth + 6;
         int topYear = mYear;
         createEventPreferences.putInt("topBoundDate", Integer.parseInt(DateFormater.calendarDateToEventsParseForDate(topYear, topMonth, mDay)));
         int botYear = mYear;
-        int botMonth = mMonth - 1;
+        int botMonth = mMonth;
         createEventPreferences.putInt("botBoundDate", Integer.parseInt(DateFormater.calendarDateToEventsParseForDate(botYear, botMonth, mDay)));
         createEventPreferences.apply();
     }
