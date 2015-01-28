@@ -33,6 +33,7 @@ public class CalendarCache extends JSONReader {
     Calendar myCalendar;
     SharedPreferences prefs;
     final int year;
+    // calendar format
     final int month;
     private ProgressDialog dialog;
 
@@ -108,6 +109,10 @@ public class CalendarCache extends JSONReader {
                 }
             }
         }
+        //brute force all categories. Assumption: bits are cheap!
+        for (int i = 1; i < 14; i++){
+            eventTable.addDaysWithEvents(month, parser.hasEvents(i),i);
+        }
     }
 
     //NOT TESTED. PLEASE TEST AFTER DEMO SINCE THIS IS NOT TOO IMPORTANT.
@@ -143,9 +148,10 @@ public class CalendarCache extends JSONReader {
 
     private void deleteObsolete(int year, int month, CalendarDatabaseTableHandler eventTable) {
         //YYYYMM00
-        int lowerbound = DateFormater.yearMonthFromCalendarToStandard(year, month + 3) * 100;
+        int lowerbound = DateFormater.yearMonthFromCalendarToStandard(year, month) * 100;
         //YYYYMM33
-        int upperbound = DateFormater.yearMonthFromCalendarToStandard(year, month - 1) + 33;
+        int upperbound = DateFormater.yearMonthFromCalendarToStandard(year, month + 6) + 33;
+        eventTable.deleteDaysWithEvents(month);
         eventTable.deleteEvents(lowerbound, upperbound);
     }
 

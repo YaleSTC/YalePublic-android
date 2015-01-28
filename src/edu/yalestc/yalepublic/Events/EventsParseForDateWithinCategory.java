@@ -28,12 +28,10 @@ public class EventsParseForDateWithinCategory {
     //for use in events class to parse the category of an event that will be used in the EventsCalendarEventList class
     //for deciding on the color of the blobs
     final private String[] availableCategories;
-    private ArrayList<Integer> daysWithEvents;
 
     //Context passed in for access to resources
     public EventsParseForDateWithinCategory(String rawData, int month, int year, Context context, int searchedCategoryNumber) {
         mSearchedCategoryNumber = searchedCategoryNumber;
-        daysWithEvents = new ArrayList<>();
         availableCategories = context.getResources().getStringArray(R.array.events_category_names_json);
         setNewEvents(rawData, month, year);
     }
@@ -95,8 +93,37 @@ public class EventsParseForDateWithinCategory {
         return allEvents;
     }
 
-    public ArrayList<Integer> getDaysWithEvents(){
-        return daysWithEvents;
+    public ArrayList<Integer> hasEvents(int category){
+        //how slow? this iterates through all events. Potentially could do when validEvents is created.
+        ArrayList<Integer> hasEventsWithinCategory = new ArrayList<>();
+        int dayConsidered= 1;
+        if(category != 0) {
+            for (event ev : validEvents) {
+                int dayOfEvent = Integer.parseInt(ev.getDate()) % 100;
+                if (dayOfEvent == dayConsidered) {
+                    if (ev.getCategoryNumber().contains(Integer.toString(category))) {
+                        dayConsidered ++;
+                        hasEventsWithinCategory.add(dayConsidered);
+                    }
+                } else if (dayOfEvent > dayConsidered){
+                    dayConsidered = dayOfEvent;
+                    hasEventsWithinCategory.add(dayConsidered);
+                }
+            }
+            return hasEventsWithinCategory;
+        } else {
+            for (event ev : validEvents) {
+                int dayOfEvent = Integer.parseInt(ev.getDate()) % 100;
+                if (dayOfEvent == dayConsidered) {
+                    dayConsidered++;
+                    hasEventsWithinCategory.add(dayConsidered);
+                } else if (dayOfEvent > dayConsidered){
+                    dayConsidered = dayOfEvent;
+                    hasEventsWithinCategory.add(dayConsidered);
+                }
+            }
+            return hasEventsWithinCategory;
+        }
     }
 
     //check if given event is valid
@@ -114,7 +141,6 @@ public class EventsParseForDateWithinCategory {
                     return true;
                 } else {
                     if (isInConsideredCategory(JSONevent)) {
-                        daysWithEvents.add(day);
                         return true;
                     } else {
                         return false;
@@ -326,6 +352,10 @@ public class EventsParseForDateWithinCategory {
             } else {
                 categoryNumber = "," + Integer.toString(mSearchedCategoryNumber)+",";
             }
+        }
+
+        public String getCategoryNumber(){
+            return categoryNumber;
         }
     }
 }
