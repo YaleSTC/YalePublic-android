@@ -21,7 +21,6 @@ public class CalendarDatabaseTableHandler extends SQLiteOpenHelper {
 
     private static final int TABLE_VERSION = 1;
     private static final String TABLE_NAME_EVENTS = "events";
-    private static final String TABLE_NAME_DAYS_WITH_EVENTS = "days with events";
     String TABLE_CREATE_EVENTS =
             "CREATE TABLE " + TABLE_NAME_EVENTS + " (" +
                     "Title" + " TEXT, " +
@@ -33,12 +32,6 @@ public class CalendarDatabaseTableHandler extends SQLiteOpenHelper {
                     "Category" + " TEXT, " +
                     "NumericalDate" + " INTEGER);";
 
-    String TABLE_CREATE_DAYS_WITH_EVENTS =
-            "CREATE TABLE " + TABLE_NAME_DAYS_WITH_EVENTS + " (" +
-                    "Month INTEGER, " +
-                    "Day INTEGER, " +
-                    "Category INTEGER);";
-
     public CalendarDatabaseTableHandler(Context context) {
         super(context, TABLE_NAME_EVENTS, null, TABLE_VERSION);
     }
@@ -46,7 +39,6 @@ public class CalendarDatabaseTableHandler extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(TABLE_CREATE_EVENTS);
-        db.execSQL(TABLE_CREATE_DAYS_WITH_EVENTS);
     }
 
     @Override
@@ -72,42 +64,6 @@ public class CalendarDatabaseTableHandler extends SQLiteOpenHelper {
         values.put("NumericalDate", date);
         Log.i("DATABASE", "Event " + eventInfo[0] + " added on " + eventInfo[7]);
         db.insert(TABLE_NAME_EVENTS, null, values);
-    }
-
-    public void addDaysWithEvents(int month, ArrayList<Integer> daysWithEvents, int category){
-        if(daysWithEvents.size() == 0)
-            return;
-        SQLiteDatabase db = this.getWritableDatabase();
-        for(int day : daysWithEvents)
-        {
-            ContentValues values = new ContentValues();
-            values.put("Month", month);
-            values.put("Day", day);
-            values.put("Category", category);
-            db.insert(TABLE_CREATE_DAYS_WITH_EVENTS, null, values);
-        }
-        db.close();
-    }
-
-    public boolean hasEvents(int day, int category){
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        String query;
-        if(category != 0){
-            query = "select * from " + TABLE_NAME_DAYS_WITH_EVENTS
-                    + " where day = " + Integer.toString(day)
-                    + " AND category = " + Integer.toString(category) + ";";
-        } else {
-            query = "select * from " + TABLE_NAME_DAYS_WITH_EVENTS
-                    + " where day = " + Integer.toString(day) +  ";";
-        }
-
-        Cursor cursor = db.rawQuery(query, null);
-
-        if(cursor.getCount() == 0)
-            return false;
-        else
-            return true;
     }
 //
 //    public ArrayList<String[]> getEventsOn(String date) {
@@ -277,22 +233,46 @@ public class CalendarDatabaseTableHandler extends SQLiteOpenHelper {
 
     }
 
+    public ArrayList<Integer> getDaysWithEventsInCategory(int category, int yearMonth){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String query;
+        if(category != 0){
+            query = "select NumericalDate from table " + TABLE_NAME_EVENTS
+                    + " where NumericalDate > " + Integer.toString(yearMonth*100)
+                    + " AND NumericalDate < " + Integer.toString(yearMonth*100 + 35)
+                    + " AND Category like " + "\'%," + Integer.toString(category) + ",%\'" + ";";
+        } else {
+            query = "select NumericalDate from table " + TABLE_NAME_EVENTS
+                    + " where NumericalDate > " + Integer.toString(yearMonth*100)
+                    + " AND NumericalDate < " + Integer.toString(yearMonth*100 + 35) + ";";
+        }
+
+        ArrayList<Integer> result = new ArrayList<>();
+        Cursor cursor = db.rawQuery(query, null);
+
+        int processedDay = 1;
+        if(cursor.moveToFirst()) {
+            do {
+                int day = cursor.getInt(0)%100;
+                if(day == processedDay){
+                    processedDay ++;
+                    result.add(day);
+                } else if (day > processedDay){
+                    processedDay = day;
+                    result.add(day);
+                }
+            } while (cursor.moveToNext());
+        }
+        return result;
+    }
+
     public void deleteEvents(int lowerBoundDate, int upperBoundDate) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         String query = "delete from " + TABLE_NAME_EVENTS
                 + " where NumericalDate > " + Integer.toString(upperBoundDate) +
                 " OR NumericalDate < " + Integer.toString(lowerBoundDate) + ";";
-
-        db.rawQuery(query, null);
-        db.close();
-    }
-
-    public void deleteDaysWithEvents(int month){
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        String query = "delete from " + TABLE_NAME_DAYS_WITH_EVENTS
-                + " where month = " + Integer.toString(month) + ";";
 
         db.rawQuery(query, null);
         db.close();

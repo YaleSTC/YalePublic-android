@@ -109,10 +109,6 @@ public class CalendarCache extends JSONReader {
                 }
             }
         }
-        //brute force all categories. Assumption: bits are cheap!
-        for (int i = 1; i < 14; i++){
-            eventTable.addDaysWithEvents(month, parser.hasEvents(i),i);
-        }
     }
 
     //NOT TESTED. PLEASE TEST AFTER DEMO SINCE THIS IS NOT TOO IMPORTANT.
@@ -151,7 +147,6 @@ public class CalendarCache extends JSONReader {
         int lowerbound = DateFormater.yearMonthFromCalendarToStandard(year, month) * 100;
         //YYYYMM33
         int upperbound = DateFormater.yearMonthFromCalendarToStandard(year, month + 6) + 33;
-        eventTable.deleteDaysWithEvents(month);
         eventTable.deleteEvents(lowerbound, upperbound);
     }
 

@@ -93,7 +93,7 @@ public class EventsParseForDateWithinCategory {
         return allEvents;
     }
 
-    public ArrayList<Integer> hasEvents(int category){
+    public ArrayList<Integer> daysWithEvents(int category){
         //how slow? this iterates through all events. Potentially could do when validEvents is created.
         ArrayList<Integer> hasEventsWithinCategory = new ArrayList<>();
         int dayConsidered= 1;
