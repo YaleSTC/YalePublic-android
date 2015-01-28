@@ -20,9 +20,10 @@ import edu.yalestc.yalepublic.Events.EventsParseForDateWithinCategory;
 public class CalendarDatabaseTableHandler extends SQLiteOpenHelper {
 
     private static final int TABLE_VERSION = 1;
-    private static final String TABLE_NAME = "events";
-    String TABLE_CREATE =
-            "CREATE TABLE " + TABLE_NAME + " (" +
+    private static final String TABLE_NAME_EVENTS = "events";
+    private static final String TABLE_NAME_DAYS_WITH_EVENTS = "days with events";
+    String TABLE_CREATE_EVENTS =
+            "CREATE TABLE " + TABLE_NAME_EVENTS + " (" +
                     "Title" + " TEXT, " +
                     "StartTime" + " TEXT, " +
                     "EndTime" + " TEXT, " +
@@ -32,13 +33,19 @@ public class CalendarDatabaseTableHandler extends SQLiteOpenHelper {
                     "Category" + " TEXT, " +
                     "NumericalDate" + " INTEGER);";
 
+    String TABLE_CREATE_DAYS_WITH_EVENTS =
+            "CREATE TABLE " + TABLE_NAME_DAYS_WITH_EVENTS + " (" +
+                    "Month INTEGER, " +
+                    "Day INTEGER);";
+
     public CalendarDatabaseTableHandler(Context context) {
-        super(context, TABLE_NAME, null, TABLE_VERSION);
+        super(context, TABLE_NAME_EVENTS, null, TABLE_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(TABLE_CREATE);
+        db.execSQL(TABLE_CREATE_EVENTS);
+        db.execSQL(TABLE_CREATE_DAYS_WITH_EVENTS);
     }
 
     @Override
@@ -62,14 +69,26 @@ public class CalendarDatabaseTableHandler extends SQLiteOpenHelper {
         //for easier implementation of deleteEvents
         values.put("NumericalDate", Integer.parseInt(eventInfo[7]));
         Log.i("DATABASE", "Event " + eventInfo[0] + " added on " + eventInfo[7]);
-        db.insert(TABLE_NAME, null, values);
+        db.insert(TABLE_NAME_EVENTS, null, values);
+        db.close();
+    }
+
+    public void addNumberOfEvents(int month, ArrayList<Integer> daysWithEvents){
+        SQLiteDatabase db = this.getWritableDatabase();
+        for(int day : daysWithEvents)
+        {
+            ContentValues values = new ContentValues();
+            values.put("Month", month);
+            values.put("Day", day);
+            db.insert(TABLE_CREATE_DAYS_WITH_EVENTS, null, values);
+        }
         db.close();
     }
 //
 //    public ArrayList<String[]> getEventsOn(String date) {
 //        SQLiteDatabase db = this.getReadableDatabase();
 //
-//        String query = "select * from " + TABLE_NAME
+//        String query = "select * from " + TABLE_NAME_EVENTS
 //                + "where Date in ('Date'," + date + ");";
 //
 //        Cursor cursor = db.rawQuery(query, null);
@@ -91,7 +110,7 @@ public class CalendarDatabaseTableHandler extends SQLiteOpenHelper {
     public ArrayList<String[]> getEventsBeforeAndAfter(int dateAfter, int dateBefore) {
         SQLiteDatabase db = this.getReadableDatabase();
 
-        String query = "select * from " + TABLE_NAME
+        String query = "select * from " + TABLE_NAME_EVENTS
                 + " where NumericalDate > " + Integer.toString(dateAfter)
                 + " AND NumericalDate < " + Integer.toString(dateBefore) + ";";
 
@@ -122,11 +141,11 @@ public class CalendarDatabaseTableHandler extends SQLiteOpenHelper {
         //to look within a given category, we will use wildcards. every number begins with
         //, and is finished with ,
         if (category != 0) {
-            query = "select * from " + TABLE_NAME
+            query = "select * from " + TABLE_NAME_EVENTS
                     + " where Category like \'%," + Integer.toString(category) + ",%\'"
                     + " AND NumericalDate='" + date + "';";
         } else {
-            query = "select * from " + TABLE_NAME
+            query = "select * from " + TABLE_NAME_EVENTS
                     + " where NumericalDate= '" + date + "';";
         }
 
@@ -163,13 +182,13 @@ public class CalendarDatabaseTableHandler extends SQLiteOpenHelper {
     public ArrayList<String[]> getEventsInMonthWithinCategory(int date, int category){
         String query;
         if (category != 0) {
-            query = "select * from " + TABLE_NAME
+            query = "select * from " + TABLE_NAME_EVENTS
                     + " where Category = " + Integer.toString(category)
                     + " AND Category like '%," + Integer.toString(category) + ",%\'"
                     + " AND ( NumericalDate > " + Integer.toString(date)
                     + " AND NumericalDate < " + Integer.toString(date + 99) + ") ;";
         } else {
-            query = "select * from " + TABLE_NAME
+            query = "select * from " + TABLE_NAME_EVENTS
                     + " where NumericalDate > " + Integer.toString(date)
                     + " AND NumericalDate < " + Integer.toString(date + 99) + ";";
         }
@@ -206,7 +225,7 @@ public class CalendarDatabaseTableHandler extends SQLiteOpenHelper {
     }
 
     public ArrayList<String[]> searchEventsByName(String name){
-        String query = "select * from " + TABLE_NAME
+        String query = "select * from " + TABLE_NAME_EVENTS
                 + " where Title like \'%" + name + "%\';";
 
         SQLiteDatabase db = this.getReadableDatabase();
@@ -236,7 +255,7 @@ public class CalendarDatabaseTableHandler extends SQLiteOpenHelper {
     public void deleteEvents(int lowerBoundDate, int upperBoundDate) {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        String query = "delete from " + TABLE_NAME
+        String query = "delete from " + TABLE_NAME_EVENTS
                 + " where NumericalDate > " + Integer.toString(upperBoundDate) +
                 " OR NumericalDate < " + Integer.toString(lowerBoundDate) + ";";
 
