@@ -157,9 +157,6 @@ public class EventsCalendarGridAdapter extends BaseAdapter {
                     ((TextView) ((RelativeLayout) convertView).getChildAt(1)).setTextColor(Color.parseColor("#3d4b5a"));
                 }
             }
-                /*set the size of the drawable
-                ((ImageView)((RelativeLayout)convertView).getChildAt(0)).getLayoutParams().height=((int)(height*136/1920));
-                ((ImageView)((RelativeLayout)convertView).getChildAt(0)).getLayoutParams().width=((int)(width/7));*/
             //set the day number. It is the cardinal calendar number!
             ((TextView) ((RelativeLayout) convertView).getChildAt(1)).setText(Integer.toString(getDayNumber(i)));
             return convertView;
