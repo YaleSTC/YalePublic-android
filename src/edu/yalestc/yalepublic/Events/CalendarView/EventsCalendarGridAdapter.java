@@ -164,6 +164,10 @@ public class EventsCalendarGridAdapter extends BaseAdapter {
         return (firstDayInWeekOfMonth + daysInMonth + fillIn - 1);
     }
 
+    private void makeSelectedGrid(RelativeLayout layout, int i){
+
+    }
+
     @Override
     public Object getItem(int i) {
         return null;
@@ -200,7 +204,7 @@ public class EventsCalendarGridAdapter extends BaseAdapter {
                 } else {
                     //set the image
                     ((ImageView) ((RelativeLayout) convertView).getChildAt(0)).setImageDrawable(mContext.getResources().getDrawable(calendar_grid_button_selected));
-                    //color of non-selected dates inside current month is different. Dark Gray.
+                    //color of selected dates inside current month is different. White
                     ((TextView) ((RelativeLayout) convertView).getChildAt(1)).setTextColor(Color.parseColor("#FFFFFF"));
                 }
             }
@@ -214,6 +218,7 @@ public class EventsCalendarGridAdapter extends BaseAdapter {
                     ((ImageView) ((RelativeLayout) convertView).getChildAt(2)).setImageDrawable(createBlob(Color.parseColor("#0F4D92"), Color.parseColor("#5ba5f8")));
                 }
             } else {
+                //no events or day outside of month -> blank drawable
                 ((ImageView) ((RelativeLayout) convertView).getChildAt(2)).setImageDrawable(new GradientDrawable());
             }
             //set the day number. It is the cardinal calendar number!
@@ -246,7 +251,8 @@ public class EventsCalendarGridAdapter extends BaseAdapter {
                     ((TextView) ((RelativeLayout) calendar_grid).getChildAt(1)).setTextColor(Color.parseColor("#FFFFFF"));
                 }
             }
-            //set the blob under text on grid if events exist
+            // set the blob under text on grid if events exist. Note: no need to do anything for days
+            // without events or days outside of month -> the imageview is empty by default
             if (daysWithEvents.contains(getDayNumber(i)) && !isOutsideCurrentMonth(i)) {
                 if (mCategory != 0) {
                     // if category is non-zero the blob is in the color of the category

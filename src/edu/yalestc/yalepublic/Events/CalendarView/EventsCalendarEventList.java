@@ -52,6 +52,7 @@ public class EventsCalendarEventList extends EventsAdapterForLists {
 
     public EventsCalendarEventList(Activity activity, int year, int month, int selectedDayOfMonth, int category, int[] colors, int colorsFrom[], EventsCalendarGridAdapter adapter) {
         super(activity, year, month, category, colors, colorsFrom);
+        //adapter used to send the list of days with events to grid adapter
         mAdapter = adapter;
         _newDataSet = true;
         // for displaying the data after it is downloaded. Please see note at the top
@@ -79,6 +80,7 @@ public class EventsCalendarEventList extends EventsAdapterForLists {
 
     public void update(int year, int month) {
         super.update(year, month);
+        // the data set will change. set the flag to true (necessary to send data to grid adapter)
         _newDataSet = true;
     }
 
@@ -91,6 +93,7 @@ public class EventsCalendarEventList extends EventsAdapterForLists {
             // please see the note at the top of the class
             if (allTheEvents != null) {
                 eventsOnCurrentDay = allTheEvents.getEventsOnGivenDate((DateFormater.convertDateToString(mYear, mMonth, mSelectedDayOfMonth)));
+                // only called after dataSet has changed (new month displayed)
                 if (_newDataSet) {
                     _newDataSet = false;
                     mAdapter.setDaysWithEvents(allTheEvents.daysWithEvents(mCategoryNo));
@@ -100,6 +103,7 @@ public class EventsCalendarEventList extends EventsAdapterForLists {
         } else {
             CalendarDatabaseTableHandler db = new CalendarDatabaseTableHandler(mActivity);
             eventsOnCurrentDay = db.getEventsOnDateWithinCategory((DateFormater.convertDateToString(mYear, mMonth, mSelectedDayOfMonth)), mCategoryNo);
+            // only called after dataSet has changed (new month displayed)
             if (_newDataSet) {
                 _newDataSet = false;
                 mAdapter.setDaysWithEvents(db.getDaysWithEventsInCategory(mCategoryNo, mYear * 100 + mMonth));
