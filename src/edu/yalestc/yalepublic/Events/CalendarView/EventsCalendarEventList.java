@@ -45,9 +45,15 @@ public class EventsCalendarEventList extends EventsAdapterForLists {
     private int mSelectedDayOfMonth;
     //array holding only the displayed events
     ArrayList<String[]> eventsOnCurrentDay;
+    //for sending the days with events to grid adapter
+    private EventsCalendarGridAdapter mAdapter;
+    //we only want to send the days with events when new dataset is fetched (new month)
+    private boolean _newDataSet;
 
-    public EventsCalendarEventList(Activity activity, int year, int month, int selectedDayOfMonth, int category, int[] colors, int colorsFrom[]) {
+    public EventsCalendarEventList(Activity activity, int year, int month, int selectedDayOfMonth, int category, int[] colors, int colorsFrom[], EventsCalendarGridAdapter adapter) {
         super(activity, year, month, category, colors, colorsFrom);
+        mAdapter = adapter;
+        _newDataSet = true;
         // for displaying the data after it is downloaded. Please see note at the top
         super.setCallbackAdapter(this);
         eventsOnCurrentDay = new ArrayList<>();
@@ -71,6 +77,11 @@ public class EventsCalendarEventList extends EventsAdapterForLists {
         super.notifyDataSetChanged();
     }
 
+    public void update(int year, int month){
+        super.update(year, month);
+        _newDataSet = true;
+    }
+
     //called when the selected day is changed. Updates the events for a given day and the day itself.
     public void setmSelectedDayOfMonth(int selectedDayOfMonth) {
         mSelectedDayOfMonth = selectedDayOfMonth;
@@ -78,11 +89,22 @@ public class EventsCalendarEventList extends EventsAdapterForLists {
         if (!CalendarCache.isCached(mActivity, mMonth, mYear)) {
             // allTheEvents is null when we first pull all the data (asyncTask is not done yet)
             // please see the note at the top of the class
-            if(allTheEvents != null)
+            if(allTheEvents != null) {
                 eventsOnCurrentDay = allTheEvents.getEventsOnGivenDate((DateFormater.convertDateToString(mYear, mMonth, mSelectedDayOfMonth)));
+                if(_newDataSet){
+                    _newDataSet = false;
+                    mAdapter.setDaysWithEvents(allTheEvents.daysWithEvents(mCategoryNo));
+                    mAdapter.notifyDataSetChanged();
+                }
+            }
         } else {
             CalendarDatabaseTableHandler db = new CalendarDatabaseTableHandler(mActivity);
             eventsOnCurrentDay = db.getEventsOnDateWithinCategory((DateFormater.convertDateToString(mYear, mMonth, mSelectedDayOfMonth)), mCategoryNo);
+            if(_newDataSet){
+                _newDataSet = false;
+                mAdapter.setDaysWithEvents(db.getDaysWithEventsInCategory(mCategoryNo, mYear*100+mMonth));
+                mAdapter.notifyDataSetChanged();
+            }
         }
     }
 

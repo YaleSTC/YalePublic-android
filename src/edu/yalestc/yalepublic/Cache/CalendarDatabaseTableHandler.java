@@ -164,8 +164,7 @@ public class CalendarDatabaseTableHandler extends SQLiteOpenHelper {
         String query;
         if (category != 0) {
             query = "select * from " + TABLE_NAME_EVENTS
-                    + " where Category = " + Integer.toString(category)
-                    + " AND Category like '%," + Integer.toString(category) + ",%\'"
+                    + " where Category like '%," + Integer.toString(category) + ",%\'"
                     + " AND ( NumericalDate > " + Integer.toString(date)
                     + " AND NumericalDate < " + Integer.toString(date + 99) + ") ;";
         } else {
@@ -238,12 +237,12 @@ public class CalendarDatabaseTableHandler extends SQLiteOpenHelper {
 
         String query;
         if(category != 0){
-            query = "select NumericalDate from table " + TABLE_NAME_EVENTS
+            query = "select NumericalDate from " + TABLE_NAME_EVENTS
                     + " where NumericalDate > " + Integer.toString(yearMonth*100)
                     + " AND NumericalDate < " + Integer.toString(yearMonth*100 + 35)
                     + " AND Category like " + "\'%," + Integer.toString(category) + ",%\'" + ";";
         } else {
-            query = "select NumericalDate from table " + TABLE_NAME_EVENTS
+            query = "select NumericalDate from " + TABLE_NAME_EVENTS
                     + " where NumericalDate > " + Integer.toString(yearMonth*100)
                     + " AND NumericalDate < " + Integer.toString(yearMonth*100 + 35) + ";";
         }

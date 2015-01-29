@@ -103,10 +103,10 @@ public class CalendarFragment extends Fragment {
             }
         });
 
-        calendarAdapter = new EventsCalendarGridAdapter(mActivity);
+        calendarAdapter = new EventsCalendarGridAdapter(mActivity,mExtras.getIntArray("colors"), mExtras.getIntArray("colorsFrom"), mExtras.getInt("numberOfCategorySearchedFor"));
         calendarAdapter.update(year, month);
 
-        listEvents = new EventsCalendarEventList(mActivity, year, month, calendarAdapter.getCurrentlySelected(), mExtras.getInt("numberOfCategorySearchedFor"), mExtras.getIntArray("colors"), mExtras.getIntArray("colorsFrom"));
+        listEvents = new EventsCalendarEventList(mActivity, year, month, calendarAdapter.getDayNumber(calendarAdapter.getCurrentlySelected()), mExtras.getInt("numberOfCategorySearchedFor"), mExtras.getIntArray("colors"), mExtras.getIntArray("colorsFrom"), calendarAdapter);
         ((ListView) ((RelativeLayout) rootView).getChildAt(4)).setAdapter(listEvents);
 
         //set the listener for elements on the list, create intent and add all the information required
@@ -206,11 +206,13 @@ public class CalendarFragment extends Fragment {
         monthName = c.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault());
         daysInMonth = c.getActualMaximum(Calendar.DAY_OF_MONTH);
         dayOfWeek = c.get(Calendar.DAY_OF_WEEK_IN_MONTH);
+
         //notify the adapter of new date
         calendarAdapter.update(year, month);
-        //ask adapter to updateEvents the UI
-        calendarAdapter.notifyDataSetChanged();
         listEvents.update(year, month);
+        listEvents.setmSelectedDayOfMonth(calendarAdapter.getDayNumber(calendarAdapter.getCurrentlySelected()));
+        listEvents.notifyDataSetChanged();
+        calendarAdapter.notifyDataSetChanged();
         //set the proper name of month at the header of the calendar
         ((TextView) ((RelativeLayout) (((RelativeLayout) rootView).getChildAt(0))).getChildAt(1)).setText(monthName);
     }

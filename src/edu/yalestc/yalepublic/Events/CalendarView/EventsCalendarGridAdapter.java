@@ -2,6 +2,7 @@ package edu.yalestc.yalepublic.Events.CalendarView;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,11 +12,13 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import edu.yalestc.yalepublic.R;
 
 import static edu.yalestc.yalepublic.R.drawable.calendar_grid_button_current_selected;
+import static edu.yalestc.yalepublic.R.drawable.calendar_grid_button_selected;
 import static edu.yalestc.yalepublic.R.drawable.calendar_grid_button_unselected;
 
 /**
@@ -34,12 +37,26 @@ public class EventsCalendarGridAdapter extends BaseAdapter {
     private int daysInMonth;
     private int daysInPreviousMonth;
     private int firstDayInWeekOfMonth;
+    private int[] mColors;
+    private int[] mColorsFrom;
+    private int mCategory;
+    private ArrayList<Integer> daysWithEvents;
 
     //Context for getting resources and layout inflater
-    EventsCalendarGridAdapter(Context context) {
+    EventsCalendarGridAdapter(Context context, int[] colors, int[] colorsFrom, int category) {
         mContext = context;
+        mColors = colors;
+        mColorsFrom = colorsFrom;
+        mCategory = category;
         //automatically set selected day to current date
         currentlySelected = c.get(Calendar.DAY_OF_MONTH);
+        //so that we have no nullptr exceptions
+        daysWithEvents = new ArrayList<>();
+    }
+
+    //called from listadapter to set the days with events!
+    public void setDaysWithEvents(ArrayList<Integer> days){
+        daysWithEvents = days;
     }
 
     //month and year are set from outside, we need to updateEvents the inner values every time we change them
@@ -55,6 +72,13 @@ public class EventsCalendarGridAdapter extends BaseAdapter {
         daysInMonth = c.getActualMaximum(Calendar.DAY_OF_MONTH);
         c.set(Calendar.MONTH, month - 1);
         daysInPreviousMonth = c.getActualMaximum(Calendar.DAY_OF_MONTH);
+        //otherwise we could get a nullptr exception if the selected day in former month is out of bounds
+        // for current month. For example 29 January  when February has 28 days!
+        Calendar tmp = Calendar.getInstance();
+        if(mMonth == tmp.get(Calendar.MONTH))
+            setCurrentlySelected(getGridNumber(tmp.get(Calendar.DAY_OF_MONTH)));
+        else
+            setCurrentlySelected(getGridNumber(1));
     }
 
     //used in the onClickListeners of gridview to change the imageviews of tiles ("highligh" them,
@@ -98,6 +122,10 @@ public class EventsCalendarGridAdapter extends BaseAdapter {
         }
     }
 
+    public int getGridNumber(int i) {
+        return firstDayInWeekOfMonth + i - 2;
+    }
+
     //checks if given tile ( i is the ID #!) represents a day not in the current month.
     // Used for coloring the text fields. It is called from the fragment class, hence shorthand if
     //an illegal number is passed (negative) we treat it as currentlySelected
@@ -112,6 +140,19 @@ public class EventsCalendarGridAdapter extends BaseAdapter {
         } else {
             return true;
         }
+    }
+
+    //make the little blob next under textView indicating presence of event
+    protected GradientDrawable createBlob(int color, int colorFrom) {
+        int[] colors = new int[]{colorFrom, color};
+        GradientDrawable blob = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, colors);
+        blob.setShape(GradientDrawable.OVAL);
+        blob.setSize(20, 20);
+        blob.setGradientType(GradientDrawable.RADIAL_GRADIENT);
+        blob.setGradientRadius(15);
+        blob.setGradientCenter((float) 0.5, (float) 0.0);
+
+        return blob;
     }
 
     //the count has to include the "fill in" tiles to have a nice rectangular region.
@@ -146,15 +187,34 @@ public class EventsCalendarGridAdapter extends BaseAdapter {
                 //color of selected, current date is white ("current date" being "today's date"
                 ((TextView) ((RelativeLayout) convertView).getChildAt(1)).setTextColor(Color.parseColor("#FFFFFF"));
             } else {
-                //set the image
-                ((ImageView) ((RelativeLayout) convertView).getChildAt(0)).setImageDrawable(mContext.getResources().getDrawable(calendar_grid_button_unselected));
-                if (isOutsideCurrentMonth(i)) {
-                    //color of not-selected dates outside current month is different. Light Gray.
-                    ((TextView) ((RelativeLayout) convertView).getChildAt(1)).setTextColor(Color.parseColor("#888888"));
+                if(i != currentlySelected) {
+                    //set the image
+                    ((ImageView) ((RelativeLayout) convertView).getChildAt(0)).setImageDrawable(mContext.getResources().getDrawable(calendar_grid_button_unselected));
+                    if (isOutsideCurrentMonth(i)) {
+                        //color of not-selected dates outside current month is different. Light Gray.
+                        ((TextView) ((RelativeLayout) convertView).getChildAt(1)).setTextColor(Color.parseColor("#888888"));
+                    } else {
+                        //color of non-selected dates inside current month is different. Dark Gray.
+                        ((TextView) ((RelativeLayout) convertView).getChildAt(1)).setTextColor(Color.parseColor("#3d4b5a"));
+                    }
                 } else {
-                    //color of non-selected dates inside current month is different. Dark Gray.
-                    ((TextView) ((RelativeLayout) convertView).getChildAt(1)).setTextColor(Color.parseColor("#3d4b5a"));
+                    //set the image
+                    ((ImageView) ((RelativeLayout) convertView).getChildAt(0)).setImageDrawable(mContext.getResources().getDrawable(calendar_grid_button_selected));
+                        //color of non-selected dates inside current month is different. Dark Gray.
+                        ((TextView) ((RelativeLayout) convertView).getChildAt(1)).setTextColor(Color.parseColor("#FFFFFF"));
                 }
+            }
+            //set the blob under text on grid if events exist
+            if (daysWithEvents.contains(getDayNumber(i)) && !isOutsideCurrentMonth(i)){
+                if(mCategory != 0){
+                    // if category is non-zero the blob is in the color of the category
+                    ((ImageView) ((RelativeLayout) convertView).getChildAt(2)).setImageDrawable(createBlob(mColors[0], mColorsFrom[0]));
+                } else {
+                    // if category is 0 the blob will be Yale Blue
+                    ((ImageView) ((RelativeLayout) convertView).getChildAt(2)).setImageDrawable(createBlob(Color.parseColor("#0F4D92"), Color.parseColor("#5ba5f8")));
+                }
+            } else {
+                ((ImageView) ((RelativeLayout) convertView).getChildAt(2)).setImageDrawable(new GradientDrawable());
             }
             //set the day number. It is the cardinal calendar number!
             ((TextView) ((RelativeLayout) convertView).getChildAt(1)).setText(Integer.toString(getDayNumber(i)));
@@ -169,12 +229,31 @@ public class EventsCalendarGridAdapter extends BaseAdapter {
                 //color of selected, current date is white ("current date" being "today's date"
                 ((TextView) calendar_grid.getChildAt(1)).setTextColor((Color.parseColor("#FFFFFF")));
             } else {
-                if (isOutsideCurrentMonth(i)) {
-                    //color of not-selected dates outside current month is different. Light Gray.
-                    ((TextView) ((RelativeLayout) calendar_grid).getChildAt(1)).setTextColor(Color.parseColor("#888888"));
+                if(i != currentlySelected) {
+                    //set the image
+                    ((ImageView) ((RelativeLayout) calendar_grid).getChildAt(0)).setImageDrawable(mContext.getResources().getDrawable(calendar_grid_button_unselected));
+                    if (isOutsideCurrentMonth(i)) {
+                        //color of not-selected dates outside current month is different. Light Gray.
+                        ((TextView) ((RelativeLayout) calendar_grid).getChildAt(1)).setTextColor(Color.parseColor("#888888"));
+                    } else {
+                        //color of non-selected dates inside current month is different. Dark Gray.
+                        ((TextView) ((RelativeLayout) calendar_grid).getChildAt(1)).setTextColor(Color.parseColor("#3d4b5a"));
+                    }
                 } else {
+                    //set the image
+                    ((ImageView) ((RelativeLayout) calendar_grid).getChildAt(0)).setImageDrawable(mContext.getResources().getDrawable(calendar_grid_button_selected));
                     //color of non-selected dates inside current month is different. Dark Gray.
-                    ((TextView) ((RelativeLayout) calendar_grid).getChildAt(1)).setTextColor(Color.parseColor("#3d4b5a"));
+                    ((TextView) ((RelativeLayout) calendar_grid).getChildAt(1)).setTextColor(Color.parseColor("#FFFFFF"));
+                }
+            }
+            //set the blob under text on grid if events exist
+            if (daysWithEvents.contains(getDayNumber(i)) && !isOutsideCurrentMonth(i)){
+                if(mCategory != 0){
+                    // if category is non-zero the blob is in the color of the category
+                    ((ImageView) ((RelativeLayout) calendar_grid).getChildAt(2)).setImageDrawable(createBlob(mColors[0], mColorsFrom[0]));
+                } else {
+                    // if category is 0 the blob will be Yale Blue
+                    ((ImageView) ((RelativeLayout) calendar_grid).getChildAt(2)).setImageDrawable(createBlob(Color.parseColor("#0F4D92"), Color.parseColor("#5ba5f8")));
                 }
             }
             //set the day number. It is the cardinal calendar number!

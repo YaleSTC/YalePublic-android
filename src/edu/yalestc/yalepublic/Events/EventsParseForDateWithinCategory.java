@@ -133,7 +133,6 @@ public class EventsParseForDateWithinCategory {
         try {
             JSONObject startTime = JSONevent.getJSONObject("start");
             String yearMonth = startTime.getString("datetime");
-            int day = Integer.parseInt(yearMonth)%100;
             yearMonth = yearMonth.substring(0, 6);
             //Log.v("isValidEvent", yearMonth);
             if (yearMonth.equals(Integer.toString(mYear) + DateFormater.monthToStringCalendarToCalendar(mMonth))) {
