@@ -32,6 +32,13 @@ import static edu.yalestc.yalepublic.R.drawable.calendar_grid_button_unselected;
  * Created by Stan Swidwinski on 11/17/14.
  * <p/>
  * Fragment being the core of the calendar screen.
+ *
+ * IMPORTANT NOTE: EventsCalendarEventList adapter does interact with EventsCalendarGridAdapter
+ * through the setDaysWithEvents method. This happens for creation of blobs next to dates with
+ * events. Moreover, the EventsAdapterForLists that is being inherited by EventsCalendarEventList
+ * updates the dataSet of EventsCalendarEventList and calls notifyDataSetChanged if it has to pull
+ * data from internet. That also triggers notifyDataSetChanged in EventsCalendarGridAdapter after
+ * passing the list of days with events in given category!
  */
 
 public class CalendarFragment extends Fragment {
@@ -106,6 +113,8 @@ public class CalendarFragment extends Fragment {
         calendarAdapter = new EventsCalendarGridAdapter(mActivity, mExtras.getIntArray("colors"), mExtras.getIntArray("colorsFrom"), mExtras.getInt("numberOfCategorySearchedFor"));
         calendarAdapter.update(year, month);
 
+        //this will also cause calendarAdapter to redraw after data is fetched either from db or internet
+        //Hence, the blobs on the calendar!
         listEvents = new EventsCalendarEventList(mActivity, year, month, calendarAdapter.getDayNumber(calendarAdapter.getCurrentlySelected()), mExtras.getInt("numberOfCategorySearchedFor"), mExtras.getIntArray("colors"), mExtras.getIntArray("colorsFrom"), calendarAdapter);
         ((ListView) ((RelativeLayout) rootView).getChildAt(4)).setAdapter(listEvents);
 
@@ -207,12 +216,17 @@ public class CalendarFragment extends Fragment {
         daysInMonth = c.getActualMaximum(Calendar.DAY_OF_MONTH);
         dayOfWeek = c.get(Calendar.DAY_OF_WEEK_IN_MONTH);
 
-        //notify the adapter of new date
+        //notify the adapter of new date. This will also change the selected date in the grid part
+        //and pull new data if necessary.
         calendarAdapter.update(year, month);
+        //this is fact also passes the calendarAdapter new list of days with events
+        // and calls notifyDataSetChanged on it!
         listEvents.update(year, month);
+        //so that events are displayed for the first day of month or, if the month is the current one,
+        //for "today"
         listEvents.setmSelectedDayOfMonth(calendarAdapter.getDayNumber(calendarAdapter.getCurrentlySelected()));
+        //ask listEvents to redraw. Note that calendarAdapter already did that when we updated listEvents!
         listEvents.notifyDataSetChanged();
-        calendarAdapter.notifyDataSetChanged();
         //set the proper name of month at the header of the calendar
         ((TextView) ((RelativeLayout) (((RelativeLayout) rootView).getChildAt(0))).getChildAt(1)).setText(monthName);
     }
