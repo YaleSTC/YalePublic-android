@@ -68,8 +68,8 @@ public class DateFormater {
     }
 
     //take in year and month in the interval (-12, 24) and convert it to standard month
-    public static int yearMonthFromStandardToStandard(int year, int month){
-        int result = yearMonthFromCalendarToCalendar(year, month-1);
+    public static int yearMonthFromStandardToStandard(int year, int month) {
+        int result = yearMonthFromCalendarToCalendar(year, month - 1);
         result += 1;
         return result;
     }

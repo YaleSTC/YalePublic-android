@@ -21,7 +21,7 @@ import edu.yalestc.yalepublic.R;
 
 /**
  * Created by Stan Swidwinski on 1/19/15.
- *
+ * <p/>
  * The high-level class that implements elements common to the list adapters in both the
  * listView and CalendarView.
  */
@@ -48,14 +48,16 @@ public class EventsAdapterForLists extends BaseAdapter {
 
     //if we want to have a class that inherits, does not manage everything for us, but still
     //gives access to all those functions
-    protected EventsAdapterForLists(Activity activity){
+    protected EventsAdapterForLists(Activity activity) {
         mActivity = activity;
         display = mActivity.getResources().getDisplayMetrics();
         height = display.heightPixels;
         width = display.widthPixels;
-    };
+    }
 
-    protected EventsAdapterForLists(Activity activity, int year, int month, int category, int[] colors, int colorsFrom[]){
+    ;
+
+    protected EventsAdapterForLists(Activity activity, int year, int month, int category, int[] colors, int colorsFrom[]) {
         mActivity = activity;
         allTheEvents = null;
         mCategoryNo = category;
@@ -67,7 +69,7 @@ public class EventsAdapterForLists extends BaseAdapter {
         width = display.widthPixels;
     }
 
-    protected void setCallbackAdapter(BaseAdapter adapter){
+    protected void setCallbackAdapter(BaseAdapter adapter) {
         mAdapter = adapter;
     }
 
@@ -143,12 +145,12 @@ public class EventsAdapterForLists extends BaseAdapter {
         return blob;
     }
 
-    protected View createNewEventElement(String[] information, GradientDrawable circle){
+    protected View createNewEventElement(String[] information, GradientDrawable circle) {
         RelativeLayout eventListElement = (RelativeLayout) LayoutInflater.from(mActivity).inflate(R.layout.calendar_list_element, null);
         eventListElement.setMinimumHeight((int) (height * 0.104));
         ((ImageView) eventListElement.getChildAt(0)).setImageDrawable(circle);
         //set the size of the time element
-        ((TextView) eventListElement.getChildAt((1))).setMinWidth(width/5);
+        ((TextView) eventListElement.getChildAt((1))).setMinWidth(width / 5);
         //set the time of the event
         ((TextView) eventListElement.getChildAt(1)).setText(information[1]);
         //set the title of the event
@@ -159,7 +161,7 @@ public class EventsAdapterForLists extends BaseAdapter {
         return eventListElement;
     }
 
-    protected View recycleView(RelativeLayout convertView, String[] information, GradientDrawable circle){
+    protected View recycleView(RelativeLayout convertView, String[] information, GradientDrawable circle) {
         ((ImageView) ((RelativeLayout) convertView).getChildAt(0)).setImageDrawable(circle);
         //set the time of the event
         ((TextView) ((RelativeLayout) convertView).getChildAt(1)).setText(information[1]);

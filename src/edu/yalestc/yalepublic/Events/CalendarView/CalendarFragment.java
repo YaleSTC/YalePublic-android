@@ -103,7 +103,7 @@ public class CalendarFragment extends Fragment {
             }
         });
 
-        calendarAdapter = new EventsCalendarGridAdapter(mActivity,mExtras.getIntArray("colors"), mExtras.getIntArray("colorsFrom"), mExtras.getInt("numberOfCategorySearchedFor"));
+        calendarAdapter = new EventsCalendarGridAdapter(mActivity, mExtras.getIntArray("colors"), mExtras.getIntArray("colorsFrom"), mExtras.getInt("numberOfCategorySearchedFor"));
         calendarAdapter.update(year, month);
 
         listEvents = new EventsCalendarEventList(mActivity, year, month, calendarAdapter.getDayNumber(calendarAdapter.getCurrentlySelected()), mExtras.getInt("numberOfCategorySearchedFor"), mExtras.getIntArray("colors"), mExtras.getIntArray("colorsFrom"), calendarAdapter);

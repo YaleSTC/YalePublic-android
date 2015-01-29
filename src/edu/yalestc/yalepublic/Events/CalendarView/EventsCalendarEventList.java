@@ -27,17 +27,17 @@ import edu.yalestc.yalepublic.R;
  * Created by Stan Swidwinski on 11/11/14.
  * <p/>
  * Class handles displaying the data in the list beneath the custom calendar.
- *
- *  * IMPORTANT NOTE: When the data set is not available and has to be downloaded, the underlying
- *  class (EventsAdapterForLists) does the work for this class. However, the data set in this class
- *  is empty until the underlying class finishes. Hence, we allow the underlying class to notify this
- *  adapter when it is done using .notifyDataSetChanged(). This downloads additional data if necessary
- *  and after it is done, displays the data. Hence, the calls are as follows:
- *
- *  1) constructor creates and empty data set so that getCount() does not throw nullptr
- *  2) underlying class downloads and parses data for current month
- *  3) underlying class calls notifyDataSetChanged
- *  4) data set is added to this adapter and displayed
+ * <p/>
+ * * IMPORTANT NOTE: When the data set is not available and has to be downloaded, the underlying
+ * class (EventsAdapterForLists) does the work for this class. However, the data set in this class
+ * is empty until the underlying class finishes. Hence, we allow the underlying class to notify this
+ * adapter when it is done using .notifyDataSetChanged(). This downloads additional data if necessary
+ * and after it is done, displays the data. Hence, the calls are as follows:
+ * <p/>
+ * 1) constructor creates and empty data set so that getCount() does not throw nullptr
+ * 2) underlying class downloads and parses data for current month
+ * 3) underlying class calls notifyDataSetChanged
+ * 4) data set is added to this adapter and displayed
  */
 public class EventsCalendarEventList extends EventsAdapterForLists {
 
@@ -72,12 +72,12 @@ public class EventsCalendarEventList extends EventsAdapterForLists {
     // the notifyDataSetChanged() on this class! See also .setCallbackAdapter(BaseAdapter) in
     // Events Adapter for Lists
     @Override
-    public void notifyDataSetChanged(){
+    public void notifyDataSetChanged() {
         setmSelectedDayOfMonth(mSelectedDayOfMonth);
         super.notifyDataSetChanged();
     }
 
-    public void update(int year, int month){
+    public void update(int year, int month) {
         super.update(year, month);
         _newDataSet = true;
     }
@@ -89,9 +89,9 @@ public class EventsCalendarEventList extends EventsAdapterForLists {
         if (!CalendarCache.isCached(mActivity, mMonth, mYear)) {
             // allTheEvents is null when we first pull all the data (asyncTask is not done yet)
             // please see the note at the top of the class
-            if(allTheEvents != null) {
+            if (allTheEvents != null) {
                 eventsOnCurrentDay = allTheEvents.getEventsOnGivenDate((DateFormater.convertDateToString(mYear, mMonth, mSelectedDayOfMonth)));
-                if(_newDataSet){
+                if (_newDataSet) {
                     _newDataSet = false;
                     mAdapter.setDaysWithEvents(allTheEvents.daysWithEvents(mCategoryNo));
                     mAdapter.notifyDataSetChanged();
@@ -100,9 +100,9 @@ public class EventsCalendarEventList extends EventsAdapterForLists {
         } else {
             CalendarDatabaseTableHandler db = new CalendarDatabaseTableHandler(mActivity);
             eventsOnCurrentDay = db.getEventsOnDateWithinCategory((DateFormater.convertDateToString(mYear, mMonth, mSelectedDayOfMonth)), mCategoryNo);
-            if(_newDataSet){
+            if (_newDataSet) {
                 _newDataSet = false;
-                mAdapter.setDaysWithEvents(db.getDaysWithEventsInCategory(mCategoryNo, mYear*100+mMonth));
+                mAdapter.setDaysWithEvents(db.getDaysWithEventsInCategory(mCategoryNo, mYear * 100 + mMonth));
                 mAdapter.notifyDataSetChanged();
             }
         }

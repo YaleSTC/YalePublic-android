@@ -55,7 +55,7 @@ public class EventsCalendarGridAdapter extends BaseAdapter {
     }
 
     //called from listadapter to set the days with events!
-    public void setDaysWithEvents(ArrayList<Integer> days){
+    public void setDaysWithEvents(ArrayList<Integer> days) {
         daysWithEvents = days;
     }
 
@@ -75,7 +75,7 @@ public class EventsCalendarGridAdapter extends BaseAdapter {
         //otherwise we could get a nullptr exception if the selected day in former month is out of bounds
         // for current month. For example 29 January  when February has 28 days!
         Calendar tmp = Calendar.getInstance();
-        if(mMonth == tmp.get(Calendar.MONTH))
+        if (mMonth == tmp.get(Calendar.MONTH))
             setCurrentlySelected(getGridNumber(tmp.get(Calendar.DAY_OF_MONTH)));
         else
             setCurrentlySelected(getGridNumber(1));
@@ -187,7 +187,7 @@ public class EventsCalendarGridAdapter extends BaseAdapter {
                 //color of selected, current date is white ("current date" being "today's date"
                 ((TextView) ((RelativeLayout) convertView).getChildAt(1)).setTextColor(Color.parseColor("#FFFFFF"));
             } else {
-                if(i != currentlySelected) {
+                if (i != currentlySelected) {
                     //set the image
                     ((ImageView) ((RelativeLayout) convertView).getChildAt(0)).setImageDrawable(mContext.getResources().getDrawable(calendar_grid_button_unselected));
                     if (isOutsideCurrentMonth(i)) {
@@ -200,13 +200,13 @@ public class EventsCalendarGridAdapter extends BaseAdapter {
                 } else {
                     //set the image
                     ((ImageView) ((RelativeLayout) convertView).getChildAt(0)).setImageDrawable(mContext.getResources().getDrawable(calendar_grid_button_selected));
-                        //color of non-selected dates inside current month is different. Dark Gray.
-                        ((TextView) ((RelativeLayout) convertView).getChildAt(1)).setTextColor(Color.parseColor("#FFFFFF"));
+                    //color of non-selected dates inside current month is different. Dark Gray.
+                    ((TextView) ((RelativeLayout) convertView).getChildAt(1)).setTextColor(Color.parseColor("#FFFFFF"));
                 }
             }
             //set the blob under text on grid if events exist
-            if (daysWithEvents.contains(getDayNumber(i)) && !isOutsideCurrentMonth(i)){
-                if(mCategory != 0){
+            if (daysWithEvents.contains(getDayNumber(i)) && !isOutsideCurrentMonth(i)) {
+                if (mCategory != 0) {
                     // if category is non-zero the blob is in the color of the category
                     ((ImageView) ((RelativeLayout) convertView).getChildAt(2)).setImageDrawable(createBlob(mColors[0], mColorsFrom[0]));
                 } else {
@@ -229,7 +229,7 @@ public class EventsCalendarGridAdapter extends BaseAdapter {
                 //color of selected, current date is white ("current date" being "today's date"
                 ((TextView) calendar_grid.getChildAt(1)).setTextColor((Color.parseColor("#FFFFFF")));
             } else {
-                if(i != currentlySelected) {
+                if (i != currentlySelected) {
                     //set the image
                     ((ImageView) ((RelativeLayout) calendar_grid).getChildAt(0)).setImageDrawable(mContext.getResources().getDrawable(calendar_grid_button_unselected));
                     if (isOutsideCurrentMonth(i)) {
@@ -247,8 +247,8 @@ public class EventsCalendarGridAdapter extends BaseAdapter {
                 }
             }
             //set the blob under text on grid if events exist
-            if (daysWithEvents.contains(getDayNumber(i)) && !isOutsideCurrentMonth(i)){
-                if(mCategory != 0){
+            if (daysWithEvents.contains(getDayNumber(i)) && !isOutsideCurrentMonth(i)) {
+                if (mCategory != 0) {
                     // if category is non-zero the blob is in the color of the category
                     ((ImageView) ((RelativeLayout) calendar_grid).getChildAt(2)).setImageDrawable(createBlob(mColors[0], mColorsFrom[0]));
                 } else {

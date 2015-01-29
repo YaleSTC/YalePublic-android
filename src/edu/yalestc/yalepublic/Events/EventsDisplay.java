@@ -85,7 +85,7 @@ public class EventsDisplay extends Activity {
         actionBar.addTab(monthT);
 
         listT = actionBar.newTab().setText("List");
-        listT.setTabListener(new ActionBar.TabListener(){
+        listT.setTabListener(new ActionBar.TabListener() {
 
             @Override
             public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {

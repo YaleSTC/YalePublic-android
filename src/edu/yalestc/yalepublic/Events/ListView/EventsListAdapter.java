@@ -26,23 +26,23 @@ import edu.yalestc.yalepublic.R;
 
 /**
  * Created by Stan Swidwinski on 1/19/15.
- *
+ * <p/>
  * Manages the creation of all elements in the list in ListView (List Fragment) including the date
  * elements.
- *
+ * <p/>
  * IMPORTANT NOTE: When the data set is not available and has to be downloaded, the underlying
- *  class (EventsAdapterForLists) does the work for this class. However, the data set in this class
- *  is empty until the underlying class finishes. Hence, we allow the underlying class to notify this
- *  adapter when it is done using .notifyDataSetChanged(). This downloads additional data if necessary
- *  and after it is done, displays the data. Hence, the calls are as follows:
- *
- *  1) constructor creates and empty data set so that getCount() does not throw nullptr
- *  2) underlying class downloads and parses data for current month
- *  3) underlying class calls notifyDataSetChanged
- *  4) data set is added to this adapter
- *  5) underlying class downloads data for future month
- *  6) underlying class calls notifyDataSetChanged
- *  7) data set is added to this adapter and displayed
+ * class (EventsAdapterForLists) does the work for this class. However, the data set in this class
+ * is empty until the underlying class finishes. Hence, we allow the underlying class to notify this
+ * adapter when it is done using .notifyDataSetChanged(). This downloads additional data if necessary
+ * and after it is done, displays the data. Hence, the calls are as follows:
+ * <p/>
+ * 1) constructor creates and empty data set so that getCount() does not throw nullptr
+ * 2) underlying class downloads and parses data for current month
+ * 3) underlying class calls notifyDataSetChanged
+ * 4) data set is added to this adapter
+ * 5) underlying class downloads data for future month
+ * 6) underlying class calls notifyDataSetChanged
+ * 7) data set is added to this adapter and displayed
  */
 public class EventsListAdapter extends EventsAdapterForLists {
 
@@ -56,7 +56,7 @@ public class EventsListAdapter extends EventsAdapterForLists {
 
     //for usage with the search capacity. we do not want anything done here, as we will
     //set the allEventsInfo by hand.
-    public EventsListAdapter(Activity activity){
+    public EventsListAdapter(Activity activity) {
         super(activity);
         mActivity = activity;
         super.mColors = mActivity.getResources().getIntArray(R.array.event_categories_colors_from);
@@ -94,16 +94,17 @@ public class EventsListAdapter extends EventsAdapterForLists {
     // the notifyDataSetChanged() on this class! See also .setCallbackAdapter(BaseAdapter) in
     // Events Adapter for Lists
     @Override
-    public void notifyDataSetChanged(){
+    public void notifyDataSetChanged() {
         //at first pass, add events from first month and start pulling those from second month
         // at second pass, add events from second month and display!
-        if(allEventsInfo.size() == 0) {
+        if (allEventsInfo.size() == 0) {
             allEventsInfo = allTheEvents.getAllEventsInfo();
-            super.update(mYear, mMonth+1);
+            super.update(mYear, mMonth + 1);
         } else {
             allEventsInfo.addAll(allTheEvents.getAllEventsInfo());
             converter = new elementIdToEventId(allEventsInfo);
-            super.notifyDataSetChanged();;
+            super.notifyDataSetChanged();
+            ;
         }
     }
 
@@ -162,7 +163,7 @@ public class EventsListAdapter extends EventsAdapterForLists {
     //create the blue view that separates the events on consecutive days
     private View createSeparator(int date) {
         calendar = Calendar.getInstance();
-        calendar.set(Calendar.MONTH, ((date/100)-1) % 100);
+        calendar.set(Calendar.MONTH, ((date / 100) - 1) % 100);
         calendar.set(Calendar.DAY_OF_MONTH, date % 100);
         String nameOfMonth = calendar.getDisplayName(Calendar.MONTH, Calendar.SHORT, Locale.US);
         String nameOfDay = calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, Locale.US);
@@ -189,7 +190,7 @@ public class EventsListAdapter extends EventsAdapterForLists {
         }
     }
 
-    public void setAllEventsInfo(ArrayList<String[]> events){
+    public void setAllEventsInfo(ArrayList<String[]> events) {
         allEventsInfo = events;
         converter = new elementIdToEventId(events);
     }
