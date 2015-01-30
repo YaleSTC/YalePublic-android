@@ -1,17 +1,10 @@
 package edu.yalestc.yalepublic.Events.CalendarView;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -19,21 +12,18 @@ import edu.yalestc.yalepublic.Cache.CalendarCache;
 import edu.yalestc.yalepublic.Cache.CalendarDatabaseTableHandler;
 import edu.yalestc.yalepublic.Events.DateFormater;
 import edu.yalestc.yalepublic.Events.EventsAdapterForLists;
-import edu.yalestc.yalepublic.Events.EventsJSONReader;
 import edu.yalestc.yalepublic.Events.EventsParseForDateWithinCategory;
-import edu.yalestc.yalepublic.R;
 
 /**
  * Created by Stan Swidwinski on 11/11/14.
- * <p/>
  * Class handles displaying the data in the list beneath the custom calendar.
- * <p/>
+
  * * IMPORTANT NOTE: When the data set is not available and has to be downloaded, the underlying
  * class (EventsAdapterForLists) does the work for this class. However, the data set in this class
  * is empty until the underlying class finishes. Hence, we allow the underlying class to notify this
  * adapter when it is done using .notifyDataSetChanged(). This downloads additional data if necessary
  * and after it is done, displays the data. Hence, the calls are as follows:
- * <p/>
+
  * 1) constructor creates and empty data set so that getCount() does not throw nullptr
  * 2) underlying class downloads and parses data for current month
  * 3) underlying class calls notifyDataSetChanged

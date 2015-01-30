@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -104,7 +103,6 @@ public class EventsListAdapter extends EventsAdapterForLists {
             allEventsInfo.addAll(allTheEvents.getAllEventsInfo());
             converter = new elementIdToEventId(allEventsInfo);
             super.notifyDataSetChanged();
-            ;
         }
     }
 
@@ -185,8 +183,7 @@ public class EventsListAdapter extends EventsAdapterForLists {
         if (converter.isSeparator(i)) {
             return null;
         } else {
-            String[] data = allEventsInfo.get(converter.convertElementIdToEventId(i));
-            return data;
+            return allEventsInfo.get(converter.convertElementIdToEventId(i));
         }
     }
 
@@ -203,7 +200,7 @@ public class EventsListAdapter extends EventsAdapterForLists {
 
         elementIdToEventId(ArrayList<String[]> events) {
             daysWithEvents = 0;
-            dayToId = new TreeMap<Integer, Integer>();
+            dayToId = new TreeMap<>();
             int lastDate = 0;
             for (int i = 0; i < events.size(); i++) {
                 int currentDate = Integer.parseInt(events.get(i)[7]);
@@ -223,7 +220,7 @@ public class EventsListAdapter extends EventsAdapterForLists {
             if (isSeparator(id)) {
                 return id - dayToId.get(id) + 1;
             }
-            List<Integer> intervals = new ArrayList<Integer>(dayToId.keySet());
+            List<Integer> intervals = new ArrayList<>(dayToId.keySet());
             Collections.sort(intervals);
             for (int i = 0; i < intervals.size(); i++) {
                 int bound = intervals.get(i);
@@ -237,7 +234,7 @@ public class EventsListAdapter extends EventsAdapterForLists {
 
         //check if the element id in list is a separator
         public boolean isSeparator(int id) {
-            List<Integer> separators = new ArrayList<Integer>(dayToId.keySet());
+            List<Integer> separators = new ArrayList<>(dayToId.keySet());
             for (int separator : separators) {
                 if (separator == id)
                     return true;

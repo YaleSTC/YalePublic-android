@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -63,11 +62,10 @@ public class CalendarFragment extends Fragment {
 
     //since fragments need empty constructor, a static function for creatino of new fragments
     //is necessary
-    public static final CalendarFragment newInstance(Bundle extras) {
+    public static CalendarFragment newInstance(Bundle extras) {
         CalendarFragment f = new CalendarFragment();
-        Bundle bld = extras;
         //Arguments can and are accessed within a fragment. See onCreate();
-        f.setArguments(bld);
+        f.setArguments(extras);
         return f;
     }
 
@@ -95,7 +93,7 @@ public class CalendarFragment extends Fragment {
         ((TextView) ((RelativeLayout) (((RelativeLayout) rootView).getChildAt(0))).getChildAt(1)).setText(monthName);
 
         //set the onclick listener of arrow changing month to the previous one
-        ((Button) ((RelativeLayout) (((RelativeLayout) rootView).getChildAt(0))).getChildAt(0)).setOnClickListener(new View.OnClickListener() {
+        (((RelativeLayout) (((RelativeLayout) rootView).getChildAt(0))).getChildAt(0)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 updateMonthAndData(-1);
@@ -103,7 +101,7 @@ public class CalendarFragment extends Fragment {
         });
 
         //set onclick listener to arrow changing the month to the next one
-        ((Button) ((RelativeLayout) (((RelativeLayout) rootView).getChildAt(0))).getChildAt(2)).setOnClickListener(new View.OnClickListener() {
+        (((RelativeLayout) (((RelativeLayout) rootView).getChildAt(0))).getChildAt(2)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 updateMonthAndData(1);

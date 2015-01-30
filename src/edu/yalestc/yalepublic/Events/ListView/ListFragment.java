@@ -34,8 +34,7 @@ public class ListFragment extends Fragment {
     //since the fragment has to have an empty constructor
     public static ListFragment newInstance(Bundle extras) {
         ListFragment f = new ListFragment();
-        Bundle bdl = extras;
-        f.setArguments(bdl);
+        f.setArguments(extras);
         return f;
     }
 
