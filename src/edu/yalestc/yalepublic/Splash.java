@@ -73,7 +73,7 @@ public class Splash extends Activity {
                                 // Since it's JSON, adding a newline isn't necessary (it won't affect parsing)
                                 // But it does make debugging a *lot* easier if you print out the completed
                                 // buffer for debugging.
-                                buffer.append(line + "\n");
+                                buffer.append(line);
                             }
 
                             if (buffer.length() == 0) {
@@ -96,8 +96,9 @@ public class Splash extends Activity {
                 }
 
                 RotatingLinkTask linkTask = new RotatingLinkTask();
+                String link = "";
                 try {
-                    String link = linkTask.execute().get();
+                    link = linkTask.execute().get();
                     Log.v("rotating link", link);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -108,6 +109,7 @@ public class Splash extends Activity {
 
                 Log.d("Splash", "Starting Main Activity");
                 Intent i = new Intent(Splash.this, MainActivity.class);
+                i.putExtra("url", link);
                 startActivity(i);
                 finish();
             }

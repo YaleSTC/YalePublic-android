@@ -253,6 +253,7 @@
 
                 <TextView
                     style="@style/textViewStyle"
+                    android:id="@+id/tArts"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
