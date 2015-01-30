@@ -55,8 +55,6 @@ public class EventsAdapterForLists extends BaseAdapter {
         width = display.widthPixels;
     }
 
-    ;
-
     protected EventsAdapterForLists(Activity activity, int year, int month, int category, int[] colors, int colorsFrom[]) {
         mActivity = activity;
         allTheEvents = null;
@@ -162,13 +160,13 @@ public class EventsAdapterForLists extends BaseAdapter {
     }
 
     protected View recycleView(RelativeLayout convertView, String[] information, GradientDrawable circle) {
-        ((ImageView) ((RelativeLayout) convertView).getChildAt(0)).setImageDrawable(circle);
+        ((ImageView) convertView.getChildAt(0)).setImageDrawable(circle);
         //set the time of the event
-        ((TextView) ((RelativeLayout) convertView).getChildAt(1)).setText(information[1]);
+        ((TextView) convertView.getChildAt(1)).setText(information[1]);
         //set the title of the event
-        ((TextView) ((RelativeLayout) convertView).getChildAt(2)).setText(information[0]);
+        ((TextView) convertView.getChildAt(2)).setText(information[0]);
         //set the place of the event
-        ((TextView) ((RelativeLayout) convertView).getChildAt(3)).setText(information[3]);
+        ((TextView) convertView.getChildAt(3)).setText(information[3]);
         return convertView;
     }
 }
