@@ -113,7 +113,7 @@ public class EventCategories extends Activity {
             mActivity = activity;
         }
 
-        public PlaceholderFragment(){
+        public PlaceholderFragment() {
 
         }
 
@@ -216,7 +216,7 @@ public class EventCategories extends Activity {
                 LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 RelativeLayout button = ((RelativeLayout) inflater.inflate(R.layout.events_category_button, null));
                 button.setPadding(width / 20, width / 25, 0, width / 25);
-                if (i != 0){
+                if (i != 0) {
                     ((ImageView) button.getChildAt(0)).setImageDrawable(rectangle);
                 }
                 ((TextView) button.getChildAt(1)).setTextSize(width / 45);

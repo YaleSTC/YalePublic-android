@@ -17,13 +17,13 @@ import edu.yalestc.yalepublic.Events.EventsParseForDateWithinCategory;
 /**
  * Created by Stan Swidwinski on 11/11/14.
  * Class handles displaying the data in the list beneath the custom calendar.
-
+ * <p/>
  * * IMPORTANT NOTE: When the data set is not available and has to be downloaded, the underlying
  * class (EventsAdapterForLists) does the work for this class. However, the data set in this class
  * is empty until the underlying class finishes. Hence, we allow the underlying class to notify this
  * adapter when it is done using .notifyDataSetChanged(). This downloads additional data if necessary
  * and after it is done, displays the data. Hence, the calls are as follows:
-
+ * <p/>
  * 1) constructor creates and empty data set so that getCount() does not throw nullptr
  * 2) underlying class downloads and parses data for current month
  * 3) underlying class calls notifyDataSetChanged

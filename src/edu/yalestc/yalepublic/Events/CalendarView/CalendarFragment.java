@@ -31,7 +31,7 @@ import static edu.yalestc.yalepublic.R.drawable.calendar_grid_button_unselected;
  * Created by Stan Swidwinski on 11/17/14.
  * <p/>
  * Fragment being the core of the calendar screen.
- *
+ * <p/>
  * IMPORTANT NOTE: EventsCalendarEventList adapter does interact with EventsCalendarGridAdapter
  * through the setDaysWithEvents method. This happens for creation of blobs next to dates with
  * events. Moreover, the EventsAdapterForLists that is being inherited by EventsCalendarEventList

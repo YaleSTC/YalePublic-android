@@ -117,6 +117,6 @@ public class DateFormater {
     //the upper and bottom lines are the bounds for date. All are given in the YYYYMM format,
     // the month being in standard format.
     public static boolean inInterval(int bottomLine, int upperLine, int date) {
-       return (date <= upperLine && date >= bottomLine);
+        return (date <= upperLine && date >= bottomLine);
     }
 }
