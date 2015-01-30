@@ -5,8 +5,6 @@ import android.app.ProgressDialog;
 import android.util.Log;
 import android.widget.Toast;
 
-import edu.yalestc.yalepublic.Events.CalendarView.EventsCalendarEventList;
-import edu.yalestc.yalepublic.Events.ListView.EventsListAdapter;
 import edu.yalestc.yalepublic.JSONReader;
 
 /**
@@ -21,16 +19,16 @@ public class EventsJSONReader extends JSONReader {
     private String mRawData;
     private EventsAdapterForLists mAdapter;
 
-    public EventsJSONReader(Activity activity) {
-        super(activity);
-        //for creating and getting preferences and tables!
-        mActivity = activity;
-        dialog = new ProgressDialog(mActivity);
-        dialog.setCancelable(false);
-        dialog.setTitle("Getting the most up-to-date event list!");
-        dialog.setMessage("This should not take too long, please wait...");
-        dialog.setIndeterminate(true);
-    }
+//    public EventsJSONReader(Activity activity) {
+//        super(activity);
+//        //for creating and getting preferences and tables!
+//        mActivity = activity;
+//        dialog = new ProgressDialog(mActivity);
+//        dialog.setCancelable(false);
+//        dialog.setTitle("Getting the most up-to-date event list!");
+//        dialog.setMessage("This should not take too long, please wait...");
+//        dialog.setIndeterminate(true);
+//    }
 
     public EventsJSONReader(String URL, Activity activity) {
         super(URL, activity);
@@ -57,8 +55,7 @@ public class EventsJSONReader extends JSONReader {
         if (mRawData == null) {
             mActivity.runOnUiThread(new Runnable() {
                 public void run() {
-                    Toast toast = new Toast(mActivity);
-                    toast = Toast.makeText(mActivity, "You need internet connection to view the content!", Toast.LENGTH_LONG);
+                    Toast toast = Toast.makeText(mActivity, "You need internet connection to view the content!", Toast.LENGTH_LONG);
                     toast.show();
                 }
             });

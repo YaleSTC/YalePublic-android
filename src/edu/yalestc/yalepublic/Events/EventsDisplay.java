@@ -10,9 +10,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.widget.SearchView;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import edu.yalestc.yalepublic.Events.CalendarView.CalendarFragment;
 import edu.yalestc.yalepublic.Events.ListView.ListFragment;
 import edu.yalestc.yalepublic.JSONReader;
@@ -24,9 +21,6 @@ public class EventsDisplay extends Activity {
     //    private Fragment dayTab;
     private Fragment monthTab;
     private Fragment listTab;
-    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM");
-    //for use in onCreate only. Later data pulling when the month is changed is done within the tabs fragments
-    private JSONReader dataPuller;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -61,6 +55,7 @@ public class EventsDisplay extends Activity {
         monthTab = CalendarFragment.newInstance(getIntent().getExtras());
         listTab = ListFragment.newInstance(getIntent().getExtras());
 
+        //lets use the deprecated versions for now... this is deprecated only in android L
         ActionBar actionBar = getActionBar();
         monthT = actionBar.newTab().setText("Month");
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
