@@ -35,12 +35,13 @@ import android.widget.TextView;
 
 public class PhotosWithinAlbum extends Activity {
 
-    public static final String TITLE_KEY ="title";
+    public static final String PHOTO_URL_KEY ="Photo Url";
     private ImageThumbnailAdapter adapter;
-    //TODO: Refactor out titls
-    private String[] titls = new String[1];
+    //TODO: Refactor out imageUrls
+    private String[] imageUrls = new String[1];
     private Bitmap[] bitmaps = new Bitmap[1];
     private String[] photoIds;
+    private String paginationUrl = null;
     TextView loading;
     ProgressBar spinner;
 
@@ -90,8 +91,7 @@ public class PhotosWithinAlbum extends Activity {
                 public void onItemClick(AdapterView<?> parent, View view,
                         int position, long id) {
                     Intent intent = new Intent(PhotosWithinAlbum.this, ImageActivity.class);
-                    intent.putExtra(PhotoList.PHOTO_ID_KEY,photoIds[position]);
-                    intent.putExtra(TITLE_KEY,titls[position]);
+                    intent.putExtra(PHOTO_URL_KEY,photoIds[position]);
                     startActivity(intent);
                 }
             });
@@ -101,36 +101,38 @@ public class PhotosWithinAlbum extends Activity {
 
          public class AlbumTask extends AsyncTask<Void, Integer, Void> {
 
-            private String getPhotosFromJson(String rawData) {
+            private Void getPhotosFromJson(String rawData) {
                 JSONObject albumData;
                 JSONArray photolistData;
                 try {
-                    Log.d("rawData length:", String.valueOf(rawData.length()));
                     albumData = new JSONObject(rawData);
-                    Log.d("json length:", String.valueOf(albumData.toString().length()));
                     photolistData = albumData.getJSONArray("data");
+                    //if paginated, then update pagination_url
+                    if (albumData.has("pagination")) {
+                        paginationUrl = albumData.getJSONObject("pagination").getString("next_url");
+                        Log.d("PAGINATION",paginationUrl);
+                    }
+                    else {
+                        paginationUrl = null;
+                    }
                 } catch (JSONException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                     return null;
                 }
                 int count = photolistData.length();
-                Log.d("Count:", String.valueOf(count));
                 bitmaps = new Bitmap[count];
-                titls = new String[count];
+                imageUrls = new String[count];
                 photoIds = new String[count];
-                int bytecount=0;
+                Log.d("JSON",rawData);
                 for (int i = 0; i < count; i++){
                     try {
                         publishProgress(i+1, count);
-                        titls[i] = photolistData.getJSONObject(i).getString("id");
                         photoIds[i] =photolistData.getJSONObject(i).getString("id");
+                        imageUrls[i] = photolistData.getJSONObject(i).getJSONObject("images").;
                         //Here we actually download the thumbnail using URL obtained from JSONObject
                         try {
                             URL imageUrl = new URL(photolistData.getJSONObject(i).getJSONObject("images")
-                                    .getJSONObject("thumbnail")
-                                    .getString("url"));
-                            Log.d("json",photolistData.getJSONObject(i).getJSONObject("images")
                                     .getJSONObject("thumbnail")
                                     .getString("url"));
                             //connect to given server
@@ -142,7 +144,6 @@ public class PhotosWithinAlbum extends Activity {
                             //setting inputstream and decoding it into a bitmap
                             InputStream is = conn.getInputStream();
                             bitmaps[i] = BitmapFactory.decodeStream(is);
-                            bytecount = bytecount + bitmaps[i].getByteCount();
                         } catch (JSONException e) {
                             // TODO Auto-generated catch block
                             e.printStackTrace();
@@ -154,15 +155,23 @@ public class PhotosWithinAlbum extends Activity {
                     }
 
                 }
-                Log.d("json",Integer.toString(bytecount));
-                return "1"; //TODO: Why?
+                return null;
+
             }
             @Override
             protected Void doInBackground(Void... params) {
                 try {
                     //Send GET request to the server to get the list of photos
-                    Log.d("Photos",getRequestUri().toString());
-                    URL url = new URL(getRequestUri().toString());
+                    URL url;
+                    //Check if Asynctask is provided with a URL.
+                    if (paginationUrl!= null) {
+                        url = new URL(paginationUrl);
+                    }
+                    else {
+                        url = new URL(getRequestUri().toString());
+                    }
+                    Log.d("Photos", url.toString());
+
                     HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                     urlConnection.setRequestMethod("GET");
                     urlConnection.connect();
@@ -215,10 +224,11 @@ public class PhotosWithinAlbum extends Activity {
                 final String USER_ID = "1701574";    //Yale instagram user id
                 final String BASE_URL = "https://api.instagram.com/v1/users/"
                         + USER_ID + "/media/recent?";
+                java.util.Date date= new java.util.Date();
+
                 Uri builtUri = Uri.parse(BASE_URL).buildUpon()
                         .appendQueryParameter("min_timestamp", "1412000000")
                         .appendQueryParameter("max_timestamp", "1422263119")
-                        .appendQueryParameter("count", "20")
                         .appendQueryParameter("client_id", DeveloperKey.INSTAGRAM_CLIENT_ID)
                         .build();
                 return builtUri;
@@ -255,10 +265,10 @@ public class PhotosWithinAlbum extends Activity {
         }
         @Override
         //Can also use if statement to set count to 0
-        //if titls is uninitialized. Currently mirroring
+        //if imageUrls is uninitialized. Currently mirroring
         //VideoWithinPlaylist
         public int getCount() {
-            return titls.length;
+            return imageUrls.length;
         }
 
         @Override
