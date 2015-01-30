@@ -91,7 +91,7 @@ public class PhotosWithinAlbum extends Activity {
                 public void onItemClick(AdapterView<?> parent, View view,
                         int position, long id) {
                     Intent intent = new Intent(PhotosWithinAlbum.this, ImageActivity.class);
-                    intent.putExtra(PHOTO_URL_KEY,photoIds[position]);
+                    intent.putExtra(PHOTO_URL_KEY,imageUrls[position]);
                     startActivity(intent);
                 }
             });
@@ -129,7 +129,9 @@ public class PhotosWithinAlbum extends Activity {
                     try {
                         publishProgress(i+1, count);
                         photoIds[i] =photolistData.getJSONObject(i).getString("id");
-                        imageUrls[i] = photolistData.getJSONObject(i).getJSONObject("images").;
+                        imageUrls[i] = photolistData.getJSONObject(i).getJSONObject("images")
+                                    .getJSONObject("standard_resolution")
+                                    .getString("url");
                         //Here we actually download the thumbnail using URL obtained from JSONObject
                         try {
                             URL imageUrl = new URL(photolistData.getJSONObject(i).getJSONObject("images")
