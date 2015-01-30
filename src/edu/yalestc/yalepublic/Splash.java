@@ -21,6 +21,12 @@ public class Splash extends Activity {
 
         setContentView(R.layout.splash);
 
+
+
+
+
+
+
         new Handler().postDelayed(new Runnable() {
 
             @Override
