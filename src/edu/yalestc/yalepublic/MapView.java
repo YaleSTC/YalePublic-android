@@ -137,7 +137,6 @@ public class MapView extends Activity implements SearchView.OnQueryTextListener 
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
 
-        //final String[] mStrings = Cheeses.sCheeseStrings;
 
         //getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
 
@@ -162,8 +161,7 @@ public class MapView extends Activity implements SearchView.OnQueryTextListener 
         mSearchView.setIconifiedByDefault(false);
         mSearchView.setOnQueryTextListener(edu.yalestc.yalepublic.MapView.this);
         mSearchView.setSubmitButtonEnabled(false);
-        //mSearchView.setQueryHint(getString(R.string.cheese_hunt_hint));
-        mSearchView.setQueryHint("Hint");
+        mSearchView.setQueryHint(getString(R.string.building_search));
     }
 
     public boolean onQueryTextChange(String newText) {
