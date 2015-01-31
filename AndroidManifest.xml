@@ -117,22 +117,6 @@
                 android:value=".TestSearch" />
         </activity>
 
-        <!--
-        <activity
-            android:name=".MapSearch"
-            android:parentActivityName=".MapView"
-            android:label="@string/building_search"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH"/>
-            </intent-filter>
-
-            <meta-data
-                android:name="android.app.searchable"
-                android:resource="@xml/map_search"/>
-        </activity>
-        -->
-
         <activity
             android:name=".TestSearch"
             android:label="@string/maps"
