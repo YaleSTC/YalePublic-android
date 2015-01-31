@@ -37,10 +37,6 @@ public class MapView extends Activity {
             pos2 = getIntent().getStringExtra("name");
         }
 
-        // List of strings for building and addresses
-        final String[] buildings = getResources().getStringArray(R.array.building_strs);
-        final String[] addrlist = getResources().getStringArray(R.array.building_abbr);
-
         ActionBar actionbar = getActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);     // Show home as a back arrow
         //actionbar.setDisplayShowHomeEnabled(true);     // Show application logo
@@ -74,7 +70,6 @@ public class MapView extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-
         getMenuInflater().inflate(R.menu.map_menu, menu);
 
         // Associate searchable configuration with the SearchView (NOT currently used)

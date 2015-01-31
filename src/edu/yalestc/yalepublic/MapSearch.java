@@ -15,9 +15,6 @@ import android.widget.SearchView;
 
 /**
  * Created by Jason Liu on 1/30/15.
- */
-
-/**
  * Shows a list that can be filtered in-place with a SearchView in non-iconified mode.
  */
 public class MapSearch extends Activity implements SearchView.OnQueryTextListener {
@@ -27,7 +24,7 @@ public class MapSearch extends Activity implements SearchView.OnQueryTextListene
     private SearchView mSearchView;
     private ListView mListView;
     private ArrayAdapter<String> mAdapter;
-    String pos, pos2, newindex;
+    String pos2, newindex;
     double currentLatitude, currentLongitude;       // Current long. and lat. read from GPSLocs
 
     @Override
@@ -56,8 +53,8 @@ public class MapSearch extends Activity implements SearchView.OnQueryTextListene
 
                 pos2 = mAdapter.getItem(position);
 
-                //Searches for the string text in the listview_array string
-                //and returns index regardless of searching due to 're'search
+                // Searches for the string text in the listview_array string
+                // and returns index regardless of searching due to 're'search
                 int index = -1;
                 for (int i = 0; (i < 144) && (index == -1); i++) {
                     if (buildings[i] == pos2) {
@@ -69,15 +66,15 @@ public class MapSearch extends Activity implements SearchView.OnQueryTextListene
                 newindex = String.valueOf(index);
                 Log.d("MAP", newindex);
 
+                // Finds current id of item. When searching items, resets counter to 0, 1, 2, etc
+                // pos1 = (Long) adapter.getItemId(position);
+                // pos = String.valueOf(pos1);
+                // Log.d("MAP", pos);*/
 
-                //Finds current id of item. When searching items, resets counter to 0, 1, 2, etc
-                //pos1 = (Long) adapter.getItemId(position);
-                //pos = String.valueOf(pos1);
-                //Log.d("MAP", pos);*/
-
-                //String map1 = "http://maps.google.com/maps?q="
+                // String map1 = "http://maps.google.com/maps?q="
                 //        + addrlist[index] + ",+New+Haven,+CT+06511";
-                //Log.d(TAG, map1);
+                // Log.d(TAG, map1);
+
                 currentLatitude = GPSLocs[2 * index]/(10000000.);
                 currentLongitude = GPSLocs[(2 * index) + 1]/(10000000.);
                 Intent i = new Intent(MapSearch.this, MapView.class);
@@ -85,9 +82,6 @@ public class MapSearch extends Activity implements SearchView.OnQueryTextListene
                 i.putExtra("currentLongitude", currentLongitude);
                 i.putExtra("name", pos2);
                 startActivity(i);
-
-                //Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(map1));
-                //startActivity(i);
             }
         });
     }
