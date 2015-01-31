@@ -30,14 +30,9 @@ import java.util.List;
 /**
  * Created by Jason Liu on 10/18/14.
  */
-public class MapView extends Activity implements SearchView.OnQueryTextListener {
+public class MapView extends Activity {
 
-    private Menu menu;
-    SearchView mSearchView;
-    ListView mListView;
-
-    ArrayAdapter<String> mAdapter;
-    String pos, pos2, newindex;
+    String pos2;
     double currentLatitude, currentLongitude;       // Current long. and lat. read from GPSLocs
 
     @Override
@@ -45,7 +40,6 @@ public class MapView extends Activity implements SearchView.OnQueryTextListener 
         super.onCreate(savedInstanceState);
 
         Bundle extras = getIntent().getExtras();
-
         currentLatitude = 41.3111;
         currentLongitude = -72.9267;
         pos2 = "Yale";
@@ -89,164 +83,28 @@ public class MapView extends Activity implements SearchView.OnQueryTextListener 
                     .title(pos2)
                     .position(yale));
         }
-
-        /*mSearchView = (SearchView) findViewById(R.id.search_view);
-        mListView = (ListView) findViewById(R.id.list_view);
-        mListView.setAdapter(mAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1,
-                buildings));
-        mListView.setTextFilterEnabled(true);
-        setupSearchView();
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            public void onItemClick(AdapterView<?> arg0, View v, int position,
-                                    long id) {
-                Log.d("MAP", "OnClick");
-
-                pos2 = mAdapter.getItem(position);
-
-                //Searches for the string text in the listview_array string
-                //and returns index regardless of searching due to 're'search
-                int index = -1;
-                for (int i = 0; (i < 144) && (index == -1); i++) {
-                    if (buildings[i] == pos2) {
-                        index = i;
-                        break;
-                    }
-                }
-
-                newindex = String.valueOf(index);
-                Log.d("MAP", newindex);
-
-
-                //Finds current id of item. When searching items, resets counter to 0, 1, 2, etc
-                //pos1 = (Long) adapter.getItemId(position);
-                //pos = String.valueOf(pos1);
-                //Log.d("MAP", pos);
-
-                String map1 = "http://maps.google.com/maps?q="
-                        + addrlist[index] + ",+New+Haven,+CT+06511";
-                Log.d("MAPVIEWSEARCH", map1);
-                //Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(map1));
-                //startActivity(i);
-            }
-        });*/
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
 
-
-        //getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
-
-        //getMenuInflater().inflate(R.menu.testsearch_menu, menu);
-
         getMenuInflater().inflate(R.menu.map_menu, menu);
-        this.menu = menu;
 
-        // Associate searchable configuration with the SearchView
-        SearchManager searchManager =
+        // Associate searchable configuration with the SearchView (NOT currently used)
+        /*SearchManager searchManager =
                 (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        //SearchView searchView =
-          //      (SearchView) menu.findItem(R.id.search_view).getActionView();
-        //searchView.setSearchableInfo(
-          //      searchManager.getSearchableInfo(getComponentName()));
-        //setContentView(R.layout.testsearch_filter);
+        SearchView searchView =
+                (SearchView) menu.findItem(R.id.search_view).getActionView();
+        searchView.setSearchableInfo(
+                searchManager.getSearchableInfo(getComponentName()));*/
 
         return super.onCreateOptionsMenu(menu);
     }
 
-    private void setupSearchView() {
-        mSearchView.setIconifiedByDefault(false);
-        mSearchView.setOnQueryTextListener(edu.yalestc.yalepublic.MapView.this);
-        mSearchView.setSubmitButtonEnabled(false);
-        mSearchView.setQueryHint(getString(R.string.building_search));
-    }
-
-    public boolean onQueryTextChange(String newText) {
-        if (TextUtils.isEmpty(newText)) {
-            mListView.clearTextFilter();
-        } else {
-            mListView.setFilterText(newText.toString());
-        }
-        return true;
-    }
-
-    public boolean onQueryTextSubmit(String query) {
-        Log.d("MapViewSubmit", query);
-        return false;
-    }
-
+    // Called when you click the search button - loads TestSearch.class
     public void loadSearch(MenuItem item) {
         Intent iSearch = new Intent(this, TestSearch.class);
         startActivity(iSearch);
     }
-
-        /*
-        getMenuInflater().inflate(R.menu.map_menu, menu);
-        this.menu = menu;
-
-        // Associate searchable configuration with the SearchView
-        SearchManager searchManager =
-                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView =
-                (SearchView) menu.findItem(R.id.search).getActionView();
-        searchView.setSearchableInfo(
-                searchManager.getSearchableInfo(getComponentName()));
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                Log.d("Query submit", query);
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String query) {
-                //loadHistory(query);
-                return true;
-            }
-        });
-
-        searchView.setOnSuggestionListener(new SearchView.OnSuggestionListener() {
-            @Override
-            public boolean onSuggestionSelect(int position) {
-                Log.d("Position1", Integer.toString(position));
-                return false;
-            }
-
-            @Override
-            public boolean onSuggestionClick(int position) {
-                Log.d("Position2", Integer.toString(position));
-                return false;
-            }
-        });*/
-
-
-        //return super.onCreateOptionsMenu(menu);
-    //}
-
-    /*private void loadHistory(String query) {
-        // Cursor
-        String[] columns = new String[] { "_id", "text" };
-        Object[] temp = new Object[] { 0, "default" };
-        List<String> items = Arrays.asList(getResources().getStringArray(R.array.building_strs));
-
-        MatrixCursor cursor = new MatrixCursor(columns);
-
-        for(int i = 0; i < items.size(); i++) {
-            temp[0] = i;
-            temp[1] = items.get(i);
-            cursor.addRow(temp);
-        }
-
-        // SearchView
-        SearchManager manager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-
-        //final SearchView search = (SearchView) menu.findItem(R.id.search).getActionView();
-        SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
-
-        searchView.setSuggestionsAdapter(new MapAdapter(this, cursor, items));
-    }*/
 }
