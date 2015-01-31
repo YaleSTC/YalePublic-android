@@ -134,6 +134,13 @@
         -->
 
         <activity
+            android:name=".TestSearch"
+            android:label="@string/maps"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+
+        <activity
             android:name=".About"
             android:label="@string/maps"
             android:parentActivityName=".MainActivity"
