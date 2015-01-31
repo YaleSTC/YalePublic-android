@@ -41,7 +41,7 @@ public class MainActivity extends Activity {
             case R.id.bDirectory:
                 break;
             case R.id.bMaps:
-                Intent iMaps = new Intent(MainActivity.this, TestSearch.class);
+                Intent iMaps = new Intent(MainActivity.this, MapView.class);
                 startActivity(iMaps);
                 break;
             case R.id.bVideos:
