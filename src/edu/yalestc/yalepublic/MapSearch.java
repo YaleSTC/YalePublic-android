@@ -12,8 +12,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
 
-import edu.yalestc.yalepublic.MapView;
-
 
 /**
  * Created by Jason Liu on 1/30/15.
@@ -22,7 +20,7 @@ import edu.yalestc.yalepublic.MapView;
 /**
  * Shows a list that can be filtered in-place with a SearchView in non-iconified mode.
  */
-public class TestSearch extends Activity implements SearchView.OnQueryTextListener {
+public class MapSearch extends Activity implements SearchView.OnQueryTextListener {
 
     private static final String TAG = "SearchViewFilterMode";
 
@@ -82,7 +80,7 @@ public class TestSearch extends Activity implements SearchView.OnQueryTextListen
                 //Log.d(TAG, map1);
                 currentLatitude = GPSLocs[2 * index]/(10000000.);
                 currentLongitude = GPSLocs[(2 * index) + 1]/(10000000.);
-                Intent i = new Intent(TestSearch.this, MapView.class);
+                Intent i = new Intent(MapSearch.this, MapView.class);
                 i.putExtra("currentLatitude", currentLatitude);
                 i.putExtra("currentLongitude", currentLongitude);
                 i.putExtra("name", pos2);

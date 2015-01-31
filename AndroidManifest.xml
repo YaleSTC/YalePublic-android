@@ -118,7 +118,7 @@
         </activity>
 
         <activity
-            android:name=".TestSearch"
+            android:name=".MapSearch"
             android:label="@string/maps"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" >

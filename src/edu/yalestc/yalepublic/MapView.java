@@ -2,30 +2,16 @@ package edu.yalestc.yalepublic;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
-import android.database.MatrixCursor;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.SearchView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Created by Jason Liu on 10/18/14.
@@ -104,7 +90,7 @@ public class MapView extends Activity {
 
     // Called when you click the search button - loads TestSearch.class
     public void loadSearch(MenuItem item) {
-        Intent iSearch = new Intent(this, TestSearch.class);
+        Intent iSearch = new Intent(this, MapSearch.class);
         startActivity(iSearch);
     }
 }
