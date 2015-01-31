@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="listview_array">
+        <item> Asian American Cultural Center </item>
+        <item> African American Cultural Center </item>
+        <item> Watson Hall </item>
+        <item> Allwin Hall </item>
+        <item> Amistad Street Building and Garage </item>
+        <item> Arnold Hall </item>
+        <item> Bass Center for Molecular and Structural Biology  </item>
+        <item> Bass Library </item>
+        <item> Battell Chapel </item>
+        <item> Boardman Building </item>
+        <item> Boyer Center </item>
+        <item> Becton Center </item>
+        <item> Bellamy Hall </item>
+        <item> Berkeley Center (Divinity School) </item>
+        <item> Betts House </item>
+        <item> Berkeley College </item>
+        <item> Bingham Hall </item>
+        <item> Brady Memorial Laboratory </item>
+        <item> Branford College </item>
+        <item> Beinecke Rare Book and Manuscript Library </item>
+        <item> 35 Broadway </item>
+        <item> Connecticut Hall </item>
+        <item> Creative Arts Workshop </item>
+        <item> Calvin Hill Day Care Center </item>
+        <item> Clinic Building </item>
+        <item> Calhoun College </item>
+        <item> 330 Cedar Street </item>
+        <item> Chapel-York Garage </item>
+        <item> Center for International and Professional Experience </item>
+        <item> Connecticut Mental Health Center </item>
+        <item> 435 College Street </item>
+        <item> 451 College Street </item>
+        <item> 493 College Street </item>
+        <item> College Place </item>
+        <item> Commons </item>
+        <item> Congress Place </item>
+        <item> Central Power Plant </item>
+        <item> 305 Crown Street </item>
+        <item> Class of 1954 Chemistry Research Building </item>
+        <item> Child Study Center </item>
+        <item> Curtis Hall </item>
+        <item> Davenport College </item>
+        <item> Dana Clinic Building </item>
+        <item> Dunham Laboratories </item>
+        <item> Donaldson Commons </item>
+        <item> Drama Annex </item>
+        <item> Durfee Hall </item>
+        <item> Dwight Hall </item>
+        <item> Electron Accelerator Laboratory </item>
+        <item> 32 Edgewood Avenue </item>
+        <item> PACE Center </item>
+        <item> 380 Edwards Street </item>
+        <item> Elizabethan Club </item>
+        <item> 143 Elm Street </item>
+        <item> Class of 1954 Environmental Science Center </item>
+        <item> Edward S Harkness Memorial Hall </item>
+        <item> Financial Aid Office Undergraduate </item>
+        <item> Farnam Hall </item>
+        <item> Fisher Hall </item>
+        <item> Farnam Memorial Building </item>
+        <item> Fitkin Memorial Pavilion </item>
+        <item> Greenberg International Conference Center </item>
+        <item> Greeley Memorial Laboratory </item>
+        <item> Graduate and Professional Student Center </item>
+        <item> Green Holcombe T Jr Hall </item>
+        <item> Hendrie Hall </item>
+        <item> Hammond Hall </item>
+        <item> Hall of Graduate Studies </item>
+        <item> Helen Hadley Hall </item>
+        <item> Haskins Laboratories </item>
+        <item> Collection of Musical Instruments </item>
+        <item> 24 Hillhouse Avenue </item>
+        <item> 27 Hillhouse Avenue </item>
+        <item> 28 Hillhouse Avenue </item>
+        <item> 51 Hillhouse Avenue </item>
+        <item> Horchow Hall </item>
+        <item> Hunter Radiation Therapy Center </item>
+        <item> Ingalls Rink </item>
+        <item> io </item>
+        <item> Institute of Sacred Music </item>
+        <item> Jonathan Edwards College </item>
+        <item> Jane Ellen Hope Building </item>
+        <item> John Pierce Laboratory </item>
+        <item> Gibbs Laboratories </item>
+        <item> Kirtland Hall </item>
+        <item> Kline Biology Tower </item>
+        <item> Kline Chemistry Laboratory </item>
+        <item> Kline Geology Laboratory </item>
+        <item> Kroon Hall </item>
+        <item> Lawrance Hall </item>
+        <item> Linsly-Chittenden Hall </item>
+        <item> Laboratory of Epidemiology and Public Health </item>
+        <item> Leigh Hall </item>
+        <item> Lauder Hall </item>
+        <item> Lippard Laboratory for Clinical Investigation </item>
+        <item> Laboratory for Medicine and Pediatrics </item>
+        <item> Leet Oliver Memorial Hall </item>
+        <item> Leitner Observatory and Planetarium </item>
+        <item> Loria Center </item>
+        <item> Laboratory for Surgery  Obstetrics and Gynecology </item>
+        <item> Luce Hall </item>
+        <item> Lanman-Wright Hall </item>
+        <item> Marquand Chapel </item>
+        <item> Morse College </item>
+        <item> McClellan Hall </item>
+        <item> Malone Engineering Center </item>
+        <item> Mason Laboratory </item>
+        <item> Magnetic Resonance Center </item>
+        <item> Morse Recital Hall </item>
+        <item> Marsh Hall </item>
+        <item> Mudd Library </item>
+        <item> Smith Nathan Building </item>
+        <item> Old Art Gallery </item>
+        <item> Off Broadway Theater </item>
+        <item> Office of International Students and Scholars </item>
+        <item> Osborn Memorial Laboratories </item>
+        <item> Pierson College </item>
+        <item> Pierce Laboratory </item>
+        <item> Primary Care Center </item>
+        <item> PET Center (MRC) </item>
+        <item> Phelps Hall </item>
+        <item> 217 Park Street </item>
+        <item> Peabody Museum </item>
+        <item> Prospect Place Building </item>
+        <item> 124 Prospect Street </item>
+        <item> 140 Prospect Street </item>
+        <item> 230 Prospect Street </item>
+        <item> 301 Prospect Street </item>
+        <item> 310 Prospect Street </item>
+        <item> 77 Prospect Street </item>
+        <item> Prospect-Sachem Garage </item>
+        <item> Payne Whitney Gymnasium </item>
+        <item> Rose Alumni House </item>
+        <item> Rudolph Hall </item>
+        <item> University Registrar </item>
+        <item> Rosenkranz Hall </item>
+        <item> Rose Center </item>
+        <item> Rosenfeld Hall </item>
+        <item> Ray Tompkins House </item>
+        <item> 10 Sachem Street </item>
+        <item> 80 Sachem Street </item>
+        <item> Sage-Bowers Hall </item>
+        <item> Sterling Chemistry Laboratory </item>
+        <item> Sterling Divinity Quadrangle </item>
+        <item> Seamco Building </item>
+        <item> Sterling Hall of Medicine </item>
+        <item> Medical Library </item>
+        <item> Science SW Service Node </item>
+        <item> Sterling Law Buildings </item>
+        <item> Slifka Center </item>
+        <item> Silliman College </item>
+        <item> Sprague Memorial Hall </item>
+        <item> Sterling Memorial Library </item>
+        <item> Founders Hall </item>
+        <item> Science Park 25 </item>
+        <item> Science Park Garage </item>
+        <item> Sloane Physics Laboratory </item>
+        <item> Sheffield-Sterling-Strathcona Hall </item>
+        <item> Street Hall </item>
+        <item> Steinbach Hall </item>
+        <item> Ezra Stiles College </item>
+        <item> Stoeckel Hall </item>
+        <item> Sudler Hall </item>
+        <item> Swing Space (New Residence Hall) </item>
+        <item> Saybrook College </item>
+        <item> Anlyan Center </item>
+        <item> Trumbull College </item>
+        <item> Timothy Dwight College </item>
+        <item> Tompkins East Building </item>
+        <item> 320 Temple Street </item>
+        <item> 370 Temple Street </item>
+        <item> 405 Temple Street </item>
+        <item> 432 Temple Street </item>
+        <item> 434 Temple Street </item>
+        <item> Yale Center for Medical Informatics </item>
+        <item> Temple Medical Center </item>
+        <item> Thomas Mellon Evans Hall </item>
+        <item> Tompkins Memorial Pavilion </item>
+        <item> Undergraduate Career Service </item>
+        <item> University Theatre </item>
+        <item> Vanderbilt Hall </item>
+        <item> Visitor Center </item>
+        <item> 81 Wall Street </item>
+        <item> Warner House </item>
+        <item> Watson Center </item>
+        <item> West Campus </item>
+        <item> Weir Hall </item>
+        <item> Welch Hall </item>
+        <item> Whitney Grove Square </item>
+        <item> 121 Whitney Avenue </item>
+        <item> 158 Whitney Avenue </item>
+        <item> 175 Whitney Avenue </item>
+        <item> 221 Whitney Avenue </item>
+        <item> Whitney Humanities Center </item>
+        <item> 212 York Street </item>
+        <item> William L. Harkness Hall </item>
+        <item> Wright Laboratory </item>
+        <item> Woodbridge Hall </item>
+        <item> Woolsey Hall </item>
+        <item> William Wirt Winchester Building </item>
+        <item> Yale Center for British Art </item>
+        <item> Yale Daily News Building </item>
+        <item> Yale Health </item>
+        <item> Digital Media Center for Arts </item>
+        <item> Fence Club </item>
+        <item> 254 York Street </item>
+        <item> Yale New Haven Hospital </item>
+        <item> Yale Physicians Building </item>
+        <item> Yale Repertory Theatre </item>
+        <item> Yale School of Nursing </item>
+        <item> Yale University Art Gallery </item>
+        <item> Yale University Press </item>
+    </string-array>
+
+    <integer-array name="GPSCoordinates">
+        <item>  413070639  </item>  <item>  -729315320  </item>
+        <item>  413094434  </item>  <item>  -729330729  </item>
+        <item>  413130780  </item>  <item>  -729249250  </item>
+        <item>  413139240  </item>  <item>  -729231020  </item>
+        <item>  412997560  </item>  <item>  -729316750  </item>
+        <item>  413110600  </item>  <item>  -729314310  </item>
+        <item>  413180210  </item>  <item>  -729214130  </item>
+        <item>  413107830  </item>  <item>  -729273000  </item>
+        <item>  413094270  </item>  <item>  -729275810  </item>
+        <item>  413028250  </item>  <item>  -729343830  </item>
+        <item>  413023440  </item>  <item>  -729327220  </item>
+        <item>  413126360  </item>  <item>  -729251300  </item>
+        <item>  413245590  </item>  <item>  -729205410  </item>
+        <item>  413255100  </item>  <item>  -729180800  </item>
+        <item>  413224370  </item>  <item>  -729221100  </item>
+        <item>  413111420  </item>  <item>  -729274620  </item>
+        <item>  413076450  </item>  <item>  -729286390  </item>
+        <item>  413019767  </item>  <item>  -729335820  </item>
+        <item>  413096690  </item>  <item>  -729299180  </item>
+        <item>  413114520  </item>  <item>  -729272030  </item>
+        <item>  413113289  </item>  <item>  -729306778  </item>
+        <item>  413081530  </item>  <item>  -729288470  </item>
+        <item>  413110340  </item>  <item>  -729214460  </item>
+        <item>  413282100  </item>  <item>  -729209000  </item>
+        <item>  413023360  </item>  <item>  -729356750  </item>
+        <item>  413097020  </item>  <item>  -729273230  </item>
+        <item>  413024134  </item>  <item>  -729338189  </item>
+        <item>  413079840  </item>  <item>  -729324920  </item>
+        <item>  413120436  </item>  <item>  -729219633  </item>
+        <item>  413054310  </item>  <item>  -729367370  </item>
+        <item>  413098700  </item>  <item>  -729263100  </item>
+        <item>  413100930  </item>  <item>  -729260690  </item>
+        <item>  413108689  </item>  <item>  -729256570  </item>
+        <item>  413094780  </item>  <item>  -729270330  </item>
+        <item>  413117800  </item>  <item>  -729264010  </item>
+        <item>  413015816  </item>  <item>  -729333374  </item>
+        <item>  413128989  </item>  <item>  -729291675  </item>
+        <item>  413070807  </item>  <item>  -729320626  </item>
+        <item>  413192910  </item>  <item>  -729227100  </item>
+        <item>  413041902  </item>  <item>  -729331252  </item>
+        <item>  413244740  </item>  <item>  -729199870  </item>
+        <item>  413104460  </item>  <item>  -729306460  </item>
+        <item>  413023360  </item>  <item>  -729356750  </item>
+        <item>  413120143  </item>  <item>  -729241668  </item>
+        <item>  413155490  </item>  <item>  -729250540  </item>
+        <item>  413097960  </item>  <item>  -729313840  </item>
+        <item>  413096490  </item>  <item>  -729280810  </item>
+        <item>  413088920  </item>  <item>  -729292520  </item>
+        <item>  413179355  </item>  <item>  -729196803  </item>
+        <item>  413098017  </item>  <item>  -729341568  </item>
+        <item>  413197040  </item>  <item>  -729213840  </item>
+        <item>  413198570  </item>  <item>  -729223540  </item>
+        <item>  413103510  </item>  <item>  -729261470  </item>
+        <item>  413091000  </item>  <item>  -729254490  </item>
+        <item>  413161040  </item>  <item>  -729217870  </item>
+        <item>  413035382  </item>  <item>  -729342096  </item>
+        <item>  413100661  </item>  <item>  -729234019  </item>
+        <item>  413090880  </item>  <item>  -729276760  </item>
+        <item>  413250980  </item>  <item>  -729200800  </item>
+        <item>  413020910  </item>  <item>  -729345680  </item>
+        <item>  413028750  </item>  <item>  -729352140  </item>
+        <item>  413217326  </item>  <item>  -729230024  </item>
+        <item>  413218570  </item>  <item>  -729245550  </item>
+        <item>  413092280  </item>  <item>  -729319300  </item>
+        <item>  413086840  </item>  <item>  -729329455  </item>
+        <item>  413093450  </item>  <item>  -729261700  </item>
+        <item>  413155240  </item>  <item>  -729262040  </item>
+        <item>  413126270  </item>  <item>  -729292160  </item>
+        <item>  413125860  </item>  <item>  -729229400  </item>
+        <item>  413049740  </item>  <item>  -729313370  </item>
+        <item>  413123829  </item>  <item>  -729237400  </item>
+        <item>  413133800  </item>  <item>  -729242220  </item>
+        <item>  413136570  </item>  <item>  -729231120  </item>
+        <item>  413127541  </item>  <item>  -729236865  </item>
+        <item>  413150980  </item>  <item>  -729224170  </item>
+        <item>  413153820  </item>  <item>  -729222950  </item>
+        <item>  413044860  </item>  <item>  -729354240  </item>
+        <item>  413163420  </item>  <item>  -729250750  </item>
+        <item>  413108689  </item>  <item>  -729256570  </item>
+        <item>  413236840  </item>  <item>  -729222070  </item>
+        <item>  413090290  </item>  <item>  -729304690  </item>
+        <item>  413022000  </item>  <item>  -729333620  </item>
+        <item>  413019350  </item>  <item>  -729325380  </item>
+        <item>  413174160  </item>  <item>  -729216490  </item>
+        <item>  413118780  </item>  <item>  -729246290  </item>
+        <item>  413172510  </item>  <item>  -729224040  </item>
+        <item>  413188340  </item>  <item>  -729227100  </item>
+        <item>  413166010  </item>  <item>  -729210490  </item>
+        <item>  413167780  </item>  <item>  -729233420  </item>
+        <item>  413086670  </item>  <item>  -729280200  </item>
+        <item>  413086010  </item>  <item>  -729295390  </item>
+        <item>  413037070  </item>  <item>  -729321690  </item>
+        <item>  413098440  </item>  <item>  -729263770  </item>
+        <item>  413018610  </item>  <item>  -729342570  </item>
+        <item>  413044860  </item>  <item>  -729354240  </item>
+        <item>  413044860  </item>  <item>  -729354240  </item>
+        <item>  413127220  </item>  <item>  -729243240  </item>
+        <item>  413216390  </item>  <item>  -729233366  </item>
+        <item>  413090460  </item>  <item>  -729317070  </item>
+        <item>  413020420  </item>  <item>  -729343970  </item>
+        <item>  413143860  </item>  <item>  -729241190  </item>
+        <item>  413098770  </item>  <item>  -729286620  </item>
+        <item>  413233180  </item>  <item>  -729213330  </item>
+        <item>  413127060  </item>  <item>  -729302310  </item>
+        <item>  413082990  </item>  <item>  -729293080  </item>
+        <item>  413125160  </item>  <item>  -729250570  </item>
+        <item>  413121280  </item>  <item>  -729235730  </item>
+        <item>  413030460  </item>  <item>  -729359260  </item>
+        <item>  413104270  </item>  <item>  -729268020  </item>
+        <item>  413216460  </item>  <item>  -729237940  </item>
+        <item>  413158460  </item>  <item>  -729262040  </item>
+        <item>  413033050  </item>  <item>  -729337840  </item>
+        <item>  413078555  </item>  <item>  -729303673  </item>
+        <item>  413117780  </item>  <item>  -729301390  </item>
+        <item>  413099270  </item>  <item>  -729231348  </item>
+        <item>  413165000  </item>  <item>  -729235620  </item>
+        <item>  413098010  </item>  <item>  -729321690  </item>
+        <item>  413019350  </item>  <item>  -729325380  </item>
+        <item>  413021300  </item>  <item>  -729350760  </item>
+        <item>  413025011  </item>  <item>  -729351220  </item>
+        <item>  413081530  </item>  <item>  -729288470  </item>
+        <item>  413095090  </item>  <item>  -729325990  </item>
+        <item>  413157220  </item>  <item>  -729209250  </item>
+        <item>  413149430  </item>  <item>  -729256060  </item>
+        <item>  413150034  </item>  <item>  -729246912  </item>
+        <item>  413151830  </item>  <item>  -729246427  </item>
+        <item>  413174813  </item>  <item>  -729240064  </item>
+        <item>  413198350  </item>  <item>  -729227260  </item>
+        <item>  413200910  </item>  <item>  -729240300  </item>
+        <item>  413138325  </item>  <item>  -729249996  </item>
+        <item>  413179250  </item>  <item>  -729247400  </item>
+        <item>  413138880  </item>  <item>  -729307380  </item>
+        <item>  413099290  </item>  <item>  -729311310  </item>
+        <item>  413087600  </item>  <item>  -729318360  </item>
+        <item>  413100661  </item>  <item>  -729234019  </item>
+        <item>  413148220  </item>  <item>  -729243710  </item>
+        <item>  413159850  </item>  <item>  -729287540  </item>
+        <item>  413111040  </item>  <item>  -729232170  </item>
+        <item>  413132350  </item>  <item>  -729317070  </item>
+        <item>  413157433  </item>  <item>  -729225339  </item>
+        <item>  413161574  </item>  <item>  -729250482  </item>
+        <item>  413171300  </item>  <item>  -729237710  </item>
+        <item>  413181910  </item>  <item>  -729229870  </item>
+        <item>  413236270  </item>  <item>  -729219250  </item>
+        <item>  413004080  </item>  <item>  -729362750  </item>
+        <item>  413033050  </item>  <item>  -729337840  </item>
+        <item>  413033050  </item>  <item>  -729337840  </item>
+        <item>  413157989  </item>  <item>  -729226603  </item>
+        <item>  413212910  </item>  <item>  -729283390  </item>
+        <item>  413101950  </item>  <item>  -729252480  </item>
+        <item>  413111010  </item>  <item>  -729246940  </item>
+        <item>  413104270  </item>  <item>  -729268020  </item>
+        <item>  413111800  </item>  <item>  -729288890  </item>
+        <item>  413157220  </item>  <item>  -729242110  </item>
+        <item>  413210090  </item>  <item>  -729289850  </item>
+        <item>  413241334  </item>  <item>  -729282226  </item>
+        <item>  413172790  </item>  <item>  -729231290  </item>
+        <item>  413118820  </item>  <item>  -729250700  </item>
+        <item>  413081550  </item>  <item>  -729298620  </item>
+        <item>  413154390  </item>  <item>  -729234840  </item>
+        <item>  413124570  </item>  <item>  -729306000  </item>
+        <item>  413105360  </item>  <item>  -729259860  </item>
+        <item>  413106730  </item>  <item>  -729268020  </item>
+        <item>  413135455  </item>  <item>  -729291643  </item>
+        <item>  413102400  </item>  <item>  -729295390  </item>
+        <item>  413013520  </item>  <item>  -729339680  </item>
+        <item>  413104240  </item>  <item>  -729289300  </item>
+        <item>  413101840  </item>  <item>  -729236790  </item>
+        <item>  413023280  </item>  <item>  -729351220  </item>
+        <item>  413087538  </item>  <item>  -729254084  </item>
+        <item>  413111059  </item>  <item>  -729237200  </item>
+        <item>  413119710  </item>  <item>  -729228250  </item>
+        <item>  413128820  </item>  <item>  -729226780  </item>
+        <item>  413128428  </item>  <item>  -729224645  </item>
+        <item>  413038260  </item>  <item>  -729294320  </item>
+        <item>  413038260  </item>  <item>  -729294320  </item>
+        <item>  413167272  </item>  <item>  -729244851  </item>
+        <item>  413023280  </item>  <item>  -729351220  </item>
+        <item>  413120436  </item>  <item>  -729219633  </item>
+        <item>  413097100  </item>  <item>  -729311350  </item>
+        <item>  413079580  </item>  <item>  -729291930  </item>
+        <item>  413092510  </item>  <item>  -729256160  </item>
+        <item>  413105830  </item>  <item>  -729257486  </item>
+        <item>  413113880  </item>  <item>  -729239230  </item>
+        <item>  413157980  </item>  <item>  -729237790  </item>
+        <item>  412564430  </item>  <item>  -729907939  </item>
+        <item>  413083991  </item>  <item>  -729299681  </item>
+        <item>  413080910  </item>  <item>  -729283160  </item>
+        <item>  413107610  </item>  <item>  -729227100  </item>
+        <item>  413140080  </item>  <item>  -729215003  </item>
+        <item>  413152600  </item>  <item>  -729215910  </item>
+        <item>  413153930  </item>  <item>  -729197800  </item>
+        <item>  413166960  </item>  <item>  -729196530  </item>
+        <item>  413098100  </item>  <item>  -729236630  </item>
+        <item>  413094990  </item>  <item>  -729321240  </item>
+        <item>  413106730  </item>  <item>  -729268020  </item>
+        <item>  413189820  </item>  <item>  -729206800  </item>
+        <item>  413111680  </item>  <item>  -729266320  </item>
+        <item>  413112450  </item>  <item>  -729261340  </item>
+        <item>  413048883  </item>  <item>  -729342084  </item>
+        <item>  413081950  </item>  <item>  -729305450  </item>
+        <item>  413212910  </item>  <item>  -729283390  </item>
+        <item>  413156250  </item>  <item>  -729273990  </item>
+        <item>  413075760  </item>  <item>  -729317590  </item>
+        <item>  413097200  </item>  <item>  -729318830  </item>
+        <item>  413099564  </item>  <item>  -729305524  </item>
+        <item>  413044860  </item>  <item>  -729354240  </item>
+        <item>  413025011  </item>  <item>  -729363253  </item>
+        <item>  413080410  </item>  <item>  -729316150  </item>
+        <item>  412995090  </item>  <item>  -729303690  </item>
+        <item>  413085210  </item>  <item>  -729310150  </item>
+        <item>  413212910  </item>  <item>  -729283390  </item>
+    </integer-array>
+
+</resources>
