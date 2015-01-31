@@ -38,10 +38,24 @@ public class MapView extends Activity implements SearchView.OnQueryTextListener 
 
     ArrayAdapter<String> mAdapter;
     String pos, pos2, newindex;
+    double currentLatitude, currentLongitude;       // Current long. and lat. read from GPSLocs
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Bundle extras = getIntent().getExtras();
+
+        currentLatitude = 41.3111;
+        currentLongitude = -72.9267;
+        pos2 = "Yale";
+
+        if (extras != null && extras.containsKey("currentLatitude")
+                && extras.containsKey("currentLongitude") ) {
+            currentLatitude = getIntent().getDoubleExtra("currentLatitude", 41.3111);
+            currentLongitude = getIntent().getDoubleExtra("currentLongitude", -72.9267);
+            pos2 = getIntent().getStringExtra("name");
+        }
 
         // List of strings for building and addresses
         final String[] buildings = getResources().getStringArray(R.array.building_strs);
@@ -60,15 +74,21 @@ public class MapView extends Activity implements SearchView.OnQueryTextListener 
         GoogleMap map = ((MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map)).getMap();
 
-        LatLng yale = new LatLng(41.3111, -72.9267);   // The - signifies the Western Hemisphere
+        LatLng yale = new LatLng(currentLatitude, currentLongitude);   // The - signifies the Western Hemisphere
 
         map.setMyLocationEnabled(true);
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(yale, 13));
 
-        map.addMarker(new MarkerOptions()
-                .title("Yale")
-                .snippet("The best university ever.")
-                .position(yale));
+        if (pos2 == "Yale") {
+            map.addMarker(new MarkerOptions()
+                    .title(pos2)
+                    .snippet("The best university ever.")
+                    .position(yale));
+        } else {
+            map.addMarker(new MarkerOptions()
+                    .title(pos2)
+                    .position(yale));
+        }
 
         /*mSearchView = (SearchView) findViewById(R.id.search_view);
         mListView = (ListView) findViewById(R.id.list_view);

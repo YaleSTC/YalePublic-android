@@ -87,6 +87,7 @@ public class TestSearch extends Activity implements SearchView.OnQueryTextListen
                 Intent i = new Intent(TestSearch.this, MapView.class);
                 i.putExtra("currentLatitude", currentLatitude);
                 i.putExtra("currentLongitude", currentLongitude);
+                i.putExtra("name", pos2);
                 startActivity(i);
 
                 //Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(map1));
