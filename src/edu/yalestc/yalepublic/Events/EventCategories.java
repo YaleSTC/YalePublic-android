@@ -28,12 +28,12 @@ import android.widget.TextView;
 import edu.yalestc.yalepublic.R;
 
 public class EventCategories extends Activity {
-    private String[] categories;
+    String[] categories;
     //gradient colors - gradient from colorFrom to colorTo
-    private int[] colorsTo;
-    private int[] colorsFrom;
+    int[] colorsTo;
+    int[] colorsFrom;
     //button consists of two parts. lower is solid color, the top is gradient.
-    private int[] colors;
+    int[] colors;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -69,15 +69,52 @@ public class EventCategories extends Activity {
         setContentView(R.layout.events_event_categories);
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
+                    .add(R.id.container, PlaceholderFragment.newInstance(colors, colorsFrom, colorsTo, categories))
                     .commit();
         }
     }
 
 
-    public class PlaceholderFragment extends Fragment {
+    static public class PlaceholderFragment extends Fragment {
+
+        private int[] mColors;
+        private int[] mColorsFrom;
+        private int[] mColorsTo;
+        private String[] mCategories;
+        private Activity mActivity;
+
+        //since the fragment has to have an empty constructor
+        public static PlaceholderFragment newInstance(int[] colors, int[] colorsFrom, int[] colorsTo, String[] categories) {
+            PlaceholderFragment f = new PlaceholderFragment();
+            Bundle bld = new Bundle();
+            bld.putIntArray("colors", colors);
+            bld.putIntArray("colorsTo", colorsTo);
+            bld.putIntArray("colorsFrom", colorsFrom);
+            bld.putStringArray("categories", categories);
+            f.setArguments(bld);
+            return f;
+        }
+
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            Bundle mExtras = getArguments();
+            mColors = mExtras.getIntArray("colors");
+            mColorsTo = mExtras.getIntArray("colorsTo");
+            mColorsFrom = mExtras.getIntArray("colorsFrom");
+            mCategories = mExtras.getStringArray("categories");
+            mActivity = getActivity();
+        }
+
+        //to keep track of the activity when we are attached and detatched
+        @Override
+        public void onAttach(Activity activity) {
+            super.onAttach(activity);
+            mActivity = activity;
+        }
 
         public PlaceholderFragment() {
+
         }
 
         @Override
@@ -85,7 +122,7 @@ public class EventCategories extends Activity {
                                  Bundle savedInstanceState) {
 
             View rootView = inflater.inflate(R.layout.fragment_event_categories, container, false);
-            EventsCategoriesAdapter adapter = new EventsCategoriesAdapter(getActivity());
+            EventsCategoriesAdapter adapter = new EventsCategoriesAdapter(mActivity, mColors, mColorsFrom, mColorsTo, mCategories);
 
             ListView listView = (ListView) rootView.findViewById(R.id.listview_event_categories);
             listView.setAdapter(adapter);
@@ -95,25 +132,26 @@ public class EventCategories extends Activity {
                 @Override
                 public void onItemClick(AdapterView<?> arg0, View arg1,
                                         int arg2, long arg3) {
-                    Intent showEvents = new Intent(EventCategories.this, EventsDisplay.class);
+                    Intent showEvents;
+                    showEvents = new Intent(mActivity, EventsDisplay.class);
                     //warning here, the real json categories are different than the descriptions. In eventsDisplay we will have
                     //to parse the names and do a good JSON query. This means splitting the string into separate words and adding a query
                     //for category equal to each of the elements!
-                    showEvents.putExtra("category", categories[arg2]);
+                    showEvents.putExtra("category", mCategories[arg2]);
                     //to parse only for events in selected category
                     showEvents.putExtra("numberOfCategorySearchedFor", arg2);
                     //0 means no particular category
                     if (arg2 == 0) {
                         showEvents.putExtra("JsonCategories", "All");
-                        showEvents.putExtra("colorsTo", colorsTo);
-                        showEvents.putExtra("colorsFrom", colorsFrom);
-                        showEvents.putExtra("colors", colors);
+                        showEvents.putExtra("colorsTo", mColorsTo);
+                        showEvents.putExtra("colorsFrom", mColorsFrom);
+                        showEvents.putExtra("colors", mColors);
                     } else {
-                        showEvents.putExtra("colors", new int[]{colors[arg2]});
-                        showEvents.putExtra("colorsTo", new int[]{colorsTo[arg2]});
-                        showEvents.putExtra("colorsFrom", new int[]{colorsFrom[arg2]});
+                        showEvents.putExtra("colors", new int[]{mColors[arg2]});
+                        showEvents.putExtra("colorsTo", new int[]{mColorsTo[arg2]});
+                        showEvents.putExtra("colorsFrom", new int[]{mColorsFrom[arg2]});
                     }
-                    Log.v("showEventsLaunch", "With given parameters:" + categories[arg2] + " " + Integer.toString(colorsTo[arg2]));
+                    Log.v("showEventsLaunch", "With given parameters:" + mCategories[arg2] + " " + Integer.toString(mColorsTo[arg2]));
                     startActivity(showEvents);
                 }
             });
@@ -123,23 +161,32 @@ public class EventCategories extends Activity {
     }
 
     //custom adapter creating relativelayouts consisting of  imageview and textview
-    private class EventsCategoriesAdapter extends BaseAdapter {
+    private static class EventsCategoriesAdapter extends BaseAdapter {
         //for DisplayMetrics
         private Context mContext;
         //for screen dimensions (so that it looks okay on all sizes of displays)
         private DisplayMetrics display;
         //width of screen in pixels
         private int width;
+        //because static....
+        private int[] mColors;
+        private int[] mColorsTo;
+        private int[] mColorsFrom;
+        private String[] mCategories;
 
-        EventsCategoriesAdapter(Context context) {
+        EventsCategoriesAdapter(Context context, int[] colors, int[] colorsFrom, int[] colorsTo, String[] categories) {
             mContext = context;
             display = mContext.getResources().getDisplayMetrics();
             width = display.widthPixels;
+            mColors = colors;
+            mColorsFrom = colorsFrom;
+            mColorsTo = colorsTo;
+            mCategories = categories;
         }
 
         @Override
         public int getCount() {
-            return categories.length;
+            return mCategories.length;
         }
 
         @Override
@@ -161,7 +208,7 @@ public class EventCategories extends Activity {
                 ((ImageView) ((RelativeLayout) convertView).getChildAt(0)).setImageDrawable(rectangle);
                 convertView.setPadding(width / 20, width / 25, 0, width / 25);
                 ((TextView) ((RelativeLayout) convertView).getChildAt(1)).setTextSize(width / 45);
-                ((TextView) ((RelativeLayout) convertView).getChildAt(1)).setText(categories[i]);
+                ((TextView) ((RelativeLayout) convertView).getChildAt(1)).setText(mCategories[i]);
                 convertView.setBackgroundColor(Color.parseColor("#dbdbdd"));
                 return convertView;
 
@@ -169,13 +216,11 @@ public class EventCategories extends Activity {
                 LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 RelativeLayout button = ((RelativeLayout) inflater.inflate(R.layout.events_category_button, null));
                 button.setPadding(width / 20, width / 25, 0, width / 25);
-                if (i == 0) {
-
-                } else {
+                if (i != 0) {
                     ((ImageView) button.getChildAt(0)).setImageDrawable(rectangle);
                 }
                 ((TextView) button.getChildAt(1)).setTextSize(width / 45);
-                ((TextView) button.getChildAt(1)).setText(categories[i]);
+                ((TextView) button.getChildAt(1)).setText(mCategories[i]);
                 button.setBackgroundColor(Color.parseColor("#dbdbdd"));
                 return button;
             }
@@ -184,13 +229,13 @@ public class EventCategories extends Activity {
         //creates and returns the rounded rectangle on the left of category name.
         private LayerDrawable createRectangle(int i) {
             GradientDrawable[] layers = new GradientDrawable[2];
-            layers[0] = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{colorsFrom[i], colorsTo[i]});
+            layers[0] = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{mColorsFrom[i], mColorsTo[i]});
             layers[0].setShape(GradientDrawable.RECTANGLE);
             layers[0].setSize(width / 10, width / 20);
             //adding rounded corners
             layers[0].setCornerRadii(new float[]{16, 16, 16, 16, 0, 0, 0, 0});
 
-            layers[1] = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{colors[i], colors[i]});
+            layers[1] = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{mColors[i], mColors[i]});
             layers[1].setShape(GradientDrawable.RECTANGLE);
             layers[1].setSize(width / 10, width / 20);
             //adding rounded corners

@@ -1,5 +1,6 @@
 package edu.yalestc.yalepublic.Events;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
@@ -24,6 +25,14 @@ public class EventsDetails extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        ActionBar actionbar = getActionBar();
+        actionbar.setDisplayHomeAsUpEnabled(true);     // Show home as a back arrow
+        //actionbar.setDisplayShowHomeEnabled(true);     // Show application logo
+        actionbar.setDisplayShowTitleEnabled(true);    // Show activity title/subtitle
+        actionbar.setDisplayUseLogoEnabled(false);     // Use activity logo instead of activity icon
+        actionbar.setTitle("Details");  // Set title
+
         super.onCreate(savedInstanceState);
         extras = getIntent().getExtras();
         display = new DisplayMetrics();

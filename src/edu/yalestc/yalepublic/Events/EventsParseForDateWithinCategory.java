@@ -8,6 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+
 import org.apache.commons.lang3.StringEscapeUtils;
 
 import edu.yalestc.yalepublic.R;
@@ -61,7 +62,7 @@ public class EventsParseForDateWithinCategory {
         }
     }
 
-    public int getNumberOfEvents(){
+    public int getNumberOfEvents() {
         return validEvents.size();
     }
 
@@ -85,12 +86,45 @@ public class EventsParseForDateWithinCategory {
         return givenEvents;
     }
 
-    public ArrayList<String[]> getAllEventsInfo(){
+    public ArrayList<String[]> getAllEventsInfo() {
         ArrayList<String[]> allEvents = new ArrayList<String[]>();
         for (int i = 0; i < validEvents.size(); i++) {
-           allEvents.add(validEvents.get(i).getInfo());
+            allEvents.add(validEvents.get(i).getInfo());
         }
         return allEvents;
+    }
+
+    public ArrayList<Integer> daysWithEvents(int category) {
+        //how slow? this iterates through all events. Potentially could do when validEvents is created.
+        ArrayList<Integer> hasEventsWithinCategory = new ArrayList<>();
+        int dayConsidered = 1;
+        if (category != 0) {
+            for (event ev : validEvents) {
+                int dayOfEvent = Integer.parseInt(ev.getDate()) % 100;
+                if (dayOfEvent == dayConsidered) {
+                    if (ev.getCategoryNumber().contains(Integer.toString(category))) {
+                        dayConsidered++;
+                        hasEventsWithinCategory.add(dayConsidered);
+                    }
+                } else if (dayOfEvent > dayConsidered) {
+                    dayConsidered = dayOfEvent;
+                    hasEventsWithinCategory.add(dayConsidered);
+                }
+            }
+            return hasEventsWithinCategory;
+        } else {
+            for (event ev : validEvents) {
+                int dayOfEvent = Integer.parseInt(ev.getDate()) % 100;
+                if (dayOfEvent == dayConsidered) {
+                    dayConsidered++;
+                    hasEventsWithinCategory.add(dayConsidered);
+                } else if (dayOfEvent > dayConsidered) {
+                    dayConsidered = dayOfEvent;
+                    hasEventsWithinCategory.add(dayConsidered);
+                }
+            }
+            return hasEventsWithinCategory;
+        }
     }
 
     //check if given event is valid
@@ -102,7 +136,7 @@ public class EventsParseForDateWithinCategory {
             String yearMonth = startTime.getString("datetime");
             yearMonth = yearMonth.substring(0, 6);
             //Log.v("isValidEvent", yearMonth);
-            if (yearMonth.equals(Integer.toString(mYear) + monthToString())) {
+            if (yearMonth.equals(Integer.toString(mYear) + DateFormater.monthToStringCalendarToCalendar(mMonth))) {
                 if (mSearchedCategoryNumber == 0) {
                     return true;
                 } else {
@@ -125,6 +159,8 @@ public class EventsParseForDateWithinCategory {
         try {
             JSONArray mCategories = JSONevent.getJSONArray("categories");
             String category;
+            // the splitting is necessary for JSON names consisting of two words that are not a single
+            // category!
             for (int i = 0; i < mCategories.length(); i++) {
                 if (availableCategories[mSearchedCategoryNumber].split(" ").length != 1) {
                     category = availableCategories[mSearchedCategoryNumber].split(" ")[0];
@@ -149,16 +185,16 @@ public class EventsParseForDateWithinCategory {
         }
     }
 
-    //helper function for usage in isValidEvent. returns the month as MM. MM ranges from 01 to 12.
-    private String monthToString() {
-        String stringMonth;
-        if (mMonth < 10) {
-            stringMonth = "0";
-        } else {
-            stringMonth = new String();
+    //to get the category from string of categories
+    public static int retrieveCategory(String categories) {
+        String[] cats = categories.split(",");
+        for (String cat : cats) {
+            //I have no clue why, but apparently I have some "null" in there. Super weird since
+            //this error does not occur by caching and the objects are the same
+            if (!cat.equals("") && !cat.equals("null"))
+                return Integer.parseInt(cat);
         }
-        stringMonth += Integer.toString(mMonth);
-        return stringMonth;
+        return 0;
     }
 
     private class event {
@@ -169,11 +205,11 @@ public class EventsParseForDateWithinCategory {
         private String date;
         private String dateDescription;
         private String description;
-        private int categoryNumber;
+        private String categoryNumber;
 
         //return a String[] with information about the event
         public String[] getInfo() {
-            String[] eventInfo = new String[]{title, startTime, endTime, place, dateDescription, description, Integer.toString(categoryNumber), date};
+            String[] eventInfo = new String[]{title, startTime, endTime, place, dateDescription, description, categoryNumber, date};
             return eventInfo;
         }
 
@@ -231,7 +267,7 @@ public class EventsParseForDateWithinCategory {
             try {
                 JSONObject location = JSONevent.getJSONObject("location");
                 place = location.getString("name");
-                if(place.equals("")){
+                if (place.equals("")) {
                     place = "To Be Determined";
                 } else {
                     place += " - ";
@@ -267,7 +303,7 @@ public class EventsParseForDateWithinCategory {
             try {
                 String tmp = JSONevent.getString("description");
                 description = StringEscapeUtils.escapeHtml3(tmp);
-             } catch (JSONException e) {
+            } catch (JSONException e) {
                 Log.e("EventsParseForCategory/setTime", "JSON error");
             }
         }
@@ -284,36 +320,42 @@ public class EventsParseForDateWithinCategory {
                     //indicating the place of category in availableCategories array, since the color of the blob
                     //is the same! We always chose the first that matches. Although complexity here is big, there
                     //are rarely more than 5 elements in the first list and the second one is fixed and short.
+
+                    //The categories will be in the format ,NN,N,NN,NNN,N etc. where N are digits. The initial
+                    //coma is important for distinction between say 5 and 15 when querying db since we will
+                    //query for %,NN,% NN being a number!
+                    categoryNumber += ",";
                     for (int i = 0; i < mCategories.length(); i++) {
                         for (int j = 1; j < availableCategories.length; j++) {
                             if (availableCategories[j].split(" ").length != 1) {
                                 category = availableCategories[j].split(" ")[0];
                                 if (category.equals(mCategories.getString(i))) {
-                                    categoryNumber = j;
-                                    return;
+                                    categoryNumber += Integer.toString(j) + ",";
                                 }
                                 category = availableCategories[j].split(" ")[1];
                                 if (category.equals(mCategories.getString(i))) {
-                                    categoryNumber = j;
-                                    return;
+                                    categoryNumber += Integer.toString(j) + ",";
                                 }
                             } else {
                                 category = availableCategories[j];
                                 if (category.equals(mCategories.getString(i))) {
-                                    categoryNumber = j;
-                                    return;
+                                    categoryNumber += Integer.toString(j) + ",";
                                 }
                             }
                         }
                     }
                     //for the events that cannot be categorized!
-                    categoryNumber = 13;
+                    categoryNumber += "13,";
                 } catch (JSONException e) {
                     Log.e("EventsParseForCategory/events/setCategoryNumber", "Json error");
                 }
             } else {
-                categoryNumber = mSearchedCategoryNumber;
+                categoryNumber = "," + Integer.toString(mSearchedCategoryNumber) + ",";
             }
+        }
+
+        public String getCategoryNumber() {
+            return categoryNumber;
         }
     }
 }

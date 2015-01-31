@@ -2,9 +2,7 @@ package edu.yalestc.yalepublic.Events.SearchEvents;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.ListActivity;
 import android.app.SearchManager;
-import android.app.usage.UsageEvents;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -18,7 +16,6 @@ import edu.yalestc.yalepublic.Cache.CalendarDatabaseTableHandler;
 import edu.yalestc.yalepublic.Events.EventsDetails;
 import edu.yalestc.yalepublic.Events.ListView.EventsListAdapter;
 import edu.yalestc.yalepublic.R;
-import edu.yalestc.yalepublic.Videos.PlaylistAdapter;
 
 /**
  * Created by Stan Swidwinski on 1/23/15.
@@ -29,7 +26,7 @@ public class SearchByName extends Activity {
     EventsListAdapter mAdapter;
 
     @Override
-    public void onCreate(Bundle savedInstanceState){
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActionBar actionbar = getActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true); // Show home as a back arrow
@@ -51,10 +48,10 @@ public class SearchByName extends Activity {
         }
     }
 
-    private void doMySearch(String query){
+    private void doMySearch(String query) {
         CalendarDatabaseTableHandler db = new CalendarDatabaseTableHandler(this);
         ArrayList<String[]> eventsFound = db.searchEventsByName(query);
-        if(eventsFound.size() != 0){
+        if (eventsFound.size() != 0) {
             mAdapter = new EventsListAdapter(this);
             mAdapter.setAllEventsInfo(eventsFound);
 
@@ -93,7 +90,6 @@ public class SearchByName extends Activity {
             ((ListView) ((RelativeLayout) rootView).getChildAt(0)).setAdapter(mAdapter);
 
             setContentView(rootView);
-            return;
         } else {
             setContentView(R.layout.events_search_not_found);
         }

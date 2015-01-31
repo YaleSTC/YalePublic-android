@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -20,6 +19,7 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import edu.yalestc.yalepublic.Events.EventsDetails;
+import edu.yalestc.yalepublic.Events.EventsParseForDateWithinCategory;
 import edu.yalestc.yalepublic.R;
 
 import static edu.yalestc.yalepublic.R.drawable.calendar_grid_button_current_selected;
@@ -31,6 +31,13 @@ import static edu.yalestc.yalepublic.R.drawable.calendar_grid_button_unselected;
  * Created by Stan Swidwinski on 11/17/14.
  * <p/>
  * Fragment being the core of the calendar screen.
+ * <p/>
+ * IMPORTANT NOTE: EventsCalendarEventList adapter does interact with EventsCalendarGridAdapter
+ * through the setDaysWithEvents method. This happens for creation of blobs next to dates with
+ * events. Moreover, the EventsAdapterForLists that is being inherited by EventsCalendarEventList
+ * updates the dataSet of EventsCalendarEventList and calls notifyDataSetChanged if it has to pull
+ * data from internet. That also triggers notifyDataSetChanged in EventsCalendarGridAdapter after
+ * passing the list of days with events in given category!
  */
 
 public class CalendarFragment extends Fragment {
@@ -55,11 +62,10 @@ public class CalendarFragment extends Fragment {
 
     //since fragments need empty constructor, a static function for creatino of new fragments
     //is necessary
-    public static final CalendarFragment newInstance(Bundle extras) {
+    public static CalendarFragment newInstance(Bundle extras) {
         CalendarFragment f = new CalendarFragment();
-        Bundle bld = extras;
         //Arguments can and are accessed within a fragment. See onCreate();
-        f.setArguments(bld);
+        f.setArguments(extras);
         return f;
     }
 
@@ -87,7 +93,7 @@ public class CalendarFragment extends Fragment {
         ((TextView) ((RelativeLayout) (((RelativeLayout) rootView).getChildAt(0))).getChildAt(1)).setText(monthName);
 
         //set the onclick listener of arrow changing month to the previous one
-        ((Button) ((RelativeLayout) (((RelativeLayout) rootView).getChildAt(0))).getChildAt(0)).setOnClickListener(new View.OnClickListener() {
+        (((RelativeLayout) (((RelativeLayout) rootView).getChildAt(0))).getChildAt(0)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 updateMonthAndData(-1);
@@ -95,17 +101,19 @@ public class CalendarFragment extends Fragment {
         });
 
         //set onclick listener to arrow changing the month to the next one
-        ((Button) ((RelativeLayout) (((RelativeLayout) rootView).getChildAt(0))).getChildAt(2)).setOnClickListener(new View.OnClickListener() {
+        (((RelativeLayout) (((RelativeLayout) rootView).getChildAt(0))).getChildAt(2)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 updateMonthAndData(1);
             }
         });
 
-        calendarAdapter = new EventsCalendarGridAdapter(mActivity);
+        calendarAdapter = new EventsCalendarGridAdapter(mActivity, mExtras.getIntArray("colors"), mExtras.getIntArray("colorsFrom"), mExtras.getInt("numberOfCategorySearchedFor"));
         calendarAdapter.update(year, month);
 
-        listEvents = new EventsCalendarEventList(mActivity, year, month, calendarAdapter.getCurrentlySelected(), mExtras.getInt("numberOfCategorySearchedFor"), mExtras.getIntArray("colors"), mExtras.getIntArray("colorsFrom"));
+        //this will also cause calendarAdapter to redraw after data is fetched either from db or internet
+        //Hence, the blobs on the calendar!
+        listEvents = new EventsCalendarEventList(mActivity, year, month, calendarAdapter.getDayNumber(calendarAdapter.getCurrentlySelected()), mExtras.getInt("numberOfCategorySearchedFor"), mExtras.getIntArray("colors"), mExtras.getIntArray("colorsFrom"), calendarAdapter);
         ((ListView) ((RelativeLayout) rootView).getChildAt(4)).setAdapter(listEvents);
 
         //set the listener for elements on the list, create intent and add all the information required
@@ -122,9 +130,11 @@ public class CalendarFragment extends Fragment {
                     colorTo = mExtras.getIntArray("colorsTo")[0];
                     colorFrom = mExtras.getIntArray("colorsFrom")[0];
                 } else {
-                    color = mExtras.getIntArray("colors")[Integer.parseInt(eventInfo[6])];
-                    colorTo = mExtras.getIntArray("colorsTo")[Integer.parseInt(eventInfo[6])];
-                    colorFrom = mExtras.getIntArray("colorsFrom")[Integer.parseInt(eventInfo[6])];
+                    //retrieve category from the string
+                    int cat = EventsParseForDateWithinCategory.retrieveCategory(eventInfo[6]);
+                    color = mExtras.getIntArray("colors")[cat];
+                    colorTo = mExtras.getIntArray("colorsTo")[cat];
+                    colorFrom = mExtras.getIntArray("colorsFrom")[cat];
                 }
                 Intent eventDetails = new Intent(getActivity(), EventsDetails.class);
                 eventDetails.putExtra("title", eventInfo[0]);
@@ -203,11 +213,18 @@ public class CalendarFragment extends Fragment {
         monthName = c.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault());
         daysInMonth = c.getActualMaximum(Calendar.DAY_OF_MONTH);
         dayOfWeek = c.get(Calendar.DAY_OF_WEEK_IN_MONTH);
-        //notify the adapter of new date
+
+        //notify the adapter of new date. This will also change the selected date in the grid part
+        //and pull new data if necessary.
         calendarAdapter.update(year, month);
-        //ask adapter to updateEvents the UI
-        calendarAdapter.notifyDataSetChanged();
+        //this is fact also passes the calendarAdapter new list of days with events
+        // and calls notifyDataSetChanged on it!
         listEvents.update(year, month);
+        //so that events are displayed for the first day of month or, if the month is the current one,
+        //for "today"
+        listEvents.setmSelectedDayOfMonth(calendarAdapter.getDayNumber(calendarAdapter.getCurrentlySelected()));
+        //ask listEvents to redraw. Note that calendarAdapter already did that when we updated listEvents!
+        listEvents.notifyDataSetChanged();
         //set the proper name of month at the header of the calendar
         ((TextView) ((RelativeLayout) (((RelativeLayout) rootView).getChildAt(0))).getChildAt(1)).setText(monthName);
     }

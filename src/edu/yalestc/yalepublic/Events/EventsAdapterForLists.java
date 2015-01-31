@@ -14,12 +14,14 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.concurrent.ExecutionException;
+
 import edu.yalestc.yalepublic.Cache.CalendarCache;
 import edu.yalestc.yalepublic.R;
 
 /**
  * Created by Stan Swidwinski on 1/19/15.
- *
+ * <p/>
  * The high-level class that implements elements common to the list adapters in both the
  * listView and CalendarView.
  */
@@ -42,25 +44,31 @@ public class EventsAdapterForLists extends BaseAdapter {
     //for ovals next to time
     protected int[] mColors;
     protected int[] mColorsFrom;
+    private BaseAdapter mAdapter;
 
     //if we want to have a class that inherits, does not manage everything for us, but still
     //gives access to all those functions
-    protected EventsAdapterForLists(Activity activity){
+    protected EventsAdapterForLists(Activity activity) {
         mActivity = activity;
         display = mActivity.getResources().getDisplayMetrics();
         height = display.heightPixels;
         width = display.widthPixels;
-    };
+    }
 
-    protected EventsAdapterForLists(Activity activity, int year, int month, int category, int[] colors, int colorsFrom[]){
+    protected EventsAdapterForLists(Activity activity, int year, int month, int category, int[] colors, int colorsFrom[]) {
         mActivity = activity;
+        allTheEvents = null;
+        mCategoryNo = category;
         update(year, month);
         mColors = colors;
         mColorsFrom = colorsFrom;
         display = mActivity.getResources().getDisplayMetrics();
         height = display.heightPixels;
         width = display.widthPixels;
-        mCategoryNo = category;
+    }
+
+    protected void setCallbackAdapter(BaseAdapter adapter) {
+        mAdapter = adapter;
     }
 
     @Override
@@ -95,6 +103,7 @@ public class EventsAdapterForLists extends BaseAdapter {
             //the constructor by default takes in data to parse, so no need to call setNewEvents
             allTheEvents = new EventsParseForDateWithinCategory(rawData, mMonth - 1, mYear, mActivity, mCategoryNo);
         }
+        mAdapter.notifyDataSetChanged();
     }
 
     //set the new month and year, then pull the data from internet if needed. The AsyncTask
@@ -134,12 +143,12 @@ public class EventsAdapterForLists extends BaseAdapter {
         return blob;
     }
 
-    protected View createNewEventElement(String[] information, GradientDrawable circle){
+    protected View createNewEventElement(String[] information, GradientDrawable circle) {
         RelativeLayout eventListElement = (RelativeLayout) LayoutInflater.from(mActivity).inflate(R.layout.calendar_list_element, null);
         eventListElement.setMinimumHeight((int) (height * 0.104));
         ((ImageView) eventListElement.getChildAt(0)).setImageDrawable(circle);
         //set the size of the time element
-        ((TextView) eventListElement.getChildAt((1))).setMinWidth(width/5);
+        ((TextView) eventListElement.getChildAt((1))).setMinWidth(width / 5);
         //set the time of the event
         ((TextView) eventListElement.getChildAt(1)).setText(information[1]);
         //set the title of the event
@@ -150,14 +159,14 @@ public class EventsAdapterForLists extends BaseAdapter {
         return eventListElement;
     }
 
-    protected View recycleView(RelativeLayout convertView, String[] information, GradientDrawable circle){
-        ((ImageView) ((RelativeLayout) convertView).getChildAt(0)).setImageDrawable(circle);
+    protected View recycleView(RelativeLayout convertView, String[] information, GradientDrawable circle) {
+        ((ImageView) convertView.getChildAt(0)).setImageDrawable(circle);
         //set the time of the event
-        ((TextView) ((RelativeLayout) convertView).getChildAt(1)).setText(information[1]);
+        ((TextView) convertView.getChildAt(1)).setText(information[1]);
         //set the title of the event
-        ((TextView) ((RelativeLayout) convertView).getChildAt(2)).setText(information[0]);
+        ((TextView) convertView.getChildAt(2)).setText(information[0]);
         //set the place of the event
-        ((TextView) ((RelativeLayout) convertView).getChildAt(3)).setText(information[3]);
+        ((TextView) convertView.getChildAt(3)).setText(information[3]);
         return convertView;
     }
 }

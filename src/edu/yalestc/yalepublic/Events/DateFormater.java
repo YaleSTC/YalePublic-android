@@ -27,6 +27,16 @@ public class DateFormater {
         return result;
     }
 
+    //helper function for usage in isValidEvent. returns the month as MM. MM ranges from 01 to 12.
+    public static String monthToStringCalendarToCalendar(int month) {
+        String stringMonth = new String();
+        if (month < 10) {
+            stringMonth = "0";
+        }
+        stringMonth += Integer.toString(month);
+        return stringMonth;
+    }
+
     //from calendar format to year format. Result is in the YYYYMM format and is an integer.
     //the function handles changing the year if month is out of bounds, however month has to be
     //within the interval -12, 24.
@@ -56,8 +66,8 @@ public class DateFormater {
     }
 
     //take in year and month in the interval (-12, 24) and convert it to standard month
-    public static int yearMonthFromStandardToStandard(int year, int month){
-        int result = yearMonthFromCalendarToCalendar(year, month-1);
+    public static int yearMonthFromStandardToStandard(int year, int month) {
+        int result = yearMonthFromCalendarToCalendar(year, month - 1);
         result += 1;
         return result;
     }
@@ -74,15 +84,12 @@ public class DateFormater {
 
     //from standard to standard format. The output is a string YYYYMMDD.
     public static String convertDateToString(int year, int month, int day) {
-        String result = "";
         //input calendar format to the yearMonthFromCalendarToStandard and than change it back to real format!
-        result = Integer.toString(yearMonthFromCalendarToStandard(year, month - 1)) + dayToString(day);
-        return result;
+        return Integer.toString(yearMonthFromCalendarToStandard(year, month - 1)) + dayToString(day);
     }
 
     //from calendar format to standard format. The output is of the format YYYY-MM-01
     public static String calendarDateToJSONQuery(int year, int month) {
-        String result = "";
         if (month > 11) {
             month = month % 12;
             year++;
@@ -91,14 +98,12 @@ public class DateFormater {
             month = month + 12;
             year--;
         }
-        result = Integer.toString(year) + "-" + monthFromCalendarToStandard(month) + "-01";
-        return result;
+        return Integer.toString(year) + "-" + monthFromCalendarToStandard(month) + "-01";
     }
 
     //from calendar format to standard format. The output is of the format YYYYMMDD.
     public static String calendarDateToEventsParseForDate(int year, int calendarMonth, int day) {
         int myMonth = calendarMonth;
-        String result = "";
         if (calendarMonth > 11) {
             myMonth = calendarMonth % 12;
             year++;
@@ -106,16 +111,12 @@ public class DateFormater {
             myMonth = calendarMonth + 12;
             year--;
         }
-        result = Integer.toString(year) + monthFromCalendarToStandard(myMonth) + dayToString(day);
-        return result;
+        return Integer.toString(year) + monthFromCalendarToStandard(myMonth) + dayToString(day);
     }
 
     //the upper and bottom lines are the bounds for date. All are given in the YYYYMM format,
     // the month being in standard format.
     public static boolean inInterval(int bottomLine, int upperLine, int date) {
-        if (date <= upperLine && date >= bottomLine) {
-            return true;
-        }
-        return false;
+        return (date <= upperLine && date >= bottomLine);
     }
 }
