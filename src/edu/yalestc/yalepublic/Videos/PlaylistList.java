@@ -40,7 +40,7 @@ public class PlaylistList extends Activity {
     /**
      * A placeholder fragment containing a simple view.
      */
-    public class PlaceholderFragment extends Fragment {
+    public static class PlaceholderFragment extends Fragment {
 
         public PlaceholderFragment() {
         }
@@ -54,10 +54,10 @@ public class PlaylistList extends Activity {
             // create an asynctask that fetches the playlist titles. It should speak for itself.
             //Just note that in constructor we give in the base url (WITHOUT "?" at the end).
             PlaylistJSONReader scrapeData = new PlaylistJSONReader("https://www.googleapis.com/youtube/v3/playlists", getActivity());
-            scrapeData.addParams(new Pair<String, String>("part", "snippet"));
-            scrapeData.addParams(new Pair<String, String>("channelId", "UC4EY_qnSeAP1xGsh61eOoJA"));
-            scrapeData.addParams(new Pair<String, String>("key", new DeveloperKey().DEVELOPER_KEY));
-            scrapeData.addParams(new Pair<String, String>("maxResults", "50"));
+            scrapeData.addParams(new Pair<>("part", "snippet"));
+            scrapeData.addParams(new Pair<>("channelId", "UC4EY_qnSeAP1xGsh61eOoJA"));
+            scrapeData.addParams(new Pair<>("key", new DeveloperKey().DEVELOPER_KEY));
+            scrapeData.addParams(new Pair<>("maxResults", "50"));
 
             ListView listView = (ListView) rootView.findViewById(R.id.listview_video);
             scrapeData.addListView(listView);
