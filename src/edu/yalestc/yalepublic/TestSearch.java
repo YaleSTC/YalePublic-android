@@ -3,7 +3,10 @@ package edu.yalestc.yalepublic;
 import android.app.Activity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
+import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -23,6 +26,7 @@ public class TestSearch extends Activity implements SearchView.OnQueryTextListen
     private SearchView mSearchView;
     private ListView mListView;
     private ArrayAdapter<String> mAdapter;
+    String pos, pos2, newindex;
 
     private final String[] mStrings = Cheeses.sCheeseStrings;
 
@@ -33,13 +37,51 @@ public class TestSearch extends Activity implements SearchView.OnQueryTextListen
 
         setContentView(R.layout.testsearch_filter);
 
+        // List of strings for building and addresses
+        final String[] buildings = getResources().getStringArray(R.array.building_strs);
+        final String[] addrlist = getResources().getStringArray(R.array.building_abbr);
+
         mSearchView = (SearchView) findViewById(R.id.search_view);
         mListView = (ListView) findViewById(R.id.list_view);
         mListView.setAdapter(mAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1,
-                mStrings));
+                buildings));
         mListView.setTextFilterEnabled(true);
         setupSearchView();
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            public void onItemClick(AdapterView<?> arg0, View v, int position,
+                                    long id) {
+                Log.d("MAP", "OnClick");
+
+                pos2 = mAdapter.getItem(position);
+
+                //Searches for the string text in the listview_array string
+                //and returns index regardless of searching due to 're'search
+                int index = -1;
+                for (int i = 0; (i < 144) && (index == -1); i++) {
+                    if (buildings[i] == pos2) {
+                        index = i;
+                        break;
+                    }
+                }
+
+                newindex = String.valueOf(index);
+                Log.d("MAP", newindex);
+
+
+                //Finds current id of item. When searching items, resets counter to 0, 1, 2, etc
+                /*pos1 = (Long) adapter.getItemId(position);
+                  pos = String.valueOf(pos1);
+                  Log.d("MAP", pos);*/
+
+                String map1 = "http://maps.google.com/maps?q="
+                        + addrlist[index] + ",+New+Haven,+CT+06511";
+                Log.d(TAG, map1);
+                //Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse(map1));
+                //startActivity(i);
+            }
+        });
     }
 
     private void setupSearchView() {
@@ -60,6 +102,7 @@ public class TestSearch extends Activity implements SearchView.OnQueryTextListen
     }
 
     public boolean onQueryTextSubmit(String query) {
+        Log.d(TAG, query);
         return false;
     }
 }
