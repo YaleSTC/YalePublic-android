@@ -130,7 +130,6 @@ public class PlaylistJSONReader extends JSONReader {
         try {
             videoData = new JSONObject(rawData);
         } catch (JSONException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             return false;
         }
@@ -138,7 +137,6 @@ public class PlaylistJSONReader extends JSONReader {
         try {
             playlistData = videoData.getJSONArray("items");
         } catch (JSONException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             return false;
         }
@@ -153,7 +151,6 @@ public class PlaylistJSONReader extends JSONReader {
                 playlistIds[i] = playlistData.getJSONObject(i)
                         .getString("id");
             } catch (JSONException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
                 return false;
             }
