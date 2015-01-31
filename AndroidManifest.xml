@@ -114,7 +114,7 @@
             android:parentActivityName=".MainActivity">
             <!-- enable the search dialog to send searches to SearchableActivity -->
             <meta-data android:name="android.app.default_searchable"
-                android:value=".TestSearch" />
+                android:value=".MapSearch" />
         </activity>
 
         <activity

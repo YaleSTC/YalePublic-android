@@ -35,7 +35,7 @@ public class MapSearch extends Activity implements SearchView.OnQueryTextListene
         super.onCreate(savedInstanceState);
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
 
-        setContentView(R.layout.testsearch_filter);
+        setContentView(R.layout.mapsearch_filter);
 
         // List of strings for building and addresses
         final String[] buildings = getResources().getStringArray(R.array.listview_array);
