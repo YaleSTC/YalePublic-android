@@ -111,5 +111,6 @@
     <string name="date">Date</string>
     <string name="yale">Yale University</string>
     <string name="description_lower">description</string>
+    <string name="building_search">Search for a building</string>
 
 </resources>
