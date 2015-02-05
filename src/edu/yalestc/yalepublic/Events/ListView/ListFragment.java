@@ -101,6 +101,12 @@ public class ListFragment extends Fragment {
         });
 
         ((ListView) ((RelativeLayout) rootView).getChildAt(0)).setAdapter(mAdapter);
+        (((RelativeLayout) rootView).getChildAt(0)).post( new Runnable() {
+            @Override
+            public void run (){
+                ((ListView) ((RelativeLayout) rootView).getChildAt(0)).setSelection(mAdapter.scrollListTo);
+           }
+        });
         return rootView;
     }
 }

@@ -129,11 +129,6 @@ public class EventsListAdapter extends EventsAdapterForLists {
         String[] singleEvent = allEventsInfo.get(converter.convertElementIdToEventId(i));
         int date = Integer.parseInt(singleEvent[7]);
 
-        //To know when to scroll it to
-        if (today > date) {
-            scrollListTo = i;
-        }
-
         //set the color using category number
         if (mColors.length != 1) {
             //since the category is a string with multiple categories, we need to retrieve
@@ -209,6 +204,10 @@ public class EventsListAdapter extends EventsAdapterForLists {
                     dayToId.put(i + daysWithEvents, daysWithEvents + 1);
                     daysWithEvents++;
                 }
+
+                // to know where to scroll to
+                if(today > currentDate)
+                   scrollListTo = i + daysWithEvents - 1;
             }
         }
 
