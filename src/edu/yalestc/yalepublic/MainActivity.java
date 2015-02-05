@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -50,8 +51,7 @@ public class MainActivity extends Activity {
                 startActivity(videoListIntent);
                 break;
             case R.id.bPhotos:
-                Intent photoListIntent = new Intent(MainActivity.this, PhotoList.class);
-                photoListIntent.putExtra(PHOTO_MODE_KEY, true);
+                Intent photoListIntent = new Intent(MainActivity.this, PhotosWithinAlbum.class);
                 startActivity(photoListIntent);
                 break;
             case R.id.bEvents:
