@@ -38,6 +38,7 @@ public class ImageActivity extends Activity {
         }
         if(mBitmap !=null){
             imageView.setImageBitmap(mBitmap);
+
         }
     }
     public class getPhotoTask extends AsyncTask<Void, Void, Bitmap> {
