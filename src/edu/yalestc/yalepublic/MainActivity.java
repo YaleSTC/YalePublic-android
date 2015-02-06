@@ -97,8 +97,19 @@ public class MainActivity extends Activity {
         TextView rotatingTextView = (TextView) findViewById(R.id.tArts);
         switch (rotatingLink){
             case "http://artscalendar.yale.edu" :
-                Log.v("rotating link", "first case");
-                rotatingTextView.setText("New Icon!!");
+                rotatingTextView.setText("Arts Calendar");
+                rotatingImageButton.setImageResource(R.drawable.thumb_arts_events_default);
+                break;
+            case "http://yalecollege.yale.edu/new-students/class-2018" :
+                rotatingTextView.setText("Orientation");
+                rotatingImageButton.setImageResource(R.drawable.thumb_athletics_default);
+                break;
+            case "http://calendar.yale.edu/cal/opa" :
+                rotatingTextView.setText("Events");
+                rotatingImageButton.setImageResource(R.drawable.thumb_athletics_default);
+                break;
+            case "http://commencement.yale.edu/" :
+                rotatingTextView.setText("Commencement");
                 rotatingImageButton.setImageResource(R.drawable.thumb_athletics_default);
                 break;
         }

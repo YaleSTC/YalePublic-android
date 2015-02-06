@@ -8,6 +8,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -95,15 +97,21 @@ public class Splash extends Activity {
                     }
                 }
 
-                RotatingLinkTask linkTask = new RotatingLinkTask();
-                String link = "";
-                try {
-                    link = linkTask.execute().get();
-                    Log.v("rotating link", link);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
+                ConnectivityManager connManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+                NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+
+                String link = "http://artscalendar.yale.edu";
+                if (mWifi.isConnected()) {
+                    RotatingLinkTask linkTask = new RotatingLinkTask();
+                    try {
+                        link = linkTask.execute().get();
+                        Log.v("rotating link", link);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    }
                 }
 
 
