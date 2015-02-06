@@ -112,5 +112,6 @@
     <string name="yale">Yale University</string>
     <string name="description_lower">description</string>
     <string name="building_search">Search for a building</string>
+    <string name="splashstring">Splash Text</string>
 
 </resources>

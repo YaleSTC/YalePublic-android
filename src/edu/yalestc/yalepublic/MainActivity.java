@@ -10,12 +10,15 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import edu.yalestc.yalepublic.Cache.CalendarCache;
 import edu.yalestc.yalepublic.Videos.PlaylistList;
@@ -69,7 +72,8 @@ public class MainActivity extends Activity {
                 startActivity(launchBrowser2);
                 break;
             case R.id.bArts:
-                Uri uriUrl3 = Uri.parse("http://artscalendar.yale.edu");
+                Intent i = getIntent();
+                Uri uriUrl3 = Uri.parse(i.getStringExtra("url"));
                 Intent launchBrowser3 = new Intent(Intent.ACTION_VIEW, uriUrl3);
                 startActivity(launchBrowser3);
                 break;
@@ -87,6 +91,28 @@ public class MainActivity extends Activity {
         actionbar.setDisplayShowTitleEnabled(true);  // Show activity title/subtitle
         actionbar.setDisplayUseLogoEnabled(false);   // Use activity logo instead of activity icon
         //actionbar.setTitle("Yale");                // Set title
+        Intent i = getIntent();
+        String rotatingLink = getIntent().getStringExtra("url");
+        ImageButton rotatingImageButton = (ImageButton) findViewById(R.id.bArts);
+        TextView rotatingTextView = (TextView) findViewById(R.id.tArts);
+        switch (rotatingLink){
+            case "http://artscalendar.yale.edu" :
+                rotatingTextView.setText("Arts Calendar");
+                rotatingImageButton.setImageResource(R.drawable.thumb_arts_events_default);
+                break;
+            case "http://yalecollege.yale.edu/new-students/class-2018" :
+                rotatingTextView.setText("Orientation");
+                rotatingImageButton.setImageResource(R.drawable.thumb_athletics_default);
+                break;
+            case "http://calendar.yale.edu/cal/opa" :
+                rotatingTextView.setText("Events");
+                rotatingImageButton.setImageResource(R.drawable.thumb_athletics_default);
+                break;
+            case "http://commencement.yale.edu/" :
+                rotatingTextView.setText("Commencement");
+                rotatingImageButton.setImageResource(R.drawable.thumb_athletics_default);
+                break;
+        }
 
         CalendarCache cache = new CalendarCache(this);
         cache.execute();
@@ -153,6 +179,7 @@ public class MainActivity extends Activity {
                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container,
                     false);
+
             return rootView;
         }
     }
@@ -172,7 +199,6 @@ public class MainActivity extends Activity {
         register(R.id.bTransit);
         register(R.id.bAthletics);
         register(R.id.bArts);
-        ;
     }
     
 
