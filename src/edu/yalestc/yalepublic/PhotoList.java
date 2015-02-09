@@ -34,6 +34,7 @@ import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -55,7 +56,6 @@ public class PhotoList extends Activity {
     private Mode mode;
     TextView loading;
     ProgressBar spinner;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,8 +67,7 @@ public class PhotoList extends Activity {
                         (MainActivity.PHOTO_MODE_KEY)) {
                     mode = Mode.PHOTO;
                     setTitle("Albums");
-                }
-                else if (getIntent().getExtras().containsKey
+                } else if (getIntent().getExtras().containsKey
                         (MainActivity.VIDEO_MODE_KEY)) {
                     mode = Mode.VIDEO;
                     setTitle("Videos");
@@ -79,9 +78,9 @@ public class PhotoList extends Activity {
         }
         loading = (TextView) findViewById(R.id.tvPhotoLoading);  // Set up spinner and text
         spinner = (ProgressBar) findViewById(R.id.pbLoading);
+
+
     }
-
-
     /**
      * A placeholder fragment containing a simple view.
      */
@@ -237,9 +236,7 @@ public class PhotoList extends Activity {
                 final String BASE_URL = "https://api.instagram.com/v1/users/"
                                          + USER_ID + "/media/recent?";
                 Uri builtUri = Uri.parse(BASE_URL).buildUpon()
-                        .appendQueryParameter("min_timestamp", "1422000000")
-                        .appendQueryParameter("max_timestamp","1422263119")
-                        .appendQueryParameter("client_id",DeveloperKey.INSTAGRAM_CLIENT_ID)
+                        .appendQueryParameter("client_id", DeveloperKey.INSTAGRAM_CLIENT_ID)
                         .build();
                 return builtUri;
             }

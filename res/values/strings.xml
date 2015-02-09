@@ -107,5 +107,6 @@
     <string name="title">Title</string>
     <string name="date">Date</string>
     <string name="yale">Yale University</string>
+    <string name="load_more">Load more</string>
 
 </resources>

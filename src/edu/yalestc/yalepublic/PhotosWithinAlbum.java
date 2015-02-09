@@ -27,10 +27,12 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class PhotosWithinAlbum extends Activity {
@@ -44,6 +46,7 @@ public class PhotosWithinAlbum extends Activity {
     private String paginationUrl = null;
     TextView loading;
     ProgressBar spinner;
+    Button loadbtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +66,21 @@ public class PhotosWithinAlbum extends Activity {
         }
         loading = (TextView) findViewById(R.id.tvPhotoLoading);  // Set up spinner and text
         spinner = (ProgressBar) findViewById(R.id.pbLoading);
+        loadbtn = (Button) findViewById(R.id.btnLoad);
+        loadbtn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (paginationUrl == null) {
+                    Toast.makeText(PhotosWithinAlbum.this, "No more photos to load", Toast.LENGTH_SHORT).show();
+                } else {
+                    //create custom AsyncTask to fetch recent Media
+                    AlbumTask gettingDetails = new AlbumTask();
+                    gettingDetails.execute();
+                }
+
+            }
+        });
     }
 
     public class PlaceholderFragment extends Fragment {
@@ -229,8 +247,6 @@ public class PhotosWithinAlbum extends Activity {
                 java.util.Date date= new java.util.Date();
 
                 Uri builtUri = Uri.parse(BASE_URL).buildUpon()
-                        .appendQueryParameter("min_timestamp", "1412000000")
-                        .appendQueryParameter("max_timestamp", "1422263119")
                         .appendQueryParameter("client_id", DeveloperKey.INSTAGRAM_CLIENT_ID)
                         .build();
                 return builtUri;
