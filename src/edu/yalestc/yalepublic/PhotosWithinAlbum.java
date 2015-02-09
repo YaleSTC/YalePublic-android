@@ -4,6 +4,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,9 +42,9 @@ public class PhotosWithinAlbum extends Activity {
     public static final String PHOTO_URL_KEY ="Photo Url";
     private ImageThumbnailAdapter adapter;
     //TODO: Refactor out imageUrls
-    private String[] imageUrls = new String[1];
-    private Bitmap[] bitmaps = new Bitmap[1];
-    private String[] photoIds;
+    private List<String> imageUrls = new ArrayList<String>();
+    private List<Bitmap> bitmaps = new ArrayList<Bitmap>();
+    private List<String> photoIds = new ArrayList<String>();
     private String paginationUrl = null;
     TextView loading;
     ProgressBar spinner;
@@ -109,7 +111,7 @@ public class PhotosWithinAlbum extends Activity {
                 public void onItemClick(AdapterView<?> parent, View view,
                         int position, long id) {
                     Intent intent = new Intent(PhotosWithinAlbum.this, ImageActivity.class);
-                    intent.putExtra(PHOTO_URL_KEY,imageUrls[position]);
+                    intent.putExtra(PHOTO_URL_KEY, imageUrls.get(position));
                     startActivity(intent);
                 }
             });
@@ -139,17 +141,17 @@ public class PhotosWithinAlbum extends Activity {
                     return null;
                 }
                 int count = photolistData.length();
-                bitmaps = new Bitmap[count];
-                imageUrls = new String[count];
-                photoIds = new String[count];
+//                bitmaps = new Bitmap[count];
+//                imageUrls = new String[count];
+//                photoIds = new String[count];
                 Log.d("JSON",rawData);
                 for (int i = 0; i < count; i++){
                     try {
                         publishProgress(i+1, count);
-                        photoIds[i] =photolistData.getJSONObject(i).getString("id");
-                        imageUrls[i] = photolistData.getJSONObject(i).getJSONObject("images")
+                        photoIds.add(photolistData.getJSONObject(i).getString("id"));
+                        imageUrls.add(photolistData.getJSONObject(i).getJSONObject("images")
                                     .getJSONObject("standard_resolution")
-                                    .getString("url");
+                                    .getString("url"));
                         //Here we actually download the thumbnail using URL obtained from JSONObject
                         try {
                             URL imageUrl = new URL(photolistData.getJSONObject(i).getJSONObject("images")
@@ -163,7 +165,7 @@ public class PhotosWithinAlbum extends Activity {
                             conn.setInstanceFollowRedirects(true);
                             //setting inputstream and decoding it into a bitmap
                             InputStream is = conn.getInputStream();
-                            bitmaps[i] = BitmapFactory.decodeStream(is);
+                            bitmaps.add(BitmapFactory.decodeStream(is));
                         } catch (JSONException e) {
                             // TODO Auto-generated catch block
                             e.printStackTrace();
@@ -278,7 +280,7 @@ public class PhotosWithinAlbum extends Activity {
             } else {
                 imageView =(ImageView) convertView;
             }
-            imageView.setImageBitmap(bitmaps[position]);
+            imageView.setImageBitmap(bitmaps.get(position));
             return imageView;
         }
         @Override
@@ -286,7 +288,7 @@ public class PhotosWithinAlbum extends Activity {
         //if imageUrls is uninitialized. Currently mirroring
         //VideoWithinPlaylist
         public int getCount() {
-            return imageUrls.length;
+            return imageUrls.size();
         }
 
         @Override
