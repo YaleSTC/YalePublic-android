@@ -56,6 +56,16 @@ public class PhotosWithinAlbum extends Activity {
     TextView loading;
     ProgressBar spinner;
 
+    private static final String ACCESS_TOKEN_KEY = "Instagram Access Token";
+    public static final String CALLBACK_URL = "http://www.yale.edu/";
+    //build the base url with client_id, client_secret and redirect url
+    private final InstagramService service = new InstagramAuthService()
+            .apiKey(DeveloperKey.INSTAGRAM_CLIENT_ID)
+            .apiSecret(DeveloperKey.INSTAGRAM_CLIENT_SECRET)
+            .callback(CALLBACK_URL)
+            .scope("likes")
+            .build();
+    private static final Token EMPTY_TOKEN = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         ActionBar actionbar = getActionBar();
@@ -146,17 +156,9 @@ public class PhotosWithinAlbum extends Activity {
     }
 
     public class PhotoAuth {
-        private static final String ACCESS_TOKEN_KEY = "Instagram Access Token";
-        public static final String CALLBACK_URL = "http://www.yale.edu/";
-        //build the base url with client_id, client_secret and redirect url
-        private final InstagramService service = new InstagramAuthService()
-                .apiKey(DeveloperKey.INSTAGRAM_CLIENT_ID)
-                .apiSecret(DeveloperKey.INSTAGRAM_CLIENT_SECRET)
-                .callback(CALLBACK_URL)
-                .scope("likes")
-                .build();
+
         //generate authorization url
-        private final Token EMPTY_TOKEN = null;
+
 
         public void authorizeUser() {
             String authorizationUrl = service.getAuthorizationUrl(EMPTY_TOKEN);
@@ -194,150 +196,6 @@ public class PhotosWithinAlbum extends Activity {
             webview.loadUrl(authorizationUrl);
         }
 
-//        public class AlbumTask extends AsyncTask<String, Integer, Void> {
-//
-//            private Void getPhotosFromJson(String rawData) {
-//                JSONObject albumData;
-//                JSONArray photolistData;
-//                try {
-//                    albumData = new JSONObject(rawData);
-//                    photolistData = albumData.getJSONArray("data");
-//                    //if paginated, then update pagination_url
-//                    if (albumData.has("pagination")) {
-//                        paginationUrl = albumData.getJSONObject("pagination").getString("next_url");
-//                        Log.d("PAGINATION", paginationUrl);
-//                    } else {
-//                        paginationUrl = null;
-//                    }
-//                } catch (JSONException e) {
-//                    // TODO Auto-generated catch block
-//                    e.printStackTrace();
-//                    return null;
-//                }
-//                int count = photolistData.length();
-////                bitmaps = new Bitmap[count];
-////                imageUrls = new String[count];
-////                photoIds = new String[count];
-//                Log.d("JSON", rawData);
-//                for (int i = 0; i < count; i++) {
-//                    try {
-//                        publishProgress(i + 1, count);
-//                        photoIds.add(photolistData.getJSONObject(i).getString("id"));
-//                        imageUrls.add(photolistData.getJSONObject(i).getJSONObject("images")
-//                                .getJSONObject("standard_resolution")
-//                                .getString("url"));
-//                        //Here we actually download the thumbnail using URL obtained from JSONObject
-//                        try {
-//                            URL imageUrl = new URL(photolistData.getJSONObject(i).getJSONObject("images")
-//                                    .getJSONObject("thumbnail")
-//                                    .getString("url"));
-//                            //connect to given server
-//                            HttpURLConnection conn = (HttpURLConnection) imageUrl.openConnection();
-//                            //safety features and avoiding errors is links redirect
-//                            conn.setConnectTimeout(30000);
-//                            conn.setReadTimeout(30000);
-//                            conn.setInstanceFollowRedirects(true);
-//                            //setting inputstream and decoding it into a bitmap
-//                            InputStream is = conn.getInputStream();
-//                            bitmaps.add(BitmapFactory.decodeStream(is));
-//                        } catch (JSONException e) {
-//                            // TODO Auto-generated catch block
-//                            e.printStackTrace();
-//                            return null;
-//                        }
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                        return null;
-//                    }
-//
-//                }
-//                return null;
-//
-//            }
-//
-//            @Override
-//            protected Void doInBackground(String... params) {
-//                try {
-//                    //Send GET request to the server to get the list of photos
-//                    URL url;
-//                    //Check if Asynctask is provided with a URL.
-//                    if (paginationUrl != null) {
-//                        url = new URL(paginationUrl);
-//                    } else {
-//                        url = new URL(getRequestUri(params[0]).toString());
-//                    }
-//                    Log.d("Photos", url.toString());
-//
-//                    HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-//                    urlConnection.setRequestMethod("GET");
-//                    urlConnection.connect();
-//
-//                    //read all the data
-//                    InputStream inputStream = urlConnection.getInputStream();
-//                    StringBuffer buffer = new StringBuffer();
-//                    BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-//                    String line;
-//                    while ((line = reader.readLine()) != null) {
-//                        buffer.append(line + "\n"); //Debugging ease
-//                    }
-//
-//                    if (buffer.length() == 0) {
-//                        return null;
-//                    }
-//                    String photosJsonStr = buffer.toString();
-//
-//                    // Note that onProgressUpdate can be accessed by any function called by the
-//                    // doInBackground() function, such as this one.
-//                    getPhotosFromJson(photosJsonStr);
-//
-//                    if (inputStream == null) {
-//                        // Nothing to do.
-//                        return null;
-//                    }
-//                } catch (Exception e) {
-//                    Log.e("URI", "uri was invalid or api request failed");
-//                    e.printStackTrace();
-//                }
-//                return null;
-//            }
-//
-//            @Override
-//            protected void onProgressUpdate(Integer... values) {
-//                super.onProgressUpdate(values);
-//                loading.setText("Loading: " + String.valueOf(values[0]) + " of " + String.valueOf(values[1]));
-//            }
-//
-//            @Override
-//            protected void onPostExecute(Void result) {
-//                //notify the adapter and the view that is using it to get check for new data
-//                //in the arrays we defined at the beginning
-//                Log.d("DONE","Reached on Post Exec");
-//                Log.d("DONE" ,"bitmap size:"+ bitmaps.size());
-//                adapter.notifyDataSetChanged();
-//                spinner.setVisibility(View.GONE);  // Hide the progress
-//                loading.setVisibility(View.GONE);  // Hide the progress
-//            }
-//
-//            private Uri getRequestUri(String authKey) {
-//                final String USER_ID = "1701574";    //Yale instagram user id
-//                final String BASE_URL = "https://api.instagram.com/v1/users/"
-//                        + USER_ID + "/media/recent?";
-//                Uri builtUri;
-//                if (authKey==null)
-//                    builtUri = Uri.parse(BASE_URL).buildUpon()
-//                        .appendQueryParameter("client_id",DeveloperKey.INSTAGRAM_CLIENT_ID)
-//                        .build();
-//                else {
-//                    Verifier verifier = new Verifier(authKey);
-//                    Token accessToken = service.getAccessToken(EMPTY_TOKEN, verifier);
-//                    builtUri = Uri.parse(BASE_URL).buildUpon()
-//                            .appendQueryParameter("access_token", accessToken.getToken())
-//                            .build();
-//                }
-//                return builtUri;
-//            }
-//
-//        }
     }
     public class AlbumTask extends AsyncTask<String, Integer, Void> {
 
@@ -458,9 +316,10 @@ public class PhotosWithinAlbum extends Activity {
                 //in the arrays we defined at the beginning
                 Log.d("DONE","Reached on Post Exec");
                 Log.d("DONE" ,"bitmap size:"+ bitmaps.size());
-                adapter.notifyDataSetChanged();
                 spinner.setVisibility(View.GONE);  // Hide the progress
                 loading.setVisibility(View.GONE);  // Hide the progress
+                adapter.notifyDataSetChanged();
+
             }
 
             private Uri getRequestUri(String authKey) {
