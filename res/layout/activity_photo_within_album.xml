@@ -28,10 +28,5 @@
         android:layout_gravity="center"/>
     </LinearLayout>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Load More"
-        android:id="@+id/btnLoad"
-        android:layout_gravity="center_horizontal|bottom" />
+
 </FrameLayout>

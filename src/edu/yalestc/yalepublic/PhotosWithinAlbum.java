@@ -26,6 +26,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
@@ -48,7 +49,6 @@ public class PhotosWithinAlbum extends Activity {
     private String paginationUrl = null;
     TextView loading;
     ProgressBar spinner;
-    Button loadbtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,24 +68,13 @@ public class PhotosWithinAlbum extends Activity {
         }
         loading = (TextView) findViewById(R.id.tvPhotoLoading);  // Set up spinner and text
         spinner = (ProgressBar) findViewById(R.id.pbLoading);
-        loadbtn = (Button) findViewById(R.id.btnLoad);
-        loadbtn.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                if (paginationUrl == null) {
-                    Toast.makeText(PhotosWithinAlbum.this, "No more photos to load", Toast.LENGTH_SHORT).show();
-                } else {
-                    //create custom AsyncTask to fetch recent Media
-                    AlbumTask gettingDetails = new AlbumTask();
-                    gettingDetails.execute();
-                }
-
-            }
-        });
     }
 
-    public class PlaceholderFragment extends Fragment {
+    public class PlaceholderFragment extends Fragment implements AbsListView.OnScrollListener {
+        GridView gridview;
+        Button loadbtn;
+
         public PlaceholderFragment() {
         }
 
@@ -102,7 +91,7 @@ public class PhotosWithinAlbum extends Activity {
             gettingDetails.execute();
 
             //create gridView and set the adapter.
-            GridView gridview = (GridView) rootView.findViewById(R.id.imageGridView);
+            gridview = (GridView) rootView.findViewById(R.id.imageGridView);
             gridview.setAdapter(adapter);
 
             //create a OnItemClickListener to load photo
@@ -115,9 +104,40 @@ public class PhotosWithinAlbum extends Activity {
                     startActivity(intent);
                 }
             });
+            loadbtn = (Button) rootView.findViewById(R.id.btnLoad);
+            loadbtn.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    if (paginationUrl == null) {
+                        Toast.makeText(PhotosWithinAlbum.this, "No more photos to load", Toast.LENGTH_SHORT).show();
+                    } else {
+                        //create custom AsyncTask to fetch recent Media
+                        AlbumTask gettingDetails = new AlbumTask();
+                        gettingDetails.execute();
+                    }
+
+                }
+            });
+            gridview.setOnScrollListener(this);
+
             return rootView;
         }
+
+        @Override
+        public void onScrollStateChanged(AbsListView view, int scrollState) {
+
         }
+
+        @Override
+        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            if (gridview.getLastVisiblePosition() + 1 == gridview.getAdapter().getCount()) {
+                loadbtn.setVisibility(View.VISIBLE);
+            } else {
+                loadbtn.setVisibility(View.GONE);
+            }
+        }
+    }
 
          public class AlbumTask extends AsyncTask<Void, Integer, Void> {
 
@@ -150,8 +170,8 @@ public class PhotosWithinAlbum extends Activity {
                         publishProgress(i+1, count);
                         photoIds.add(photolistData.getJSONObject(i).getString("id"));
                         imageUrls.add(photolistData.getJSONObject(i).getJSONObject("images")
-                                    .getJSONObject("standard_resolution")
-                                    .getString("url"));
+                                .getJSONObject("standard_resolution")
+                                .getString("url"));
                         //Here we actually download the thumbnail using URL obtained from JSONObject
                         try {
                             URL imageUrl = new URL(photolistData.getJSONObject(i).getJSONObject("images")
