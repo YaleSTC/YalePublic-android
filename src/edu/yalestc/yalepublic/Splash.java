@@ -29,6 +29,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.concurrent.ExecutionException;
 
+import edu.yalestc.yalepublic.Cache.CalendarCache;
+
 public class Splash extends Activity {
 
     // Splash screen timer
@@ -40,8 +42,11 @@ public class Splash extends Activity {
 
         setContentView(R.layout.splash);
 
+        CalendarCache cache = new CalendarCache(this);
+        cache.execute();
+    }
 
-
+    public void getIcon(){
 
         new Handler().postDelayed(new Runnable() {
 

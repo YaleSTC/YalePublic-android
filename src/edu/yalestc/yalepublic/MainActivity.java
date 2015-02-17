@@ -114,8 +114,6 @@ public class MainActivity extends Activity {
                 break;
         }
 
-        CalendarCache cache = new CalendarCache(this);
-        cache.execute();
         /*Configuration config = getResources().getConfiguration();
         DisplayMetrics dm = getResources().getDisplayMetrics();
         screenWidth = (double)config.screenWidthDp * dm.density;
