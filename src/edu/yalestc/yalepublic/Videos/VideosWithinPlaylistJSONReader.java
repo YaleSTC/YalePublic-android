@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
@@ -211,9 +212,13 @@ public class VideosWithinPlaylistJSONReader extends JSONReader {
     //Our custom Adapter
     public class thumbnailAdapter extends BaseAdapter {
         Context mContext;
+        private DisplayMetrics display;
+        private int width;
 
         thumbnailAdapter(Context context) {
             mContext = context;
+            display = context.getResources().getDisplayMetrics();
+            width = display.widthPixels;
         }
 
 
@@ -223,6 +228,7 @@ public class VideosWithinPlaylistJSONReader extends JSONReader {
             if (convertView != null) {
                 ((ImageView) ((RelativeLayout) convertView).getChildAt(0)).setImageBitmap(bitmaps[position]);
                 ((TextView) ((RelativeLayout) convertView).getChildAt(1)).setText(titles[position]);
+                ((TextView) ((RelativeLayout) convertView).getChildAt(1)).setTextSize(width/65);
                 ((TextView) ((RelativeLayout) convertView).getChildAt(2)).setText(dates[position]);
                 convertView.setBackgroundColor(Color.parseColor("#dbdbdd"));
                 return ((RelativeLayout) convertView);
@@ -232,6 +238,7 @@ public class VideosWithinPlaylistJSONReader extends JSONReader {
                 RelativeLayout thumbnail = ((RelativeLayout) inflater.inflate(R.layout.thumbnail_elements, null));
                 ((ImageView) thumbnail.getChildAt(0)).setImageBitmap(bitmaps[position]);
                 ((TextView) thumbnail.getChildAt(1)).setText(titles[position]);
+                ((TextView) thumbnail.getChildAt(1)).setTextSize(width/65);
                 ((TextView) thumbnail.getChildAt(2)).setText(dates[position]);
                 thumbnail.setBackgroundColor(Color.parseColor("#dbdbdd"));
                 return thumbnail;

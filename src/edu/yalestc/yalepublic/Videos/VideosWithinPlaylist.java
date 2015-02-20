@@ -2,6 +2,7 @@ package edu.yalestc.yalepublic.Videos;
 
 import android.app.ActionBar;
 
+import android.util.DisplayMetrics;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,15 +25,17 @@ public class VideosWithinPlaylist extends Activity {
     Bundle extras;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //to get the passed parameters
+        extras = getIntent().getExtras();
+
         ActionBar actionbar = getActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);     // Show home as a back arrow
         //actionbar.setDisplayShowHomeEnabled(true);     // Show application logo
         actionbar.setDisplayShowTitleEnabled(true);    // Show activity title/subtitle
         actionbar.setDisplayUseLogoEnabled(false);     // Use activity logo instead of activity icon
-        actionbar.setTitle(getString(R.string.videos));  // Set title
+        actionbar.setTitle(extras.getString("playlistName"));  // Set title
         super.onCreate(savedInstanceState);
-        //to get the passed parameters
-        extras = getIntent().getExtras();
+
         setContentView(R.layout.activity_video_within_list);
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()

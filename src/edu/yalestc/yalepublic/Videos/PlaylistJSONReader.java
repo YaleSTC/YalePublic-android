@@ -115,6 +115,7 @@ public class PlaylistJSONReader extends JSONReader {
                 //redirect to new activity displaying all videos
                 Intent showThem = new Intent(mActivity, VideosWithinPlaylist.class);
                 showThem.putExtra("playlistId", playlistIds[arg2]);
+                showThem.putExtra("playlistName", allPlaylists[arg2]);
                 //For Debug purposes - show what is the playlistID
                 Log.d("StartingActivityInVideoList", playlistIds[arg2]);
                 mActivity.startActivity(showThem);

@@ -87,6 +87,7 @@
     <string name="directory">Directory</string>
     <string name="maps">Maps</string>
     <string name="videos">Videos</string>
+    <string name="videos_playlists">Available playlists</string>
     <string name="photos">Photos</string>
     <string name="events">Events</string>
     <string name="events_search">Search for event by name</string>
