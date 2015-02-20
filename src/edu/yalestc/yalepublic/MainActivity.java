@@ -98,19 +98,19 @@ public class MainActivity extends Activity {
         switch (rotatingLink){
             case "http://artscalendar.yale.edu" :
                 rotatingTextView.setText("Arts Calendar");
-                rotatingImageButton.setImageResource(R.drawable.thumb_arts_events_default);
+                rotatingImageButton.setImageResource(R.drawable.module_arts_events_default);
                 break;
             case "http://yalecollege.yale.edu/freshman" :
                 rotatingTextView.setText("Orientation");
-                rotatingImageButton.setImageResource(R.drawable.thumb_athletics_default);
+                rotatingImageButton.setImageResource(R.drawable.module_orientation_default);
                 break;
             case "http://aya.yale.edu/content/current-assembly" :
                 rotatingTextView.setText("AYA Assembly");
-                rotatingImageButton.setImageResource(R.drawable.thumb_athletics_default);
+                rotatingImageButton.setImageResource(R.drawable.module_assembly_default);
                 break;
             case "http://commencement.yale.edu/" :
                 rotatingTextView.setText("Commencement");
-                rotatingImageButton.setImageResource(R.drawable.thumb_athletics_default);
+                rotatingImageButton.setImageResource(R.drawable.module_commencement_default);
                 break;
         }
 
