@@ -12,7 +12,6 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_gravity="center"
-        android:text="@string/splashstring"
         android:textColor="#b22222"
         android:paddingTop="30dp"
         android:textSize="17sp" />
