@@ -100,12 +100,12 @@ public class MainActivity extends Activity {
                 rotatingTextView.setText("Arts Calendar");
                 rotatingImageButton.setImageResource(R.drawable.thumb_arts_events_default);
                 break;
-            case "http://yalecollege.yale.edu/new-students/class-2018" :
+            case "http://yalecollege.yale.edu/freshman" :
                 rotatingTextView.setText("Orientation");
                 rotatingImageButton.setImageResource(R.drawable.thumb_athletics_default);
                 break;
-            case "http://calendar.yale.edu/cal/opa" :
-                rotatingTextView.setText("Events");
+            case "http://aya.yale.edu/content/current-assembly" :
+                rotatingTextView.setText("AYA Assembly");
                 rotatingImageButton.setImageResource(R.drawable.thumb_athletics_default);
                 break;
             case "http://commencement.yale.edu/" :
