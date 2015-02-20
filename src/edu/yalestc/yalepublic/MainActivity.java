@@ -20,6 +20,8 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.facebook.stetho.Stetho;
+
 import edu.yalestc.yalepublic.Cache.CalendarCache;
 import edu.yalestc.yalepublic.Videos.PlaylistList;
 import edu.yalestc.yalepublic.Events.EventCategories;
@@ -92,6 +94,13 @@ public class MainActivity extends Activity {
         actionbar.setDisplayUseLogoEnabled(false);   // Use activity logo instead of activity icon
         //actionbar.setTitle("Yale");                // Set title
 
+        Stetho.initialize(
+                Stetho.newInitializerBuilder(this)
+                        .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
+                        .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this))
+                        .build());
+
+        Intent i = getIntent();
         String rotatingLink = getIntent().getStringExtra("url");
         ImageButton rotatingImageButton = (ImageButton) findViewById(R.id.bArts);
         TextView rotatingTextView = (TextView) findViewById(R.id.tArts);
