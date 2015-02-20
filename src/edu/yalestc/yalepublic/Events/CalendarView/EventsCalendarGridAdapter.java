@@ -132,8 +132,12 @@ public class EventsCalendarGridAdapter extends BaseAdapter {
     public boolean isOutsideCurrentMonth(int i) {
         if (i < 0)
             i = currentlySelected;
-
-        return !(i < daysInMonth + firstDayInWeekOfMonth - 1);
+        if (i < firstDayInWeekOfMonth - 1) {
+            return true;
+        } else if (i < daysInMonth + firstDayInWeekOfMonth - 1) {
+            return false;
+        }
+    return true;
     }
 
     //make the little blob next under textView indicating presence of event
