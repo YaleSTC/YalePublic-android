@@ -36,7 +36,8 @@ public class SearchByName extends Activity {
         Intent intent = getIntent();
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
-            doMySearch(query);
+            if (query != null)
+                doMySearch(query);
         }
     }
 
@@ -44,7 +45,8 @@ public class SearchByName extends Activity {
     protected void onNewIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
-            doMySearch(query);
+            if (query != null)
+                doMySearch(query);
         }
     }
 

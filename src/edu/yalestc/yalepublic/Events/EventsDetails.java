@@ -35,6 +35,9 @@ public class EventsDetails extends Activity {
 
         super.onCreate(savedInstanceState);
         extras = getIntent().getExtras();
+        if (extras == null)  // safety check
+            return;
+
         display = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(display);
         width = display.widthPixels;
