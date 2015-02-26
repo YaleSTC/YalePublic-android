@@ -63,7 +63,7 @@ public class NewsReader extends Activity {
         Log.d("NewsReader passed", downloadurl);
 
         // If we're online, downloads the RSS Feed and returns it as `feed`
-        if (isOnline()) {
+        if (isOnline() && downloadurl != null) {
             NewsDownload start = new NewsDownload();
             try {
                 feed = start.execute(downloadurl).get();

@@ -58,6 +58,8 @@ public class VideosWithinPlaylist extends Activity {
         //to get the passed parameters
         context = this;
         extras = getIntent().getExtras();
+        if (extras == null)  // safety check
+            return;
         setContentView(R.layout.activity_photo_within_album);
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()

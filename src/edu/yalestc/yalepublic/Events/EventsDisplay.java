@@ -21,6 +21,7 @@ public class EventsDisplay extends Activity {
     //    private Fragment dayTab;
     private Fragment monthTab;
     private Fragment listTab;
+    Bundle extras;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -52,8 +53,12 @@ public class EventsDisplay extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_events_display);
 
-        monthTab = CalendarFragment.newInstance(getIntent().getExtras());
-        listTab = ListFragment.newInstance(getIntent().getExtras());
+        extras = getIntent().getExtras();
+        if (extras == null)  // safety check
+            return;
+
+        monthTab = CalendarFragment.newInstance(extras);
+        listTab = ListFragment.newInstance(extras);
 
         //lets use the deprecated versions for now... this is deprecated only in android L
         ActionBar actionBar = getActionBar();

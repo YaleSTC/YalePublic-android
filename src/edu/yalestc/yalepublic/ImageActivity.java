@@ -31,13 +31,19 @@ public class ImageActivity extends Activity {
     private Bitmap mBitmap;
     private Bitmap mBitmap2;
     private String title;
+    Bundle extras;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image);
         ImageView imageView = (ImageView) findViewById(R.id.photoImageView);
-        photoId = getIntent().getExtras().getString(PhotoList.PHOTO_ID_KEY);
-        setTitle(getIntent().getExtras().getString(PhotosWithinAlbum.TITLE_KEY));
+        extras = getIntent().getExtras();
+        if (extras == null)  // safety check
+            return;
+
+        photoId = extras.getString(PhotoList.PHOTO_ID_KEY);
+        setTitle(extras.getString(PhotosWithinAlbum.TITLE_KEY));
         getPhotoTask task = new getPhotoTask();
         try {
             mBitmap2=task.execute().get();

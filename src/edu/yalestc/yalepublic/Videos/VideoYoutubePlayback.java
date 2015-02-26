@@ -52,7 +52,7 @@ public class VideoYoutubePlayback extends YouTubeBaseActivity implements YouTube
 
 
         /** Start buffering **/
-        if (!wasRestored) {
+        if (!wasRestored && VIDEO_ID != null) {
             player.cueVideo(VIDEO_ID);
         }
     }

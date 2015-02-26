@@ -91,27 +91,30 @@ public class MainActivity extends Activity {
         actionbar.setDisplayShowTitleEnabled(true);  // Show activity title/subtitle
         actionbar.setDisplayUseLogoEnabled(false);   // Use activity logo instead of activity icon
         //actionbar.setTitle("Yale");                // Set title
-        Intent i = getIntent();
+
         String rotatingLink = getIntent().getStringExtra("url");
         ImageButton rotatingImageButton = (ImageButton) findViewById(R.id.bArts);
         TextView rotatingTextView = (TextView) findViewById(R.id.tArts);
-        switch (rotatingLink){
-            case "http://artscalendar.yale.edu" :
-                rotatingTextView.setText("Arts Calendar");
-                rotatingImageButton.setImageResource(R.drawable.module_arts_events_default);
-                break;
-            case "http://yalecollege.yale.edu/freshman" :
-                rotatingTextView.setText("Orientation");
-                rotatingImageButton.setImageResource(R.drawable.module_orientation_default);
-                break;
-            case "http://aya.yale.edu/content/current-assembly" :
-                rotatingTextView.setText("AYA Assembly");
-                rotatingImageButton.setImageResource(R.drawable.module_assembly_default);
-                break;
-            case "http://commencement.yale.edu/" :
-                rotatingTextView.setText("Commencement");
-                rotatingImageButton.setImageResource(R.drawable.module_commencement_default);
-                break;
+
+        if (rotatingLink != null) {
+            switch (rotatingLink) {
+                case "http://artscalendar.yale.edu":
+                    rotatingTextView.setText("Arts Calendar");
+                    rotatingImageButton.setImageResource(R.drawable.module_arts_events_default);
+                    break;
+                case "http://yalecollege.yale.edu/freshman":
+                    rotatingTextView.setText("Orientation");
+                    rotatingImageButton.setImageResource(R.drawable.module_orientation_default);
+                    break;
+                case "http://aya.yale.edu/content/current-assembly":
+                    rotatingTextView.setText("AYA Assembly");
+                    rotatingImageButton.setImageResource(R.drawable.module_assembly_default);
+                    break;
+                case "http://commencement.yale.edu/":
+                    rotatingTextView.setText("Commencement");
+                    rotatingImageButton.setImageResource(R.drawable.module_commencement_default);
+                    break;
+            }
         }
 
         /*Configuration config = getResources().getConfiguration();

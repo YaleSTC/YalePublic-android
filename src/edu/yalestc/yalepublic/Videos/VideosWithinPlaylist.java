@@ -34,7 +34,7 @@ public class VideosWithinPlaylist extends Activity {
         //to get the passed parameters
         extras = getIntent().getExtras();
         setContentView(R.layout.activity_video_within_list);
-        if (savedInstanceState == null) {
+        if (savedInstanceState == null && extras != null) {
             getFragmentManager().beginTransaction()
                     .add(R.id.container1, PlaceholderFragment.newInstance(extras)).commit();
         }
