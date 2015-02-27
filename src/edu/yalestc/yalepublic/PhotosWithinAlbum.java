@@ -131,6 +131,9 @@ public class PhotosWithinAlbum extends Activity {
 //                        //create custom AsyncTask to fetch recent Media
 //                        PhotoAuth gettingDetails = new PhotoAuth();
 //                        PhotoAuth.AlbumTask fetchMore = new gettingDetails.AlbumTask();
+                        //create custom AsyncTask to fetch recent Media
+                        PhotoAuth gettingDetails = new PhotoAuth();
+                        gettingDetails.authorizeUser();
                     }
 
                 }
@@ -161,39 +164,44 @@ public class PhotosWithinAlbum extends Activity {
 
 
         public void authorizeUser() {
-            String authorizationUrl = service.getAuthorizationUrl(EMPTY_TOKEN);
-            Log.d("Auth", authorizationUrl);
-            //get Instagram code from authorization url
-            WebView webview = new WebView(getApplicationContext());
-            webview.setWebViewClient(new WebViewClient() {
-                String code = null;
-
-                @Override
-                public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                    if (url.startsWith(CALLBACK_URL)) {
-                        Log.d("Auth", url);
-                        if (url.contains("code=")) {
-                            code = url.split("=")[1];
-                            Log.d("AuthCode", code);
-                        } else if (url.contains("error=access_denied")) {
-                            Log.d("Auth", "Access denied");
-                        }
-                        //execute photoTask
-                        AlbumTask photoTask = new AlbumTask();
-                        photoTask.execute(code);
-                        //set content View back to our album
-                        setContentView(R.layout.activity_photo_within_album);
-                        //Do not load redirect url
-                        return true;
-                    }
-                    //load url
-                    return super.shouldOverrideUrlLoading(view, url);
-                }
-
-            });
-            Log.d("Auth", "loading webview");
-            setContentView(webview);
-            webview.loadUrl(authorizationUrl);
+            //execute photoTask
+            AlbumTask photoTask = new AlbumTask();
+            photoTask.execute(null);
+//            AlbumTask photoTask = new AlbumTask();
+//            photoTask.execute(code);
+//            String authorizationUrl = service.getAuthorizationUrl(EMPTY_TOKEN);
+//            Log.d("Auth", authorizationUrl);
+//            //get Instagram code from authorization url
+//            WebView webview = new WebView(getApplicationContext());
+//            webview.setWebViewClient(new WebViewClient() {
+//                String code = null;
+//
+//                @Override
+//                public boolean shouldOverrideUrlLoading(WebView view, String url) {
+//                    if (url.startsWith(CALLBACK_URL)) {
+//                        Log.d("Auth", url);
+//                        if (url.contains("code=")) {
+//                            code = url.split("=")[1];
+//                            Log.d("AuthCode", code);
+//                        } else if (url.contains("error=access_denied")) {
+//                            Log.d("Auth", "Access denied");
+//                        }
+//                        //execute photoTask
+//                        AlbumTask photoTask = new AlbumTask();
+//                        photoTask.execute(code);
+//                        //set content View back to our album
+//                        setContentView(R.layout.activity_photo_within_album);
+//                        //Do not load redirect url
+//                        return true;
+//                    }
+//                    //load url
+//                    return super.shouldOverrideUrlLoading(view, url);
+//                }
+//
+//            });
+//            Log.d("Auth", "loading webview");
+//            setContentView(webview);
+//            webview.loadUrl(authorizationUrl);
         }
 
     }

@@ -100,7 +100,6 @@ public class PhotoList extends Activity {
             Log.d("Auth","started");
             PhotoAuth photoauth = new PhotoAuth();
             photoauth.AuthorizeUser();
-            // create an asynctask that fetches the playlist titles
 
             ListView listView = (ListView) rootView.findViewById(R.id.listview_photo);
             listView.setAdapter(mVideoAdapter);
