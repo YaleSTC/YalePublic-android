@@ -4,7 +4,7 @@
 # The script will stop on any error (set -e) and echo each line first (set -x)
 set -ex
 
-wget https://github.com/jasonkliu/DummyAPI-YalePublic/archive/1.1.tar.gz
+wget https://github.com/jasonkliu/DummyAPI-Keys/archive/1.1.tar.gz
 tar xvfz 1.1.tar.gz
 
 cp -iv DummyAPI-YalePublic-1.1/api_keys.xml res/values
