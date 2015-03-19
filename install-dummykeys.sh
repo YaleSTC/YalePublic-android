@@ -7,5 +7,5 @@ set -ex
 wget https://github.com/jasonkliu/DummyAPI-Keys/archive/1.1.tar.gz
 tar xvfz 1.1.tar.gz
 
-cp -iv DummyAPI-YalePublic-1.1/api_keys.xml res/values
-cp -iv DummyAPI-YalePublic-1.1/DeveloperKey.java src/edu/yalestc/yalepublic
+cp -iv DummyAPI-Keys-1.1/api_keys.xml res/values
+cp -iv DummyAPI-Keys-1.1/DeveloperKey.java src/edu/yalestc/yalepublic
