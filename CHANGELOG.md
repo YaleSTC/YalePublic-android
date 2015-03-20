@@ -1,8 +1,8 @@
 # Change Log
 
-## [Unreleased](https://github.com/YaleSTC/YalePublic-android/tree/HEAD)
+## [1.1.3](https://github.com/YaleSTC/YalePublic-android/tree/1.1.3) (2015-03-20)
 
-[Full Changelog](https://github.com/YaleSTC/YalePublic-android/compare/1.1.2...HEAD)
+[Full Changelog](https://github.com/YaleSTC/YalePublic-android/compare/1.1.2...1.1.3)
 
 **Fixed bugs:**
 
