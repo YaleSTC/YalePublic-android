@@ -125,7 +125,6 @@ public class CalendarCache extends JSONReader {
         CalendarDatabaseTableHandler eventTable = new CalendarDatabaseTableHandler(mActivity);
         deleteObsolete(year, month, eventTable);
         for (int i = 0; i < MONTHS_CACHED_BACK + MONTHS_CACHED_FORWARD; i++) {
-            //-1 is effect of checking months from -1 in past to +2 in future
             int before = (DateFormater.yearMonthFromCalendarToStandard(year, month + i + 1 - MONTHS_CACHED_BACK)) * 100;
             int after = (DateFormater.yearMonthFromCalendarToStandard(year, month + i - (MONTHS_CACHED_BACK))) * 100;
             Log.i("CalendarCache", "Checking if events between " + Integer.toString(after) + " and " + Integer.toString(before) + " are present");

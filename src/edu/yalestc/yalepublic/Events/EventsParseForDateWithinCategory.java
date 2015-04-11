@@ -232,6 +232,7 @@ public class EventsParseForDateWithinCategory {
             try {
                 String tmp = JSONevent.getString("summary");
                 title = StringEscapeUtils.escapeHtml3(tmp);
+
             } catch (JSONException e) {
                 Log.e("EventsParseForCategory/setTitle", "JSON error");
             }
