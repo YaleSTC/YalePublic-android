@@ -13,5 +13,7 @@
         android:textStyle="bold"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:layout_centerVertical="true"/>
+        android:layout_centerVertical="true"
+        android:maxLines="1"
+        android:ellipsize="end"/>
 </RelativeLayout>

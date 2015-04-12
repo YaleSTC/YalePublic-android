@@ -27,7 +27,7 @@ public class PlaylistList extends Activity {
         //actionbar.setDisplayShowHomeEnabled(true);     // Show application logo
         actionbar.setDisplayShowTitleEnabled(true);    // Show activity title/subtitle
         actionbar.setDisplayUseLogoEnabled(false);     // Use activity logo instead of activity icon
-        actionbar.setTitle(getString(R.string.videos));  // Set title
+        actionbar.setTitle(getString(R.string.videos_playlists));  // Set title
 
         setContentView(R.layout.activity_playlist_list);
         if (savedInstanceState == null) {
