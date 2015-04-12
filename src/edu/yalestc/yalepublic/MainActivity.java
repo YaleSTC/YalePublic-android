@@ -92,6 +92,14 @@ public class MainActivity extends Activity {
         actionbar.setDisplayUseLogoEnabled(false);   // Use activity logo instead of activity icon
         //actionbar.setTitle("Yale");                // Set title
 
+        /* If you want to use Stetho, import com.facebook.stetho.Stetho; and use this
+        Stetho.initialize(
+                Stetho.newInitializerBuilder(this)
+                        .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
+                        .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this))
+                        .build());
+         */
+
         String rotatingLink = getIntent().getStringExtra("url");
         ImageButton rotatingImageButton = (ImageButton) findViewById(R.id.bArts);
         TextView rotatingTextView = (TextView) findViewById(R.id.tArts);
