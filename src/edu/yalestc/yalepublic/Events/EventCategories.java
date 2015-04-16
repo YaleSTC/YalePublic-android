@@ -15,6 +15,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -25,6 +26,7 @@ import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
 
+import edu.yalestc.yalepublic.Cache.CalendarCache;
 import edu.yalestc.yalepublic.R;
 
 public class EventCategories extends Activity {
@@ -74,6 +76,39 @@ public class EventCategories extends Activity {
         }
     }
 
+        //adds functionality to the refersh button!
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //need to create locally inheriting class since the original one
+        //is integral with splash screen (for getting the bot-right icon!)
+        class Updater extends CalendarCache {
+            Updater(Activity mActivity) {
+                super(mActivity);
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                if (super.dialog != null && super.dialog.isShowing()) {
+                    super.dialog.dismiss();
+                }
+            }
+
+        }
+
+        //add functinoality to the button
+        switch (item.getItemId()) {
+            case R.id.refresh:
+                Updater cache = new Updater(this);
+                //wipe the database and preferences.
+                cache.wipeDatabase();
+                cache.clearPreferences();
+                //download all the events and recreate the db
+                cache.execute();
+                return true;
+        }
+        //bcs you have to
+        return super.onOptionsItemSelected(item);
+    }
 
     static public class PlaceholderFragment extends Fragment {
 
