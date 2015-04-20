@@ -276,4 +276,9 @@ public class CalendarDatabaseTableHandler extends SQLiteOpenHelper {
         db.rawQuery(query, null);
         db.close();
     }
+
+    public void wipeDatabase(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("delete from " + TABLE_NAME_EVENTS);
+    }
 }

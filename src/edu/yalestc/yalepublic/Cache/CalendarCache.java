@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 import edu.yalestc.yalepublic.Events.DateFormater;
 import edu.yalestc.yalepublic.Events.EventsParseForDateWithinCategory;
@@ -31,13 +32,14 @@ and super.getData(). Note That the JSONReader class has been changed to allow fo
 away from doInBackground())!
  */
 public class CalendarCache extends JSONReader {
-    Activity mActivity;
+    protected Activity mActivity;
     Calendar myCalendar;
     SharedPreferences prefs;
     final int year;
     // calendar format
     final int month;
-    private ProgressDialog dialog;
+    final int day;
+    protected ProgressDialog dialog;
 
     //number of months "in the future" to cache. current month is calculated within
     private static final int MONTHS_CACHED_FORWARD = 6;
@@ -55,6 +57,7 @@ public class CalendarCache extends JSONReader {
         myCalendar = Calendar.getInstance();
         month = myCalendar.get(Calendar.MONTH);
         year = myCalendar.get(Calendar.YEAR);
+        day = myCalendar.get(Calendar.DAY_OF_MONTH);
         prefs = mActivity.getSharedPreferences("events", 0);
     }
 
@@ -66,9 +69,9 @@ public class CalendarCache extends JSONReader {
     @Override
     protected String doInBackground(Void... voids) {
         if (prefs.contains("dateCached")) {
-            updateDatabase(year, month);
+            updateDatabase(year, month, day);
         } else {
-            createDatabaseForTheFirstTime(year, month);
+            createDatabaseForTheFirstTime(year, month, day);
         }
         return null;
     }
@@ -83,21 +86,21 @@ public class CalendarCache extends JSONReader {
     }
 
     //can be used both to create and updateEvents preferences.
-    private void updatePreferences(int currentYear, int currentMonth) {
+    private void updatePreferences(int currentYear, int currentMonth, int currentDay) {
         SharedPreferences eventPreferences = mActivity.getSharedPreferences("events", 0);
         SharedPreferences.Editor createEventPreferences = eventPreferences.edit();
         int mYear = currentYear;
         int mMonth = currentMonth;
-        int mDay = 1;
+        int mDay = currentDay;
         createEventPreferences.putInt("dateCached", Integer.parseInt(DateFormater.calendarDateToEventsParseForDate(mYear, mMonth, mDay)));
         //topYeartopMonth create the upper bound of dates cached. -1 since the cached_forward adds current month to it.
         int topMonth = mMonth + MONTHS_CACHED_FORWARD - 1;
         int topYear = mYear;
-        createEventPreferences.putInt("topBoundDate", Integer.parseInt(DateFormater.calendarDateToEventsParseForDate(topYear, topMonth, mDay)));
+        createEventPreferences.putInt("topBoundDate", Integer.parseInt(DateFormater.calendarDateToEventsParseForDate(topYear, topMonth, 1)));
         //botYearbotMonth create the lower bound of dates cached
         int botYear = mYear;
         int botMonth = mMonth + MONTHS_CACHED_BACK;
-        createEventPreferences.putInt("botBoundDate", Integer.parseInt(DateFormater.calendarDateToEventsParseForDate(botYear, botMonth, mDay)));
+        createEventPreferences.putInt("botBoundDate", Integer.parseInt(DateFormater.calendarDateToEventsParseForDate(botYear, botMonth, 1)));
         createEventPreferences.apply();
     }
 
@@ -121,41 +124,68 @@ public class CalendarCache extends JSONReader {
         }
     }
 
-    private void updateDatabase(int year, int month) {
+    //just as name says. Used when updating db
+    public void wipeDatabase(){
         CalendarDatabaseTableHandler eventTable = new CalendarDatabaseTableHandler(mActivity);
-        deleteObsolete(year, month, eventTable);
-        for (int i = 0; i < MONTHS_CACHED_BACK + MONTHS_CACHED_FORWARD; i++) {
-            int before = (DateFormater.yearMonthFromCalendarToStandard(year, month + i + 1 - MONTHS_CACHED_BACK)) * 100;
-            int after = (DateFormater.yearMonthFromCalendarToStandard(year, month + i - (MONTHS_CACHED_BACK))) * 100;
-            Log.i("CalendarCache", "Checking if events between " + Integer.toString(after) + " and " + Integer.toString(before) + " are present");
-            if (eventTable.getEventsBeforeAndAfter(after, before).size() == 0) {
-                int yearMonth = DateFormater.yearMonthFromCalendarToStandard(year, month + i - 1);
-                String query = "http://calendar.yale.edu/feeds/feed/opa/json/" + DateFormater.calendarDateToJSONQuery(year, month + i - (1 + MONTHS_CACHED_BACK)) + "/30days";
-                super.setURL(query);
-                String result = super.getData();
-                Log.i("Cache", "contents of result[" + Integer.toString(i) + "]:" + result.substring(0, 100));
-                if (result == null) {
-                    Toast toast = new Toast(mActivity);
-                    toast = Toast.makeText(mActivity, "You need internet connection to successfully finish", Toast.LENGTH_LONG);
-                    toast.show();
-                    return;
-                }
-                parseAndSaveToDb(result, (int) (yearMonth / 100), yearMonth % 100);
-            }
+        eventTable.wipeDatabase();
+    }
+
+    //just as name says. Used when updating db
+    public void clearPreferences(){
+        SharedPreferences prefs = mActivity.getSharedPreferences("events",0);
+        SharedPreferences.Editor wiper = prefs.edit();
+        wiper.clear();
+        wiper.commit();
+    }
+
+    //very simple method of updating cache that we will be using instead of the former, more complex one
+    private void updateDatabase(int year, int month, int day){
+        int dateCached = prefs.getInt("dateCached", 0);
+        int dateToday = year * 10000 + month * 100 + day;
+        if(dateToday - dateCached > 8) {
+            wipeDatabase();
+            clearPreferences();
+            createDatabaseForTheFirstTime(year, month, day);
         }
-        //create the preferences
-        updatePreferences(year, month);
     }
 
-    private void deleteObsolete(int year, int month, CalendarDatabaseTableHandler eventTable) {
-        //YYYYMM00
-        int lowerbound = DateFormater.yearMonthFromCalendarToStandard(year, month - MONTHS_CACHED_BACK) * 100;
-        //YYYYMM33
-        int upperbound = DateFormater.yearMonthFromCalendarToStandard(year, month + MONTHS_CACHED_FORWARD) + 33;
-        eventTable.deleteEvents(lowerbound, upperbound);
-    }
+        //We have decided to just wipe the whole database. Hence, this function will not be used! I will
+    //keep it around for reference if we need to do something smarter in the future!
+//    private void updateDatabase(int year, int month) {
+//        CalendarDatabaseTableHandler eventTable = new CalendarDatabaseTableHandler(mActivity);
+//        deleteObsolete(year, month, eventTable);
+//        for (int i = 0; i < MONTHS_CACHED_BACK + MONTHS_CACHED_FORWARD; i++) {
+//            int before = (DateFormater.yearMonthFromCalendarToStandard(year, month + i + 1 - MONTHS_CACHED_BACK)) * 100;
+//            int after = (DateFormater.yearMonthFromCalendarToStandard(year, month + i - (MONTHS_CACHED_BACK))) * 100;
+//            Log.i("CalendarCache", "Checking if events between " + Integer.toString(after) + " and " + Integer.toString(before) + " are present");
+//            if (eventTable.getEventsBeforeAndAfter(after, before).size() == 0) {
+//                int yearMonth = DateFormater.yearMonthFromCalendarToStandard(year, month + i - 1);
+//                String query = "http://calendar.yale.edu/feeds/feed/opa/json/" + DateFormater.calendarDateToJSONQuery(year, month + i - (1 + MONTHS_CACHED_BACK)) + "/30days";
+//                super.setURL(query);
+//                String result = super.getData();
+//                Log.i("Cache", "contents of result[" + Integer.toString(i) + "]:" + result.substring(0, 100));
+//                if (result == null) {
+//                    Toast toast = new Toast(mActivity);
+//                    toast = Toast.makeText(mActivity, "You need internet connection to successfully finish", Toast.LENGTH_LONG);
+//                    toast.show();
+//                    return;
+//                }
+//                parseAndSaveToDb(result, (int) (yearMonth / 100), yearMonth % 100);
+//            }
+//        }
+//        //create the preferences
+//        updatePreferences(year, month);
+//    }
+//
+//    private void deleteObsolete(int year, int month, CalendarDatabaseTableHandler eventTable) {
+//        //YYYYMM00
+//        int lowerbound = DateFormater.yearMonthFromCalendarToStandard(year, month - MONTHS_CACHED_BACK) * 100;
+//        //YYYYMM33
+//        int upperbound = DateFormater.yearMonthFromCalendarToStandard(year, month + MONTHS_CACHED_FORWARD) + 33;
+//        eventTable.deleteEvents(lowerbound, upperbound);
+//    }
 
-    private void createDatabaseForTheFirstTime(int year, int month) {
+    private void createDatabaseForTheFirstTime(int year, int month, int day) {
         String[] queries;
         String[] results;
         //for later parsing purposes. EventsParseForDateWithinCategory has to discard nonsense events
@@ -189,7 +219,7 @@ public class CalendarCache extends JSONReader {
             parseAndSaveToDb(results[i], (int) (yearMonth[i] / 100), yearMonth[i] % 100);
         }
         //create the preferences
-        updatePreferences(year, month);
+        updatePreferences(year, month, day);
     }
 
     public static boolean isCached(Activity mActivity, int month, int year){

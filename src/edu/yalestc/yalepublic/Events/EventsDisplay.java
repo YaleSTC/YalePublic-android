@@ -6,10 +6,15 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.SearchView;
 
+import java.util.concurrent.ExecutionException;
+
+import edu.yalestc.yalepublic.Cache.CalendarCache;
 import edu.yalestc.yalepublic.Events.CalendarView.CalendarFragment;
 import edu.yalestc.yalepublic.Events.ListView.ListFragment;
 import edu.yalestc.yalepublic.JSONReader;
@@ -103,6 +108,45 @@ public class EventsDisplay extends Activity {
         });
         actionBar.addTab(listT);
 
+    }
+
+    //add functionality to the refresh button
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //locally inheriting class bcs the original one is an integral part
+        //of splash screen (at least getting the icon in bot-right)
+        class Updater extends CalendarCache {
+            //intent to relaunch the activity after getting new data. Easiest for us.
+            Intent mIntent;
+            Updater(Activity mActivity, Intent intent) {
+                super(mActivity);
+                mIntent = intent;
+            }
+
+            @Override
+            protected void onPostExecute(String result) {
+                if (super.dialog != null && super.dialog.isShowing()) {
+                    super.dialog.dismiss();
+                }
+                //restart the activity
+                super.mActivity.finish();
+                startActivity(mIntent);
+            }
+
+        }
+        //add functionality
+        switch (item.getItemId()) {
+            case R.id.refresh:
+                Updater cache = new Updater(this, getIntent());
+                //get rid of old data
+                cache.wipeDatabase();
+                cache.clearPreferences();
+                //get new data
+                cache.execute();
+                return true;
+        }
+        //bcs you have to
+        return super.onOptionsItemSelected(item);
     }
 
    /* private class DayTab extends Fragment {
