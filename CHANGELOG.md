@@ -1,5 +1,23 @@
 # Change Log
 
+## [Unreleased](https://github.com/YaleSTC/YalePublic-android/tree/HEAD)
+
+[Full Changelog](https://github.com/YaleSTC/YalePublic-android/compare/1.1.3...HEAD)
+
+**Closed issues:**
+
+- Update Splash Screen [\#115](https://github.com/YaleSTC/YalePublic-android/issues/115)
+
+**Merged pull requests:**
+
+- Added refresh button for events and changed the rules of recaching [\#118](https://github.com/YaleSTC/YalePublic-android/pull/118) ([Ebstein](https://github.com/Ebstein))
+
+- Stetho test [\#117](https://github.com/YaleSTC/YalePublic-android/pull/117) ([jasonkliu](https://github.com/jasonkliu))
+
+- replace splash with y logo [\#116](https://github.com/YaleSTC/YalePublic-android/pull/116) ([jasonkliu](https://github.com/jasonkliu))
+
+- Changed the look of videos: increased font etc. [\#111](https://github.com/YaleSTC/YalePublic-android/pull/111) ([Ebstein](https://github.com/Ebstein))
+
 ## [1.1.3](https://github.com/YaleSTC/YalePublic-android/tree/1.1.3) (2015-03-20)
 
 [Full Changelog](https://github.com/YaleSTC/YalePublic-android/compare/1.1.2...1.1.3)
