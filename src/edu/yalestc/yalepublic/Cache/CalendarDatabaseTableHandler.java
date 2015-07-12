@@ -3,6 +3,7 @@ package edu.yalestc.yalepublic.Cache;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.MatrixCursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -280,5 +281,58 @@ public class CalendarDatabaseTableHandler extends SQLiteOpenHelper {
     public void wipeDatabase(){
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("delete from " + TABLE_NAME_EVENTS);
+    }
+
+    public Cursor getEventSuggestions(String name){
+        String query = "select * from " + TABLE_NAME_EVENTS
+                + " where Title like \'" + name + "%\';";
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        int suggestionMax = 10;
+        int count = 0;
+        String[] columnName = {"_id", "suggestions", "date"};
+        MatrixCursor suggestions = new MatrixCursor(columnName);
+
+        //changes maximum suggestion to appropriate value
+        if(cursor.getCount() < suggestionMax) {
+            suggestionMax = cursor.getCount();
+        }
+
+        //adds suggestions to matrix cursor
+        if (cursor.moveToFirst()) {
+            do {
+                String[] event = new String[3];
+                event[0] = String.valueOf(count); //adds id key
+                event[1] = cursor.getString(0); //adds name
+                event[2] = cursor.getString(4); //adds date
+                suggestions.addRow(event);
+                count++;
+            } while (cursor.moveToNext() && count < suggestionMax);
+        }
+        db.close();
+        return suggestions;
+    }
+
+    public String[] getEventByNameAndDate(String name, String date){
+        String query = "select * from " + TABLE_NAME_EVENTS
+                + " where Title = ? and DateDescription = ?;";
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, new String[] {name, date});
+
+        String[] event = new String[8];
+        if (cursor.moveToFirst()) {
+            // fill in six first fields
+            for (int i = 0; i < 6; i++)
+                event[i] = cursor.getString(i);
+            // since the category has to be extracted from a string
+            event[6] = String.valueOf(EventsParseForDateWithinCategory.retrieveCategory(cursor.getString(6)));
+            // add the numerical date
+            event[7] = cursor.getString(7);
+        }
+        db.close();
+        return event;
     }
 }
