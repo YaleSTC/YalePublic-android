@@ -7,26 +7,31 @@ import android.app.FragmentTransaction;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.MatrixCursor;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.SearchView;
-
-import java.util.concurrent.ExecutionException;
+import android.widget.SimpleCursorAdapter;
 
 import edu.yalestc.yalepublic.Cache.CalendarCache;
+import edu.yalestc.yalepublic.Cache.CalendarDatabaseTableHandler;
 import edu.yalestc.yalepublic.Events.CalendarView.CalendarFragment;
 import edu.yalestc.yalepublic.Events.ListView.ListFragment;
-import edu.yalestc.yalepublic.JSONReader;
 import edu.yalestc.yalepublic.R;
 
 
-public class EventsDisplay extends Activity {
+public class EventsDisplay extends Activity implements SearchView.OnQueryTextListener, SearchView.OnSuggestionListener{
     ActionBar.Tab monthT, listT;
     //    private Fragment dayTab;
     private Fragment monthTab;
     private Fragment listTab;
     Bundle extras;
+
+    private CalendarDatabaseTableHandler db;
+    private SearchView mSearchView;
+    private MenuItem mMenuItem;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -37,10 +42,15 @@ public class EventsDisplay extends Activity {
         // Associate searchable configuration with the SearchView
         SearchManager searchManager =
                 (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView =
-                (SearchView) menu.findItem(R.id.search).getActionView();
-        searchView.setSearchableInfo(
+        mMenuItem = menu.findItem(R.id.search);
+        mSearchView = (SearchView) mMenuItem.getActionView();
+        mSearchView.setSearchableInfo(
                 searchManager.getSearchableInfo(getComponentName()));
+
+        // Autocomplete configurations for SearchView
+        db = new CalendarDatabaseTableHandler(this);
+        mSearchView.setOnQueryTextListener(this);
+        mSearchView.setOnSuggestionListener(this);
 
         return true;
     }
@@ -147,6 +157,80 @@ public class EventsDisplay extends Activity {
         }
         //bcs you have to
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String s) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String query) {
+        if(query.length() != 0) {
+            Cursor cursor = db.getEventSuggestions(query);
+
+            //shows a list of suggestions if available
+            if (cursor.getCount() != 0 || query != null) {
+                String[] columns = {"suggestions", "date"};
+                int[] columnTextId = new int[]{R.id.suggestion_name, R.id.suggestion_date}; //where the data will be mapped to
+                SimpleCursorAdapter adapter = new SimpleCursorAdapter(this,
+                        R.layout.suggestion_list_item, cursor, columns, columnTextId, 0);
+
+                mSearchView.setSuggestionsAdapter(adapter);
+
+                return true;
+            } else {
+                return false;
+            }
+        }
+        else {
+            //clears the list of suggestions if search dialog is empty
+            SimpleCursorAdapter adapter = new SimpleCursorAdapter(this,
+                    R.layout.empty_layout, null, null, null, 0);
+            mSearchView.setSuggestionsAdapter(adapter);
+
+            return false;
+        }
+    }
+
+    @Override
+    public boolean onSuggestionSelect(int i) {
+        return false;
+    }
+
+    @Override
+    public boolean onSuggestionClick(int i) {
+        //gets details of the event clicked on
+        MatrixCursor cursor = (MatrixCursor) mSearchView.getSuggestionsAdapter().getItem(i);
+        cursor.moveToPosition(i);
+        String name = cursor.getString(1);
+        String date = cursor.getString(2);
+        String[] event = db.getEventByNameAndDate(name, date);
+
+        int color, colorTo, colorFrom;
+
+        color = getResources().getIntArray(R.array.event_categories_colors)[Integer.parseInt(event[6])];
+        colorTo = getResources().getIntArray(R.array.event_categories_colors_into)[Integer.parseInt(event[6])];
+        colorFrom = getResources().getIntArray(R.array.event_categories_colors_into)[Integer.parseInt(event[6])];
+
+        //put data into the extras
+        Intent eventDetails = new Intent(this, EventsDetails.class);
+        eventDetails.putExtra("title", event[0]);
+        eventDetails.putExtra("start", event[4] + " " + event[1]);
+        eventDetails.putExtra("end", event[4] + " " + event[2]);
+        //category color in the middle of the blob/rectangle
+        eventDetails.putExtra("color", color);
+        //category color at the bottom of the blob/rectangle
+        eventDetails.putExtra("colorTo", colorTo);
+        //category color at the top of the blob/rectangle
+        eventDetails.putExtra("colorFrom", colorFrom);
+        eventDetails.putExtra("description", event[5]);
+        eventDetails.putExtra("location", event[3]);
+
+        mMenuItem.collapseActionView();
+        startActivity(eventDetails);
+
+        return true;
     }
 
    /* private class DayTab extends Fragment {
