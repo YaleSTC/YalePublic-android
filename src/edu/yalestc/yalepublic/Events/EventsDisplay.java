@@ -170,18 +170,14 @@ public class EventsDisplay extends Activity implements SearchView.OnQueryTextLis
             Cursor cursor = db.getEventSuggestions(query);
 
             //shows a list of suggestions if available
-            if (cursor.getCount() != 0 || query != null) {
-                String[] columns = {"suggestions", "date"};
-                int[] columnTextId = new int[]{R.id.suggestion_name, R.id.suggestion_date}; //where the data will be mapped to
-                SimpleCursorAdapter adapter = new SimpleCursorAdapter(this,
-                        R.layout.suggestion_list_item, cursor, columns, columnTextId, 0);
+            String[] columns = {"suggestions", "date"};
+            int[] columnTextId = new int[]{R.id.suggestion_name, R.id.suggestion_date}; //where the data will be mapped to
+            SimpleCursorAdapter adapter = new SimpleCursorAdapter(this,
+                    R.layout.suggestion_list_item, cursor, columns, columnTextId, 0);
 
-                mSearchView.setSuggestionsAdapter(adapter);
+            mSearchView.setSuggestionsAdapter(adapter);
 
-                return true;
-            } else {
-                return false;
-            }
+            return true;
         }
         else {
             //clears the list of suggestions if search dialog is empty
