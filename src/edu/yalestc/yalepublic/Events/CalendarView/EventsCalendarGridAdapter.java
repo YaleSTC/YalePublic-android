@@ -175,7 +175,7 @@ public class EventsCalendarGridAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View convertView, ViewGroup viewGroup) {
         if (convertView != null) {
-            if (isToday(i)) {
+            if (isToday(i) && !isOutsideCurrentMonth(i)) {
                 //current date has a separate image for itself. Inflate a new layout for it and change imageView.
                 convertView = LayoutInflater.from(mContext).inflate(R.layout.calendar_image_button_selector, null);
                 //set the image
@@ -220,7 +220,7 @@ public class EventsCalendarGridAdapter extends BaseAdapter {
             return convertView;
         } else {
             RelativeLayout calendar_grid = (RelativeLayout) LayoutInflater.from(mContext).inflate(R.layout.calendar_image_button_selector, null);
-            if (isToday(i)) {
+            if (isToday(i) && !isOutsideCurrentMonth(i)) {
                 //current date has a separate image for itself. Inflate a new layout for it and change imageView.
                 ((ImageView) (calendar_grid).getChildAt(0)).setImageDrawable(mContext.getResources().getDrawable(calendar_grid_button_current_selected));
                 //by default current date is selected at the beginning

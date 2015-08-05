@@ -14,6 +14,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTabHost;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.SearchView;
 import android.widget.SimpleCursorAdapter;
 
@@ -186,6 +187,17 @@ public class EventsDisplay extends FragmentActivity implements SearchView.OnQuer
         startActivity(eventDetails);
 
         return true;
+    }
+
+    public boolean hideKeyboard() {
+        if (mSearchView.requestFocus())
+        {
+            mMenuItem.collapseActionView();
+            InputMethodManager imm = (InputMethodManager) this.getSystemService(this.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(mSearchView.getWindowToken(), 0);
+            return true;
+        }
+        return false;
     }
 
    /* private class DayTab extends Fragment {
