@@ -33,6 +33,80 @@
         <item>Science and Health</item>
         <item>World and Environment</item>
     </string-array>
+    <string-array name="men_sports_keywords">
+        <item>m-basebl</item>
+        <item>m-baskbl</item>
+        <item>m-crewhvy</item>
+        <item>m-crewlt</item>
+        <item>m-xc</item>
+        <item>m-fenc</item>
+        <item>m-footbl</item>
+        <item>m-golf</item>
+        <item>m-hockey</item>
+        <item>m-lacros</item>
+        <item>c-sail</item>
+        <item>m-soccer</item>
+        <item>m-squash</item>
+        <item>m-swim</item>
+        <item>m-tennis</item>
+        <item>m-track</item>
+    </string-array>
+    <string-array name="men_sports">
+        <item>Baseball</item>
+        <item>Basketball</item>
+        <item>Heavyweight Crew</item>
+        <item>Lightweight Crew</item>
+        <item>Cross Country</item>
+        <item>Fencing</item>
+        <item>Football</item>
+        <item>Golf</item>
+        <item>Hockey</item>
+        <item>Lacrosse</item>
+        <item>Sailing</item>
+        <item>Soccer</item>
+        <item>Squash</item>
+        <item>Swimming</item>
+        <item>Tennis</item>
+        <item>Track &amp; Field</item>
+    </string-array>
+    <string-array name="women_sports_keywords">
+        <item>w-baskbl</item>
+        <item>w-crew</item>
+        <item>w-xc</item>
+        <item>w-fenc</item>
+        <item>w-fieldh</item>
+        <item>w-golf</item>
+        <item>w-gym</item>
+        <item>w-hockey</item>
+        <item>w-lacros</item>
+        <item>w-sail</item>
+        <item>w-soccer</item>
+        <item>w-softbl</item>
+        <item>w-squash</item>
+        <item>w-swim</item>
+        <item>w-tennis</item>
+        <item>w-track</item>
+        <item>w-volley</item>
+    </string-array>
+    <string-array name="women_sports">
+        <item>Basketball</item>
+        <item>Crew</item>
+        <item>Cross Country</item>
+        <item>Fencing</item>
+        <item>Field Hockey</item>
+        <item>Golf</item>
+        <item>Gymnastics</item>
+        <item>Hockey</item>
+        <item>Lacrosse</item>
+        <item>Sailing</item>
+        <item>Soccer</item>
+        <item>Softball</item>
+        <item>Squash</item>
+        <item>Swimming</item>
+        <item>Tennis</item>
+        <item>Track &amp; Field</item>
+        <item>Volleyball</item>
+    </string-array>
     <string-array name="events_category_names">
         <item>All</item>
         <item>Classes &amp; Workshops</item>
@@ -114,5 +188,7 @@
     <string name="description_lower">description</string>
     <string name="building_search">Search for a building</string>
     <string name="splashstring">Splash Text</string>
+    <string name="title_activity_athletics">AthleticsActivity</string>
+    <string name="top_stories_url">http://www.yalebulldogs.com/landing/headlines-featured?feed=rss_2.0</string>
 
 </resources>
