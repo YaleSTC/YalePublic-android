@@ -33,12 +33,12 @@ public class NewsChooser extends Activity {
         actionbar.setDisplayUseLogoEnabled(false);     // Use activity logo instead of activity icon
         actionbar.setTitle(getString(R.string.news));  // Set title
 
-        setContentView(R.layout.news_items);
-        rss_feeds = getResources().getStringArray(R.array.rss_feeds); // Array of RSS URLs
-        rss_names = getResources().getStringArray(R.array.rss_names); // Array of RSS Titles
+        setContentView(R.layout.rss_items);
+        rss_feeds = getResources().getStringArray(R.array.news_feeds); // Array of News RSS URLs
+        rss_names = getResources().getStringArray(R.array.news_names); // Array of News RSS Titles
 
         // Set up the ListView listNews with all of the titles from rss_names[].
-        ListView listView = (ListView) findViewById(R.id.listNews);
+        ListView listView = (ListView) findViewById(R.id.listRSS);
 
         // Parameters for ArrayAdapter: Activity (Context), Layout file, TextView Id, <Array that's adapted>
         ArrayAdapter<String> mListAdapter = new ArrayAdapter<String>(this, R.layout.tab, R.id.tab);

@@ -21,10 +21,12 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 import edu.yalestc.yalepublic.R;
+import edu.yalestc.yalepublic.RSS.RssFeed;
+import edu.yalestc.yalepublic.RSS.RssItem;
 
 /**
  * Created by Jason Liu on 10/4/14.
- * This Activity gets an RssFeed using NewsDownload, and then sets it up into news_tab.xml
+ * This Activity gets an RssFeed using NewsDownload, and then sets it up into rss_tab.xml
  * using a custom adapter which overrides setAdapter()/getView. As a result, we can set three
  * text fields at the same time with three sets of data rather than one field with one string.
  */
@@ -57,7 +59,7 @@ public class NewsReader extends Activity {
         actionbar.setDisplayUseLogoEnabled(false);     // Use activity logo instead of activity icon
         actionbar.setTitle(getString(R.string.news));  // Set title
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.news_items);
+        setContentView(R.layout.rss_items);
 
         downloadurl = this.getIntent().getStringExtra("rssfeed");
         Log.d("NewsReader passed", downloadurl);
@@ -99,11 +101,11 @@ public class NewsReader extends Activity {
                 rssDescription.add(rssItem.getDescription());
             }
 
-            ListView listView = (ListView) findViewById(R.id.listNews);
+            ListView listView = (ListView) findViewById(R.id.listRSS);
             // Usually, the parameters of setAdapter are:
             //       Activity (Context), Layout file, Id of TextView, Array that's adapted
             // However, a custom adapter is used (NewsAdapter) that overrides this functionality.
-            listView.setAdapter(new NewsAdapter(this, R.layout.news_tab, rssItems));
+            listView.setAdapter(new NewsAdapter(this, R.layout.rss_tab, rssItems));
 
             // Set OnItemClickListener to open the link when it's clicked
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){

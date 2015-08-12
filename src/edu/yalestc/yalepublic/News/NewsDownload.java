@@ -11,6 +11,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
+import edu.yalestc.yalepublic.RSS.RssFeed;
+import edu.yalestc.yalepublic.RSS.RssItem;
+import edu.yalestc.yalepublic.RSS.RssReader;
+
 /**
  * Created by Jason Liu on 10/4/14.
  * This AsyncTask downloads RSS data from a given String URL and returns a RssFeed with all
