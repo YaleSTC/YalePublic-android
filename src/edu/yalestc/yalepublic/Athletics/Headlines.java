@@ -1,15 +1,17 @@
-package edu.yalestc.yalepublic.News;
+package edu.yalestc.yalepublic.Athletics;
 
-import android.app.ActionBar;
-import android.app.Activity;
+import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -23,13 +25,11 @@ import edu.yalestc.yalepublic.RSS.RssFeed;
 import edu.yalestc.yalepublic.RSS.RssItem;
 
 /**
- * Created by Jason Liu on 10/4/14.
- * This Activity gets an RssFeed using RSSDownload, and then sets it up into rss_tab.xml
- * using a custom adapter (RSSAdapter) which overrides setAdapter()/getView. As a result, we can set three
- * text fields at the same time with three sets of data rather than one field with one string.
+ * This fragment shows the top stories in Yale sports. It is essentially the same and works the same
+ * as the NewsReader activity but this class is a fragment instead of an activity
  */
 
-public class NewsReader extends Activity {
+public class Headlines extends Fragment {
 
     RssFeed feed;
     long time, timediff, hourdiff, daydiff;
@@ -42,25 +42,15 @@ public class NewsReader extends Activity {
     // Check for connectivity, return true if connected or connecting.
     public boolean isOnline() {
         ConnectivityManager cm =
-                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
 
         return cm.getActiveNetworkInfo() != null &&
                 cm.getActiveNetworkInfo().isConnectedOrConnecting();
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        ActionBar actionbar = getActionBar();
-        actionbar.setDisplayHomeAsUpEnabled(true);     // Show home as a back arrow
-        //actionbar.setDisplayShowHomeEnabled(true);     // Show application logo
-        actionbar.setDisplayShowTitleEnabled(true);    // Show activity title/subtitle
-        actionbar.setDisplayUseLogoEnabled(false);     // Use activity logo instead of activity icon
-        actionbar.setTitle(getString(R.string.news));  // Set title
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.rss_items);
-
-        downloadurl = this.getIntent().getStringExtra("rssfeed");
-        Log.d("NewsReader passed", downloadurl);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        downloadurl = getString(R.string.top_stories_url);
+        LinearLayout linearLayout = null;
 
         // If we're online, downloads the RSS Feed and returns it as `feed`
         if (isOnline() && downloadurl != null) {
@@ -73,7 +63,7 @@ public class NewsReader extends Activity {
                 e.printStackTrace();
             }
         } else {
-            Log.d("NewsReader", "Please connect to Internet");
+            Log.d("Headlines", "Please connect to Internet");
         }
 
         time = System.currentTimeMillis();  // Current system time for `5 hours ago`, etc
@@ -98,13 +88,13 @@ public class NewsReader extends Activity {
                 rssLinks.add(rssItem.getLink());
                 rssDescription.add(rssItem.getDescription());
             }
-
-            ListView listView = (ListView) findViewById(R.id.listRSS);
+            linearLayout = (LinearLayout)inflater.inflate(R.layout.rss_items, container, false);
+            ListView listView = (ListView) linearLayout.findViewById(R.id.listRSS);
             RSSAdapter.setArrayLists(rssTitles, rssDescription, rssTimediff);
             // Usually, the parameters of setAdapter are:
             //       Activity (Context), Layout file, Id of TextView, Array that's adapted
             // However, a custom adapter is used (NewsAdapter) that overrides this functionality.
-            listView.setAdapter(new RSSAdapter(this, R.layout.rss_tab, rssItems));
+            listView.setAdapter(new RSSAdapter(getActivity(), R.layout.rss_tab, rssItems));
 
             // Set OnItemClickListener to open the link when it's clicked
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
@@ -118,6 +108,8 @@ public class NewsReader extends Activity {
                     startActivity(launchBrowser);
                 }
             });
+
         }
+        return linearLayout;
     }
 }
