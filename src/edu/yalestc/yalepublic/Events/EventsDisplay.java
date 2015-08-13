@@ -1,17 +1,20 @@
 package edu.yalestc.yalepublic.Events;
 
+import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
+import android.os.Build;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTabHost;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.SearchView;
 import android.widget.SimpleCursorAdapter;
 
@@ -22,12 +25,7 @@ import edu.yalestc.yalepublic.Events.ListView.ListFragment;
 import edu.yalestc.yalepublic.R;
 
 
-public class EventsDisplay extends Activity implements SearchView.OnQueryTextListener, SearchView.OnSuggestionListener{
-    ActionBar.Tab monthT, listT;
-    //    private Fragment dayTab;
-    private Fragment monthTab;
-    private Fragment listTab;
-    Bundle extras;
+public class EventsDisplay extends FragmentActivity implements SearchView.OnQueryTextListener, SearchView.OnSuggestionListener{
 
     private CalendarDatabaseTableHandler db;
     private SearchView mSearchView;
@@ -55,9 +53,11 @@ public class EventsDisplay extends Activity implements SearchView.OnQueryTextLis
         return true;
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP) //need to fix this
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         ActionBar actionbar = getActionBar();
+        actionbar.setElevation(0);                      //Gets rid of drop shadow; targets 5.0 only
         actionbar.setDisplayHomeAsUpEnabled(true);     // Show home as a back arrow
         //actionbar.setDisplayShowHomeEnabled(true);     // Show application logo
         actionbar.setDisplayShowTitleEnabled(true);    // Show activity title/subtitle
@@ -66,58 +66,18 @@ public class EventsDisplay extends Activity implements SearchView.OnQueryTextLis
         actionbar.setTitle(getString(R.string.events));  // Set title
 
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_events_display);
 
-        extras = getIntent().getExtras();
+        Bundle extras = getIntent().getExtras();
         if (extras == null)  // safety check
             return;
 
-        monthTab = CalendarFragment.newInstance(extras);
-        listTab = ListFragment.newInstance(extras);
-
-        //lets use the deprecated versions for now... this is deprecated only in android L
-        ActionBar actionBar = getActionBar();
-        monthT = actionBar.newTab().setText("Month");
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
-        //TODO recycle the tabs. at the moment we just recreate them
-        monthT.setTabListener(new ActionBar.TabListener() {
-            @Override
-            public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-                fragmentTransaction.replace(R.id.container, monthTab);
-            }
-
-            @Override
-            public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-                fragmentTransaction.remove(monthTab);
-            }
-
-            @Override
-            public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-            }
-        });
-
-        actionBar.addTab(monthT);
-
-        listT = actionBar.newTab().setText("List");
-        listT.setTabListener(new ActionBar.TabListener() {
-
-            @Override
-            public void onTabSelected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-                fragmentTransaction.replace(R.id.container, listTab);
-            }
-
-            @Override
-            public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-                fragmentTransaction.remove(listTab);
-            }
-
-            @Override
-            public void onTabReselected(ActionBar.Tab tab, FragmentTransaction fragmentTransaction) {
-            }
-        });
-        actionBar.addTab(listT);
-
+        //Sets up Tabs
+        FragmentTabHost mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
+        mTabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
+        mTabHost.addTab(mTabHost.newTabSpec("month").setIndicator("MONTH"), CalendarFragment.class, extras);
+        mTabHost.addTab(mTabHost.newTabSpec("list").setIndicator("LIST"), ListFragment.class, extras);
     }
 
     //add functionality to the refresh button
@@ -170,18 +130,14 @@ public class EventsDisplay extends Activity implements SearchView.OnQueryTextLis
             Cursor cursor = db.getEventSuggestions(query);
 
             //shows a list of suggestions if available
-            if (cursor.getCount() != 0 || query != null) {
-                String[] columns = {"suggestions", "date"};
-                int[] columnTextId = new int[]{R.id.suggestion_name, R.id.suggestion_date}; //where the data will be mapped to
-                SimpleCursorAdapter adapter = new SimpleCursorAdapter(this,
-                        R.layout.suggestion_list_item, cursor, columns, columnTextId, 0);
+            String[] columns = {"suggestions", "date"};
+            int[] columnTextId = new int[]{R.id.suggestion_name, R.id.suggestion_date}; //where the data will be mapped to
+            SimpleCursorAdapter adapter = new SimpleCursorAdapter(this,
+                    R.layout.suggestion_list_item, cursor, columns, columnTextId, 0);
 
-                mSearchView.setSuggestionsAdapter(adapter);
+            mSearchView.setSuggestionsAdapter(adapter);
 
-                return true;
-            } else {
-                return false;
-            }
+            return true;
         }
         else {
             //clears the list of suggestions if search dialog is empty
@@ -231,6 +187,17 @@ public class EventsDisplay extends Activity implements SearchView.OnQueryTextLis
         startActivity(eventDetails);
 
         return true;
+    }
+
+    public boolean hideKeyboard() {
+        if (mSearchView.requestFocus())
+        {
+            mMenuItem.collapseActionView();
+            InputMethodManager imm = (InputMethodManager) this.getSystemService(this.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(mSearchView.getWindowToken(), 0);
+            return true;
+        }
+        return false;
     }
 
    /* private class DayTab extends Fragment {

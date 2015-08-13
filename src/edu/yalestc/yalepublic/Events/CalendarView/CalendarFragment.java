@@ -1,7 +1,7 @@
 package edu.yalestc.yalepublic.Events.CalendarView;
 
 import android.app.Activity;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -19,6 +19,7 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import edu.yalestc.yalepublic.Events.EventsDetails;
+import edu.yalestc.yalepublic.Events.EventsDisplay;
 import edu.yalestc.yalepublic.Events.EventsParseForDateWithinCategory;
 import edu.yalestc.yalepublic.R;
 
@@ -96,6 +97,9 @@ public class CalendarFragment extends Fragment {
         (((RelativeLayout) (((RelativeLayout) rootView).getChildAt(0))).getChildAt(0)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (((EventsDisplay) mActivity).hideKeyboard()) {
+                    return;
+                }
                 updateMonthAndData(-1);
             }
         });
@@ -104,6 +108,9 @@ public class CalendarFragment extends Fragment {
         (((RelativeLayout) (((RelativeLayout) rootView).getChildAt(0))).getChildAt(2)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (((EventsDisplay) mActivity).hideKeyboard()) {
+                    return;
+                }
                 updateMonthAndData(1);
             }
         });
@@ -156,6 +163,9 @@ public class CalendarFragment extends Fragment {
         ((GridView) (((RelativeLayout) rootView).getChildAt(2))).setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if (((EventsDisplay) mActivity).hideKeyboard()) {
+                    return;
+                }
                 //we only want to be able to select dates within current month
                 if (!calendarAdapter.isOutsideCurrentMonth(i)) {
                     //Change the drawables of tile that become "unselected"
