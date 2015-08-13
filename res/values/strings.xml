@@ -190,5 +190,8 @@
     <string name="splashstring">Splash Text</string>
     <string name="title_activity_athletics">AthleticsActivity</string>
     <string name="top_stories_url">http://www.yalebulldogs.com/landing/headlines-featured?feed=rss_2.0</string>
+    <string name="baseURL">http://www.yalebulldogs.com/sports/</string>
+    <string name="headlinesExt">/headlines-featured?feed=rss_2.0</string>
+    <string name="eventsExt">/composite?print=rss</string>
 
 </resources>

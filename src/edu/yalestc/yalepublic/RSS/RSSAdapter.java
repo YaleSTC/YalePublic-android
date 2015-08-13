@@ -62,7 +62,13 @@ import edu.yalestc.yalepublic.R;
 
             holder.textView1.setText(rssTitles.get(position));
             holder.textView2.setText(rssTimediff.get(position));
-            holder.textView3.setText(rssDescription.get(position));
+
+            //This handles the case for sport scores (since we don't want a description)
+            if(rssDescription != null) {
+                holder.textView3.setText(rssDescription.get(position));
+            } else {
+                holder.textView3.setVisibility(View.GONE);
+            }
 
             return row;
         }
