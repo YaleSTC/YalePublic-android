@@ -6,11 +6,9 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,7 +18,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import edu.yalestc.yalepublic.Cache.CalendarCache;
+import edu.yalestc.yalepublic.Athletics.AthleticsActivity;
 import edu.yalestc.yalepublic.Videos.PlaylistList;
 import edu.yalestc.yalepublic.Events.EventCategories;
 import edu.yalestc.yalepublic.News.NewsChooser;
@@ -67,15 +65,14 @@ public class MainActivity extends Activity {
                 startActivity(launchBrowser1);
                 break;
             case R.id.bAthletics:
-                Uri uriUrl2 = Uri.parse("http://www.yalebulldogs.com/landing/index");
-                Intent launchBrowser2 = new Intent(Intent.ACTION_VIEW, uriUrl2);
-                startActivity(launchBrowser2);
+                Intent athleticsIntent = new Intent(MainActivity.this, AthleticsActivity.class);
+                startActivity(athleticsIntent);
                 break;
             case R.id.bArts:
                 Intent i = getIntent();
-                Uri uriUrl3 = Uri.parse(i.getStringExtra("url"));
-                Intent launchBrowser3 = new Intent(Intent.ACTION_VIEW, uriUrl3);
-                startActivity(launchBrowser3);
+                Uri uriUrl2 = Uri.parse(i.getStringExtra("url"));
+                Intent launchBrowser2 = new Intent(Intent.ACTION_VIEW, uriUrl2);
+                startActivity(launchBrowser2);
                 break;
             }
         };
