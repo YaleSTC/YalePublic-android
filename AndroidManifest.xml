@@ -12,12 +12,12 @@
         android:glEsVersion="0x00020000"
         android:required="true"/>
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -25,11 +25,9 @@
         android:label="@string/app_name"
         android:screenOrientation="portrait"
         android:theme="@style/AppTheme" >
-
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/GoogleMapsKey"/>
@@ -57,8 +55,8 @@
         <activity
             android:name=".Videos.PlaylistList"
             android:label="@string/title_activity_video_list"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".News.NewsReader"
@@ -80,7 +78,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".Videos.VideosWithinPlaylist"
             android:label="@string/title_activity_videos_within_list"
@@ -94,8 +91,8 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:configChanges="orientation"
             android:name=".Videos.VideoYoutubePlayback"
+            android:configChanges="orientation"
             android:label="@string/title_activity_video_playback"
             android:screenOrientation="landscape" >
         </activity>
@@ -111,49 +108,48 @@
         <activity
             android:name=".Events.EventCategories"
             android:label="@string/title_activity_event_categories"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".MainActivity">
-            <meta-data android:name="android.app.default_searchable"
-                android:value=".Events.SearchEvents.SearchByName"/>
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.app.default_searchable"
+                android:value=".Events.SearchEvents.SearchByName" />
         </activity>
-
         <activity
             android:name=".MapView"
             android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait" >
+
             <!-- enable the search dialog to send searches to SearchableActivity -->
-            <meta-data android:name="android.app.default_searchable"
+            <meta-data
+                android:name="android.app.default_searchable"
                 android:value=".MapSearch" />
         </activity>
-
         <activity
             android:name=".MapSearch"
             android:label="@string/maps"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" >
         </activity>
-
         <activity
             android:name=".About"
             android:label="@string/maps"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait" >
         </activity>
-
         <activity
             android:name=".Events.EventsDisplay"
-            android:parentActivityName=".Events.EventCategories"
             android:label="@string/title_activity_events_display"
+            android:parentActivityName=".Events.EventCategories"
             android:screenOrientation="portrait">
-        <meta-data android:name="android.app.default_searchable"
-            android:value=".Events.SearchEvents.SearchByName"/>
+            <meta-data
+                android:name="android.app.default_searchable"
+                android:value=".Events.SearchEvents.SearchByName" />
         </activity>
-
         <activity
             android:name=".Events.SearchEvents.SearchByName"
-            android:parentActivityName=".Events.EventCategories"
             android:label="@string/title_activity_events_search"
+            android:parentActivityName=".Events.EventCategories"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH"/>
@@ -163,13 +159,29 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/event_search"/>
         </activity>
-
         <activity
             android:name=".Events.EventsDetails"
             android:label="@string/title_activity_events_details"
             android:screenOrientation="portrait">
         </activity>
-
+        <activity
+            android:name=".Athletics.AthleticsActivity"
+            android:label="@string/title_activity_athletics"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.yalestc.yalepublic.MainActivity" />
+        </activity>
+        <activity
+            android:name=".Athletics.AthleticsReader"
+            android:label="@string/title_activity_athletics"
+            android:parentActivityName=".Athletics.AthleticsActivity"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="edu.yalestc.yalepublic.Athletics.AthleticsActivity" />
+        </activity>
     </application>
 
 </manifest>

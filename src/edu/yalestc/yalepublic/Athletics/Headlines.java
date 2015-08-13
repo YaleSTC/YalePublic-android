@@ -102,7 +102,7 @@ public class Headlines extends Fragment {
                 @Override
                 public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
                     Uri uriUrl = Uri.parse(rssLinks.get(arg2));
-                    Log.d("NewsReaderClickLink", rssLinks.get(arg2));
+                    Log.d("HeadlinesClickLink", rssLinks.get(arg2));
                     Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
                     // For Debug purposes - show what is the link cicked
                     startActivity(launchBrowser);
