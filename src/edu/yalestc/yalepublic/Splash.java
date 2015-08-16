@@ -105,8 +105,7 @@ public class Splash extends Activity {
                 ConnectivityManager connManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
                 NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
-
-                String link = "http://artscalendar.yale.edu";
+                String link = null;
                 if (mWifi.isConnected()) {
                     RotatingLinkTask linkTask = new RotatingLinkTask();
                     try {
@@ -119,6 +118,10 @@ public class Splash extends Activity {
                     }
                 }
 
+                // Default fallback if unable to retrive the correct URL from the site.
+                if (link == null || link.isEmpty()) {
+                    link = "http://artscalendar.yale.edu";
+                }
 
                 Log.d("Splash", "Starting Main Activity");
                 Intent i = new Intent(Splash.this, MainActivity.class);
