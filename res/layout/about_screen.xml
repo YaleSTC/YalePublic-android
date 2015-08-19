@@ -106,4 +106,14 @@
         android:layout_gravity="center_horizontal"
         android:paddingTop="30dp"
         android:gravity="center"/>
+
+    <Button
+        android:id="@+id/bLicenses"
+        android:layout_gravity="center"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="View Open Source Licenses" />
 </LinearLayout>
