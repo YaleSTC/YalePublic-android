@@ -6,15 +6,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.jinstagram.auth.InstagramAuthService;
-import org.jinstagram.auth.model.Token;
-import org.jinstagram.auth.model.Verifier;
-import org.jinstagram.auth.oauth.InstagramService;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
@@ -30,8 +26,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -43,7 +37,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
+/**
+ * This class displays recent photos from Instagram
+ */
 public class PhotosWithinAlbum extends Activity {
 
     public static final String PHOTO_URL_KEY ="Photo Url";
@@ -52,20 +48,11 @@ public class PhotosWithinAlbum extends Activity {
     private List<String> imageUrls = new ArrayList<String>();
     private List<Bitmap> bitmaps = new ArrayList<Bitmap>();
     private List<String> photoIds = new ArrayList<String>();
+    private List<String> captions = new ArrayList<String>();
     private String paginationUrl = null;
     TextView loading;
     ProgressBar spinner;
 
-    private static final String ACCESS_TOKEN_KEY = "Instagram Access Token";
-    public static final String CALLBACK_URL = "http://www.yale.edu/";
-    //build the base url with client_id, client_secret and redirect url
-    private final InstagramService service = new InstagramAuthService()
-            .apiKey(DeveloperKey.INSTAGRAM_CLIENT_ID)
-            .apiSecret(DeveloperKey.INSTAGRAM_CLIENT_SECRET)
-            .callback(CALLBACK_URL)
-            .scope("likes")
-            .build();
-    private static final Token EMPTY_TOKEN = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         ActionBar actionbar = getActionBar();
@@ -87,6 +74,7 @@ public class PhotosWithinAlbum extends Activity {
 
     }
 
+    @SuppressLint("ValidFragment")
     public class PlaceholderFragment extends Fragment implements AbsListView.OnScrollListener {
         GridView gridview;
         Button loadbtn;
@@ -103,8 +91,8 @@ public class PhotosWithinAlbum extends Activity {
             adapter = new ImageThumbnailAdapter(PhotosWithinAlbum.this);
 
             //create custom AsyncTask to fetch recent Media
-            PhotoAuth gettingDetails = new PhotoAuth();
-            gettingDetails.authorizeUser();
+            AlbumTask photos = new AlbumTask();
+            photos.execute((String[]) null);
 
             //create gridView and set the adapter.
             gridview = (GridView) rootView.findViewById(R.id.imageGridView);
@@ -117,6 +105,8 @@ public class PhotosWithinAlbum extends Activity {
                                         int position, long id) {
                     Intent intent = new Intent(PhotosWithinAlbum.this, ImageActivity.class);
                     intent.putExtra(PHOTO_URL_KEY, imageUrls.get(position));
+                    intent.putExtra(getString(R.string.media_id), photoIds.get(position));
+                    intent.putExtra(getString(R.string.caption), captions.get(position));
                     startActivity(intent);
                 }
             });
@@ -128,12 +118,10 @@ public class PhotosWithinAlbum extends Activity {
                     if (paginationUrl == null) {
                         Toast.makeText(PhotosWithinAlbum.this, "No more photos to load", Toast.LENGTH_SHORT).show();
                     } else {
-//                        //create custom AsyncTask to fetch recent Media
-//                        PhotoAuth gettingDetails = new PhotoAuth();
-//                        PhotoAuth.AlbumTask fetchMore = new gettingDetails.AlbumTask();
                         //create custom AsyncTask to fetch recent Media
-                        PhotoAuth gettingDetails = new PhotoAuth();
-                        gettingDetails.authorizeUser();
+                        AlbumTask photos = new AlbumTask();
+                        photos.execute((String[]) null);
+//
                     }
 
                 }
@@ -158,53 +146,6 @@ public class PhotosWithinAlbum extends Activity {
         }
     }
 
-    public class PhotoAuth {
-
-        //generate authorization url
-
-
-        public void authorizeUser() {
-            //execute photoTask
-            AlbumTask photoTask = new AlbumTask();
-            photoTask.execute(null);
-//            AlbumTask photoTask = new AlbumTask();
-//            photoTask.execute(code);
-//            String authorizationUrl = service.getAuthorizationUrl(EMPTY_TOKEN);
-//            Log.d("Auth", authorizationUrl);
-//            //get Instagram code from authorization url
-//            WebView webview = new WebView(getApplicationContext());
-//            webview.setWebViewClient(new WebViewClient() {
-//                String code = null;
-//
-//                @Override
-//                public boolean shouldOverrideUrlLoading(WebView view, String url) {
-//                    if (url.startsWith(CALLBACK_URL)) {
-//                        Log.d("Auth", url);
-//                        if (url.contains("code=")) {
-//                            code = url.split("=")[1];
-//                            Log.d("AuthCode", code);
-//                        } else if (url.contains("error=access_denied")) {
-//                            Log.d("Auth", "Access denied");
-//                        }
-//                        //execute photoTask
-//                        AlbumTask photoTask = new AlbumTask();
-//                        photoTask.execute(code);
-//                        //set content View back to our album
-//                        setContentView(R.layout.activity_photo_within_album);
-//                        //Do not load redirect url
-//                        return true;
-//                    }
-//                    //load url
-//                    return super.shouldOverrideUrlLoading(view, url);
-//                }
-//
-//            });
-//            Log.d("Auth", "loading webview");
-//            setContentView(webview);
-//            webview.loadUrl(authorizationUrl);
-        }
-
-    }
     public class AlbumTask extends AsyncTask<String, Integer, Void> {
 
             private Void getPhotosFromJson(String rawData) {
@@ -226,14 +167,13 @@ public class PhotosWithinAlbum extends Activity {
                     return null;
                 }
                 int count = photolistData.length();
-//                bitmaps = new Bitmap[count];
-//                imageUrls = new String[count];
-//                photoIds = new String[count];
                 Log.d("JSON", rawData);
+
                 for (int i = 0; i < count; i++) {
                     try {
                         publishProgress(i + 1, count);
                         photoIds.add(photolistData.getJSONObject(i).getString("id"));
+                        captions.add(photolistData.getJSONObject(i).getJSONObject("caption").getString("text"));
                         imageUrls.add(photolistData.getJSONObject(i).getJSONObject("images")
                                 .getJSONObject("standard_resolution")
                                 .getString("url"));
@@ -275,7 +215,7 @@ public class PhotosWithinAlbum extends Activity {
                     if (paginationUrl != null) {
                         url = new URL(paginationUrl);
                     } else {
-                        url = new URL(getRequestUri(params[0]).toString());
+                        url = new URL(getRequestUri().toString());
                     }
                     Log.d("Photos", url.toString());
 
@@ -330,22 +270,14 @@ public class PhotosWithinAlbum extends Activity {
 
             }
 
-            private Uri getRequestUri(String authKey) {
-                final String USER_ID = "1701574";    //Yale instagram user id
+            private Uri getRequestUri() {
+                final String USER_ID = getString(R.string.yale_instagram_id);    //Yale instagram user id
                 final String BASE_URL = "https://api.instagram.com/v1/users/"
                         + USER_ID + "/media/recent?";
                 Uri builtUri;
-                if (authKey==null)
-                    builtUri = Uri.parse(BASE_URL).buildUpon()
+                builtUri = Uri.parse(BASE_URL).buildUpon()
                         .appendQueryParameter("client_id",DeveloperKey.INSTAGRAM_CLIENT_ID)
                         .build();
-                else {
-                    Verifier verifier = new Verifier(authKey);
-                    Token accessToken = service.getAccessToken(EMPTY_TOKEN, verifier);
-                    builtUri = Uri.parse(BASE_URL).buildUpon()
-                            .appendQueryParameter("access_token", accessToken.getToken())
-                            .build();
-                }
                 return builtUri;
             }
 
@@ -374,7 +306,11 @@ public class PhotosWithinAlbum extends Activity {
             } else {
                 imageView =(ImageView) convertView;
             }
-            imageView.setImageBitmap(bitmaps.get(position));
+            try { //this is needed in case the tasks are out of sync
+                imageView.setImageBitmap(bitmaps.get(position));
+            }
+            catch(Exception e) {
+            }
             return imageView;
         }
         @Override

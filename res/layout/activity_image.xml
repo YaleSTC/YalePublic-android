@@ -13,4 +13,18 @@
         android:layout_height="match_parent"
         android:contentDescription="@string/currentphoto"
         android:id="@+id/photoImageView"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/abc_text_size_caption_material"
+        android:maxLines="3"
+        android:scrollbars = "vertical"
+        android:visibility="invisible"
+        android:text="Medium Text"
+        android:id="@+id/image_caption"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"/>
+
 </RelativeLayout>

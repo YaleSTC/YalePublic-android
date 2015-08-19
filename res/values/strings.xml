@@ -108,5 +108,9 @@
     <string name="date">Date</string>
     <string name="yale">Yale University</string>
     <string name="load_more">Load more</string>
+    <string name="title_activity_instagram_auth">InstagramAuth</string>
+    <string name="media_id">ID</string>
+    <string name="caption">caption</string>
+    <string name="yale_instagram_id">1701574</string>
 
 </resources>
