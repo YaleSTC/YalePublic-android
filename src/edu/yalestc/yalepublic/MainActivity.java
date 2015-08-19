@@ -51,7 +51,7 @@ public class MainActivity extends Activity {
                 startActivity(videoListIntent);
                 break;
             case R.id.bPhotos:
-                Intent photoListIntent = new Intent(MainActivity.this, InstagramAuth.class);
+                Intent photoListIntent = new Intent(MainActivity.this, PhotosWithinAlbum.class);
                 startActivity(photoListIntent);
                 break;
             case R.id.bEvents:

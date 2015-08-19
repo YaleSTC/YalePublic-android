@@ -105,7 +105,6 @@ public class PhotosWithinAlbum extends Activity {
                                         int position, long id) {
                     Intent intent = new Intent(PhotosWithinAlbum.this, ImageActivity.class);
                     intent.putExtra(PHOTO_URL_KEY, imageUrls.get(position));
-                    intent.putExtra(getString(R.string.media_id), photoIds.get(position));
                     intent.putExtra(getString(R.string.caption), captions.get(position));
                     startActivity(intent);
                 }

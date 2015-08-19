@@ -124,12 +124,7 @@
             android:label="@string/title_activity_events_details"
             android:screenOrientation="portrait" >
         </activity>
-        <activity
-            android:name=".InstagramAuth"
-            android:label="@string/title_activity_instagram_auth"
-            android:parentActivityName=".MainActivity"
-            android:screenOrientation="portrait">
-        </activity>
+
     </application>
 
 </manifest>

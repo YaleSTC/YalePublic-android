@@ -1,7 +1,5 @@
 package edu.yalestc.yalepublic;
-import java.io.BufferedReader;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.concurrent.ExecutionException;
@@ -16,8 +14,6 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import org.json.JSONObject;
-import javax.net.ssl.HttpsURLConnection;
 
 /**
  * This class shows an enlarged version of a photo clicked from PhotosWithinAlbum with the picture's caption
@@ -25,11 +21,9 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class ImageActivity extends Activity {
 
-    private String access_token; //this is needed to like and unlike the photo
     private Bitmap mBitmap;
     private String imageUrl;
     private String caption_text;
-    private String media_ID;
     private ImageView imageView;
     private TextView caption;
     private boolean captionSet = false;
@@ -39,9 +33,6 @@ public class ImageActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image);
 
-        access_token = InstagramAuth.getAccess();
-
-        media_ID = getIntent().getExtras().getString(getString(R.string.media_id));
         caption_text = getIntent().getExtras().getString(getString(R.string.caption));
         imageUrl = getIntent().getExtras().getString(PhotosWithinAlbum.PHOTO_URL_KEY);
 
@@ -63,13 +54,6 @@ public class ImageActivity extends Activity {
         if(mBitmap !=null){
             imageView.setImageBitmap(mBitmap);
         }
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                likePhotoTask like = new likePhotoTask();
-                like.execute((String[]) null);
-            }
-        });
     }
 
     //We set the caption's location here
@@ -86,33 +70,6 @@ public class ImageActivity extends Activity {
        }
     }
 
-    //This AyncTask is used to like a photo, this requires the user to be signed in
-    public class likePhotoTask extends AsyncTask<String, Integer, Void> {
-
-        @Override
-        protected Void doInBackground(String... params) {
-            String builtUri = "https://api.instagram.com/v1/media/"+ media_ID +
-                    "/likes?access_token=" + access_token;
-            try {
-                URL url = new URL(builtUri);
-                HttpsURLConnection httpsURLConnection = (HttpsURLConnection) url.openConnection();
-                httpsURLConnection.setRequestMethod("POST");
-                httpsURLConnection.setDoInput(true);
-                httpsURLConnection.setDoOutput(false);
-                InputStream is = httpsURLConnection.getInputStream();
-                BufferedReader r = new BufferedReader(new InputStreamReader(is));
-                StringBuilder total = new StringBuilder();
-                String line;
-                while ((line = r.readLine()) != null) {
-                    total.append(line);
-                }
-                JSONObject response = new JSONObject(total.toString());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-    }
     public class getPhotoTask extends AsyncTask<Void, Void, Bitmap> {
 
         @Override
