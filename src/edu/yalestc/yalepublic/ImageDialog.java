@@ -3,40 +3,46 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.concurrent.ExecutionException;
-import android.app.Activity;
+import android.app.Dialog;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
- * This class shows an enlarged version of a photo clicked from PhotosWithinAlbum with the picture's caption
+ * This dialog shows an enlarged version of a photo clicked from PhotosWithinAlbum with the picture's caption
  */
 
-public class ImageActivity extends Activity {
+public class ImageDialog extends Dialog {
 
     private Bitmap mBitmap;
     private String imageUrl;
     private String caption_text;
     private ImageView imageView;
     private TextView caption;
-    private boolean captionSet = false;
+    private ImageView exit; //used to exit out of dialog
+    private boolean viewSet = false;
+
+    public ImageDialog(Context context) {
+        super(context);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image);
 
-        caption_text = getIntent().getExtras().getString(getString(R.string.caption));
-        imageUrl = getIntent().getExtras().getString(PhotosWithinAlbum.PHOTO_URL_KEY);
+        caption_text = PhotosWithinAlbum.getCaption();
+        imageUrl = PhotosWithinAlbum.getImageUrl();
 
         imageView = (ImageView) findViewById(R.id.photoImageView);
+        exit = (ImageView) findViewById(R.id.exit_icon);
         caption= (TextView) findViewById(R.id.image_caption);
         caption.setText(caption_text);
         caption.setMovementMethod(new ScrollingMovementMethod());
@@ -54,19 +60,34 @@ public class ImageActivity extends Activity {
         if(mBitmap !=null){
             imageView.setImageBitmap(mBitmap);
         }
+        exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               dismiss();
+            }
+        });
     }
 
-    //We set the caption's location here
+    //We set the caption's and cancel icon's location here
     public void onWindowFocusChanged(boolean hasFocus) {
-       if(mBitmap != null & !captionSet ) { //captionSet is used so the caption is only set once
+       if(mBitmap != null && !viewSet) { //viewSet is used so the views are only set once
            int bitmap_width = mBitmap.getWidth();
            int bitmap_height = mBitmap.getHeight();
            int scaled_height = imageView.getWidth() * bitmap_height / bitmap_width;
            int blank_space_buffer = (imageView.getHeight() - scaled_height)/2;
-
            caption.setTranslationY(blank_space_buffer + scaled_height + 10); //the 5 is for padding
            caption.setVisibility(View.VISIBLE); //it was previously invisible in case there was a delay with getPhotoTask
-           captionSet = true;
+
+           //We are setting the size and location of the exit button here
+           int icon_scale = imageView.getWidth() / 20;
+           android.view.ViewGroup.LayoutParams layoutParams = exit.getLayoutParams();
+           layoutParams.width = icon_scale;
+           layoutParams.height = icon_scale;
+           exit.setLayoutParams(layoutParams);
+           exit.setTranslationY(blank_space_buffer - icon_scale - 10);
+           exit.setVisibility(View.VISIBLE); //it was previously invisible in case there was a delay with getPhotoTask
+
+           viewSet = true;
        }
     }
 
@@ -94,12 +115,5 @@ public class ImageActivity extends Activity {
             Log.d("bitmap", Integer.toString(mBitmap.getByteCount()));
             return mBitmap;
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.image, menu);
-        return true;
     }
 }

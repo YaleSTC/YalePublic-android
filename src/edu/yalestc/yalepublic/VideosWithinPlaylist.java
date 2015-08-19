@@ -64,8 +64,9 @@ public class VideosWithinPlaylist extends Activity {
                     .add(R.id.photoContainer, new PlaceholderFragment()).commit();
             
         }
-        loading = (TextView) findViewById(R.id.tvPhotoLoading);  // Set up spinner and text
-        spinner = (ProgressBar) findViewById(R.id.pbLoading);
+        //These no longer exist
+        //loading = (TextView) findViewById(R.id.tvPhotoLoading);  // Set up spinner and text
+        //spinner = (ProgressBar) findViewById(R.id.pbLoading);
     }
     //definition of our custom fragment.
     public class PlaceholderFragment extends Fragment {
