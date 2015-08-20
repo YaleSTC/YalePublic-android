@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,7 +25,7 @@ import edu.yalestc.yalepublic.Events.EventCategories;
 import edu.yalestc.yalepublic.News.NewsChooser;
 
 @SuppressLint("NewApi")
-public class MainActivity extends Activity {
+public class MainActivity extends ActionBarActivity {
 
     double screenWidth;
     double screenHeight;
@@ -82,7 +83,7 @@ public class MainActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ActionBar actionbar = getActionBar();
+        android.support.v7.app.ActionBar actionbar = getSupportActionBar();
         //actionbar.setDisplayHomeAsUpEnabled(true); // Show home as a back arrow
         //actionbar.setDisplayShowHomeEnabled(true);   // Show application logo
         actionbar.setDisplayShowTitleEnabled(true);  // Show activity title/subtitle

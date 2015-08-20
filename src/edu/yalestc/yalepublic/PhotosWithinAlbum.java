@@ -23,6 +23,7 @@ import android.graphics.Point;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
@@ -44,7 +45,7 @@ import android.widget.Toast;
 //TODO: It may be worth while to create a single parent
 //Class for both of these.
 
-public class PhotosWithinAlbum extends Activity {
+public class PhotosWithinAlbum extends ActionBarActivity {
 
     //TODO: Pass as parameters to AlbumTask asynctask
     public static final String TITLE_KEY ="title";
@@ -58,13 +59,13 @@ public class PhotosWithinAlbum extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ActionBar actionbar = getActionBar();
+        super.onCreate(savedInstanceState);
+        android.support.v7.app.ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);     // Show home as a back arrow
         //actionbar.setDisplayShowHomeEnabled(true);     // Show application logo
         actionbar.setDisplayShowTitleEnabled(true);    // Show activity title/subtitle
         actionbar.setDisplayUseLogoEnabled(false);     // Use activity logo instead of activity icon
         actionbar.setTitle(getString(R.string.photos_in_album));  // Set title
-        super.onCreate(savedInstanceState);
         if (getIntent().getExtras() != null &&
             getIntent().getExtras().containsKey(PhotoList.PHOTO_ID_KEY)) { //TODO:Pull album title
             albumId = getIntent().getStringExtra(PhotoList.PHOTO_ID_KEY);

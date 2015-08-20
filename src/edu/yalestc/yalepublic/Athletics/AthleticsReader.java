@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,10 +35,10 @@ import edu.yalestc.yalepublic.R;
  * or scores depending on what the user chooses
  */
 
-public class AthleticsReader extends Activity {
+public class AthleticsReader extends ActionBarActivity {
 
     RssFeed feed;
-    ActionBar actionbar;
+    android.support.v7.app.ActionBar actionbar;
     long time, timediff, hourdiff, daydiff;
     String sportKeyword;
     //these URL fragments are used in conjunction with sportKeyword to get RSS feeds
@@ -61,13 +62,13 @@ public class AthleticsReader extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        actionbar = getActionBar();
+        super.onCreate(savedInstanceState);
+        actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);     // Show home as a back arrow
         //actionbar.setDisplayShowHomeEnabled(true);     // Show application logo
         actionbar.setDisplayShowTitleEnabled(true);    // Show activity title/subtitle
         actionbar.setDisplayUseLogoEnabled(false);     // Use activity logo instead of activity icon
         actionbar.setTitle("News");  // Set title
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.rss_items);
 
         //gets the URL fragments from the string resource file

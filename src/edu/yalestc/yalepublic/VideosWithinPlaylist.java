@@ -58,16 +58,15 @@ public class VideosWithinPlaylist extends Activity {
         //to get the passed parameters
         context = this;
         extras = getIntent().getExtras();
-        if (extras == null)  // safety check
-            return;
         setContentView(R.layout.activity_photo_within_album);
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
                     .add(R.id.photoContainer, new PlaceholderFragment()).commit();
             
         }
-        loading = (TextView) findViewById(R.id.tvPhotoLoading);  // Set up spinner and text
-        spinner = (ProgressBar) findViewById(R.id.pbLoading);
+        //These no longer exist
+        //loading = (TextView) findViewById(R.id.tvPhotoLoading);  // Set up spinner and text
+        //spinner = (ProgressBar) findViewById(R.id.pbLoading);
     }
     //definition of our custom fragment.
     public class PlaceholderFragment extends Fragment {

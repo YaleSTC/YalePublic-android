@@ -140,7 +140,9 @@
         <activity
             android:name=".Events.EventsDisplay"
             android:label="@string/title_activity_events_display"
+            android:theme="@style/MyAppTheme"
             android:parentActivityName=".Events.EventCategories"
+
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.app.default_searchable"
@@ -168,6 +170,7 @@
             android:name=".Athletics.AthleticsActivity"
             android:label="@string/title_activity_athletics"
             android:parentActivityName=".MainActivity"
+            android:theme="@style/MyAppTheme"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

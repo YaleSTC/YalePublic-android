@@ -19,12 +19,13 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
-public class ImageActivity extends Activity {
+public class ImageActivity extends ActionBarActivity {
 
 //  private ImageAdapter adapter;
     private String photoId;

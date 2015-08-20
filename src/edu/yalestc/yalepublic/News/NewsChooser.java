@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -19,14 +20,14 @@ import edu.yalestc.yalepublic.R;
  * Created by Jason Liu on 10/17/14.
  * This activity launches a screen where you can choose which RSS feed you want to read.
  */
-public class NewsChooser extends Activity {
+public class NewsChooser extends ActionBarActivity {
 
     private String rss_feeds[], rss_names[];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActionBar actionbar = getActionBar();
+        android.support.v7.app.ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);     // Show home as a back arrow
         //actionbar.setDisplayShowHomeEnabled(true);     // Show application logo
         actionbar.setDisplayShowTitleEnabled(true);    // Show activity title/subtitle

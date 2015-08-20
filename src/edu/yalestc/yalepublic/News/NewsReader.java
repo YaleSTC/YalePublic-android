@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -29,7 +30,7 @@ import edu.yalestc.yalepublic.RSS.RssItem;
  * text fields at the same time with three sets of data rather than one field with one string.
  */
 
-public class NewsReader extends Activity {
+public class NewsReader extends ActionBarActivity {
 
     RssFeed feed;
     long time, timediff, hourdiff, daydiff;
@@ -50,13 +51,13 @@ public class NewsReader extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ActionBar actionbar = getActionBar();
+        super.onCreate(savedInstanceState);
+        android.support.v7.app.ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);     // Show home as a back arrow
         //actionbar.setDisplayShowHomeEnabled(true);     // Show application logo
         actionbar.setDisplayShowTitleEnabled(true);    // Show activity title/subtitle
         actionbar.setDisplayUseLogoEnabled(false);     // Use activity logo instead of activity icon
         actionbar.setTitle(getString(R.string.news));  // Set title
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.rss_items);
 
         downloadurl = this.getIntent().getStringExtra("rssfeed");

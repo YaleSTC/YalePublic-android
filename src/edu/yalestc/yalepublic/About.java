@@ -5,12 +5,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 
 /**
  * Created by Jason Liu on 11/8/14.
  */
-public class About extends Activity {
+public class About extends ActionBarActivity {
 
     private View.OnClickListener ibListener = new View.OnClickListener(){
         @Override
@@ -43,7 +44,7 @@ public class About extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActionBar actionbar = getActionBar();
+        android.support.v7.app.ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);     // Show home as a back arrow
         //actionbar.setDisplayShowHomeEnabled(true);     // Show application logo
         actionbar.setDisplayShowTitleEnabled(true);    // Show activity title/subtitle

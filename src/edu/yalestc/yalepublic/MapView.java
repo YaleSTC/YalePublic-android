@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -16,7 +17,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 /**
  * Created by Jason Liu on 10/18/14.
  */
-public class MapView extends Activity {
+public class MapView extends ActionBarActivity {
 
     String pos2;
     double currentLatitude, currentLongitude;       // Current long. and lat. read from GPSLocs
@@ -37,7 +38,7 @@ public class MapView extends Activity {
             pos2 = getIntent().getStringExtra("name");
         }
 
-        ActionBar actionbar = getActionBar();
+        android.support.v7.app.ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);     // Show home as a back arrow
         //actionbar.setDisplayShowHomeEnabled(true);     // Show application logo
         actionbar.setDisplayShowTitleEnabled(true);    // Show activity title/subtitle

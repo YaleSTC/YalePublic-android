@@ -13,6 +13,7 @@ import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,7 +34,7 @@ import edu.yalestc.yalepublic.Cache.CalendarCache;
 import edu.yalestc.yalepublic.Cache.CalendarDatabaseTableHandler;
 import edu.yalestc.yalepublic.R;
 
-public class EventCategories extends Activity implements SearchView.OnQueryTextListener, SearchView.OnSuggestionListener{
+public class EventCategories extends ActionBarActivity implements android.support.v7.widget.SearchView.OnQueryTextListener, android.support.v7.widget.SearchView.OnSuggestionListener {
     String[] categories;
     //gradient colors - gradient from colorFrom to colorTo
     int[] colorsTo;
@@ -42,7 +43,7 @@ public class EventCategories extends Activity implements SearchView.OnQueryTextL
     int[] colors;
 
     private CalendarDatabaseTableHandler db;
-    private SearchView mSearchView;
+    private android.support.v7.widget.SearchView mSearchView;
     private MenuItem mMenuItem;
 
     @Override
@@ -55,7 +56,7 @@ public class EventCategories extends Activity implements SearchView.OnQueryTextL
         SearchManager searchManager =
                 (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         mMenuItem = menu.findItem(R.id.search);
-        mSearchView = (SearchView) mMenuItem.getActionView();
+        mSearchView = (android.support.v7.widget.SearchView) mMenuItem.getActionView();
         mSearchView.setSearchableInfo(
                 searchManager.getSearchableInfo(getComponentName()));
 
@@ -69,14 +70,14 @@ public class EventCategories extends Activity implements SearchView.OnQueryTextL
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ActionBar actionbar = getActionBar();
+        super.onCreate(savedInstanceState);
+        android.support.v7.app.ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);     // Show home as a back arrow
         //actionbar.setDisplayShowHomeEnabled(true);     // Show application logo
         actionbar.setDisplayShowTitleEnabled(true);    // Show activity title/subtitle
         actionbar.setDisplayUseLogoEnabled(false);     // Use activity logo instead of activity icon
         actionbar.setTitle(getString(R.string.events));  // Set title
 
-        super.onCreate(savedInstanceState);
         categories = getResources().getStringArray(R.array.events_category_names);
         colors = getResources().getIntArray(R.array.event_categories_colors);
         colorsTo = getResources().getIntArray(R.array.event_categories_colors);
@@ -136,7 +137,7 @@ public class EventCategories extends Activity implements SearchView.OnQueryTextL
             //shows a list of suggestions if available
             String[] columns = {"suggestions", "date"};
             int[] columnTextId = new int[]{R.id.suggestion_name, R.id.suggestion_date}; //where the data will be mapped to
-            SimpleCursorAdapter adapter = new SimpleCursorAdapter(this,
+            android.support.v4.widget.SimpleCursorAdapter adapter = new android.support.v4.widget.SimpleCursorAdapter(this,
                     R.layout.suggestion_list_item, cursor, columns, columnTextId, 0);
 
             mSearchView.setSuggestionsAdapter(adapter);
@@ -145,7 +146,7 @@ public class EventCategories extends Activity implements SearchView.OnQueryTextL
         }
         else {
             //clears the list of suggestions if search dialog is empty
-            SimpleCursorAdapter adapter = new SimpleCursorAdapter(this,
+            android.support.v4.widget.SimpleCursorAdapter adapter = new android.support.v4.widget.SimpleCursorAdapter(this,
                     R.layout.empty_layout, null, null, null, 0);
             mSearchView.setSuggestionsAdapter(adapter);
 

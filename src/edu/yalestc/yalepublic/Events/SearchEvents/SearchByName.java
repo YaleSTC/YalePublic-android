@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -20,7 +21,7 @@ import edu.yalestc.yalepublic.R;
 /**
  * Created by Stan Swidwinski on 1/23/15.
  */
-public class SearchByName extends Activity {
+public class SearchByName extends ActionBarActivity {
 
     View rootView;
     EventsListAdapter mAdapter;
@@ -28,7 +29,7 @@ public class SearchByName extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActionBar actionbar = getActionBar();
+        android.support.v7.app.ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true); // Show home as a back arrow
         actionbar.setDisplayShowTitleEnabled(true);  // Show activity title/subtitle
         actionbar.setDisplayUseLogoEnabled(false);   // Use activity logo instead of activity icon

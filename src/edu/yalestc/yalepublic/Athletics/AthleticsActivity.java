@@ -6,6 +6,7 @@ import android.os.Build;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTabHost;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 
 import edu.yalestc.yalepublic.R;
 
@@ -13,13 +14,13 @@ import edu.yalestc.yalepublic.R;
  * Created by Mahir Rana on 8/11/15.
  * This class hosts the tabs for the athletics' RSS feed
  */
-public class AthleticsActivity extends FragmentActivity {
+public class AthleticsActivity extends ActionBarActivity {
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActionBar actionbar = getActionBar();
+        android.support.v7.app.ActionBar actionbar = getSupportActionBar();
         actionbar.setElevation(0);                      //Gets rid of drop shadow; targets 5.0 only
         actionbar.setDisplayHomeAsUpEnabled(true);     // Show home as a back arrow
         //actionbar.setDisplayShowHomeEnabled(true);     // Show application logo

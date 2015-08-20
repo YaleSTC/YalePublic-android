@@ -12,6 +12,7 @@ import android.database.MatrixCursor;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTabHost;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
@@ -25,10 +26,10 @@ import edu.yalestc.yalepublic.Events.ListView.ListFragment;
 import edu.yalestc.yalepublic.R;
 
 
-public class EventsDisplay extends FragmentActivity implements SearchView.OnQueryTextListener, SearchView.OnSuggestionListener{
+public class EventsDisplay extends ActionBarActivity implements android.support.v7.widget.SearchView.OnQueryTextListener, android.support.v7.widget.SearchView.OnSuggestionListener {
 
     private CalendarDatabaseTableHandler db;
-    private SearchView mSearchView;
+    private android.support.v7.widget.SearchView mSearchView;
     private MenuItem mMenuItem;
 
     @Override
@@ -41,7 +42,7 @@ public class EventsDisplay extends FragmentActivity implements SearchView.OnQuer
         SearchManager searchManager =
                 (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         mMenuItem = menu.findItem(R.id.search);
-        mSearchView = (SearchView) mMenuItem.getActionView();
+        mSearchView = (android.support.v7.widget.SearchView) mMenuItem.getActionView();
         mSearchView.setSearchableInfo(
                 searchManager.getSearchableInfo(getComponentName()));
 
@@ -56,7 +57,8 @@ public class EventsDisplay extends FragmentActivity implements SearchView.OnQuer
     @TargetApi(Build.VERSION_CODES.LOLLIPOP) //need to fix this
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ActionBar actionbar = getActionBar();
+        super.onCreate(savedInstanceState);
+        android.support.v7.app.ActionBar actionbar = getSupportActionBar();
         actionbar.setElevation(0);                      //Gets rid of drop shadow; targets 5.0 only
         actionbar.setDisplayHomeAsUpEnabled(true);     // Show home as a back arrow
         //actionbar.setDisplayShowHomeEnabled(true);     // Show application logo
@@ -64,8 +66,6 @@ public class EventsDisplay extends FragmentActivity implements SearchView.OnQuer
         actionbar.setDisplayUseLogoEnabled(false);     // Use activity logo instead of activity icon
 
         actionbar.setTitle(getString(R.string.events));  // Set title
-
-        super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_events_display);
 
@@ -132,7 +132,7 @@ public class EventsDisplay extends FragmentActivity implements SearchView.OnQuer
             //shows a list of suggestions if available
             String[] columns = {"suggestions", "date"};
             int[] columnTextId = new int[]{R.id.suggestion_name, R.id.suggestion_date}; //where the data will be mapped to
-            SimpleCursorAdapter adapter = new SimpleCursorAdapter(this,
+            android.support.v4.widget.SimpleCursorAdapter adapter = new android.support.v4.widget.SimpleCursorAdapter(this,
                     R.layout.suggestion_list_item, cursor, columns, columnTextId, 0);
 
             mSearchView.setSuggestionsAdapter(adapter);
@@ -141,7 +141,7 @@ public class EventsDisplay extends FragmentActivity implements SearchView.OnQuer
         }
         else {
             //clears the list of suggestions if search dialog is empty
-            SimpleCursorAdapter adapter = new SimpleCursorAdapter(this,
+            android.support.v4.widget.SimpleCursorAdapter adapter = new android.support.v4.widget.SimpleCursorAdapter(this,
                     R.layout.empty_layout, null, null, null, 0);
             mSearchView.setSuggestionsAdapter(adapter);
 
