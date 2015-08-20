@@ -36,6 +36,9 @@ public class About extends Activity {
                     Intent launchBrowser1 = new Intent(Intent.ACTION_VIEW, uriUrl1);
                     startActivity(launchBrowser1);
                     break;
+                case R.id.bLicenses:
+                    Intent ourIntent7 = new Intent(getApplicationContext(), Licenses.class);
+                    startActivity(ourIntent7);
             }
         }
     };
@@ -54,6 +57,7 @@ public class About extends Activity {
         findViewById(R.id.ibFeedback).setOnClickListener(ibListener);
         findViewById(R.id.ibShare).setOnClickListener(ibListener);
         findViewById(R.id.ibMoreInfo).setOnClickListener(ibListener);
+        findViewById(R.id.bLicenses).setOnClickListener(ibListener);
     }
 }
 
