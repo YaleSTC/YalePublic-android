@@ -84,7 +84,7 @@ public class PhotosWithinAlbum extends Activity {
 
     }
 
-    //@SuppressLint("ValidFragment")
+    @SuppressLint("ValidFragment")
     public class PlaceholderFragment extends Fragment implements AbsListView.OnScrollListener {
         GridView gridview;
         Button loadbtn;
@@ -178,7 +178,6 @@ public class PhotosWithinAlbum extends Activity {
                     paginationUrl = null;
                 }
             } catch (JSONException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
                 return null;
             }
@@ -208,7 +207,6 @@ public class PhotosWithinAlbum extends Activity {
                         InputStream is = conn.getInputStream();
                         bitmaps.add(BitmapFactory.decodeStream(is));
                     } catch (JSONException e) {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                         return null;
                     }
@@ -349,13 +347,11 @@ public class PhotosWithinAlbum extends Activity {
 
         @Override
         public Object getItem(int position) {
-            // TODO Auto-generated method stub
             return null;
         }
 
         @Override
         public long getItemId(int position) {
-            // TODO Auto-generated method stub
             return 0;
         }
     }

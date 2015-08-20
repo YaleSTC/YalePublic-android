@@ -51,10 +51,8 @@ public class ImageDialog extends Dialog {
         try {
             mBitmap =task.execute().get();
         } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (ExecutionException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         if(mBitmap !=null){
@@ -108,7 +106,6 @@ public class ImageDialog extends Dialog {
                 InputStream is=conn.getInputStream();
                 mBitmap = BitmapFactory.decodeStream(is);
             } catch (Exception e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
                 return null;
             }
