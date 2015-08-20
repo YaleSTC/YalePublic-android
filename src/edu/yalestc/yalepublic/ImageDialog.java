@@ -23,7 +23,6 @@ public class ImageDialog extends Dialog {
 
     private Bitmap mBitmap;
     private String imageUrl;
-    private String caption_text;
     private ImageView imageView;
     private TextView caption;
     private ImageView exit; //used to exit out of dialog
@@ -38,7 +37,7 @@ public class ImageDialog extends Dialog {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image);
 
-        caption_text = PhotosWithinAlbum.getCaption();
+        String caption_text = PhotosWithinAlbum.getCaption();
         imageUrl = PhotosWithinAlbum.getImageUrl();
 
         imageView = (ImageView) findViewById(R.id.photoImageView);
