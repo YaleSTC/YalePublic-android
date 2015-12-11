@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -18,14 +20,14 @@ import com.google.android.gms.maps.model.MarkerOptions;
  */
 public class MapView extends Activity {
 
-    String pos2;
-    double currentLatitude, currentLongitude;       // Current long. and lat. read from GPSLocs
+    //String pos2;
+    //double currentLatitude, currentLongitude;       // Current long. and lat. read from GPSLocs
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Bundle extras = getIntent().getExtras();
+        /*Bundle extras = getIntent().getExtras();
         currentLatitude = 41.3111;
         currentLongitude = -72.9267;
         pos2 = "Yale";
@@ -42,12 +44,19 @@ public class MapView extends Activity {
         //actionbar.setDisplayShowHomeEnabled(true);     // Show application logo
         actionbar.setDisplayShowTitleEnabled(true);    // Show activity title/subtitle
         actionbar.setDisplayUseLogoEnabled(false);     // Use activity logo instead of activity icon
-        actionbar.setTitle(getString(R.string.maps));  // Set title
+        actionbar.setTitle(getString(R.string.maps));  // Set title*/
 
         setContentView(R.layout.map_simple);
+        setContentView(R.layout.map_webview);   // map_simple for old view
+        WebView myWebView = (WebView) findViewById(R.id.webview);
+        WebSettings webSettings = myWebView.getSettings();
+        webSettings.setJavaScriptEnabled(true);
+        webSettings.setDomStorageEnabled(true);
+        webSettings.setDatabaseEnabled(true);
+        myWebView.loadUrl("http://map.yale.edu/");
 
         // Get a handle to the Map Fragment
-        GoogleMap map = ((MapFragment) getFragmentManager()
+        /*GoogleMap map = ((MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map)).getMap();
 
         LatLng yale = new LatLng(currentLatitude, currentLongitude);   // The - signifies the Western Hemisphere
@@ -64,13 +73,13 @@ public class MapView extends Activity {
             map.addMarker(new MarkerOptions()
                     .title(pos2)
                     .position(yale));
-        }
+        }*/
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.map_menu, menu);
+        //getMenuInflater().inflate(R.menu.map_menu, menu);
 
         // Associate searchable configuration with the SearchView (NOT currently used)
         /*SearchManager searchManager =
@@ -84,8 +93,8 @@ public class MapView extends Activity {
     }
 
     // Called when you click the search button - loads TestSearch.class
-    public void loadSearch(MenuItem item) {
+    /*public void loadSearch(MenuItem item) {
         Intent iSearch = new Intent(this, MapSearch.class);
         startActivity(iSearch);
-    }
+    }*/
 }
