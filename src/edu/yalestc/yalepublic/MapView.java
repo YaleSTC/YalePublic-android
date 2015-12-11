@@ -46,8 +46,8 @@ public class MapView extends Activity {
         actionbar.setDisplayUseLogoEnabled(false);     // Use activity logo instead of activity icon
         actionbar.setTitle(getString(R.string.maps));  // Set title*/
 
-        setContentView(R.layout.map_simple);
-        setContentView(R.layout.map_webview);   // map_simple for old view
+        // setContentView(R.layout.map_simple);   // map_simple for old view
+        setContentView(R.layout.map_webview);
         WebView myWebView = (WebView) findViewById(R.id.webview);
         WebSettings webSettings = myWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);
