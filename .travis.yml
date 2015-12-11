@@ -2,6 +2,9 @@
 # Note that we might require `gradle/wrapper/gradle-wrapper.jar`, which
 # is ignored in ~/.gitignore_global, so add it with `git add -f`
 
+# New infrastructure
+sudo: false
+
 # Build Environment
 build_environment: ubuntu1204
 
