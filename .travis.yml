@@ -21,6 +21,14 @@ android:
     - android-sdk-license-bcbbd656
     - '.*intel.+'
 
+# Cache dependencies for faster builds
+before_cache:
+  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+
 # Version Numbers
 jdk:
  - oraclejdk7
@@ -36,8 +44,8 @@ before_install:
  - ./install-dummykeys.sh
 
 # Installation
+# - sudo apt-get install -u lib32stdc++6 lib32z1
 install:
- - sudo apt-get install -u lib32stdc++6 lib32z1
  - ./gradlew clean assemble
 
 # Run before the script
