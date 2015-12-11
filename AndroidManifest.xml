@@ -131,6 +131,12 @@
                 android:value=".MapSearch" />
         </activity>
         <activity
+            android:name=".Directory"
+            android:label="@string/app_name"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name=".MapSearch"
             android:label="@string/maps"
             android:parentActivityName=".MainActivity"

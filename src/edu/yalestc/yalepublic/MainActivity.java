@@ -40,6 +40,8 @@ public class MainActivity extends Activity {
                 startActivity(iNews);
                 break;
             case R.id.bDirectory:
+                Intent iDir = new Intent(MainActivity.this, Directory.class);
+                startActivity(iDir);
                 break;
             case R.id.bMaps:
                 Intent iMaps = new Intent(MainActivity.this, MapView.class);
