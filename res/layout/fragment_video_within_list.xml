@@ -10,7 +10,7 @@
     android:paddingLeft="0dp"
     android:paddingRight="0dp"
     android:paddingTop="0dp"
-    tools:context="edu.yalestc.yalepublic.VideoWithinPlaylist$PlaceholderFragment">
+    tools:context="edu.yale.yalepublic.VideoWithinPlaylist$PlaceholderFragment">
     
     <ListView
         android:id="@+id/listview_video_in_playlist"

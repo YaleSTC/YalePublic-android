@@ -9,7 +9,7 @@
     android:paddingRight="0dp"
     android:paddingTop="0dp"
     android:paddingBottom="0dp"
-    tools:context="edu.yalestc.yalepublic.Events.EventCategories$PlaceholderFragment">
+    tools:context="edu.yale.yalepublic.Events.EventCategories$PlaceholderFragment">
 
     <ListView
         android:id="@+id/listview_event_categories"

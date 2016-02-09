@@ -7,5 +7,5 @@
     android:id="@+id/container1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="edu.yalestc.yalepublic.Videos.VideosWithinPlaylist"
+    tools:context="edu.yale.yalepublic.Videos.VideosWithinPlaylist"
     tools:ignore="MergeRootFrame" />

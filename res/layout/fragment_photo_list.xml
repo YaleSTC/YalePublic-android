@@ -6,8 +6,8 @@
     android:paddingLeft="0dp"
     android:paddingRight="0dp"
     android:paddingTop="0dp"
-    tools:context="edu.yalestc.yalepublic.Videos.PlaylistList$PlaceholderFragment">
-    <!-- tools:context="edu.yalestc.yalepublic.PhotoList$PlaceholderFragment" -->
+    tools:context="edu.yale.yalepublic.Videos.PlaylistList$PlaceholderFragment">
+    <!-- tools:context="yalelepublic.PhotoList$PlaceholderFragment" -->
 
     <ListView
         android:id="@+id/listview_photo"

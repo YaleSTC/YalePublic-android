@@ -1,5 +1,5 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="edu.yalestc.yalepublic.ImageActivity" >
+    tools:context="edu.yale.yalepublic.ImageActivity" >
 
 </menu>

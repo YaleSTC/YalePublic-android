@@ -3,7 +3,7 @@
     android:id="@+id/photoContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="edu.yalestc.yalepublic.PhotosWithinAlbum"
+    tools:context="edu.yale.yalepublic.PhotosWithinAlbum"
     tools:ignore="MergeRootFrame">
 
     <LinearLayout

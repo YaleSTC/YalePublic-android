@@ -7,7 +7,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="edu.yalestc.yalepublic.EventsList"
+    tools:context="edu.yale.yalepublic.EventsList"
     tools:ignore="MergeRootFrame">
 
     <ListView

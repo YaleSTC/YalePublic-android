@@ -1,6 +1,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="edu.yalestc.yalepublic.Events.EventsDisplay">
+    tools:context="edu.yale.yalepublic.Events.EventsDisplay">
     <item android:id="@+id/refresh"
         android:title="Refresh list of events"
         android:icon="@android:drawable/ic_popup_sync"

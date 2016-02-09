@@ -3,7 +3,7 @@
     <!--
     Seems that using the xmlns:app line below is more correct but it won't work for some reason.
     xmlns:tools="http://schemas.android.com/tools
-    tools:context="edu.yalestc.yalepublic.MainActivity"
+    tools:context="yalelepublic.MainActivity"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     -->
 
