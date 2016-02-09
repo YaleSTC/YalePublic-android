@@ -8,4 +8,4 @@ wget https://github.com/jasonkliu/DummyAPI-Keys/archive/1.2.tar.gz
 tar xvfz 1.2.tar.gz
 
 cp -iv DummyAPI-Keys-1.2/api_keys.xml res/values
-cp -iv DummyAPI-Keys-1.2/DeveloperKey.java src/edu/yalestc/yalepublic
+cp -iv DummyAPI-Keys-1.2/DeveloperKey.java src/edu/yale/yalepublic
