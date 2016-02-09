@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="edu.yalestc.yalepublic"
+    package="edu.yale.yalepublic"
     android:versionCode="2"
     android:versionName="2.0" >
 
@@ -182,7 +182,7 @@
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.yalestc.yalepublic.MainActivity" />
+                android:value=".MainActivity" />
         </activity>
         <activity
             android:name=".Athletics.AthleticsReader"
@@ -191,7 +191,7 @@
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="edu.yalestc.yalepublic.Athletics.AthleticsActivity" />
+                android:value=".Athletics.AthleticsActivity" />
         </activity>
     </application>
 
