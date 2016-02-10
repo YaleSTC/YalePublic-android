@@ -85,11 +85,13 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ActionBar actionbar = getActionBar();
-        //actionbar.setDisplayHomeAsUpEnabled(true); // Show home as a back arrow
-        //actionbar.setDisplayShowHomeEnabled(true);   // Show application logo
-        actionbar.setDisplayShowTitleEnabled(true);  // Show activity title/subtitle
-        actionbar.setDisplayUseLogoEnabled(false);   // Use activity logo instead of activity icon
-        //actionbar.setTitle("Yale");                // Set title
+        if (actionbar != null) { // why would this fail?
+            //actionbar.setDisplayHomeAsUpEnabled(true); // Show home as a back arrow
+            //actionbar.setDisplayShowHomeEnabled(true);   // Show application logo
+            actionbar.setDisplayShowTitleEnabled(true);  // Show activity title/subtitle
+            actionbar.setDisplayUseLogoEnabled(false);   // Use activity logo instead of activity icon
+            //actionbar.setTitle("Yale");                // Set title
+        }
 
         /* If you want to use Stetho, import com.facebook.stetho.Stetho; and use this
         Stetho.initialize(
