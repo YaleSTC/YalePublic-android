@@ -103,7 +103,7 @@ public class Splash extends Activity {
                     RotatingLinkTask linkTask = new RotatingLinkTask();
                     try {
                         link = linkTask.execute().get();
-                        Log.v("rotating link", link);
+                        Log.v("rotating link", "" + link);  // blank link can cause NPE
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     } catch (ExecutionException e) {
