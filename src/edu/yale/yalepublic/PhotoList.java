@@ -30,6 +30,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class PhotoList extends Activity {
 
@@ -281,8 +282,12 @@ public class PhotoList extends Activity {
             // we need to use result in our ArrayAdapter; adds all of the resulting values.
             spinner.setVisibility(View.GONE);
             loading.setVisibility(View.GONE);  // Hide the progress
-            List<String> videos = new ArrayList<String>(Arrays.asList(result));
-            mVideoAdapter.addAll(videos);
+            if (result != null) {
+                List<String> videos = new ArrayList<String>(Arrays.asList(result));
+                mVideoAdapter.addAll(videos);
+            } else {
+                Toast.makeText(getApplicationContext(), "You need internet connection to view the content!", Toast.LENGTH_LONG).show();
+            }
         }
     }
 }
