@@ -204,7 +204,7 @@ public class PhotoList extends Activity {
                     builtUri = getPhotoAPIRequestUri();
                     break;
                 default:
-                    break;
+                    return null;  // #135, this should never happen. Extras not passed correctly
                 }
                 
                 // send a GET request to the server
