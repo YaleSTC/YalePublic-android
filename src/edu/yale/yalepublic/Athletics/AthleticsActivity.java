@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentTabHost;
 import android.os.Bundle;
 
 import edu.yale.yalepublic.R;
+import edu.yale.yalepublic.Util.ActionBarUtil;
 
 /**
  * Created by Mahir Rana on 8/11/15.
@@ -19,15 +20,9 @@ public class AthleticsActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActionBar actionbar = getActionBar();
-        actionbar.setElevation(0);                      //Gets rid of drop shadow; targets 5.0 only
-        actionbar.setDisplayHomeAsUpEnabled(true);     // Show home as a back arrow
-        //actionbar.setDisplayShowHomeEnabled(true);     // Show application logo
-        actionbar.setDisplayShowTitleEnabled(true);    // Show activity title/subtitle
-        actionbar.setDisplayUseLogoEnabled(false);     // Use activity logo instead of activity icon
-
-        actionbar.setTitle(getString(R.string.athletics));  // Set title
         setContentView(R.layout.activity_athletics);
+        ActionBar actionbar = getActionBar();
+        ActionBarUtil.setupActionBar(actionbar, getString(R.string.athletics));
 
         Bundle men = new Bundle(); //tells AthleticsChooser to show Men Sports
 
