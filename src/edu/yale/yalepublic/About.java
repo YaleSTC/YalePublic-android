@@ -34,7 +34,7 @@ public class About extends Activity {
                     startActivity(share);
                     break;
                 case R.id.ibMoreInfo:
-                    Uri uriUrl1 = Uri.parse("https://yale.github.io/");
+                    Uri uriUrl1 = Uri.parse("https://yalestc.github.io/");
                     Intent launchBrowser1 = new Intent(Intent.ACTION_VIEW, uriUrl1);
                     startActivity(launchBrowser1);
                     break;

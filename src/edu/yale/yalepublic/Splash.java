@@ -51,7 +51,7 @@ public class Splash extends Activity {
                     protected String doInBackground(Void... params) {
                         try{
                             // first we create the URI - note that the base is different than in VideoList.java
-                            final String BASE_URL = "https://yale.github.io/YalePublic-android/";
+                            final String BASE_URL = "https://yalestc.github.io/YalePublic-android/";
                             Uri builtUri = Uri.parse(BASE_URL);
 
                             // send a GET request to the server
