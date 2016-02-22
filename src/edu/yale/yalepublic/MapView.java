@@ -1,10 +1,13 @@
 package edu.yale.yalepublic;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+
+import edu.yale.yalepublic.Util.ActionBarUtil;
 
 /**
  * Created by Jason Liu on 10/18/14.
@@ -32,6 +35,9 @@ public class MapView extends Activity {
 
         // setContentView(R.layout.map_simple);   // map_simple for old view
         setContentView(R.layout.map_webview);
+        ActionBar actionbar = getActionBar();
+        ActionBarUtil.setupActionBar(actionbar, getString(R.string.maps));
+
         WebView myWebView = (WebView) findViewById(R.id.webview);
         WebSettings webSettings = myWebView.getSettings();
         webSettings.setJavaScriptEnabled(true);

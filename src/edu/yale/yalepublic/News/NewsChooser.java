@@ -53,6 +53,7 @@ public class NewsChooser extends Activity {
                 //redirect to new activity displaying all videos
                 Intent showThem = new Intent(NewsChooser.this, NewsReader.class);
                 showThem.putExtra("rssfeed", rss_feeds[arg2]);
+                showThem.putExtra("rssname", rss_names[arg2]);
                 //For Debug purposes - show what is the playlistID
                 Log.d("StartingActivityInVideoList", rss_names[arg2]);
                 startActivity(showThem);

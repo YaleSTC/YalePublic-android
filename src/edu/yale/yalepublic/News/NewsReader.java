@@ -34,7 +34,7 @@ public class NewsReader extends Activity {
 
     RssFeed feed;
     long time, timediff, hourdiff, daydiff;
-    String downloadurl;
+    String downloadurl, downloadname;
     ArrayList<String> rssTitles = new ArrayList<String>();
     ArrayList<String> rssLinks = new ArrayList<String>();
     ArrayList<String> rssDescription = new ArrayList<String>();
@@ -53,11 +53,14 @@ public class NewsReader extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rss_items);
-        ActionBar actionbar = getActionBar();
-        ActionBarUtil.setupActionBar(actionbar, getString(R.string.news));
+
 
         downloadurl = this.getIntent().getStringExtra("rssfeed");
+        downloadname = this.getIntent().getStringExtra("rssname");
         Log.d("NewsReader passed", downloadurl);
+
+        ActionBar actionbar = getActionBar();
+        ActionBarUtil.setupActionBar(actionbar, downloadname);
 
         // If we're online, downloads the RSS Feed and returns it as `feed`
         if (isOnline() && downloadurl != null) {
