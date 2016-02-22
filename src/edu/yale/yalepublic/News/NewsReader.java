@@ -21,6 +21,7 @@ import edu.yale.yalepublic.RSS.RSSAdapter;
 import edu.yale.yalepublic.RSS.RSSDownload;
 import edu.yale.yalepublic.RSS.RssFeed;
 import edu.yale.yalepublic.RSS.RssItem;
+import edu.yale.yalepublic.Util.ActionBarUtil;
 
 /**
  * Created by Jason Liu on 10/4/14.
@@ -50,14 +51,10 @@ public class NewsReader extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ActionBar actionbar = getActionBar();
-        actionbar.setDisplayHomeAsUpEnabled(true);     // Show home as a back arrow
-        //actionbar.setDisplayShowHomeEnabled(true);     // Show application logo
-        actionbar.setDisplayShowTitleEnabled(true);    // Show activity title/subtitle
-        actionbar.setDisplayUseLogoEnabled(false);     // Use activity logo instead of activity icon
-        actionbar.setTitle(getString(R.string.news));  // Set title
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rss_items);
+        ActionBar actionbar = getActionBar();
+        ActionBarUtil.setupActionBar(actionbar, getString(R.string.news));
 
         downloadurl = this.getIntent().getStringExtra("rssfeed");
         Log.d("NewsReader passed", downloadurl);

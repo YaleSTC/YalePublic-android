@@ -12,6 +12,7 @@ import android.widget.ListView;
 
 import edu.yale.yalepublic.DeveloperKey;
 import edu.yale.yalepublic.R;
+import edu.yale.yalepublic.Util.ActionBarUtil;
 
 //**
 //Created by Stan Swidwinski and Carsten Peterson
@@ -23,11 +24,7 @@ public class PlaylistList extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActionBar actionbar = getActionBar();
-        actionbar.setDisplayHomeAsUpEnabled(true);     // Show home as a back arrow
-        //actionbar.setDisplayShowHomeEnabled(true);     // Show application logo
-        actionbar.setDisplayShowTitleEnabled(true);    // Show activity title/subtitle
-        actionbar.setDisplayUseLogoEnabled(false);     // Use activity logo instead of activity icon
-        actionbar.setTitle(getString(R.string.videos_playlists));  // Set title
+        ActionBarUtil.setupActionBar(actionbar, getString(R.string.videos_playlists));
 
         setContentView(R.layout.activity_playlist_list);
         if (savedInstanceState == null) {

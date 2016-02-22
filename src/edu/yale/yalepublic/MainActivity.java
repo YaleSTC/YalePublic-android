@@ -19,6 +19,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import edu.yale.yalepublic.Athletics.AthleticsActivity;
+import edu.yale.yalepublic.Util.ActionBarUtil;
 import edu.yale.yalepublic.Videos.PlaylistList;
 import edu.yale.yalepublic.Events.EventCategories;
 import edu.yale.yalepublic.News.NewsChooser;
@@ -84,14 +85,9 @@ public class MainActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         ActionBar actionbar = getActionBar();
-        if (actionbar != null) { // why would this fail?
-            //actionbar.setDisplayHomeAsUpEnabled(true); // Show home as a back arrow
-            //actionbar.setDisplayShowHomeEnabled(true);   // Show application logo
-            actionbar.setDisplayShowTitleEnabled(true);  // Show activity title/subtitle
-            actionbar.setDisplayUseLogoEnabled(false);   // Use activity logo instead of activity icon
-            //actionbar.setTitle("Yale");                // Set title
-        }
+        ActionBarUtil.setupActionBar(actionbar, "Yale");
 
         /* If you want to use Stetho, import com.facebook.stetho.Stetho; and use this
         Stetho.initialize(

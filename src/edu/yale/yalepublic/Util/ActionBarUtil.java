@@ -22,6 +22,7 @@ public class ActionBarUtil {
         //actionbar.setDisplayShowHomeEnabled(true);   // Show application logo
         actionbar.setDisplayShowTitleEnabled(true);    // Show activity title/subtitle
         actionbar.setDisplayUseLogoEnabled(false);     // Use activity logo instead of activity icon
-        actionbar.setTitle(title);                     // Set title
+        if (title != null)
+            actionbar.setTitle(title);                 // Set title
     }
 }

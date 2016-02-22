@@ -28,14 +28,7 @@ public class MapView extends Activity {
             currentLatitude = getIntent().getDoubleExtra("currentLatitude", 41.3111);
             currentLongitude = getIntent().getDoubleExtra("currentLongitude", -72.9267);
             pos2 = getIntent().getStringExtra("name");
-        }
-
-        ActionBar actionbar = getActionBar();
-        actionbar.setDisplayHomeAsUpEnabled(true);     // Show home as a back arrow
-        //actionbar.setDisplayShowHomeEnabled(true);     // Show application logo
-        actionbar.setDisplayShowTitleEnabled(true);    // Show activity title/subtitle
-        actionbar.setDisplayUseLogoEnabled(false);     // Use activity logo instead of activity icon
-        actionbar.setTitle(getString(R.string.maps));  // Set title*/
+        }*/
 
         // setContentView(R.layout.map_simple);   // map_simple for old view
         setContentView(R.layout.map_webview);

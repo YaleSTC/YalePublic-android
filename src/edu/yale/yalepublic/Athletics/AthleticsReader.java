@@ -27,6 +27,7 @@ import edu.yale.yalepublic.RSS.RSSDownload;
 import edu.yale.yalepublic.RSS.RssFeed;
 import edu.yale.yalepublic.RSS.RssItem;
 import edu.yale.yalepublic.R;
+import edu.yale.yalepublic.Util.ActionBarUtil;
 
 /**
  * This Activity gets an RssFeed using AthleticsDownload, and then sets it up into rss_tabxml
@@ -61,14 +62,10 @@ public class AthleticsReader extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        actionbar = getActionBar();
-        actionbar.setDisplayHomeAsUpEnabled(true);     // Show home as a back arrow
-        //actionbar.setDisplayShowHomeEnabled(true);     // Show application logo
-        actionbar.setDisplayShowTitleEnabled(true);    // Show activity title/subtitle
-        actionbar.setDisplayUseLogoEnabled(false);     // Use activity logo instead of activity icon
-        actionbar.setTitle("News");  // Set title
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rss_items);
+        actionbar = getActionBar();
+        ActionBarUtil.setupActionBar(actionbar, "News");
 
         //gets the URL fragments from the string resource file
         baseURL = getString(R.string.baseURL);

@@ -13,6 +13,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import edu.yale.yalepublic.R;
+import edu.yale.yalepublic.Util.ActionBarUtil;
 
 
 /**
@@ -26,15 +27,10 @@ public class EventsDetails extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        ActionBar actionbar = getActionBar();
-        actionbar.setDisplayHomeAsUpEnabled(true);     // Show home as a back arrow
-        //actionbar.setDisplayShowHomeEnabled(true);     // Show application logo
-        actionbar.setDisplayShowTitleEnabled(true);    // Show activity title/subtitle
-        actionbar.setDisplayUseLogoEnabled(false);     // Use activity logo instead of activity icon
-        actionbar.setTitle("Details");  // Set title
-
         super.onCreate(savedInstanceState);
+        ActionBar actionbar = getActionBar();
+        ActionBarUtil.setupActionBar(actionbar, "Details");
+
         extras = getIntent().getExtras();
         if (extras == null)  // safety check
             return;

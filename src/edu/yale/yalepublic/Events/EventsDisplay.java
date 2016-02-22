@@ -23,6 +23,7 @@ import edu.yale.yalepublic.Cache.CalendarDatabaseTableHandler;
 import edu.yale.yalepublic.Events.CalendarView.CalendarFragment;
 import edu.yale.yalepublic.Events.ListView.ListFragment;
 import edu.yale.yalepublic.R;
+import edu.yale.yalepublic.Util.ActionBarUtil;
 
 
 public class EventsDisplay extends FragmentActivity implements SearchView.OnQueryTextListener, SearchView.OnSuggestionListener{
@@ -56,18 +57,10 @@ public class EventsDisplay extends FragmentActivity implements SearchView.OnQuer
     @TargetApi(Build.VERSION_CODES.LOLLIPOP) //need to fix this
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ActionBar actionbar = getActionBar();
-        actionbar.setElevation(0);                      //Gets rid of drop shadow; targets 5.0 only
-        actionbar.setDisplayHomeAsUpEnabled(true);     // Show home as a back arrow
-        //actionbar.setDisplayShowHomeEnabled(true);     // Show application logo
-        actionbar.setDisplayShowTitleEnabled(true);    // Show activity title/subtitle
-        actionbar.setDisplayUseLogoEnabled(false);     // Use activity logo instead of activity icon
-
-        actionbar.setTitle(getString(R.string.events));  // Set title
-
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_events_display);
+        ActionBar actionbar = getActionBar();
+        ActionBarUtil.setupActionBar(actionbar, getString(R.string.events));
 
         Bundle extras = getIntent().getExtras();
         if (extras == null)  // safety check

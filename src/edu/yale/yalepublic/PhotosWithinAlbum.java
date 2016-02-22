@@ -32,6 +32,8 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import edu.yale.yalepublic.Util.ActionBarUtil;
+
 //PhotosWithinAlbum tries to mirror the structure of
 //VideosWithinPlaylist as far as possible for consistency
 //TODO: It may be worth while to create a single parent
@@ -52,11 +54,7 @@ public class PhotosWithinAlbum extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         ActionBar actionbar = getActionBar();
-        actionbar.setDisplayHomeAsUpEnabled(true);     // Show home as a back arrow
-        //actionbar.setDisplayShowHomeEnabled(true);     // Show application logo
-        actionbar.setDisplayShowTitleEnabled(true);    // Show activity title/subtitle
-        actionbar.setDisplayUseLogoEnabled(false);     // Use activity logo instead of activity icon
-        actionbar.setTitle(getString(R.string.photos_in_album));  // Set title
+        ActionBarUtil.setupActionBar(actionbar, getString(R.string.photos_in_album));
         super.onCreate(savedInstanceState);
         if (getIntent().getExtras() != null &&
             getIntent().getExtras().containsKey(PhotoList.PHOTO_ID_KEY)) { //TODO:Pull album title

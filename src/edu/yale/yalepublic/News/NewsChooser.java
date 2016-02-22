@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
@@ -14,6 +15,7 @@ import android.widget.ListView;
 import java.util.Arrays;
 
 import edu.yale.yalepublic.R;
+import edu.yale.yalepublic.Util.ActionBarUtil;
 
 /**
  * Created by Jason Liu on 10/17/14.
@@ -26,14 +28,11 @@ public class NewsChooser extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActionBar actionbar = getActionBar();
-        actionbar.setDisplayHomeAsUpEnabled(true);     // Show home as a back arrow
-        //actionbar.setDisplayShowHomeEnabled(true);     // Show application logo
-        actionbar.setDisplayShowTitleEnabled(true);    // Show activity title/subtitle
-        actionbar.setDisplayUseLogoEnabled(false);     // Use activity logo instead of activity icon
-        actionbar.setTitle(getString(R.string.news));  // Set title
-
         setContentView(R.layout.rss_items);
+
+        ActionBar actionbar = getActionBar();
+        ActionBarUtil.setupActionBar(actionbar, getString(R.string.news));
+
         rss_feeds = getResources().getStringArray(R.array.news_feeds); // Array of News RSS URLs
         rss_names = getResources().getStringArray(R.array.news_names); // Array of News RSS Titles
 

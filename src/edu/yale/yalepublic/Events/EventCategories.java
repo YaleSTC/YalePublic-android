@@ -32,6 +32,7 @@ import android.widget.TextView;
 import edu.yale.yalepublic.Cache.CalendarCache;
 import edu.yale.yalepublic.Cache.CalendarDatabaseTableHandler;
 import edu.yale.yalepublic.R;
+import edu.yale.yalepublic.Util.ActionBarUtil;
 
 public class EventCategories extends Activity implements SearchView.OnQueryTextListener, SearchView.OnSuggestionListener{
     String[] categories;
@@ -69,19 +70,15 @@ public class EventCategories extends Activity implements SearchView.OnQueryTextL
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ActionBar actionbar = getActionBar();
-        actionbar.setDisplayHomeAsUpEnabled(true);     // Show home as a back arrow
-        //actionbar.setDisplayShowHomeEnabled(true);     // Show application logo
-        actionbar.setDisplayShowTitleEnabled(true);    // Show activity title/subtitle
-        actionbar.setDisplayUseLogoEnabled(false);     // Use activity logo instead of activity icon
-        actionbar.setTitle(getString(R.string.events));  // Set title
-
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.events_event_categories);
+        ActionBar actionbar = getActionBar();
+        ActionBarUtil.setupActionBar(actionbar, getString(R.string.events));
+
         categories = getResources().getStringArray(R.array.events_category_names);
         colors = getResources().getIntArray(R.array.event_categories_colors);
         colorsTo = getResources().getIntArray(R.array.event_categories_colors);
         colorsFrom = getResources().getIntArray(R.array.event_categories_colors_from);
-        setContentView(R.layout.events_event_categories);
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
                     .add(R.id.container, PlaceholderFragment.newInstance(colors, colorsFrom, colorsTo, categories))

@@ -7,6 +7,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 
+import edu.yale.yalepublic.Util.ActionBarUtil;
+
 /**
  * Created by Jason Liu on 11/8/14.
  */
@@ -46,13 +48,9 @@ public class About extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ActionBar actionbar = getActionBar();
-        actionbar.setDisplayHomeAsUpEnabled(true);     // Show home as a back arrow
-        //actionbar.setDisplayShowHomeEnabled(true);     // Show application logo
-        actionbar.setDisplayShowTitleEnabled(true);    // Show activity title/subtitle
-        actionbar.setDisplayUseLogoEnabled(false);     // Use activity logo instead of activity icon
-        actionbar.setTitle(getString(R.string.action_about));  // Set title
         setContentView(R.layout.about_screen);
+        ActionBar actionbar = getActionBar();
+        ActionBarUtil.setupActionBar(actionbar, getString(R.string.action_about));
 
         findViewById(R.id.ibFeedback).setOnClickListener(ibListener);
         findViewById(R.id.ibShare).setOnClickListener(ibListener);

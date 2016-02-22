@@ -16,6 +16,7 @@ import edu.yale.yalepublic.Cache.CalendarDatabaseTableHandler;
 import edu.yale.yalepublic.Events.EventsDetails;
 import edu.yale.yalepublic.Events.ListView.EventsListAdapter;
 import edu.yale.yalepublic.R;
+import edu.yale.yalepublic.Util.ActionBarUtil;
 
 /**
  * Created by Stan Swidwinski on 1/23/15.
@@ -29,9 +30,8 @@ public class SearchByName extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActionBar actionbar = getActionBar();
-        actionbar.setDisplayHomeAsUpEnabled(true); // Show home as a back arrow
-        actionbar.setDisplayShowTitleEnabled(true);  // Show activity title/subtitle
-        actionbar.setDisplayUseLogoEnabled(false);   // Use activity logo instead of activity icon
+        ActionBarUtil.setupActionBar(actionbar, "Search");
+
         // Get the intent, verify the action and get the query
         Intent intent = getIntent();
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {

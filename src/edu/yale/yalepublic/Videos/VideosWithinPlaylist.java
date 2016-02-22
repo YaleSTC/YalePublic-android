@@ -13,6 +13,7 @@ import android.os.Bundle;
 
 import edu.yale.yalepublic.DeveloperKey;
 import edu.yale.yalepublic.R;
+import edu.yale.yalepublic.Util.ActionBarUtil;
 
 
 //**
@@ -26,13 +27,8 @@ public class VideosWithinPlaylist extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         //to get the passed parameters
         extras = getIntent().getExtras();
-
         ActionBar actionbar = getActionBar();
-        actionbar.setDisplayHomeAsUpEnabled(true);     // Show home as a back arrow
-        //actionbar.setDisplayShowHomeEnabled(true);     // Show application logo
-        actionbar.setDisplayShowTitleEnabled(true);    // Show activity title/subtitle
-        actionbar.setDisplayUseLogoEnabled(false);     // Use activity logo instead of activity icon
-        actionbar.setTitle(extras.getString("playlistName"));  // Set title
+        ActionBarUtil.setupActionBar(actionbar, extras.getString("playlistName"));
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_video_within_list);
