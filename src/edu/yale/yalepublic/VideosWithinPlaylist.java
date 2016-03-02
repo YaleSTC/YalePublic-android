@@ -42,7 +42,8 @@ public class VideosWithinPlaylist extends Activity {
     private Bitmap[] bitmaps = new Bitmap[1];
     //to save the ID's that we will pass to the activity that displays the vids
     private String[] videoIds;
-    //make the adapter available to all functions. Will come in handy when 
+
+    //make the adapter available to all functions. Will come in handy when
     //we do AsyncTask to fill in the arrays defined above
     private thumbnailAdapter adapter;
     //to keep the playlistId passed into activity
@@ -51,6 +52,7 @@ public class VideosWithinPlaylist extends Activity {
     Context context;
     TextView loading;
     ProgressBar spinner;
+    VideoTask gettingDetails;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +71,16 @@ public class VideosWithinPlaylist extends Activity {
         loading = (TextView) findViewById(R.id.tvPhotoLoading);  // Set up spinner and text
         spinner = (ProgressBar) findViewById(R.id.pbLoading);
     }
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        Log.d("VideosWithinPlaylist", "backPressed");
+        if (gettingDetails != null)
+            gettingDetails.cancel(true);
+    }
+
+
     //definition of our custom fragment.
     public class PlaceholderFragment extends Fragment {
         public PlaceholderFragment() {
@@ -83,7 +95,7 @@ public class VideosWithinPlaylist extends Activity {
             adapter = new thumbnailAdapter(context);
             
             //create custom AsyncTask to fetch all the details from youtube
-            VideoTask gettingDetails = new VideoTask();
+            gettingDetails = new VideoTask();
             gettingDetails.execute();
             
             //create listView from template and set the adapter. 

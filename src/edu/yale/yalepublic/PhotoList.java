@@ -1,19 +1,5 @@
 package edu.yale.yalepublic;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
@@ -32,6 +18,20 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class PhotoList extends Activity {
 
     public static final String PHOTO_ID_KEY = "playlistId";
@@ -48,6 +48,15 @@ public class PhotoList extends Activity {
     private Mode mode;
     TextView loading;
     ProgressBar spinner;
+    VideoTask videoList;
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Log.d("PhotoList", "backPressed");
+        if (videoList != null)
+            videoList.cancel(true);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +101,7 @@ public class PhotoList extends Activity {
             mVideoAdapter = new ArrayAdapter<String>(
                     getActivity(), R.layout.tab, R.id.tab);
             // create an asynctask that fetches the playlist titles
-            VideoTask videoList = new VideoTask();
+            videoList = new VideoTask();
             videoList.execute();
 
             ListView listView = (ListView) rootView.findViewById(R.id.listview_photo);

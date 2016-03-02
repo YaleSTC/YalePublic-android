@@ -50,6 +50,7 @@ public class PhotosWithinAlbum extends Activity {
     private String[] photoIds;
     TextView loading;
     ProgressBar spinner;
+    AlbumTask gettingDetails;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +72,15 @@ public class PhotosWithinAlbum extends Activity {
         spinner = (ProgressBar) findViewById(R.id.pbLoading);
     }
 
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        Log.d("VideosWithinPlaylist", "backPressed");
+        if (gettingDetails != null)
+            gettingDetails.cancel(true);
+    }
+
      public class PlaceholderFragment extends Fragment {
             public PlaceholderFragment() {
             }
@@ -84,7 +94,7 @@ public class PhotosWithinAlbum extends Activity {
                 adapter = new ImageThumbnailAdapter(PhotosWithinAlbum.this);
                 
                 //create custom AsyncTask to fetch all the details from youtube
-                AlbumTask gettingDetails = new AlbumTask();
+                gettingDetails = new AlbumTask();
                 gettingDetails.execute();
                 
                 //create listView from template and set the adapter. 
