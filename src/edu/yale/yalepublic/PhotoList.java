@@ -208,6 +208,8 @@ public class PhotoList extends Activity {
                 }
                 
                 // send a GET request to the server
+                if (builtUri == null)
+                    return null;
                 URL url = new URL(builtUri.toString());
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setRequestMethod("GET");
