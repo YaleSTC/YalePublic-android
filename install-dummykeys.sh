@@ -4,8 +4,8 @@
 # The script will stop on any error (set -e) and echo each line first (set -x)
 set -ex
 
-wget https://github.com/jasonkliu/DummyAPI-Keys/archive/1.2.tar.gz
-tar xvfz 1.2.tar.gz
+wget https://github.com/jasonkliu/DummyAPI-Keys/archive/1.5.tar.gz
+tar xvfz 1.5.tar.gz
 
-cp -iv DummyAPI-Keys-1.2/api_keys.xml res/values
-cp -iv DummyAPI-Keys-1.2/DeveloperKey.java src/edu/yale/yalepublic
+cp -iv DummyAPI-Keys-1.5/api_keys.xml res/values
+cp -iv DummyAPI-Keys-1.5/DeveloperKey.java src/edu/yale/yalepublic
