@@ -83,7 +83,7 @@ public class Splash extends Activity {
                             String Link = buffer.toString();
                             // we pass the data to getPlaylistsFromJson
                             //but also remember to save the playlistID's for future
-                            // Log.v("rotating link", Link);
+                            Log.v("rotating link", Link);
                             return Link;
                         }
 
@@ -113,7 +113,7 @@ public class Splash extends Activity {
 
                 // Default fallback if unable to retrive the correct URL from the site.
                 if (link == null || link.isEmpty()) {
-                    link = "http://artscalendar.yale.edu";
+                    link = "http://commencement.yale.edu";
                 }
 
                 Log.d("Splash", "Starting Main Activity");
