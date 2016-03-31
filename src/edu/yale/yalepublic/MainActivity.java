@@ -73,7 +73,12 @@ public class MainActivity extends Activity {
                 break;
             case R.id.bArts:
                 Intent i = getIntent();
-                Uri uriUrl2 = Uri.parse(i.getStringExtra("url"));
+                String tolaunch = i.getStringExtra("url");
+                Uri uriUrl2;
+                if (tolaunch != null)
+                    uriUrl2 = Uri.parse(i.getStringExtra("url"));
+                else
+                    uriUrl2 = Uri.parse("http://commencement.yale.edu/");  // manual fallback
                 Intent launchBrowser2 = new Intent(Intent.ACTION_VIEW, uriUrl2);
                 startActivity(launchBrowser2);
                 break;
