@@ -247,7 +247,7 @@
                     android:id="@+id/bArts"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/module_arts_events_default"
+                    android:src="@drawable/module_commencement_new"
                     android:clickable="true"
                     android:background="@android:color/transparent"/>
 
