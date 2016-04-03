@@ -122,7 +122,7 @@ public class MainActivity extends Activity {
                     break;
                 case "http://commencement.yale.edu/":
                     rotatingTextView.setText("Commencement");
-                    rotatingImageButton.setImageResource(R.drawable.module_commencement_default);
+                    rotatingImageButton.setImageResource(R.drawable.module_commencement_new);
                     break;
             }
         }
