@@ -152,7 +152,7 @@
     <string name="title_activity_events_display">EventsDisplay</string>
     <string name="title_activity_events_search">Results</string>
     <string name="title_activity_events_details">Details</string>
-    <string name="current_version">release 0.1</string>
+    <string name="current_version">release 2.0</string>
     <string name="feedback">Feedback</string>
     <string name="share">Share</string>
     <string name="more_info">More Info</string>
