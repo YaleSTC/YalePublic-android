@@ -18,7 +18,8 @@ public class ActionBarUtil {
 
         if (android.os.Build.VERSION.SDK_INT > 21)
             actionbar.setElevation(0);                 // Gets rid of drop shadow; targets 5.0 only
-        actionbar.setDisplayHomeAsUpEnabled(true);     // Show home as a back arrow
+        if (null != title && !title.equals("Yale"))
+            actionbar.setDisplayHomeAsUpEnabled(true); // Show home as a back arrow
         //actionbar.setDisplayShowHomeEnabled(true);   // Show application logo
         actionbar.setDisplayShowTitleEnabled(true);    // Show activity title/subtitle
         actionbar.setDisplayUseLogoEnabled(false);     // Use activity logo instead of activity icon
