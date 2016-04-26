@@ -21,7 +21,7 @@ android:
     - extra-google-google_play_services
     - extra-google-m2repository
   licenses:
-    - 'android-sdk-license-*'
+    - 'android-sdk-license-.+'
     - '.*intel.+'
 
 # Cache dependencies for faster builds
