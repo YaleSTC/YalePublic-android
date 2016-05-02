@@ -149,6 +149,8 @@ public class PlaceholderFragment extends Fragment {
 
 
     private String[] getPlaylistsFromJson(String rawData, boolean plIDs){
+        if (rawData == null)
+            return null;
         String[] playlistIds;                //TODO: Refactor
 
         JSONObject videoData;
