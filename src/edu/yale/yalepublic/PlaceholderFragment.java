@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,8 +32,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
-public class PhotoList extends Activity {
+public class PlaceholderFragment extends Fragment {
 
     public static final String PHOTO_ID_KEY = "playlistId";
     public enum Mode {
@@ -44,97 +46,174 @@ public class PhotoList extends Activity {
     private ArrayAdapter<String> mVideoAdapter;    //TODO: Refactor
     //this is a string in which we store the ID's of playlists to pass them
     //into VideosWithinPlaylist
-    private String[] playlistIds;                //TODO: Refactor
+    //private String[] playlistIds;                //TODO: Refactor
     private Mode mode;
     TextView loading;
     ProgressBar spinner;
     VideoTask videoList;
 
+    /**
+     * A placeholder fragment containing a simple view.
+     */
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Log.d("PhotoList", "backPressed");
-        if (videoList != null)
-            videoList.cancel(true);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_photo_list,
+                container, false);
+
+        Bundle extras = getArguments();
+
+        mode = Mode.EMPTY; //    Default
+        if (extras != null) {
+            if (extras.containsKey
+                    (MainActivity.PHOTO_MODE_KEY)) {
+                mode = Mode.PHOTO;
+                getActivity().setTitle("Albums");
+            }
+            else if (extras.containsKey
+                    (MainActivity.VIDEO_MODE_KEY)) {
+                mode = Mode.VIDEO;
+                getActivity().setTitle("Videos");
+            }
+        }
+
+        loading = (TextView) rootView.findViewById(R.id.tvPhotoLoading);  // Set up spinner and text
+        spinner = (ProgressBar) rootView.findViewById(R.id.pbLoading);
+
+        // initialize the ArrayAdapter
+        mVideoAdapter = new ArrayAdapter<String>(
+                getActivity(), R.layout.tab, R.id.tab);
+        // create an asynctask that fetches the playlist titles
+        videoList = new VideoTask();
+        String result = null;
+        try {
+            result = videoList.execute().get();
+
+            String[] newres = getPlaylistsFromJson(result, false);
+
+            // we need to use result in our ArrayAdapter; adds all of the resulting values.
+            //spinner.setVisibility(View.GONE);
+            //loading.setVisibility(View.GONE);  // Hide the progress
+            if (newres != null) {
+                List<String> videos = new ArrayList<String>(Arrays.asList(newres));
+                mVideoAdapter.addAll(videos);
+            } else {
+                Toast.makeText(getActivity(), "You need internet connection to view the content!", Toast.LENGTH_LONG).show();
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+
+        ListView listView = (ListView) rootView.findViewById(R.id.listview_photo);
+        listView.setAdapter(mVideoAdapter);
+        //set OnItemClickListener to open up a new activity in which we get
+        //all the videos listed
+        final String finalResult = result;
+        listView.setOnItemClickListener(new OnItemClickListener(){
+
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1,
+                    int arg2, long arg3) {
+                //redirect to new activity displaying all videos
+                String[] playlistIds = getPlaylistsFromJson(finalResult, true);
+
+                if (mode == Mode.VIDEO) {
+                    Intent showThem = new Intent(getActivity(), VideosWithinPlaylist.class);
+                    showThem.putExtra(PHOTO_ID_KEY, playlistIds[arg2]);
+                    //For Debug purposes - show what is the playlistID
+                    Log.d("StartingVideoList", playlistIds[arg2]);
+                    startActivity(showThem);
+                }
+                else if (mode == Mode.PHOTO) {
+                    Intent showThem = new Intent(getActivity(), PhotosWithinAlbum.class);
+                    showThem.putExtra("playlistId", playlistIds[arg2]);
+                    //For Debug purposes - show what is the playlistID
+                    Log.d("StartingVideoList", playlistIds[arg2]);
+                    startActivity(showThem);
+                }
+            }
+        });
+
+        return rootView;
+
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.activity_photo_within_album);
-
-        Bundle extras = getIntent().getExtras();
-        PlaceholderFragment placeholderFragment = new PlaceholderFragment();
-        placeholderFragment.setArguments(extras);
-        getFragmentManager()
-                .beginTransaction()
-                .replace(R.id.photoContainer, placeholderFragment).commit();
+    private void populateAdapterWithVideos() {  // TODO: Unused, called in onCreateView
+        // create an asynctask that fetches the playlist titles
+        VideoTask videoList = new VideoTask();
+        videoList.execute();
     }
 
 
-    // Parses the raw data (which is a String in JSON format) and extracts the titles of
-    // the photo albums to display in a ListView.
-    public class VideoTask extends AsyncTask<Void, Void, String[]> {
+    private String[] getPlaylistsFromJson(String rawData, boolean plIDs){
+        String[] playlistIds;                //TODO: Refactor
 
-        private String[] getPlaylistsFromJson(String rawData){
-           
-            JSONObject videoData;
-            JSONArray playlistData = null;
-            try {
-                videoData = new JSONObject(rawData);
-                switch(mode){
+        JSONObject videoData;
+        JSONArray playlistData = null;
+        try {
+            videoData = new JSONObject(rawData);
+            switch(mode){
                 case VIDEO:
                     playlistData = videoData.getJSONArray("items");
                     break;
                 case PHOTO:
                     playlistData = videoData.getJSONObject("photosets")
-                                    .getJSONArray("photoset");
+                            .getJSONArray("photoset");
                     break;
                 default:
                     break;
-                
+
+            }
+
+        } catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return null;
+        }
+
+        String[] allPlaylists = new String[playlistData.length()];
+        //we need to remember playlistIDs for future processing!
+        int playlistDataLength = playlistData.length();
+        playlistIds = new String[playlistDataLength];
+        for (int i = 0; i < playlistDataLength; i++){
+            try {
+                switch(mode){
+                    case VIDEO:
+                        allPlaylists[i] = playlistData.getJSONObject(i)
+                                .getJSONObject("snippet")
+                                .getString("title");
+                        break;
+                    case PHOTO:
+                        allPlaylists[i] = playlistData.getJSONObject(i)
+                                .getJSONObject("title")
+                                .getString("_content");
+                        break;
+                    default:
+                        break;
                 }
-                
+                playlistIds[i] = playlistData.getJSONObject(i)
+                        .getString("id");
             } catch (JSONException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
                 return null;
             }
-            
-            String[] allPlaylists = new String[playlistData.length()];
-            //we need to remember playlistIDs for future processing!
-            int playlistDataLength = playlistData.length();
-            playlistIds = new String[playlistDataLength];
-            for (int i = 0; i < playlistDataLength; i++){
-                try {
-                    switch(mode){
-                    case VIDEO:
-                        allPlaylists[i] = playlistData.getJSONObject(i)
-                        .getJSONObject("snippet")
-                        .getString("title");
-                        break;
-                    case PHOTO:
-                        allPlaylists[i] = playlistData.getJSONObject(i)
-                        .getJSONObject("title")
-                        .getString("_content");
-                        break;
-                    default:
-                        break;
-                    }
-                    playlistIds[i] = playlistData.getJSONObject(i)
-                            .getString("id");
-                } catch (JSONException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                    return null;
-                }
-            }
-            return allPlaylists;
         }
+        if (plIDs)
+            return playlistIds;
+        else
+            return allPlaylists;
+    }
+
+    // Parses the raw data (which is a String in JSON format) and extracts the titles of
+    // the photo albums to display in a ListView.
+    public class VideoTask extends AsyncTask<Void, Void, String> {
         
         @Override
-        protected String[] doInBackground(Void... params) {
+        protected String doInBackground(Void... params) {
             Uri builtUri = null;
             try{
                 // first we create the URI
@@ -180,7 +259,7 @@ public class PhotoList extends Activity {
                 String videosJsonStr = buffer.toString();
                 // we pass the data to getPlaylistsFromJson
                 //but also remember to save the playlistID's for future
-                return getPlaylistsFromJson(videosJsonStr);
+                return videosJsonStr; //getPlaylistsFromJson(videosJsonStr);
                 
                 // TODO check if there are more than 50 videos in the arrays (not for photos)
             }
@@ -220,18 +299,6 @@ public class PhotoList extends Activity {
                     .build();
             return builtUri;
         }
-        
-        @Override
-        protected void onPostExecute(String[] result){
-            // we need to use result in our ArrayAdapter; adds all of the resulting values.
-            spinner.setVisibility(View.GONE);
-            loading.setVisibility(View.GONE);  // Hide the progress
-            if (result != null) {
-                List<String> videos = new ArrayList<String>(Arrays.asList(result));
-                mVideoAdapter.addAll(videos);
-            } else {
-                Toast.makeText(getApplicationContext(), "You need internet connection to view the content!", Toast.LENGTH_LONG).show();
-            }
-        }
+
     }
 }
