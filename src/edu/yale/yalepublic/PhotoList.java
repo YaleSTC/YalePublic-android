@@ -63,6 +63,9 @@ public class PhotoList extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_photo_within_album);
+        spinner = (ProgressBar) findViewById(R.id.pbLoading);
+        spinner.setVisibility(View.GONE);
+
 
         Bundle extras = getIntent().getExtras();
         PlaceholderFragment placeholderFragment = new PlaceholderFragment();
@@ -224,7 +227,7 @@ public class PhotoList extends Activity {
         @Override
         protected void onPostExecute(String[] result){
             // we need to use result in our ArrayAdapter; adds all of the resulting values.
-            spinner.setVisibility(View.GONE);
+            //spinner.setVisibility(View.GONE);
             loading.setVisibility(View.GONE);  // Hide the progress
             if (result != null) {
                 List<String> videos = new ArrayList<String>(Arrays.asList(result));
