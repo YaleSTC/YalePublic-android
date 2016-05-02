@@ -9,6 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
@@ -58,8 +59,8 @@ public class PhotosWithinAlbum extends Activity {
         ActionBarUtil.setupActionBar(actionbar, getString(R.string.photos_in_album));
         super.onCreate(savedInstanceState);
         if (getIntent().getExtras() != null &&
-            getIntent().getExtras().containsKey(PhotoList.PHOTO_ID_KEY)) { //TODO:Pull album title
-            albumId = getIntent().getStringExtra(PhotoList.PHOTO_ID_KEY);
+            getIntent().getExtras().containsKey(edu.yale.yalepublic.PlaceholderFragment.PHOTO_ID_KEY)) { //TODO:Pull album title
+            albumId = getIntent().getStringExtra(edu.yale.yalepublic.PlaceholderFragment.PHOTO_ID_KEY);
             }
         setContentView(R.layout.activity_photo_within_album);
         if (savedInstanceState == null) {
@@ -76,11 +77,16 @@ public class PhotosWithinAlbum extends Activity {
     @Override
     public void onBackPressed() {
         //super.onBackPressed();
-        Log.d("VideosWithinPlaylist", "backPressed");
-        if (gettingDetails != null)
-            gettingDetails.cancel(true);
+        Log.d("PhotosWithinAlbum", "backPressed");
+        Intent oi1 = new Intent(this, PhotoList.class);
+        oi1.putExtra(MainActivity.PHOTO_MODE_KEY, true);
+        startActivity(oi1);
+        finish();
+        //if (gettingDetails != null)
+            //gettingDetails.cancel(true);
     }
 
+    @SuppressLint("ValidFragment")
      public class PlaceholderFragment extends Fragment {
             public PlaceholderFragment() {
             }
@@ -107,7 +113,7 @@ public class PhotosWithinAlbum extends Activity {
                     public void onItemClick(AdapterView<?> parent, View view,
                             int position, long id) {
                         Intent intent = new Intent(PhotosWithinAlbum.this, ImageActivity.class);
-                        intent.putExtra(PhotoList.PHOTO_ID_KEY,photoIds[position]);
+                        intent.putExtra(edu.yale.yalepublic.PlaceholderFragment.PHOTO_ID_KEY,photoIds[position]);
                         intent.putExtra(TITLE_KEY,titls[position]);
                         startActivity(intent);
                     }

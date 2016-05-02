@@ -11,6 +11,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -82,6 +83,7 @@ public class VideosWithinPlaylist extends Activity {
 
 
     //definition of our custom fragment.
+    @SuppressLint("ValidFragment")
     public class PlaceholderFragment extends Fragment {
         public PlaceholderFragment() {
         }
