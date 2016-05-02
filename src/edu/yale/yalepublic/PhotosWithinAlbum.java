@@ -9,6 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
@@ -85,6 +86,7 @@ public class PhotosWithinAlbum extends Activity {
             //gettingDetails.cancel(true);
     }
 
+    @SuppressLint("ValidFragment")
      public class PlaceholderFragment extends Fragment {
             public PlaceholderFragment() {
             }
