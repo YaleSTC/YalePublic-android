@@ -39,7 +39,7 @@ public class ImageActivity extends Activity {
         if (extras == null)  // safety check
             return;
 
-        photoId = extras.getString(PhotoList.PHOTO_ID_KEY);
+        photoId = extras.getString(PlaceholderFragment.PHOTO_ID_KEY);
         setTitle(extras.getString(PhotosWithinAlbum.TITLE_KEY));
         getPhotoTask task = new getPhotoTask();
         try {

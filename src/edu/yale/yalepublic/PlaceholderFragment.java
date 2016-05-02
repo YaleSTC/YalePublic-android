@@ -65,6 +65,7 @@ public class PlaceholderFragment extends Fragment {
 
         mode = Mode.EMPTY; //    Default
         if (extras != null) {
+            Log.d("plfrag", "extras");
             if (extras.containsKey
                     (MainActivity.PHOTO_MODE_KEY)) {
                 mode = Mode.PHOTO;
@@ -75,6 +76,8 @@ public class PlaceholderFragment extends Fragment {
                 mode = Mode.VIDEO;
                 getActivity().setTitle("Videos");
             }
+        } else {
+            Log.d("plfrag", "no extras");
         }
 
         loading = (TextView) rootView.findViewById(R.id.tvPhotoLoading);  // Set up spinner and text
@@ -87,6 +90,7 @@ public class PlaceholderFragment extends Fragment {
         videoList = new VideoTask();
         String result = null;
         try {
+            Log.d("placeholderfrag", "execute http");
             result = videoList.execute().get();
 
             String[] newres = getPlaylistsFromJson(result, false);
