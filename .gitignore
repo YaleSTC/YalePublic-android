@@ -2,6 +2,15 @@
 *.apk
 *.ap_
 
+# gz and Dummy Keys
+1.2.tar.gz
+1.4.tar.gz
+1.4.tar.gz.1
+1.5.tar.gz
+DummyAPI-Keys-1.2/
+DummyAPI-Keys-1.4/
+DummyAPI-Keys-1.5/
+
 # files for the dex VM
 *.dex
 
