@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
 
+import org.apache.commons.lang3.StringEscapeUtils;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -199,14 +201,15 @@ public class CalendarCache extends JSONReader {
             queries[i] = "http://calendar.yale.edu/feeds/feed/opa/json/" + DateFormater.calendarDateToJSONQuery(year, month + i - MONTHS_CACHED_BACK) + "/30days";
             super.setURL(queries[i]);
             results[i] = super.getData();
+
             //Log.i("Cache", "contents of result[" + Integer.toString(i) + "]:" + results[i].substring(0, 100));
             Log.i("CacheUpdater", "Created puller with query" + queries[i]);
             Log.i("CacheUpdater", "yearMonth " + yearMonth[i]);
             if (results[i] == null) {
                 mActivity.runOnUiThread(new Runnable() {
                     public void run() {
-                        Toast toast = new Toast(mActivity);
-                        toast = Toast.makeText(mActivity, "Downloading newest data failed. No internet connection.", Toast.LENGTH_LONG);
+                        Toast toast =
+                                Toast.makeText(mActivity, "Downloading newest data failed. No internet connection.", Toast.LENGTH_LONG);
                         toast.show();
                     }
                 });

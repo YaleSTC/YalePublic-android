@@ -28,8 +28,12 @@ public class About extends Activity {
                     break;
                 case R.id.ibShare:
                     Intent share = new Intent(Intent.ACTION_SEND);
-                    share.setType("message/rfc822");
-                    share.putExtra(Intent.EXTRA_TEXT, "Here's a cool Yale app! Hope you like it!");
+                    share.setType("message/text");
+                    share.putExtra(Intent.EXTRA_SUBJECT, "Yale Public Application.");
+                    share.putExtra(Intent.EXTRA_TEXT,
+                            "Hey!\n\n I've been using this cool Yale app, which you can download "
+                            + "at https://play.google.com/store/apps/details?id=edu.yale.yalepublic! "
+                            + "Hope you like it too!");
                     share.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);  // TODO: Return to app after email
                     startActivity(share);
                     break;

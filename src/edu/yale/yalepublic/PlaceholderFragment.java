@@ -94,7 +94,6 @@ public class PlaceholderFragment extends Fragment {
             result = videoList.execute().get();
 
             String[] newres = getPlaylistsFromJson(result, false);
-
             // we need to use result in our ArrayAdapter; adds all of the resulting values.
             //spinner.setVisibility(View.GONE);
             //loading.setVisibility(View.GONE);  // Hide the progress
@@ -166,6 +165,7 @@ public class PlaceholderFragment extends Fragment {
                     playlistData = videoData.getJSONArray("items");
                     break;
                 case PHOTO:
+                    Log.d("ASD", videoData.toString());
                     playlistData = videoData.getJSONObject("photosets")
                             .getJSONArray("photoset");
                     break;

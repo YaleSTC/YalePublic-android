@@ -322,11 +322,12 @@ public class EventCategories extends Activity implements SearchView.OnQueryTextL
             if (convertView != null && i != 0) {
                 ((ImageView) ((RelativeLayout) convertView).getChildAt(0)).setImageDrawable(rectangle);
                 convertView.setPadding(width / 20, width / 25, 0, width / 25);
-                ((TextView) ((RelativeLayout) convertView).getChildAt(1)).setTextSize(width / 45);
-                ((TextView) ((RelativeLayout) convertView).getChildAt(1)).setText(mCategories[i]);
+                TextView tv = ((TextView) ((RelativeLayout) convertView).getChildAt(1));
+                tv.setTextSize(width / 60);
+                tv.setText(mCategories[i]);
+                tv.setTextColor(Color.BLACK);
                 convertView.setBackgroundColor(Color.parseColor("#dbdbdd"));
                 return convertView;
-
             } else {
                 LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 RelativeLayout button = ((RelativeLayout) inflater.inflate(R.layout.events_category_button, null));
@@ -334,8 +335,10 @@ public class EventCategories extends Activity implements SearchView.OnQueryTextL
                 if (i != 0) {
                     ((ImageView) button.getChildAt(0)).setImageDrawable(rectangle);
                 }
-                ((TextView) button.getChildAt(1)).setTextSize(width / 45);
-                ((TextView) button.getChildAt(1)).setText(mCategories[i]);
+                TextView tv = ((TextView) button.getChildAt(1));
+                tv.setTextSize(width / 60);
+                tv.setText(mCategories[i]);
+                tv.setTextColor(Color.BLACK);
                 button.setBackgroundColor(Color.parseColor("#dbdbdd"));
                 return button;
             }

@@ -36,7 +36,8 @@
             android:layout_toLeftOf="@+id/month_arrow_right"
             android:layout_toRightOf="@+id/month_arrow_left"
             android:layout_centerInParent="true"
-            android:gravity="center_horizontal"/>
+            android:gravity="center_horizontal"
+            android:textColor="#000000"/>
 
         <Button
             android:id="@+id/month_arrow_right"
@@ -61,49 +62,56 @@
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"/>
+            android:gravity="center_horizontal"
+            android:textColor="#000000"/>
 
         <TextView
             android:text="@string/mon"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"/>
+            android:gravity="center_horizontal"
+            android:textColor="#000000"/>
 
         <TextView
             android:text="@string/tue"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"/>
+            android:gravity="center_horizontal"
+            android:textColor="#000000"/>
 
         <TextView
             android:text="@string/wed"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"/>
+            android:gravity="center_horizontal"
+            android:textColor="#000000"/>
 
         <TextView
             android:text="@string/thu"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"/>
+            android:gravity="center_horizontal"
+            android:textColor="#000000"/>
 
         <TextView
             android:text="@string/fri"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"/>
+            android:gravity="center_horizontal"
+            android:textColor="#000000"/>
 
         <TextView
             android:text="@string/sat"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"/>
+            android:gravity="center_horizontal"
+            android:textColor="#000000"/>
     </LinearLayout>
 
     <GridView

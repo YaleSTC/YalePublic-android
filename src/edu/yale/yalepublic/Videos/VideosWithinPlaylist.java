@@ -71,7 +71,7 @@ public class VideosWithinPlaylist extends Activity {
             scrapeData.addListView(listView);
             scrapeData.execute();
 
-                return rootView;
+            return rootView;
         }
 
     }

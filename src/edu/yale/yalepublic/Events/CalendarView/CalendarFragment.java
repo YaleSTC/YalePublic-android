@@ -91,7 +91,8 @@ public class CalendarFragment extends Fragment {
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.events_calendar, container, false);
         //set the month name above the calendar grids
-        ((TextView) ((RelativeLayout) (((RelativeLayout) rootView).getChildAt(0))).getChildAt(1)).setText(monthName);
+        TextView monthTv = ((TextView) ((RelativeLayout) (((RelativeLayout) rootView).getChildAt(0))).getChildAt(1));
+        monthTv.setText(monthName);
 
         //set the onclick listener of arrow changing month to the previous one
         (((RelativeLayout) (((RelativeLayout) rootView).getChildAt(0))).getChildAt(0)).setOnClickListener(new View.OnClickListener() {

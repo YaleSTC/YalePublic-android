@@ -59,7 +59,6 @@ public class PlaylistAdapter extends BaseAdapter {
             RelativeLayout playlist = (RelativeLayout) LayoutInflater.from(mContext).inflate(R.layout.playlists_list_element, null);
             playlist.setMinimumHeight((int) (height * 0.104));
             ((TextView) ((RelativeLayout) playlist).getChildAt(0)).setText(mPlaylists[i]);
-            ((TextView) ((RelativeLayout) playlist).getChildAt(0)).setTextSize(width / 55);
             playlist.setBackgroundColor(Color.parseColor("#dbdbdd"));
             return playlist;
         }

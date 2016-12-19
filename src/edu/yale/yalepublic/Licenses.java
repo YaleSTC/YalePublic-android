@@ -22,6 +22,6 @@ public class Licenses extends Activity {
         tvLicenses.setText(GooglePlayServicesUtil.getOpenSourceSoftwareLicenseInfo(this));
 
         ActionBar actionbar = getActionBar();
-        ActionBarUtil.setupActionBar(actionbar, getString(R.string.maps));
+        ActionBarUtil.setupActionBar(actionbar, getString(R.string.licenses));
     }
 }
