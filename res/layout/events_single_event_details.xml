@@ -22,16 +22,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/calendar_arrow"/>
+            style="@style/imageViewInList"/>
 
         <TextView
             android:id="@+id/events_details_title_text"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
             android:layout_gravity="center_vertical"
             android:text="@string/placeholder"
-            android:textStyle="bold"
-            android:textColor="#3e3f44"/>
+            android:gravity="center"
+            android:background="#ededef"
+            style="@style/textViewInListBig"/>
     </LinearLayout>
 
     <ImageView
@@ -55,136 +54,110 @@
                 android:id="@+id/event_details_start"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
-                android:paddingTop="15dp"
-                android:paddingBottom="15dp"
+                android:paddingTop="15sp"
+                android:paddingBottom="15sp"
                 android:layout_marginBottom="2dp"
-                android:paddingRight="10dp"
                 android:background="#dbdbdd"
                 android:weightSum="4">
 
                 <TextView
                     android:id="@+id/events_details_start_static"
-                    android:layout_height="wrap_content"
                     android:layout_width="fill_parent"
                     android:text="@string/starts"
-                    android:textStyle="bold"
                     android:textColor="#4c80bb"
                     android:layout_weight="3"
-                    android:layout_marginRight="10dp"
-                    android:gravity="right"/>
+                    style="@style/textViewInListNormal"/>
 
                 <TextView
                     android:id="@+id/events_details_start_time"
-                    android:layout_height="wrap_content"
                     android:layout_width="fill_parent"
                     android:layout_gravity="center_vertical"
                     android:text="@string/placeholder"
-                    android:textStyle="bold"
                     android:textColor="#3e3f44"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    style="@style/textViewInListNormal"/>
                 </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/event_details_end"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
-                android:paddingTop="15dp"
-                android:paddingBottom="15dp"
-                android:paddingRight="10dp"
+                android:paddingTop="15sp"
+                android:paddingBottom="15sp"
                 android:background="#dbdbdd"
                 android:weightSum="4"
                 android:layout_marginBottom="30dp">
 
                 <TextView
                     android:id="@+id/event_details_end_static"
-                    android:layout_height="wrap_content"
                     android:layout_width="fill_parent"
                     android:text="@string/ends"
-                    android:textStyle="bold"
                     android:textColor="#4c80bb"
                     android:layout_weight="3"
-                    android:layout_marginRight="10dp"
-                    android:gravity="right"/>
+                    style="@style/textViewInListNormal"/>
 
                 <TextView
                     android:id="@+id/event_details_end_time"
-                    android:layout_height="wrap_content"
                     android:layout_width="fill_parent"
                     android:text="@string/placeholder"
-                    android:textStyle="bold"
                     android:textColor="#3e3f44"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    style="@style/textViewInListNormal"/>
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/event_details_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
-                android:paddingTop="10dp"
-                android:paddingRight="10dp"
-                android:paddingBottom="10dp"
                 android:background="#dbdbdd"
+                android:paddingTop="15sp"
+                android:paddingBottom="15sp"
                 android:weightSum="4"
                 android:layout_marginBottom="2dp">
 
                 <TextView
                     android:id="@+id/event_details_description_static"
-                    android:layout_height="wrap_content"
                     android:layout_width="fill_parent"
                     android:layout_gravity="center_vertical"
-                    android:text="@string/description_lower"
-                    android:textStyle="bold"
+                    android:text="@string/description"
                     android:textColor="#4c80bb"
                     android:layout_weight="3"
-                    android:layout_marginRight="10dp"
-                    android:gravity="right"/>
+                    style="@style/textViewInListNormal" />
 
                 <TextView
                     android:id="@+id/event_details_description_text"
-                    android:layout_height="wrap_content"
                     android:layout_width="fill_parent"
                     android:layout_gravity="center_vertical"
                     android:text="@string/placeholder"
-                    android:textStyle="bold"
                     android:textColor="#3e3f44"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    style="@style/textViewInListNormal"/>
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/event_details_location"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
-                android:paddingTop="15dp"
-                android:paddingRight="10dp"
-                android:paddingBottom="10dp"
                 android:background="#dbdbdd"
                 android:weightSum="4">
 
                 <TextView
                     android:id="@+id/event_details_description_location_static"
-                    android:layout_height="wrap_content"
                     android:layout_width="fill_parent"
                     android:layout_gravity="center_vertical"
                     android:text="@string/location"
-                    android:textStyle="bold"
                     android:textColor="#4c80bb"
                     android:layout_weight="3"
-                    android:layout_marginRight="10dp"
-                    android:gravity="right"/>
+                    style="@style/textViewInListNormal"/>
 
                 <TextView
                     android:id="@+id/event_details_location_text"
-                    android:layout_height="wrap_content"
                     android:layout_width="fill_parent"
                     android:layout_gravity="center_vertical"
                     android:text="@string/placeholder"
-                    android:textStyle="bold"
                     android:textColor="#3e3f44"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    style="@style/textViewInListNormal"/>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

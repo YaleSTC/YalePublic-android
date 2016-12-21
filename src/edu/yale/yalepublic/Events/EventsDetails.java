@@ -42,11 +42,9 @@ public class EventsDetails extends Activity {
 
         LinearLayout layout = (LinearLayout) getLayoutInflater().inflate(R.layout.events_single_event_details, null);
         //set the rectangle at the top by the title
-
         ImageView rectangleByTitle = ((ImageView) ((LinearLayout) layout.getChildAt(0)).getChildAt(0));
         //see function at the end. Analogous to the one in EventCategories.
         rectangleByTitle.setImageDrawable(createRectangle(extras.getInt("color"), extras.getInt("colorFrom"), extras.getInt("colorTo")));
-        rectangleByTitle.setPadding(width / 50, (int) (height * 0.023), width * 3 / 100, (int) (height * 0.023));
 
         //set the title
         TextView title = ((TextView) ((LinearLayout) layout.getChildAt(0)).getChildAt(1));
@@ -70,16 +68,15 @@ public class EventsDetails extends Activity {
         LinearLayout description = (LinearLayout) details.getChildAt(2);
         //get the description layout nonstatic part
         TextView descriptionText = (TextView) description.getChildAt(1);
-        descriptionText.setText(extras.getString("description"));
+        descriptionText.setText(extras.getString("description").trim());
 
         //get the local. layout
         LinearLayout location = (LinearLayout) details.getChildAt(3);
         //get the location layout nonstatic part
         TextView locationText = (TextView) location.getChildAt(1);
-        locationText.setText(extras.getString("location"));
+        locationText.setText(extras.getString("location").trim());
         setContentView(layout);
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

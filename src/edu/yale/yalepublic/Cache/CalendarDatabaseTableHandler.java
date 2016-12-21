@@ -55,12 +55,12 @@ public class CalendarDatabaseTableHandler extends SQLiteOpenHelper {
     public void addEvent(String[] eventInfo) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put("Title", StringEscapeUtils.unescapeHtml3(eventInfo[0]));
+        values.put("Title", StringEscapeUtils.unescapeHtml4(eventInfo[0]));
         values.put("StartTime", eventInfo[1]);
         values.put("EndTime", eventInfo[2]);
         values.put("Location", eventInfo[3]);
         values.put("DateDescription", eventInfo[4]);
-        values.put("Description", StringEscapeUtils.unescapeHtml3(eventInfo[5]));
+        values.put("Description", StringEscapeUtils.unescapeHtml4(eventInfo[5]));
         values.put("Category", eventInfo[6]);
         //for easier implementation of deleteEvents
         int date = Integer.parseInt((eventInfo[7]));

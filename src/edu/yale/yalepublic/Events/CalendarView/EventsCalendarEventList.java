@@ -132,7 +132,6 @@ public class EventsCalendarEventList extends EventsAdapterForLists {
             color = mColors[0];
             colorFrom = mColorsFrom[0];
         }
-        //Log.v("EventsCalendarEventList", "Created a view for the " + Integer.toString(i) + " view");
         GradientDrawable circle = super.createBlob(color, colorFrom);
 
         if (convertView != null) {

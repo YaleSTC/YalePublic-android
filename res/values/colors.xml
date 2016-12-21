@@ -3,7 +3,7 @@
     <item name="white" type="color">#FFFFFF</item>
 
     <array name="event_categories_colors">
-        <item>#FFFFFF</item>
+        <item>#0F4D92</item>
         <item>#E01616</item>
         <item>#23ADAD</item>
         <item>#245913</item>
@@ -20,7 +20,7 @@
     </array>
 
     <array name="event_categories_colors_into">
-        <item>#FFFFFF</item>
+        <item>#0F4D92</item>
         <item>#e32d2d</item>
         <item>#39b5b5</item>
         <item>#3a692b</item>
@@ -37,7 +37,7 @@
     </array>
 
     <array name="event_categories_colors_from">
-        <item>#FFFFFF</item>
+        <item>#5ba5f8</item>
         <item>#F19393</item>
         <item>#9ddbdb</item>
         <item>#9db495</item>
