@@ -18,7 +18,7 @@ Then you'll find the application at:
 
 ##Changelog:
 
-### [Unreleased (v.2.0.1]
+### [Unreleased (v.2.0.1)]
 
 #### Layouts
   - Unified font sizes across all of the lists 
