@@ -16,3 +16,6 @@ Then you'll find the application at:
 
 	build/outputs/apk/YalePublic-android-debug-unaligned.apk
 
+Changelog:
+
+# [Unreleased]
