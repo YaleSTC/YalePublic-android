@@ -16,6 +16,19 @@ Then you'll find the application at:
 
 	build/outputs/apk/YalePublic-android-debug-unaligned.apk
 
-Changelog:
+##Changelog:
 
-# [Unreleased]
+### [Unreleased (v.2.0.1]
+
+#### Layouts
+  - Unified font sizes across all of the lists 
+  - Unified spacing across all of the lists
+  - Switched the app from ad-hoc style choices to theme-based system
+  - Switched all of the styles within the app to "white-on-black" rather than "black-on-white" design
+  - Fixed activity titles
+
+#### Crash fixes
+  - Fixed the app crash on using software back button within photos.
+
+#### Other
+  - Html4 escape sequences are unescaped. The problem remains for Html5 sequences.
