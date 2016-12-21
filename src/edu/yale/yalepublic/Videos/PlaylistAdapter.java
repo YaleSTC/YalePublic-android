@@ -51,13 +51,11 @@ public class PlaylistAdapter extends BaseAdapter {
     public View getView(int i, View convertView, ViewGroup viewGroup) {
 
         if (convertView != null) {
-            convertView.setMinimumHeight((int)(height*0.104));
             ((TextView) ((RelativeLayout) convertView).getChildAt(0)).setText(mPlaylists[i]);
             convertView.setBackgroundColor(Color.parseColor("#dbdbdd"));
             return convertView;
         } else {
             RelativeLayout playlist = (RelativeLayout) LayoutInflater.from(mContext).inflate(R.layout.playlists_list_element, null);
-            playlist.setMinimumHeight((int) (height * 0.104));
             ((TextView) ((RelativeLayout) playlist).getChildAt(0)).setText(mPlaylists[i]);
             playlist.setBackgroundColor(Color.parseColor("#dbdbdd"));
             return playlist;

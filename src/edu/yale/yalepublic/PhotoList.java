@@ -40,8 +40,6 @@ public class PhotoList extends Activity {
     public void onBackPressed() {
         super.onBackPressed();
         Log.d("PhotoList", "backPressed");
-        //if (videoList != null)
-          //  videoList.cancel(true);
     }
 
     @Override
